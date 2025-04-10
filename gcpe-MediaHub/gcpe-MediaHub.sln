@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gcpe-MediaHub.Server", "gcpe-MediaHub.Server\gcpe-MediaHub.Server.csproj", "{3E618014-6F36-4B2D-A011-E9DC20F26224}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "gcpe-mediahub.client", "gcpe-mediahub.client\gcpe-mediahub.client.esproj", "{543D5495-18E7-4D52-8C8B-CCDB5B730999}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E618014-6F36-4B2D-A011-E9DC20F26224}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E618014-6F36-4B2D-A011-E9DC20F26224}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E618014-6F36-4B2D-A011-E9DC20F26224}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E618014-6F36-4B2D-A011-E9DC20F26224}.Release|Any CPU.Build.0 = Release|Any CPU
+		{543D5495-18E7-4D52-8C8B-CCDB5B730999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{543D5495-18E7-4D52-8C8B-CCDB5B730999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{543D5495-18E7-4D52-8C8B-CCDB5B730999}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{543D5495-18E7-4D52-8C8B-CCDB5B730999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{543D5495-18E7-4D52-8C8B-CCDB5B730999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{543D5495-18E7-4D52-8C8B-CCDB5B730999}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58179F8D-7432-4C4B-86C0-9642035E40E0}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,6 @@
+@gcpe_MediaHub.Server_HostAddress = http://localhost:5138
+
+GET {{gcpe_MediaHub.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
