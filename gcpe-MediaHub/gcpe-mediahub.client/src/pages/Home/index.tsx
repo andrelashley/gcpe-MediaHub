@@ -3,7 +3,7 @@ import { AuthenticationContext } from '../../App';
 import { logout } from '../../services/Keycloak';
 import moment from 'moment';
 
-const fetchRestictedContent = (token, setMessage) => {
+const fetchRestictedContent = (token: string, setMessage: any) => {
     // Defaulting to 8080 for demo purposes
     const serverURI = import.meta.env.VITE_SERVER_URI ?? 'http://localhost:8080'
     setMessage('Request in flight...')
