@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@fluentui/react-components": "^9.62.0",
+    "@fluentui/react-nav-preview": "^0.13.7",
     "keycloak-js": "^26.1.5"
   }
 }

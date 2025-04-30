@@ -3,12 +3,11 @@ import Home from '../src/pages/Home/index';
 import { useState, useEffect, useCallback } from 'react';
 import { initializeKeycloak } from './services/keycloak';
 import { createContext } from 'react';
-import Header from './components/header';
 import {
     FluentProvider,
     webLightTheme,
-    Button
 } from "@fluentui/react-components";
+import Layout from './components/Layout';
 
 const router = createBrowserRouter([
     {
@@ -34,16 +33,13 @@ function App() {
         initKeycloak();
     }, [initKeycloak]);
 
-    /*Fluent UI stuff */
-
     return (
         <>
             <FluentProvider theme={webLightTheme}>
-            <Header/>
-                <Button appearance="primary">Hello Fluent UI React</Button>
             {isAuthenticated && (
                 <AuthenticationContext.Provider value={keycloak}>
-                    <RouterProvider router={router} />
+                   
+                        <Layout title={"Index"} children={<RouterProvider router={router} /> } />
                 </AuthenticationContext.Provider>
             )}
             </FluentProvider>
