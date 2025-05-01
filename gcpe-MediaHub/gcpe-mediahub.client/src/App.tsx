@@ -1,13 +1,17 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from '../src/pages/Home/index';
+import Home from './pages/Home/homePage';
 import { useState, useEffect, useCallback } from 'react';
 import { initializeKeycloak } from './services/keycloak';
 import { createContext } from 'react';
 import {
     FluentProvider,
+    makeStyles,
     webLightTheme,
 } from "@fluentui/react-components";
-import Layout from './components/Layout';
+
+import Header from './components/header';
+
+
 
 const router = createBrowserRouter([
     {
@@ -15,7 +19,13 @@ const router = createBrowserRouter([
         element: <Home keycloak />,
     },
 ]);
+const useStyles = makeStyles({
+    root: {
+        fontFamily: "BCSans-Regular'",
+   
+    }
 
+});
 export const AuthenticationContext = createContext('authentication');
 
 function App() {
@@ -33,13 +43,14 @@ function App() {
         initKeycloak();
     }, [initKeycloak]);
 
+    const styles = useStyles();
     return (
         <>
-            <FluentProvider theme={webLightTheme}>
+            <FluentProvider theme={webLightTheme} className={styles.root} >
+                <Header />
             {isAuthenticated && (
-                <AuthenticationContext.Provider value={keycloak}>
-                   
-                        <Layout title={"Index"} children={<RouterProvider router={router} /> } />
+                <AuthenticationContext.Provider value={keycloak}>              
+                        <RouterProvider router={router} />
                 </AuthenticationContext.Provider>
             )}
             </FluentProvider>

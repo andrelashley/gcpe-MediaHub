@@ -2,6 +2,8 @@ import { useContext, useState } from 'react';
 import { AuthenticationContext } from '../../App';
 import { logout } from '../../services/Keycloak';
 import moment from 'moment';
+import Layout from '../../components/Layout';
+
 
 const fetchRestictedContent = (token: string, setMessage: any) => {
     // Defaulting to 8080 for demo purposes
@@ -28,7 +30,8 @@ function Home() {
     return (
         <>
             {keycloak.authenticated && (
-                <>
+            <Layout title={"Home Page"}>
+             
                     <div>
                         <h2>Token Details</h2>
                         <p>{`Id token expires at ` + formatDate(keycloak.idTokenParsed.exp)}</p>
@@ -48,7 +51,8 @@ function Home() {
                             <p>{message}</p>
                         </>
                     )}
-                </>
+               
+        </Layout >
             )}
         </>
     );

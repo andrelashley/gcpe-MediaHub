@@ -1,6 +1,4 @@
 import React from 'react';
-
-import Header from './header';
 import PageHeading from './pageHeading';
 
 
@@ -14,7 +12,6 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
 
 	return (
 		<div className="app-layout">
-			<Header />
 			<PageHeading title={title} />
 			<main className="app-main">
 				{children}
