@@ -1,5 +1,4 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Home from './pages/Home/homePage';
 import { useState, useEffect, useCallback } from 'react';
 import { initializeKeycloak } from './services/keycloak';
 import { createContext } from 'react';
@@ -7,11 +6,11 @@ import {
     FluentProvider,
     makeStyles,
     webLightTheme,
-    Nav
 } from "@fluentui/react-components";
-
-import Header from './components/header';
-import SideNavbar from './components/sideNavBar';
+// Pages
+import Home from './pages/Home/homePage';
+import Media from './pages/MediaRequests/index';
+import Contacs from './pages/Contacts/index'; 
 
 
 const router = createBrowserRouter([
@@ -19,16 +18,18 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home keycloak />,
     },
+    {
+        path: '/Media',
+        element: <Media/>
+    },
+    {
+        path: '/Contacts',
+        element: <Contacs/>
+    },
 ]);
 const useStyles = makeStyles({
     root: {
         fontFamily: "BCSans-Regular'",
-//        display: "flex",
-//        width: "1365px",
-//        minWidth: "var(--bp - min, 1024px)",
-//maxWidth: "var(--bp - max, 1365px)",
-//flexDirection: "column",
-//alignItems: "center"
     }
 });
 export const AuthenticationContext = createContext('authentication');

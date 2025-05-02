@@ -12,7 +12,6 @@ const useStyles = makeStyles({
         display: "flex",
         height: "56px",
         padding: "8px 80px",
-        justifyContent: "center",
         alignItems: "center",
         alignSelf: "stretch",
         borderBottom: "1px solid #D1D1D1",
@@ -31,7 +30,7 @@ const Header = () => {
     return (
         <header className={styles.header}>
                 <div className={styles.div}><a href="/"><img src="./src/assets/bc-gov-theme/dist/images/bcid-mstile-70x70.png" /></a></div>
-                <div className={styles.div} id="header-title">I fear no evil, for I am fear incarnate.</div>
+{/*                <div className={styles.div} id="header-title">Banner Text Goes Here!.</div>*/}
         </header>
     );
 }

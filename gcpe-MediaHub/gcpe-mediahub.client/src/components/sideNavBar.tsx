@@ -53,35 +53,45 @@ type DrawerType = Required<DrawerProps>["type"];
 
 export const SideNavbar = (props: Partial<NavDrawerProps>) => {
     const styles = useStyles();
-    const typeLableId = useId("type-label");
-    const linkLabelId = useId("link-label");
-    const multipleLabelId = useId("multiple-label");
-
     const [isOpen, setIsOpen] = React.useState(true);
     const [enabledLinks, setEnabledLinks] = React.useState(true);
-    const [type, setType] = React.useState<DrawerType>("inline");
-    const [isMultiple, setIsMultiple] = React.useState(true);
-
-    const restoreFocusTargetAttributes = useRestoreFocusTarget();
 
     return (
         <div className={styles.root}>
             <NavDrawer
                 open={isOpen}
-                type={type}
-                multiple={isMultiple}
+                type={'inline'}
                 className={styles.nav}
             >
                 <NavDrawerHeader>
-                    <Tooltip content="Close Navigation" relationship="label">
-                        <Hamburger onClick={() => setIsOpen(!isOpen)} />
-                    </Tooltip>
+                    <div>
+                        Nav Bar Header
+                    </div>
+                    {/*<Tooltip content="Close Navigation" relationship="label">*/}
+                    {/*    <Hamburger onClick={() => setIsOpen(!isOpen)} />*/}
+                    {/*</Tooltip>*/}
                 </NavDrawerHeader>
 
                 <NavDrawerBody>
-
+                    {/*<NavItem href={linkDestination} icon={<Dashboard />} value="1">*/}
+                    {/*    Dashboard*/}
+                    {/*</NavItem>*/}
+                    <NavItem href={'./Media'}  value="1">
+                        Media Requests
+                    </NavItem>
+                    <NavItem href={'./Contacts'}  value="2">
+                        Contacts
+                    </NavItem>
                 </NavDrawerBody>
             </NavDrawer>
+            {/*<div className={styles.content}>*/}
+            {/*    <Tooltip content="Toggle navigation pane" relationship="label">*/}
+            {/*        <Hamburger*/}
+            {/*            onClick={() => setIsOpen(!isOpen)}*/}
+            {/*            {...restoreFocusTargetAttributes}*/}
+            {/*        />*/}
+            {/*    </Tooltip>*/}
+            {/*</div>*/}
         </div>
     );
 }
