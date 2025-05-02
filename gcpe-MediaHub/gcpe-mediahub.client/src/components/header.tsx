@@ -16,7 +16,6 @@ const useStyles = makeStyles({
         alignItems: "center",
         alignSelf: "stretch",
         borderBottom: "1px solid #D1D1D1",
-
     },
     container: {
         display: "inline"

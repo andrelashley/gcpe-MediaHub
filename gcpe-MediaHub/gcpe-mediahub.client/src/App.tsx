@@ -7,10 +7,11 @@ import {
     FluentProvider,
     makeStyles,
     webLightTheme,
+    Nav
 } from "@fluentui/react-components";
 
 import Header from './components/header';
-
+import SideNavbar from './components/sideNavBar';
 
 
 const router = createBrowserRouter([
@@ -22,9 +23,13 @@ const router = createBrowserRouter([
 const useStyles = makeStyles({
     root: {
         fontFamily: "BCSans-Regular'",
-   
+//        display: "flex",
+//        width: "1365px",
+//        minWidth: "var(--bp - min, 1024px)",
+//maxWidth: "var(--bp - max, 1365px)",
+//flexDirection: "column",
+//alignItems: "center"
     }
-
 });
 export const AuthenticationContext = createContext('authentication');
 
@@ -47,7 +52,7 @@ function App() {
     return (
         <>
             <FluentProvider theme={webLightTheme} className={styles.root} >
-                <Header />
+              
             {isAuthenticated && (
                 <AuthenticationContext.Provider value={keycloak}>              
                         <RouterProvider router={router} />

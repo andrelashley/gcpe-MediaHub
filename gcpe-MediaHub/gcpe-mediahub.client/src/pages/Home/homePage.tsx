@@ -31,7 +31,6 @@ function Home() {
         <>
             {keycloak.authenticated && (
             <Layout title={"Home Page"}>
-             
                     <div>
                         <h2>Token Details</h2>
                         <p>{`Id token expires at ` + formatDate(keycloak.idTokenParsed.exp)}</p>

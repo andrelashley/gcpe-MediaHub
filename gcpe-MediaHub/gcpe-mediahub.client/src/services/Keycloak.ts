@@ -19,7 +19,7 @@ export const initializeKeycloak = async () => {
                 .updateToken(5)
                 .then(function (refreshed) {
                     if (refreshed) {
-                        alert('Token was successfully refreshed');
+                     //   alert('Token was successfully refreshed');
                     } else {
                         alert('Token is still valid');
                     }
