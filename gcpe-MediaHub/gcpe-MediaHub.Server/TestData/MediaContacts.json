@@ -1,0 +1,38 @@
+[
+  {
+    "Id": 1,
+    "FirstName": "Seamus",
+    "LastName": "O'Seanacy'",
+    "Email": "oseanacy@cbc.ca",
+    "Phone": "555-666-7890",
+    "Outlets": "",
+    "Requests": ""
+  },
+  {
+    "Id": 2,
+    "FirstName": "Warrwick",
+    "LastName": "Llewellyn",
+    "Email": "WLlew@mailservice.com",
+    "Phone": "555-787-7891",
+    "Outlets": "",
+    "Requests": ""
+  },
+  {
+    "Id": 3,
+    "FirstName": "Marilyn",
+    "LastName": "Warner",
+    "Email": "MWarner@mailmaster.com",
+    "Phone": "555-866-7711",
+    "Outlets": "",
+    "Requests": ""
+  },
+  {
+    "Id": 4,
+    "FirstName": "Muhammed",
+    "LastName": "Wong",
+    "Email": "MWong@gmail.com",
+    "Phone": "555-666-7890",
+    "Outlets": "",
+    "Requests": ""
+  }
+]

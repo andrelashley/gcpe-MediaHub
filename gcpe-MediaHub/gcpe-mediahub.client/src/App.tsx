@@ -9,8 +9,8 @@ import {
 } from "@fluentui/react-components";
 // Pages
 import Home from './pages/Home/homePage';
-import Media from './pages/MediaRequests/index';
-import Contacs from './pages/Contacts/index'; 
+import Media from './pages/MediaRequests/requests';
+import Contacs from './pages/Contacts/contacts'; 
 
 
 const router = createBrowserRouter([

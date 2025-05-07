@@ -1,6 +1,13 @@
+using gcpe_MediaHub.Server.TestData;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+    var dataContext = new InMemoryDataContext();
+    var mediaContacts = DataLoader.LoadMediaContacts();
+    dataContext.SeedData(mediaContacts);
+
+    builder.Services.AddSingleton(dataContext);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -5,19 +5,15 @@ import moment from 'moment';
 import Layout from '../../components/Layout';
 
 
-const fetchRestictedContent = (token: string, setMessage: any) => {
+const fetchRestictedContent = async (token: string, setMessage: any) => {
     // Defaulting to 8080 for demo purposes
-    const serverURI = import.meta.env.VITE_SERVER_URI ?? 'http://localhost:8080'
+    const serverURI = import.meta.env.VITE_SERVER_URI ?? 'https://localhost:5173'
     setMessage('Request in flight...')
-    fetch(`${serverURI}/restricted`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-        .then(res => res.text())
-        .then(message => setMessage(message))
-        .catch(() => setMessage(`Fetch failed. Ensure the rest API is running on ${serverURI}.`))
+    const response = await fetch('mediacontacts');
+    setMessage(await response.json());
+     
 }
+
 
 function Home() {
     const keycloak = useContext(AuthenticationContext);
@@ -55,6 +51,7 @@ function Home() {
             )}
         </>
     );
+    
 }
 
 export default Home;

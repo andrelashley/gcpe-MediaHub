@@ -62,7 +62,7 @@ const MediaContacts = () => {
     return (
         <Layout title={"Media Contacts"}>
             <div>
-                <ContactsTable columns={columns} items={[items]}  />
+           {/*     <ContactsTable columns={columns} items={[items]}  />*/}
             </div>
         </Layout>
     );

@@ -43,7 +43,12 @@ export default defineConfig({
     },
     server: {
         proxy: {
+           // 'mediaContacts': `${env.ASPNETCORE_HTTPS_PORT}/MediaContacts`,
             '^/weatherforecast': {
+                target,
+                secure: false
+            },
+            '^/mediacontacts': {
                 target,
                 secure: false
             }
