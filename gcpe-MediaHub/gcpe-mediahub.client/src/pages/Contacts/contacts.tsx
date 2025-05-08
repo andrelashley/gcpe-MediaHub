@@ -4,6 +4,7 @@ import ContactsTable from './contactsTable';
 import { useState, useContext, useEffect } from 'react';
 import { AuthenticationContext } from '../../App';
 import React from 'react';
+import MediaContact from '../../models/mediaContact';
 
 //import {
 //    FolderRegular,
@@ -23,19 +24,17 @@ const MediaContacts = () => {
     const fetchContacts = async () => {
         const response = await fetch('mediacontacts');
         const data = await response.json();
-        console.log(data);
         setContacts(data);
-
     };
-    useEffect(() => {
-       
+
+    useEffect(() => {   
         fetchContacts();
     }, []);
 
     return (
         <Layout title={"Media Contacts"}>
             <div>
-            
+                <ContactsTable items={contacts} />
             </div>
         </Layout>
     );

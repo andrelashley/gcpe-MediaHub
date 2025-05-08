@@ -27,7 +27,7 @@ const Layout: React.FC<LayoutProps> = ({ title, children }) => {
 			<Header />
 			<div className={styles.mainContainer} >
 				<SideNavbar />
-				<main className={styles.pageContent} >
+				<main className={ styles.pageContent } >
 				<PageHeading title={title} />
 					{children}
 				</main>
