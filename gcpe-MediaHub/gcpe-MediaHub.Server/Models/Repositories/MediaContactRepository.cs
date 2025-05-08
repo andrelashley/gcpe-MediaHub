@@ -3,7 +3,7 @@ using gcpe_MediaHub.Server.TestData;
 
 namespace gcpe_MediaHub.Server.Models.Repositories
 {
-    public class MediaContactRepository : IMedacContactRepository
+    public class MediaContactRepository : IMediaContactRepository
     {
         private readonly InMemoryDataContext _context;
         public MediaContactRepository(InMemoryDataContext context)

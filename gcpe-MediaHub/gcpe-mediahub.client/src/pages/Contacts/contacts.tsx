@@ -1,68 +1,41 @@
 
-import ContactsTable from './contactsTable';
 import Layout from '../../components/Layout';
+import ContactsTable from './contactsTable';
+import { useState, useContext, useEffect } from 'react';
+import { AuthenticationContext } from '../../App';
+import React from 'react';
 
-import {
-    FolderRegular,
-    EditRegular,
-    OpenRegular,
-    DocumentRegular,
-    PeopleRegular,
-    DocumentPdfRegular,
-    VideoRegular,
-} from "@fluentui/react-icons";
+//import {
+//    FolderRegular,
+//    EditRegular,
+//    OpenRegular,
+//    DocumentRegular,
+//    PeopleRegular,
+//    DocumentPdfRegular,
+//    VideoRegular,
+//} from "@fluentui/react-icons";
 
-const items = [
-    {
-        file: { label: "Meeting notes", icon: <DocumentRegular /> },
-        author: { label: "Max Mustermann", status: "available" },
-        lastUpdated: { label: "7h ago", timestamp: 1 },
-        lastUpdate: {
-            label: "You edited this",
-            /*icon: <EditRegular />,*/
-        },
-    },
-    {
-        file: { label: "Thursday presentation", icon: <FolderRegular /> },
-        author: { label: "Erika Mustermann", status: "busy" },
-        lastUpdated: { label: "Yesterday at 1:45 PM", timestamp: 2 },
-        lastUpdate: {
-            label: "You recently opened this",
-            /*icon: <OpenRegular />,*/
-        },
-    },
-    {
-        file: { label: "Training recording", icon: <VideoRegular /> },
-        author: { label: "John Doe", status: "away" },
-        lastUpdated: { label: "Yesterday at 1:45 PM", timestamp: 2 },
-        lastUpdate: {
-            label: "You recently opened this",
-        /*    icon: <OpenRegular />,*/
-        },
-    },
-    {
-        file: { label: "Purchase order", icon: <DocumentPdfRegular /> },
-        author: { label: "Jane Doe", status: "offline" },
-        lastUpdated: { label: "Tue at 9:30 AM", timestamp: 3 },
-        lastUpdate: {
-            label: "You shared this in a Teams chat",
-            /*icon: <PeopleRegular />,*/
-        },
-    },
-];
-
-const columns = [
-    { columnKey: "file", label: "File" },
-    { columnKey: "author", label: "Author" },
-    { columnKey: "lastUpdated", label: "Last updated" },
-    { columnKey: "lastUpdate", label: "Last update" },
-];
 
 const MediaContacts = () => {
+    const [contacts, setContacts] = useState([]);
+    const keycloak = useContext(AuthenticationContext);
+
+    const fetchContacts = async () => {
+        const response = await fetch('mediacontacts');
+        const data = await response.json();
+        console.log(data);
+        setContacts(data);
+
+    };
+    useEffect(() => {
+       
+        fetchContacts();
+    }, []);
+
     return (
         <Layout title={"Media Contacts"}>
             <div>
-           {/*     <ContactsTable columns={columns} items={[items]}  />*/}
+            
             </div>
         </Layout>
     );
@@ -70,3 +43,4 @@ const MediaContacts = () => {
 
 
 export default MediaContacts;
+
