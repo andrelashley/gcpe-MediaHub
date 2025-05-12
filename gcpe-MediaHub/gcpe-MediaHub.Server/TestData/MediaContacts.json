@@ -6,7 +6,7 @@
     "Email": "oseanacy@cbc.ca",
     "Phone": "555-666-7890",
     "Outlets": "",
-    "Requests": ""
+    "Requests": "REQ-00001, REQ-00006"
   },
   {
     "Id": 2,
@@ -15,7 +15,7 @@
     "Email": "WLlew@mailservice.com",
     "Phone": "555-787-7891",
     "Outlets": "",
-    "Requests": ""
+    "Requests": "REQ-00002, REQ-00005"
   },
   {
     "Id": 3,
@@ -24,15 +24,15 @@
     "Email": "MWarner@mailmaster.com",
     "Phone": "555-866-7711",
     "Outlets": "",
-    "Requests": ""
+    "Requests": "REQ-00003"
   },
   {
     "Id": 4,
     "FirstName": "Muhammed",
     "LastName": "Wong",
     "Email": "MWong@gmail.com",
-    "Phone": "555-666-7890",
+    "Phone": "555-866-7899",
     "Outlets": "",
-    "Requests": ""
+    "Requests": "REQ-00004"
   }
 ]

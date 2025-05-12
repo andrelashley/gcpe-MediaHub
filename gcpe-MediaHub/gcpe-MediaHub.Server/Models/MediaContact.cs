@@ -14,7 +14,8 @@ namespace gcpe_MediaHub.Server.Models
         [Required]
         public string? Phone { get; set; }
         public IEnumerable<MediaOutlet>? Outlets { get; set; }
-        public IEnumerable<MediaRequest>? Requests { get; set; }
+        //public IEnumerable<MediaRequest>? Requests { get; set; }
+        public string? Requests { get; set; } // TODO: should ultimately be a collection, not a string
 
         public MediaContact()
         {
