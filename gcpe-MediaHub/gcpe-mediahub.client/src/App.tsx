@@ -30,6 +30,9 @@ const router = createBrowserRouter([
 const useStyles = makeStyles({
     root: {
         fontFamily: "BCSans-Regular'",
+    },
+    th: {
+        fontWeight: "bold",
     }
 });
 export const AuthenticationContext = createContext('authentication');

@@ -19,10 +19,20 @@ import {
     TableCellLayout,
     PresenceBadgeStatus,
     Avatar,
+    Tag,
+    makeStyles,
+    TagGroup,
 } from "@fluentui/react-components";
+
 import MediaContact from "../../models/mediaContact";
 import React from "react";
 
+const useStyles = makeStyles({
+    tableHeader: {
+        fontWeight: "font-weight-bold",
+    }
+    }
+);
 
 const columns = [
     { columnKey: "name", label: "Name" },
@@ -30,6 +40,7 @@ const columns = [
     { columnKey: "mediaOutlets", label: "Outlets" },
     { columnKey: "email", label: "Email" },
     { columnKey: "phone", label: "Phone" },
+    { columnKey: "location", label: "Location" },
     { columnKey: "mediaRequests", label: "Requests" },
 ];
 
@@ -39,11 +50,11 @@ interface TableProps {
 }
 
 const ContactsTable = ({ items }) => {
-
-    console.log(items);
+    const styles = useStyles();
+    
     return (
         <Table arial-label="Default table" style={{ minWidth: "510px" }}>
-          
+
             <TableHeader>
                 <TableRow>
                     {columns.map((column) => (
@@ -62,9 +73,13 @@ const ContactsTable = ({ items }) => {
                             </TableCellLayout>
                         </TableCell>
                         <TableCell>
-                            <TableCellLayout>
-                                {item.mediaOutlets}
-                            </TableCellLayout>
+                            {item.outlets.map((outlet, index) => (
+                                <TableCellLayout key={index}>
+                                    <TagGroup>
+                                        <Tag shape="circular" appearance="outline"> {outlet} </Tag>
+                                    </TagGroup>
+                                </TableCellLayout>
+                            ))}
                         </TableCell>
                         <TableCell>
                             <TableCellLayout>
@@ -78,7 +93,18 @@ const ContactsTable = ({ items }) => {
                         </TableCell>
                         <TableCell>
                             <TableCellLayout>
-                                {item.mediaRequests}
+                                <TagGroup>
+                                    <Tag shape="circular" appearance="outline">{item.location}</Tag>
+                                </TagGroup>
+                            </TableCellLayout>
+                        </TableCell>
+                        <TableCell>
+                            <TableCellLayout>
+                                {item.requests.length > 0 &&
+                                    <TagGroup>
+                                        <Tag shape="circular" appearance="outline">{item.requests.length} active</Tag> 
+                                    </TagGroup>
+                                }
                             </TableCellLayout>
                         </TableCell>
                     </TableRow>

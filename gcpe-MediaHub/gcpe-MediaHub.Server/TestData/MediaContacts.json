@@ -5,8 +5,9 @@
     "LastName": "O'Seanacy'",
     "Email": "oseanacy@cbc.ca",
     "Phone": "555-666-7890",
-    "Outlets": "",
-    "Requests": "REQ-00001, REQ-00006"
+    "Location": "Vancouver",
+    "Outlets": [ "Minor Outlet" ],
+    "Requests": [ "REQ-00001", "REQ-00006" ]
   },
   {
     "Id": 2,
@@ -14,8 +15,9 @@
     "LastName": "Llewellyn",
     "Email": "WLlew@mailservice.com",
     "Phone": "555-787-7891",
-    "Outlets": "",
-    "Requests": "REQ-00002, REQ-00005"
+    "Location": "Victoria",
+    "Outlets": [ "CBC Vicoria", "Vancouver Sun" ],
+    "Requests": [ "REQ-00002", "REQ-00005" ]
   },
   {
     "Id": 3,
@@ -23,8 +25,9 @@
     "LastName": "Warner",
     "Email": "MWarner@mailmaster.com",
     "Phone": "555-866-7711",
-    "Outlets": "",
-    "Requests": "REQ-00003"
+    "Location": "Kelowna",
+    "Outlets": [ "Freelance" ],
+    "Requests": []
   },
   {
     "Id": 4,
@@ -32,7 +35,8 @@
     "LastName": "Wong",
     "Email": "MWong@gmail.com",
     "Phone": "555-866-7899",
-    "Outlets": "",
-    "Requests": "REQ-00004"
+    "Location": "Vancouver",
+    "Outlets": [ "CBC Victoria" ],
+    "Requests": [ "REQ-00004" ]
   }
 ]
