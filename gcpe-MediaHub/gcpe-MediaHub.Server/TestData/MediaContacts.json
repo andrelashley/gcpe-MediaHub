@@ -17,7 +17,7 @@
     "Email": "WLlew@mailservice.com",
     "Phone": "555-787-7891",
     "Location": "Victoria",
-    "Outlets": [ "CBC Vicoria", "Vancouver Sun" ],
+    "Outlets": [ "CBC Victoria", "Vancouver Sun" ],
     "Requests": [ "REQ-00002", "REQ-00005" ],
     "LastActive": "2018/01/06"
   },

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace gcpe_MediaHub.Server.Models
 {
-    public class ContactOutlets
+    public class ContactOutlet
     {
         [Key] 
         public int Id { get; set; }
@@ -20,5 +20,13 @@ namespace gcpe_MediaHub.Server.Models
 
         [Required]
         public string? ContactEmail { get; set; }
+
+        public ContactOutlet(int id, int contactId, int outletId, string contactEmail )
+        {
+            Id = id;
+            ContactId = contactId;
+            OutletId = outletId;
+            ContactEmail = contactEmail;
+        }
     }
 }

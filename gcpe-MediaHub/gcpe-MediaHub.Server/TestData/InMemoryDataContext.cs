@@ -8,11 +8,15 @@ namespace gcpe_MediaHub.Server.TestData
     {
         public List<MediaContact> MediaContacts { get; set; }
         public List<MediaRequest> MediaRequests { get; set; }
+        public List<MediaOutlet> MediaOutlets { get; set; }
+        public List<ContactOutlet> ContactOutlets { get; set; }
 
         public InMemoryDataContext()
         {
             MediaContacts = new List<MediaContact>();
             MediaRequests = new List<MediaRequest>();
+            MediaOutlets = new List<MediaOutlet>();
+            ContactOutlets = new List<ContactOutlet>();
         }
 
         public void SeedContactData(List<MediaContact> contacts)
@@ -22,6 +26,10 @@ namespace gcpe_MediaHub.Server.TestData
         public void SeedRequestData(List<MediaRequest> requests)
         {
             MediaRequests.AddRange(requests);
+        }
+        public void SeedMediaOutletData(List<MediaOutlet> outlets)
+        {
+            MediaOutlets.AddRange(outlets);
         }
     }
 
@@ -36,6 +44,11 @@ namespace gcpe_MediaHub.Server.TestData
         {
             var json = File.ReadAllText("./TestData/MediaRequests.json");
             return JsonConvert.DeserializeObject<List<MediaRequest>>(json);
+        }
+        public static List<MediaOutlet> LoadMediaOutlets()
+        {
+            var json = File.ReadAllText("./TestData/MediaOutlets.json");
+            return JsonConvert.DeserializeObject<List<MediaOutlet>>(json);
         }
     }
 }
