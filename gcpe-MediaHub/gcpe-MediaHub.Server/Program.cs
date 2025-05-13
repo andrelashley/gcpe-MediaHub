@@ -6,8 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
     var dataContext = new InMemoryDataContext();
     var mediaContacts = DataLoader.LoadMediaContacts();
     var mediaRequests = DataLoader.LoadMediaRequests();
+    var mediaOutlets = DataLoader.LoadMediaOutlets();
     dataContext.SeedContactData(mediaContacts);
     dataContext.SeedRequestData(mediaRequests);
+    dataContext.SeedMediaOutletData(mediaOutlets);
 
     builder.Services.AddSingleton(dataContext);
 
