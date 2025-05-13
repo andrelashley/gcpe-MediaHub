@@ -19,13 +19,14 @@ namespace gcpe_MediaHub.Server.Models
         public string[]? Outlets { get; set; }
         //public IEnumerable<MediaRequest>? Requests { get; set; }
         public string[]? Requests { get; set; } // TODO: should ultimately be a collection, not a string
+        public DateTime? LastActive { get; set; }
 
         public MediaContact()
         {
 
         }
 
-        public MediaContact(string firstName, string lastName, string email, string phone, string location, string[] outlets, string[] requests)
+        public MediaContact(string firstName, string lastName, string email, string phone, string location, string[] outlets, string[] requests, DateTime? lastActive)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -34,6 +35,7 @@ namespace gcpe_MediaHub.Server.Models
             Location = location;
             Outlets = outlets;
             Requests = requests;
+            LastActive = lastActive;
         }
     }
 }

@@ -42,6 +42,7 @@ const columns = [
     { columnKey: "phone", label: "Phone" },
     { columnKey: "location", label: "Location" },
     { columnKey: "mediaRequests", label: "Requests" },
+    { columnKey: "lastActive", label: "Last Active" },
 ];
 
 interface TableProps {
@@ -51,14 +52,18 @@ interface TableProps {
 
 const ContactsTable = ({ items }) => {
     const styles = useStyles();
-    
+    console.log(items);
+    const dateOptions: Intl.DateTimeFormatOptions = {
+        day: "numeric", month: "numeric", year: "numeric",
+        hour: "2-digit", minute: "2-digit"
+    };
     return (
         <Table arial-label="Default table" style={{ minWidth: "510px" }}>
 
             <TableHeader>
                 <TableRow>
                     {columns.map((column) => (
-                        <TableHeaderCell key={column.columnKey}>
+                        <TableHeaderCell key={column.columnKey} style={{ fontWeight: "900" }}>
                             {column.label}
                         </TableHeaderCell>
                     ))}
@@ -105,6 +110,11 @@ const ContactsTable = ({ items }) => {
                                         <Tag shape="circular" appearance="outline">{item.requests.length} active</Tag> 
                                     </TagGroup>
                                 }
+                            </TableCellLayout>
+                        </TableCell>
+                        <TableCell>
+                            <TableCellLayout>
+                                {item.lastActive}
                             </TableCellLayout>
                         </TableCell>
                     </TableRow>
