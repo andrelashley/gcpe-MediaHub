@@ -28,11 +28,15 @@ import MediaContact from "../../models/mediaContact";
 import React from "react";
 
 const useStyles = makeStyles({
+    table: {
+        midWidth: "510px",
+        tableLayout: "auto",
+
+    },
     tableHeader: {
         fontWeight: "font-weight-bold",
     }
-    }
-);
+});
 
 const columns = [
     { columnKey: "name", label: "Name" },
@@ -52,13 +56,13 @@ interface TableProps {
 
 const ContactsTable = ({ items }) => {
     const styles = useStyles();
-    console.log(items);
+ //   console.log(items);
     const dateOptions: Intl.DateTimeFormatOptions = {
         day: "numeric", month: "numeric", year: "numeric",
         hour: "2-digit", minute: "2-digit"
     };
     return (
-        <Table arial-label="Default table" style={{ minWidth: "510px" }}>
+        <Table arial-label="Default table" className={styles.table}>
 
             <TableHeader>
                 <TableRow>

@@ -54,8 +54,14 @@ type DrawerType = Required<DrawerProps>["type"];
 export const SideNavbar = (props: Partial<NavDrawerProps>) => {
     const styles = useStyles();
     const [isOpen, setIsOpen] = React.useState(true);
-    const [selectedLink, setSelectedLink] = React.useState("1");
+   // const [selectedLink, setSelectedLink] = React.useState("1");
     const [enabledLinks, setEnabledLinks] = React.useState(true);
+
+    //const updateSelectedLink = (input: string) => {
+    //    console.log(input);
+    //    setSelectedLink(input);
+    //}
+
 
     return (
         <div className={styles.root}>
@@ -63,7 +69,8 @@ export const SideNavbar = (props: Partial<NavDrawerProps>) => {
                 open={isOpen}
                 type={'inline'}
                 className={styles.nav}
-                selectedValue={selectedLink}
+                selectedValue={props.selectedValue ? props.selectedValue : "1"}
+                defaultSelectedCategoryValue=""
 
             >
                 <NavDrawerHeader>
@@ -79,10 +86,10 @@ export const SideNavbar = (props: Partial<NavDrawerProps>) => {
                     <NavItem href={'./'} value="1">
                         Home
                     </NavItem>
-                    <NavItem href={'./Media'} value="2" onClick={() => setSelectedLink("2")}>
+                    <NavItem href={'./Media'} value="2">
                         Media Requests
                     </NavItem>
-                    <NavItem href={'./Contacts'} value="3" onClick={() => setSelectedLink("3")}>
+                    <NavItem href={'./Contacts'} value="3">
                         Contacts
                     </NavItem>
                 </NavDrawerBody>

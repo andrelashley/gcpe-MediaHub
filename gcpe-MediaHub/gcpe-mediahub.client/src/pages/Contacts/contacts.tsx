@@ -32,7 +32,7 @@ const MediaContacts = () => {
     }, []);
 
     return (
-        <Layout title={"Media Contacts"}>
+        <Layout title={"Media Contacts"} selectedNavItem={"3"}>
             <div>
                 <ContactsTable items={contacts} />
             </div>
