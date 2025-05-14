@@ -7,9 +7,11 @@ var builder = WebApplication.CreateBuilder(args);
     var mediaContacts = DataLoader.LoadMediaContacts();
     var mediaRequests = DataLoader.LoadMediaRequests();
     var mediaOutlets = DataLoader.LoadMediaOutlets();
+    var contactOutlets = DataLoader.LoadContactOutlets();
     dataContext.SeedContactData(mediaContacts);
     dataContext.SeedRequestData(mediaRequests);
     dataContext.SeedMediaOutletData(mediaOutlets);
+    dataContext.SeedContactOutletData(contactOutlets);
 
     builder.Services.AddSingleton(dataContext);
 

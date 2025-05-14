@@ -31,6 +31,10 @@ namespace gcpe_MediaHub.Server.TestData
         {
             MediaOutlets.AddRange(outlets);
         }
+        public void SeedContactOutletData(List<ContactOutlet> contactOutlets)
+        {
+            ContactOutlets.AddRange(contactOutlets);
+        }
     }
 
     public class DataLoader
@@ -49,6 +53,11 @@ namespace gcpe_MediaHub.Server.TestData
         {
             var json = File.ReadAllText("./TestData/MediaOutlets.json");
             return JsonConvert.DeserializeObject<List<MediaOutlet>>(json);
+        }
+        public static List<ContactOutlet> LoadContactOutlets()
+        {
+            var json = File.ReadAllText("./TestData/ContactOutlets.json");
+            return JsonConvert.DeserializeObject<List<ContactOutlet>>(json);
         }
     }
 }
