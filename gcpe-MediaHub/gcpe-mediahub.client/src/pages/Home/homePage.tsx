@@ -21,7 +21,7 @@ const Home = () => {
         <>
             {keycloak.authenticated && (
                 <Layout title={"Home Page"} selectedNavItem={'1'}>
-                        
+                        <div> This is the homepage</div>
                 </Layout >   
             )}
         </>

@@ -17,6 +17,7 @@ const useStyles = makeStyles({
 interface LayoutProps {
 	title: String;
 	selectedNavItem: string;
+	children: any;
 }
 
 const Layout: React.FC<LayoutProps> = (props: LayoutProps) => {
@@ -29,7 +30,7 @@ const Layout: React.FC<LayoutProps> = (props: LayoutProps) => {
 				<SideNavbar selectedValue={props.selectedNavItem} />
 				<main className={ styles.pageContent } >
 				<PageHeading title={props.title} />
-				
+					{props.children}
 				</main>
 			</div>
 		</div>

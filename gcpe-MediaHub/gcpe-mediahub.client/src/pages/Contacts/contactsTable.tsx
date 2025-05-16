@@ -48,7 +48,11 @@ interface TableProps {
 
 const ContactsTable: React.FC<TableProps>  = ({ items }) => {
     const styles = useStyles();
- //   console.log(items);
+    console.log(items);
+    {
+        items === undefined &&
+            console.log("UNDEFINED!");
+    }
     //const dateOptions: Intl.DateTimeFormatOptions = {
     //    day: "numeric", month: "numeric", year: "numeric",
     //    hour: "2-digit", minute: "2-digit"
@@ -66,7 +70,8 @@ const ContactsTable: React.FC<TableProps>  = ({ items }) => {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {items.map((item) => (
+                {items &&
+                    items.map((item) => (
                     <TableRow key={item.id}>
                         <TableCell>
                             <TableCellLayout>
@@ -74,7 +79,8 @@ const ContactsTable: React.FC<TableProps>  = ({ items }) => {
                             </TableCellLayout>
                         </TableCell>
                         <TableCell>
-                            {item.mediaOutlets.map((outlet, index: number) => (
+                                {item.mediaOutlets &&
+                                    item.mediaOutlets.map((outlet, index: number) => (
                                 <TableCellLayout key={index}>
                                     <TagGroup>
                                         <Tag shape="circular" appearance="outline"> {outlet.name} </Tag>
@@ -101,7 +107,7 @@ const ContactsTable: React.FC<TableProps>  = ({ items }) => {
                         </TableCell>
                         <TableCell>
                             <TableCellLayout>
-                                {item.mediaRequests.length > 0 &&
+                                {item.mediaRequests && item.mediaRequests.length > 0 &&
                                     <TagGroup>
                                         <Tag shape="circular" appearance="outline">{item.mediaRequests.length} active</Tag> 
                                     </TagGroup>
@@ -110,7 +116,7 @@ const ContactsTable: React.FC<TableProps>  = ({ items }) => {
                         </TableCell>
                         <TableCell>
                             <TableCellLayout>
-                                {item.lastActive.toDateString()}
+                               {/* {item.lastActive}*/} Date goes here
                             </TableCellLayout>
                         </TableCell>
                     </TableRow>

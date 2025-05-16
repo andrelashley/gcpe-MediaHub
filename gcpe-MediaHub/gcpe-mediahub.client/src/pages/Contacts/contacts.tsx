@@ -1,5 +1,6 @@
 
 import Layout from '../../components/Layout';
+import MediaContact from '../../models/MediaContact';
 import ContactsTable from './ContactsTable';
 import { useState, useEffect } from 'react';
 //import { AuthenticationContext } from '../../App';
@@ -18,27 +19,25 @@ import { useState, useEffect } from 'react';
 
 
 const MediaContacts = () => {
-    const [contacts, setContacts] = useState([]);
+    const [contacts, setContacts] = useState<MediaContact[]>([]);
 
 
     const fetchContacts = async () => {
         const response = await fetch('mediacontacts');
         const data = await response.json();
-        setContacts(data);
+        const contacts: MediaContact[] = data as MediaContact[];
+        setContacts(contacts);
     };
 
     useEffect(() => {
         fetchContacts();
     }, []);
 
-    //const layoutCrap = {
-    //    title: "Media Contacts",
-    //    selectedNavItem: "3",
-    //}
     return (
         <div>
-            <ContactsTable items={contacts} />
-            <Layout title={"Media Contacts"} selectedNavItem={"3"} />
+            <Layout title={"Media Contacts"} selectedNavItem={"3"}>
+                <ContactsTable items={contacts} />
+            </Layout>
         </div>
     );
 }
