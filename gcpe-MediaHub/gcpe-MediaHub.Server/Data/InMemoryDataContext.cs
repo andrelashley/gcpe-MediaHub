@@ -14,7 +14,6 @@ namespace gcpe_MediaHub.Server.TestData
 
         public InMemoryDataContext()
         {
-            //MediaContacts = IEnumerable<MediaContact>;
             MediaRequests = new List<MediaRequest>();
             MediaOutlets = new List<MediaOutlet>();
             ContactOutlets = new List<ContactOutlet>();
