@@ -1,4 +1,4 @@
-import MediaContact from "./mediaContact";
+import MediaContact from "./MediaContact";
 
 enum status {
     requested,

@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
-import { initializeKeycloak } from './services/keycloak';
+import { initializeKeycloak } from './services/Keycloak';
 import { createContext } from 'react';
 import {
     FluentProvider,
@@ -16,7 +16,7 @@ import Contacs from './pages/Contacts/contacts';
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Home keycloak />,
+        element: <Home />,
     },
     {
         path: '/Media',
@@ -36,11 +36,11 @@ export const AuthenticationContext = createContext('authentication');
 
 function App() {
     /* authentication stuff */
-    const [keycloak, setKeycloak] = useState(null);
+    const [keycloak, setKeycloak] = useState("");
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const initKeycloak = useCallback(async () => {
-        const _keycloak = await initializeKeycloak();
+        const _keycloak: any = await initializeKeycloak();
         setIsAuthenticated(_keycloak?.authenticated);
         setKeycloak(_keycloak);
     }, []);

@@ -1,12 +1,12 @@
-import MediaOutlet from './mediaOutlet';
-import MediaRequest from './mediaRequest';
+import MediaOutlet from './MediaOutlet';
+import MediaRequest from './MediaRequest';
 
 export class MediaContact {
-    id: Number = 0;
-    firstName: String;
-    lastName: String;
-    email: String;
-    phone: String;
+    id: number = 0;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
     mediaOutlets: MediaOutlet[] = [];
     mediaRequests: MediaRequest[] = [];
     location: string;

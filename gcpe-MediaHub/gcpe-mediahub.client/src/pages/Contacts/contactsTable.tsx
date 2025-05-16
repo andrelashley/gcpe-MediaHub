@@ -1,13 +1,4 @@
 
-import {
-    FolderRegular,
-    EditRegular,
-    OpenRegular,
-    DocumentRegular,
-    PeopleRegular,
-    DocumentPdfRegular,
-    VideoRegular,
-} from "@fluentui/react-icons";
 
 import {
     TableBody,
@@ -17,15 +8,16 @@ import {
     TableHeader,
     TableHeaderCell,
     TableCellLayout,
-    PresenceBadgeStatus,
-    Avatar,
+    //PresenceBadgeStatus,
+    //Avatar,
     Tag,
     makeStyles,
     TagGroup,
 } from "@fluentui/react-components";
 
-import MediaContact from "../../models/mediaContact";
-import React from "react";
+
+import MediaContact from "../../models/MediaContact";
+
 
 const useStyles = makeStyles({
     table: {
@@ -54,13 +46,13 @@ interface TableProps {
     items: MediaContact[],
 }
 
-const ContactsTable = ({ items }) => {
+const ContactsTable: React.FC<TableProps>  = ({ items }) => {
     const styles = useStyles();
  //   console.log(items);
-    const dateOptions: Intl.DateTimeFormatOptions = {
-        day: "numeric", month: "numeric", year: "numeric",
-        hour: "2-digit", minute: "2-digit"
-    };
+    //const dateOptions: Intl.DateTimeFormatOptions = {
+    //    day: "numeric", month: "numeric", year: "numeric",
+    //    hour: "2-digit", minute: "2-digit"
+    //};
     return (
         <Table arial-label="Default table" className={styles.table}>
 
@@ -82,10 +74,10 @@ const ContactsTable = ({ items }) => {
                             </TableCellLayout>
                         </TableCell>
                         <TableCell>
-                            {item.outlets.map((outlet, index) => (
+                            {item.mediaOutlets.map((outlet, index: number) => (
                                 <TableCellLayout key={index}>
                                     <TagGroup>
-                                        <Tag shape="circular" appearance="outline"> {outlet} </Tag>
+                                        <Tag shape="circular" appearance="outline"> {outlet.name} </Tag>
                                     </TagGroup>
                                 </TableCellLayout>
                             ))}
@@ -109,16 +101,16 @@ const ContactsTable = ({ items }) => {
                         </TableCell>
                         <TableCell>
                             <TableCellLayout>
-                                {item.requests.length > 0 &&
+                                {item.mediaRequests.length > 0 &&
                                     <TagGroup>
-                                        <Tag shape="circular" appearance="outline">{item.requests.length} active</Tag> 
+                                        <Tag shape="circular" appearance="outline">{item.mediaRequests.length} active</Tag> 
                                     </TagGroup>
                                 }
                             </TableCellLayout>
                         </TableCell>
                         <TableCell>
                             <TableCellLayout>
-                                {item.lastActive}
+                                {item.lastActive.toDateString()}
                             </TableCellLayout>
                         </TableCell>
                     </TableRow>

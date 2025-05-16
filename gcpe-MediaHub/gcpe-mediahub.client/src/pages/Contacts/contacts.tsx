@@ -1,10 +1,10 @@
 
 import Layout from '../../components/Layout';
-import ContactsTable from './contactsTable';
-import { useState, useContext, useEffect } from 'react';
-import { AuthenticationContext } from '../../App';
-import React from 'react';
-import MediaContact from '../../models/mediaContact';
+import ContactsTable from './ContactsTable';
+import { useState, useEffect } from 'react';
+//import { AuthenticationContext } from '../../App';
+//import React from 'react';
+// import MediaContact from '../../models/mediaContact';
 
 //import {
 //    FolderRegular,
@@ -19,7 +19,7 @@ import MediaContact from '../../models/mediaContact';
 
 const MediaContacts = () => {
     const [contacts, setContacts] = useState([]);
-    const keycloak = useContext(AuthenticationContext);
+
 
     const fetchContacts = async () => {
         const response = await fetch('mediacontacts');
@@ -27,16 +27,19 @@ const MediaContacts = () => {
         setContacts(data);
     };
 
-    useEffect(() => {   
+    useEffect(() => {
         fetchContacts();
     }, []);
 
+    //const layoutCrap = {
+    //    title: "Media Contacts",
+    //    selectedNavItem: "3",
+    //}
     return (
-        <Layout title={"Media Contacts"} selectedNavItem={"3"}>
-            <div>
-                <ContactsTable items={contacts} />
-            </div>
-        </Layout>
+        <div>
+            <ContactsTable items={contacts} />
+            <Layout title={"Media Contacts"} selectedNavItem={"3"} />
+        </div>
     );
 }
 

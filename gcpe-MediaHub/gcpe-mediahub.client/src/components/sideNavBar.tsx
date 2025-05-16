@@ -1,28 +1,28 @@
-import { DrawerProps, makeStyles, Tooltip } from "@fluentui/react-components";
-import * as React from "react";
+import { makeStyles } from "@fluentui/react-components";
+
 import {
-    AppItem,
-    Hamburger,
-    NavCategory,
-    NavCategoryItem,
-    NavDivider,
+    //AppItem,
+    //Hamburger,
+    //NavCategory,
+    //NavCategoryItem,
+    //NavDivider,
     NavDrawer,
     NavDrawerBody,
     NavDrawerHeader,
     NavDrawerProps,
     NavItem,
-    NavSectionHeader,
-    NavSubItem,
-    NavSubItemGroup,
+    //NavSectionHeader,
+    //NavSubItem,
+    //NavSubItemGroup,
 } from "@fluentui/react-nav-preview";
 import {
-    Label,
-    Radio,
-    RadioGroup,
-    Switch,
+    //Label,
+    //Radio,
+    //RadioGroup,
+    //Switch,
     tokens,
-    useId,
-    useRestoreFocusTarget,
+    //useId,
+    //useRestoreFocusTarget,
 } from "@fluentui/react-components";
 /*styling goes here */
 const useStyles = makeStyles({
@@ -49,24 +49,15 @@ const useStyles = makeStyles({
         gridRowGap: tokens.spacingVerticalS,
     },
 });
-type DrawerType = Required<DrawerProps>["type"];
+/*type DrawerType = Required<DrawerProps>["type"];*/
 
 export const SideNavbar = (props: Partial<NavDrawerProps>) => {
     const styles = useStyles();
-    const [isOpen, setIsOpen] = React.useState(true);
-   // const [selectedLink, setSelectedLink] = React.useState("1");
-    const [enabledLinks, setEnabledLinks] = React.useState(true);
-
-    //const updateSelectedLink = (input: string) => {
-    //    console.log(input);
-    //    setSelectedLink(input);
-    //}
-
 
     return (
         <div className={styles.root}>
             <NavDrawer
-                open={isOpen}
+                open={true}
                 type={'inline'}
                 className={styles.nav}
                 selectedValue={props.selectedValue ? props.selectedValue : "1"}
@@ -94,14 +85,7 @@ export const SideNavbar = (props: Partial<NavDrawerProps>) => {
                     </NavItem>
                 </NavDrawerBody>
             </NavDrawer>
-            {/*<div className={styles.content}>*/}
-            {/*    <Tooltip content="Toggle navigation pane" relationship="label">*/}
-            {/*        <Hamburger*/}
-            {/*            onClick={() => setIsOpen(!isOpen)}*/}
-            {/*            {...restoreFocusTargetAttributes}*/}
-            {/*        />*/}
-            {/*    </Tooltip>*/}
-            {/*</div>*/}
+          
         </div>
     );
 }
