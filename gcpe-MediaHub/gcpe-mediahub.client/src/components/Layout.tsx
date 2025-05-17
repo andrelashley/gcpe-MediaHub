@@ -1,8 +1,8 @@
 import React from 'react';
-import PageHeading from './pageHeading';
+import PageHeading from './PageHeading';
 import { makeStyles } from '@fluentui/react-components';
-import Header from './header';
-import SideNavbar from './sideNavBar';
+import Header from './Header';
+import SideNavbar from './SideNavBar';
 
 const useStyles = makeStyles({
 	mainContainer: {
@@ -16,21 +16,21 @@ const useStyles = makeStyles({
 
 interface LayoutProps {
 	title: String;
-	children: any;
 	selectedNavItem: string;
+	children: any;
 }
 
-const Layout: React.FC<LayoutProps> = ({ title, children, selectedNavItem }) => {
+const Layout: React.FC<LayoutProps> = (props: LayoutProps) => {
 	const styles = useStyles();
 
 	return (
 		<div>
 			<Header />
 			<div className={styles.mainContainer} >
-				<SideNavbar selectedValue={selectedNavItem} />
+				<SideNavbar selectedValue={props.selectedNavItem} />
 				<main className={ styles.pageContent } >
-				<PageHeading title={title} />
-					{children}
+				<PageHeading title={props.title} />
+					{props.children}
 				</main>
 			</div>
 		</div>

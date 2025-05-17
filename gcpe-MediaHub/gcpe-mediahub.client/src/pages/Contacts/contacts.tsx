@@ -1,8 +1,11 @@
 
 import Layout from '../../components/Layout';
-import ContactsTable from './contactsTable';
-import { useState, useContext, useEffect } from 'react';
-import { AuthenticationContext } from '../../App';
+import MediaContact from '../../models/MediaContact';
+import ContactsTable from './ContactsTable';
+import { useState, useEffect } from 'react';
+//import { AuthenticationContext } from '../../App';
+//import React from 'react';
+// import MediaContact from '../../models/mediaContact';
 
 //import {
 //    FolderRegular,
@@ -16,25 +19,26 @@ import { AuthenticationContext } from '../../App';
 
 
 const MediaContacts = () => {
-    const [contacts, setContacts] = useState([]);
-    useContext(AuthenticationContext);
+    const [contacts, setContacts] = useState<MediaContact[]>([]);
+
 
     const fetchContacts = async () => {
         const response = await fetch('mediacontacts');
         const data = await response.json();
-        setContacts(data);
+        const contacts: MediaContact[] = data as MediaContact[];
+        setContacts(contacts);
     };
 
-    useEffect(() => {   
+    useEffect(() => {
         fetchContacts();
     }, []);
 
     return (
-        <Layout title={"Media Contacts"} selectedNavItem={"3"}>
-            <div>
+        <div>
+            <Layout title={"Media Contacts"} selectedNavItem={"3"}>
                 <ContactsTable items={contacts} />
-            </div>
-        </Layout>
+            </Layout>
+        </div>
     );
 }
 
