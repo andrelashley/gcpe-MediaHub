@@ -1,28 +1,13 @@
 import { makeStyles } from "@fluentui/react-components";
-
+import * as React from "react";
 import {
-    //AppItem,
-    //Hamburger,
-    //NavCategory,
-    //NavCategoryItem,
-    //NavDivider,
     NavDrawer,
     NavDrawerBody,
     NavDrawerHeader,
-    NavDrawerProps,
     NavItem,
-    //NavSectionHeader,
-    //NavSubItem,
-    //NavSubItemGroup,
 } from "@fluentui/react-nav-preview";
 import {
-    //Label,
-    //Radio,
-    //RadioGroup,
-    //Switch,
     tokens,
-    //useId,
-    //useRestoreFocusTarget,
 } from "@fluentui/react-components";
 /*styling goes here */
 const useStyles = makeStyles({
@@ -49,18 +34,22 @@ const useStyles = makeStyles({
         gridRowGap: tokens.spacingVerticalS,
     },
 });
-/*type DrawerType = Required<DrawerProps>["type"];*/
+interface SideNavbarProps {
+    selectedValue: string;
+}
 
-export const SideNavbar = (props: Partial<NavDrawerProps>) => {
+export const SideNavbar: React.FC<SideNavbarProps> = ({ selectedValue }) => {
     const styles = useStyles();
+    const [isOpen] = React.useState(true);
+
 
     return (
         <div className={styles.root}>
             <NavDrawer
-                open={true}
+                open={isOpen}
                 type={'inline'}
                 className={styles.nav}
-                selectedValue={props.selectedValue ? props.selectedValue : "1"}
+                selectedValue={selectedValue || "1"}
                 defaultSelectedCategoryValue=""
 
             >
@@ -85,7 +74,14 @@ export const SideNavbar = (props: Partial<NavDrawerProps>) => {
                     </NavItem>
                 </NavDrawerBody>
             </NavDrawer>
-          
+            {/*<div className={styles.content}>*/}
+            {/*    <Tooltip content="Toggle navigation pane" relationship="label">*/}
+            {/*        <Hamburger*/}
+            {/*            onClick={() => setIsOpen(!isOpen)}*/}
+            {/*            {...restoreFocusTargetAttributes}*/}
+            {/*        />*/}
+            {/*    </Tooltip>*/}
+            {/*</div>*/}
         </div>
     );
 }

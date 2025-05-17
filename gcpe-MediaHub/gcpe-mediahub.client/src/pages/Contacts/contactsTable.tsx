@@ -1,6 +1,6 @@
 
-
 import {
+    makeStyles,
     TableBody,
     TableCell,
     TableRow,
@@ -8,16 +8,12 @@ import {
     TableHeader,
     TableHeaderCell,
     TableCellLayout,
-    //PresenceBadgeStatus,
-    //Avatar,
     Tag,
-    makeStyles,
     TagGroup,
 } from "@fluentui/react-components";
 
-
-import MediaContact from "../../models/MediaContact";
-
+import MediaContact from "../../models/mediaContact";
+import MediaOutlet from "../../models/mediaOutlet";
 
 const useStyles = makeStyles({
     table: {
@@ -41,22 +37,14 @@ const columns = [
     { columnKey: "lastActive", label: "Last Active" },
 ];
 
-interface TableProps {
 
-    items: MediaContact[],
+interface ContactsTableProps {
+    items: MediaContact[];
 }
 
-const ContactsTable: React.FC<TableProps>  = ({ items }) => {
+const ContactsTable = ({ items }: ContactsTableProps) => {
     const styles = useStyles();
-    console.log(items);
-    {
-        items === undefined &&
-            console.log("UNDEFINED!");
-    }
-    //const dateOptions: Intl.DateTimeFormatOptions = {
-    //    day: "numeric", month: "numeric", year: "numeric",
-    //    hour: "2-digit", minute: "2-digit"
-    //};
+ //   console.log(items);
     return (
         <Table arial-label="Default table" className={styles.table}>
 
@@ -70,17 +58,15 @@ const ContactsTable: React.FC<TableProps>  = ({ items }) => {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {items &&
-                    items.map((item) => (
-                    <TableRow key={item.id}>
+                {items.map((item: MediaContact) => (
+                    <TableRow key={item.id.toString()}>
                         <TableCell>
                             <TableCellLayout>
                                 {item.firstName} {item.lastName}
                             </TableCellLayout>
                         </TableCell>
                         <TableCell>
-                                {item.mediaOutlets &&
-                                    item.mediaOutlets.map((outlet, index: number) => (
+                            {item.mediaOutlets.map((outlet: MediaOutlet, index: number) => (
                                 <TableCellLayout key={index}>
                                     <TagGroup>
                                         <Tag shape="circular" appearance="outline"> {outlet.name} </Tag>
@@ -107,16 +93,22 @@ const ContactsTable: React.FC<TableProps>  = ({ items }) => {
                         </TableCell>
                         <TableCell>
                             <TableCellLayout>
-                                {item.mediaRequests && item.mediaRequests.length > 0 &&
+                                {item.mediaRequests.length > 0 &&
                                     <TagGroup>
-                                        <Tag shape="circular" appearance="outline">{item.mediaRequests.length} active</Tag> 
+                                        <Tag shape="circular" appearance="outline">{item.mediaRequests.length} active</Tag>
                                     </TagGroup>
                                 }
                             </TableCellLayout>
                         </TableCell>
                         <TableCell>
                             <TableCellLayout>
-                               {/* {item.lastActive}*/} Date goes here
+                                {item.lastActive.toLocaleDateString(undefined, {
+                                    day: "numeric",
+                                    month: "numeric",
+                                    year: "numeric",
+                                    hour: "2-digit",
+                                    minute: "2-digit"
+                                })}
                             </TableCellLayout>
                         </TableCell>
                     </TableRow>
