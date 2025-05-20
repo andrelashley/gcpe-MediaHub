@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using gcpe_MediaHub.Server.Data;
 
@@ -11,9 +12,11 @@ using gcpe_MediaHub.Server.Data;
 namespace gcpe_MediaHub.Server.Migrations
 {
     [DbContext(typeof(MediaHubContext))]
-    partial class MediaHubContextModelSnapshot : ModelSnapshot
+    [Migration("20250516230514_addedMissingFields")]
+    partial class addedMissingFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +49,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasIndex("OutletId");
 
-                    b.ToTable("ContactOutlets", (string)null);
+                    b.ToTable("ContactOutlets");
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaContact", b =>
@@ -106,7 +109,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MediaContacts", (string)null);
+                    b.ToTable("MediaContacts");
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaOutlet", b =>
@@ -165,7 +168,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MediaOutlets", (string)null);
+                    b.ToTable("MediaOutlets");
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaRequest", b =>
@@ -210,7 +213,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasIndex("RequestBy");
 
-                    b.ToTable("MediaRequests", (string)null);
+                    b.ToTable("MediaRequests");
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.ContactOutlet", b =>
