@@ -24,6 +24,7 @@ import {
     //useId,
     //useRestoreFocusTarget,
 } from "@fluentui/react-components";
+import React from "react";
 /*styling goes here */
 const useStyles = makeStyles({
     root: {
