@@ -7,17 +7,18 @@ var builder = WebApplication.CreateBuilder(args);
 
 /* for test data from json files */
 // Add services to the container.
-    //var dataContext = new InMemoryDataContext();
-    //var mediaContacts = DataLoader.LoadMediaContacts();
-    //var mediaRequests = DataLoader.LoadMediaRequests();
-    //var mediaOutlets = DataLoader.LoadMediaOutlets();
-    //var contactOutlets = DataLoader.LoadContactOutlets();
-    //dataContext.SeedContactData(mediaContacts);
-    //dataContext.SeedRequestData(mediaRequests);
-    //dataContext.SeedMediaOutletData(mediaOutlets);
-    //dataContext.SeedContactOutletData(contactOutlets);
+//var dataContext = new InMemoryDataContext();
+//var mediaContacts = DataLoader.LoadMediaContacts();
+//var mediaRequests = DataLoader.LoadMediaRequests();
+//var mediaOutlets = DataLoader.LoadMediaOutlets();
+//var contactOutlets = DataLoader.LoadContactOutlets();
+//dataContext.SeedContactData(mediaContacts);
+//dataContext.SeedRequestData(mediaRequests);
+//dataContext.SeedMediaOutletData(mediaOutlets);
+//dataContext.SeedContactOutletData(contactOutlets);
 
-    //    builder.Services.AddSingleton(dataContext);
+builder.Services.AddScoped<IMediaContactRepository, MediaContactRepository>();
+//    builder.Services.AddSingleton(dataContext);
 /* end of json test data concerns */
 builder.Services.AddDbContext<MediaHubContext>(options =>
     options
@@ -32,6 +33,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+
 app.UseDefaultFiles();
 app.UseStaticFiles();
 using (var scope = app.Services.CreateScope())
@@ -40,6 +42,8 @@ using (var scope = app.Services.CreateScope())
     var context = services.GetRequiredService<MediaHubContext>();
     await context.Database.MigrateAsync();
 }
+
+// Other service registrations...
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
