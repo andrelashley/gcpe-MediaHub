@@ -5,18 +5,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-/* for test data from json files */
-// Add services to the container.
-//var dataContext = new InMemoryDataContext();
-//var mediaContacts = DataLoader.LoadMediaContacts();
-//var mediaRequests = DataLoader.LoadMediaRequests();
-//var mediaOutlets = DataLoader.LoadMediaOutlets();
-//var contactOutlets = DataLoader.LoadContactOutlets();
-//dataContext.SeedContactData(mediaContacts);
-//dataContext.SeedRequestData(mediaRequests);
-//dataContext.SeedMediaOutletData(mediaOutlets);
-//dataContext.SeedContactOutletData(contactOutlets);
-
 builder.Services.AddScoped<IMediaContactRepository, MediaContactRepository>();
 //    builder.Services.AddSingleton(dataContext);
 /* end of json test data concerns */

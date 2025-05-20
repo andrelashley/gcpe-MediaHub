@@ -2,6 +2,6 @@
 {
     public interface IMediaContactRepository
     {
-        IEnumerable<MediaContact> GetAll();
+        Task <IEnumerable<MediaContact>> GetAll();
     }
 }

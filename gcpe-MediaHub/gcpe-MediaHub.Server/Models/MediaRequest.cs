@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace gcpe_MediaHub.Server.Models
@@ -31,12 +32,12 @@ namespace gcpe_MediaHub.Server.Models
  
         public DateTime? RequestedOn { get; set; }
 
-        [Required]
+        [BindRequired]
         public int RequestedBy { get; set; }
         [ForeignKey("RequestBy")]
         public virtual MediaContact? Contact { get; set; }
 
-        [Required]
+        [BindRequired]
         public String? LeadMinistry { get; set; } // Todo: this should be a foreign relation to an Organization entity
         public String? SharedWith { get; set; } // TODO: this should be a collection of Organization entities.
         public String? Resolution { get; set; } 

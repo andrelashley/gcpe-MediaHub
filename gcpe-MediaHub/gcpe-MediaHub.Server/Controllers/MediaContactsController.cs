@@ -22,9 +22,12 @@ namespace gcpe_MediaHub.Server.Controllers
         }
 
         [HttpGet(Name = "GetMediaContacts")]
-        public ActionResult<IEnumerable<MediaContact>> GetMediaContacts()
+
+        public async Task <ActionResult<IEnumerable<MediaContact>>> GetMediaContacts()
         {
-            return Ok(_contactRepository.GetAll());
+            IEnumerable<MediaContact> contacts = await _contactRepository.GetAll();
+
+            return Ok(contacts);
         }
     }
 }
