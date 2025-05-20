@@ -28,8 +28,8 @@ const MediaContacts = () => {
         const data = await response.json();
         console.log(data);
         console.log(JSON.stringify(data));
-        //const contacts: MediaContact[] = data as MediaContact[];
-        //setContacts(contacts);
+        const contacts: MediaContact[] = data as MediaContact[];
+        setContacts(contacts);
     };
 
     useEffect(() => {
