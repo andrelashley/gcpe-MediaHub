@@ -10,7 +10,7 @@ import {
     Textarea,
     Button,
 } from '@fluentui/react-components';
-import { RequestStatus, RequestType, Ministry } from './requests';
+import { RequestStatus, RequestType, Ministry } from './types';
 import { CalendarEmpty24Regular } from '@fluentui/react-icons';
 import styles from './newRequest.module.css';
 
@@ -64,7 +64,7 @@ const NewRequestPage: React.FC = () => {
                         selectedOptions={status ? [status.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
-                                setStatus(Number(data.optionValue));
+                                setStatus(data.optionValue as RequestStatus);
                                 setShowValidation(false);
                             }
                         }}
@@ -192,7 +192,7 @@ const NewRequestPage: React.FC = () => {
                         selectedOptions={requestType ? [requestType.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
-                                setRequestType(Number(data.optionValue));
+                                setRequestType(data.optionValue as RequestType);
                                 setShowValidation(false);
                             }
                         }}
