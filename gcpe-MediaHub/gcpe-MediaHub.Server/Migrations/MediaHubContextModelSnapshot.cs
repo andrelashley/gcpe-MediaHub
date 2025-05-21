@@ -46,7 +46,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasIndex("OutletId");
 
-                    b.ToTable("ContactOutlets", (string)null);
+                    b.ToTable("ContactOutlets");
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaContact", b =>
@@ -95,7 +95,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MediaContacts", (string)null);
+                    b.ToTable("MediaContacts");
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaOutlet", b =>
@@ -153,7 +153,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MediaOutlets", (string)null);
+                    b.ToTable("MediaOutlets");
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaRequest", b =>
@@ -166,9 +166,6 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.Property<string>("LeadMinistry")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RequestBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("RequestType")
                         .IsRequired()
@@ -195,15 +192,15 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RequestBy");
+                    b.HasIndex("RequestedBy");
 
-                    b.ToTable("MediaRequests", (string)null);
+                    b.ToTable("MediaRequests");
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.ContactOutlet", b =>
                 {
                     b.HasOne("gcpe_MediaHub.Server.Models.MediaContact", "Contact")
-                        .WithMany()
+                        .WithMany("Outlets")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -222,10 +219,19 @@ namespace gcpe_MediaHub.Server.Migrations
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaRequest", b =>
                 {
                     b.HasOne("gcpe_MediaHub.Server.Models.MediaContact", "Contact")
-                        .WithMany()
-                        .HasForeignKey("RequestBy");
+                        .WithMany("Requests")
+                        .HasForeignKey("RequestedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Contact");
+                });
+
+            modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaContact", b =>
+                {
+                    b.Navigation("Outlets");
+
+                    b.Navigation("Requests");
                 });
 #pragma warning restore 612, 618
         }

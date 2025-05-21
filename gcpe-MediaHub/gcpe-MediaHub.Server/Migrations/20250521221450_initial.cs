@@ -17,17 +17,17 @@ namespace gcpe_MediaHub.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsPressGallery = table.Column<bool>(type: "bit", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MobilePhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CallInPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SocialMediaURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Outlets = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Requests = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SocialMediaXURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SocialMediaInstagramURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastActive = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
@@ -49,7 +49,7 @@ namespace gcpe_MediaHub.Server.Migrations
                     Language = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LanguageShortName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsMajorMedia = table.Column<bool>(type: "bit", nullable: false),
-                    WebsiteURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    WebsiteURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SocialMediaXURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SocialMediaInstagramURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -66,15 +66,24 @@ namespace gcpe_MediaHub.Server.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RequestType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     status = table.Column<int>(type: "int", nullable: false),
+                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RequestedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
                     RequestedBy = table.Column<int>(type: "int", nullable: false),
-                    LeadMinistry = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LeadMinistry = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SharedWith = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Resolution = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MediaRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MediaRequests_MediaContacts_RequestedBy",
+                        column: x => x.RequestedBy,
+                        principalTable: "MediaContacts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -113,6 +122,11 @@ namespace gcpe_MediaHub.Server.Migrations
                 name: "IX_ContactOutlets_OutletId",
                 table: "ContactOutlets",
                 column: "OutletId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MediaRequests_RequestedBy",
+                table: "MediaRequests",
+                column: "RequestedBy");
         }
 
         /// <inheritdoc />
@@ -125,10 +139,10 @@ namespace gcpe_MediaHub.Server.Migrations
                 name: "MediaRequests");
 
             migrationBuilder.DropTable(
-                name: "MediaContacts");
+                name: "MediaOutlets");
 
             migrationBuilder.DropTable(
-                name: "MediaOutlets");
+                name: "MediaContacts");
         }
     }
 }
