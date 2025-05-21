@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace gcpe_MediaHub.Server.Models
@@ -7,24 +8,24 @@ namespace gcpe_MediaHub.Server.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [BindRequired]
         public string Name { get; set; }
-        [Required]
+        [BindRequired]
         public string Email { get; set; }
-        [Required]
+        [BindRequired]
         public string PrimaryPhone { get; set; }
-        [Required]
+        [BindRequired]
         public string NewsDeskPhone { get; set; }
-        [Required]
+        [BindRequired]
         public IEnumerable<string> MediaTypes { get; set; }
         //[Required]
         //public IEnumerable<string> Languages { get; set; }
-        [Required]
+        [BindRequired]
         public string Language { get; set; }
         public string? LanguageShortName { get; set; }
-        [Required]
+        [BindRequired]
         public bool IsMajorMedia { get; set; }
-        [Required]
+        [BindRequired]
         public string? WebsiteURL { get; set; }
         public string? SocialMediaXURL { get; set; }
         public string? SocialMediaInstagramURL { get; set; }

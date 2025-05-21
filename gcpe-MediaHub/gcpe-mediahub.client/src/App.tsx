@@ -11,11 +11,12 @@ import MediaLayout from './components/MediaLayout'; // Import MediaLayout
 
 // Pages
 import Home from './pages/Home/homePage';
-import Media from './pages/MediaRequests/requests'; // Note: This is likely MediaRequestsPage
-import Contacs from './pages/Contacts/contacts';   // Note: Typo in variable name, usually Contacts
-import Requests from './pages/Requests/requests.tsx'; // Corrected import for RequestsPage
-import NewRequest from './pages/Requests/newRequest'; // Import new request page
-import RequestsCardView from './pages/Requests/requestsCardView'; // Import card view page
+import Requests from './pages/Requests/requests.tsx';
+import NewRequest from './pages/Requests/newRequest';
+import RequestsCardView from './pages/Requests/requestsCardView';
+import Media from './pages/MediaRequests/requests';
+import Contacs from './pages/Contacts/contacts'; 
+import React from 'react';
 
 
 const router = createBrowserRouter([

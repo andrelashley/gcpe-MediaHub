@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { AuthenticationContext } from '../../App';
 //import { logout } from '../../services/Keycloak';
 import Layout from '../../components/Layout';
+import React from 'react';
 //import React from 'react';
 
 //const fetchRestictedContent = async (token: string, setMessage: any) => {
