@@ -1,6 +1,5 @@
 using gcpe_MediaHub.Server.Data;
 using gcpe_MediaHub.Server.Models.Repositories;
-using gcpe_MediaHub.Server.TestData;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +13,12 @@ builder.Services.AddDbContext<MediaHubContext>(options =>
     , o => o.UseCompatibilityLevel(120))); // "use compatibility" was added to deal with problems that arose when upgrading to .Net 8.0
 //builder.Services.AddScoped<IMediaContactRepository, MediaContactRepository>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -28,7 +32,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<MediaHubContext>();
-//    await context.Database.MigrateAsync();
+    await context.Database.MigrateAsync();
 }
 
 // Other service registrations...

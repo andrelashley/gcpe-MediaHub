@@ -1,8 +1,8 @@
 ﻿
 using gcpe_MediaHub.Server.Data;
-using gcpe_MediaHub.Server.TestData;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace gcpe_MediaHub.Server.Models.Repositories
 {
@@ -16,11 +16,20 @@ namespace gcpe_MediaHub.Server.Models.Repositories
 
         public async Task<IEnumerable<MediaContact>> GetAll()
         {
-            IEnumerable<MediaContact> contacts = await _context.MediaContacts
-              //  .Include(x => x.Outlets)
-               // .Include(x => x.Requests)
+            try
+            {
+                IEnumerable<MediaContact> contacts = await _context.MediaContacts
+                    .Include(x => x.Outlets)
+                    .Include(x => x.Requests)
                 .ToListAsync();
-            return contacts;       
+         
+                return contacts;
+            }
+            catch (Exception ex)
+            {
+                string x = ex.Message;
+                return null;
+            }
         }
     }
 }

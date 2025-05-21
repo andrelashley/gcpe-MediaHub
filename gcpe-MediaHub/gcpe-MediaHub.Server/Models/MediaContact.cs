@@ -27,7 +27,7 @@ namespace gcpe_MediaHub.Server.Models
         [BindRequired]
         public string? Location { get; set; }
   
-        public virtual IEnumerable<ContactOutlet>? Outlets { get; set; }
+        public virtual ICollection<ContactOutlet>? Outlets { get; set; }
         public virtual ICollection<MediaRequest>? Requests { get; set; }
 
         //[ForeignKey ("Id")]
