@@ -1,14 +1,19 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { useState, useEffect, useCallback } from 'react';
-import { initializeKeycloak } from './services/Keycloak';
+/* import { initializeKeycloak } from './services/keycloak'; */
 import { createContext } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; // Import React Query client and provider
 import {
     FluentProvider,
     makeStyles,
     webLightTheme,
 } from "@fluentui/react-components";
+import MediaLayout from './components/MediaLayout'; // Import MediaLayout
+
 // Pages
 import Home from './pages/Home/homePage';
+import Requests from './pages/Requests/requests.tsx';
+import NewRequest from './pages/Requests/newRequest';
+import RequestsCardView from './pages/Requests/requestsCardView';
 import Media from './pages/MediaRequests/requests';
 import Contacs from './pages/Contacts/contacts'; 
 import React from 'react';
@@ -17,15 +22,38 @@ import React from 'react';
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <Home />,
+        element: <Home />, // Home page renders directly
     },
     {
         path: '/Media',
-        element: <Media/>
+        element: <Media />, // Media page renders directly
     },
     {
         path: '/Contacts',
-        element: <Contacs/>
+        element: <Contacs />, // Contacts page renders directly
+    },
+    {
+        path: '/requests',
+        element: <MediaLayout />,
+        children: [
+            // replace table with card view
+            //{
+                //index: true,
+                //element: <Requests />,
+            //},
+            //{
+                //path: 'cardview',
+                //element: <RequestsCardView />,
+            //},
+            {
+                index: true,
+                element: <RequestsCardView />,
+            },
+            {
+                path: 'new',
+                element: <NewRequest />,
+            },
+        ],
     },
 ]);
 const useStyles = makeStyles({
@@ -35,31 +63,41 @@ const useStyles = makeStyles({
 });
 export const AuthenticationContext = createContext('authentication');
 
+// Create a client
+const queryClient = new QueryClient();
+
 function App() {
     /* authentication stuff */
-    const [keycloak, setKeycloak] = useState("");
+    /* const [keycloak, setKeycloak] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const initKeycloak = useCallback(async () => {
-        const _keycloak: any = await initializeKeycloak();
+        const _keycloak = await initializeKeycloak();
         setIsAuthenticated(_keycloak?.authenticated);
         setKeycloak(_keycloak);
     }, []);
 
     useEffect(() => {
         initKeycloak();
-    }, [initKeycloak]);
+    }, [initKeycloak]); */
 
     const styles = useStyles();
     return (
         <>
             <FluentProvider theme={webLightTheme} className={styles.root} >
-              
-            {isAuthenticated && (
-                <AuthenticationContext.Provider value={keycloak}>              
-                        <RouterProvider router={router} />
-                </AuthenticationContext.Provider>
-            )}
+                <QueryClientProvider client={queryClient}> {/* Wrap with QueryClientProvider */}
+                    {/* Ensure RouterProvider is active. If authentication is not yet implemented,
+                        render it directly. For now, I'll assume it should be active. */}
+                    <RouterProvider router={router} />
+                    {/*
+                    // Original authentication block, kept for reference if needed later
+                    {isAuthenticated && (
+                        <AuthenticationContext.Provider value={keycloak}>
+                                <RouterProvider router={router} />
+                        </AuthenticationContext.Provider>
+                    )}
+                    */}
+                </QueryClientProvider>
             </FluentProvider>
         </>
     );
