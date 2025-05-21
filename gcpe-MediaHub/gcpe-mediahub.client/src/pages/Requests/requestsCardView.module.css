@@ -1,14 +1,50 @@
+.layoutWrapper {
+    padding: 0 24px 24px 24px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.headerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 8px 0 12px 0;
+}
+
+.controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.searchAndFilterContainer {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.searchInput {
+    width: 300px;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding: 16px;
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .card {
     display: flex;
     flex-direction: column;
-    gap: 8px; /* Add spacing between lines */
+    gap: 8px;
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -16,6 +52,9 @@
     padding: 16px;
     width: 100%;
     box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .card h3 {
@@ -33,11 +72,13 @@
 .card p strong {
     color: #000;
 }
+
 .divider {
     border: none;
     border-top: 1px solid #ccc;
     margin: 8px 0;
 }
+
 .statusBadge {
     margin-left: auto;
     display: flex;
