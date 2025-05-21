@@ -34,28 +34,19 @@ const router = createBrowserRouter([
     },
     {
         path: '/requests',
-        element: <MediaLayout />, // MediaLayout is the parent ONLY for the /requests route
-        children: [
-            {
-                index: true, // This makes RequestsPage render at /requests
-                element: <Requests />,
-            },
-            {
-                path: 'new',
-                element: <NewRequest />,
-            },
-        ],
-    },
-    {
-        path: '/requests',
         element: <MediaLayout />,
         children: [
+            // replace table with card view
+            //{
+                //index: true,
+                //element: <Requests />,
+            //},
+            //{
+                //path: 'cardview',
+                //element: <RequestsCardView />,
+            //},
             {
                 index: true,
-                element: <Requests />,
-            },
-            {
-                path: 'cardview',
                 element: <RequestsCardView />,
             },
             {
