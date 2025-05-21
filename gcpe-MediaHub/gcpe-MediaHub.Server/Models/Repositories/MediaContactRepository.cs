@@ -16,16 +16,11 @@ namespace gcpe_MediaHub.Server.Models.Repositories
 
         public async Task<IEnumerable<MediaContact>> GetAll()
         {
-            try
-            {
-                IEnumerable<MediaContact> contacts = await _context.MediaContacts.ToListAsync();
-                return contacts;
-            }
-            catch(Exception ex)
-            {
-                string x = ex.Message;
-                return null;
-            }
+            IEnumerable<MediaContact> contacts = await _context.MediaContacts
+              //  .Include(x => x.Outlets)
+               // .Include(x => x.Requests)
+                .ToListAsync();
+            return contacts;       
         }
     }
 }

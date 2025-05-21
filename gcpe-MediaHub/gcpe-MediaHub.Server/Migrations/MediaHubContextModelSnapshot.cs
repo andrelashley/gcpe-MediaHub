@@ -46,7 +46,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasIndex("OutletId");
 
-                    b.ToTable("ContactOutlets");
+                    b.ToTable("ContactOutlets", (string)null);
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaContact", b =>
@@ -95,7 +95,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MediaContacts");
+                    b.ToTable("MediaContacts", (string)null);
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaOutlet", b =>
@@ -153,7 +153,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MediaOutlets");
+                    b.ToTable("MediaOutlets", (string)null);
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaRequest", b =>
@@ -197,7 +197,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasIndex("RequestBy");
 
-                    b.ToTable("MediaRequests");
+                    b.ToTable("MediaRequests", (string)null);
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.ContactOutlet", b =>

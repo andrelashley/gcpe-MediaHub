@@ -34,7 +34,7 @@ namespace gcpe_MediaHub.Server.Models
 
         [BindRequired]
         public int RequestedBy { get; set; }
-        [ForeignKey("RequestBy")]
+        [ForeignKey("RequestedBy")]
         public virtual MediaContact? Contact { get; set; }
 
         [BindRequired]
