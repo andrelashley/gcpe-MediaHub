@@ -15,6 +15,7 @@
 
 .mainContentWithDetail {
     width: 50%;
+    margin-right: 16px; /* Add space on the right of the card list */
 }
 
 .detailView {
