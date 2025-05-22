@@ -9,12 +9,17 @@ import {
     Input,
     Textarea,
     Button,
+    Link,
 } from '@fluentui/react-components';
 import { RequestStatus, RequestType, Ministry } from './types';
-import { CalendarEmpty24Regular } from '@fluentui/react-icons';
+import { CalendarEmpty24Regular, Dismiss24Regular } from '@fluentui/react-icons';
 import styles from './newRequest.module.css';
 
-const NewRequestPage: React.FC = () => {
+interface NewRequestPageProps {
+    onClose?: () => void;
+}
+
+const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
     const [status, setStatus] = React.useState<RequestStatus | null>(null);
     const [requestType, setRequestType] = React.useState<RequestType | null>(null);
     const [leadMinistry, setLeadMinistry] = React.useState<Ministry | null>(null);
@@ -51,7 +56,17 @@ const NewRequestPage: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            <Title1>Media Request</Title1>
+            <div className={styles.titleContainer}>
+                <Title1>New Media Request</Title1>
+                <div
+                    className={styles.dismissIcon}
+                    onClick={onClose}
+                    role="button"
+                    tabIndex={0}
+                >
+                    <Dismiss24Regular />
+                </div>
+            </div>
             <div className={styles.form}>
                 <Field
                     label="Status"
@@ -310,9 +325,7 @@ const NewRequestPage: React.FC = () => {
                 <div className={styles.buttonContainer}>
                     <Button
                         appearance="secondary"
-                        onClick={() => {
-                            // TODO: Handle cancel
-                        }}
+                        onClick={onClose}
                     >
                         Cancel
                     </Button>
