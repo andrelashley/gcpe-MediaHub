@@ -51,7 +51,7 @@ const NewRequestPage: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            <Title1>Media Request</Title1>
+            <Title1>New media Request</Title1>
             <div className={styles.form}>
                 <Field
                     label="Status"

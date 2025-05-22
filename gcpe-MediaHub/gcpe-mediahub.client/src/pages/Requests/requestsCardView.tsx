@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { Input, Badge, Tag, Tab, TabList, Avatar, TagGroup, Button, Title1 } from "@fluentui/react-components";
+import { Input, Badge, Tag, Tab, TabList, Avatar, TagGroup, Button, Title1, Divider, Drawer } from "@fluentui/react-components";
 import { CalendarEmptyRegular, Filter24Regular, Search16Regular } from "@fluentui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import { MediaRequest } from "../../api/apiClient";
 import { requestService } from "../../services/requestService";
 import styles from "./requestsCardView.module.css";
+import NewRequestPage from './newRequest';
 
 const RequestsCardView: React.FC = () => {
   const [globalFilter, setGlobalFilter] = useState("");
   const [selectedTab, setSelectedTab] = useState("all");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
   const { data: requests = [], isLoading, error } = useQuery<MediaRequest[], Error>({
     queryKey: ["requests"],
     queryFn: requestService.getRequests,
@@ -74,8 +77,9 @@ const RequestsCardView: React.FC = () => {
     <div className={styles.layoutWrapper}>
       <div className={styles.headerContainer}>
         <Title1>Media Request</Title1>
-        <Button appearance="primary">Create new</Button>
+        <Button appearance="primary" onClick={() => setIsDrawerOpen(true)}>Create new</Button>
       </div>
+
       <div className={styles.controls}>
         <TabList selectedValue={selectedTab} onTabSelect={(_, data) => setSelectedTab(data.value as string)}>
           <Tab value="all">All</Tab>
@@ -97,6 +101,7 @@ const RequestsCardView: React.FC = () => {
           </Button>
         </div>
       </div>
+
       <div className={styles.container}>
         {table.getRowModel().rows.map((row) => (
           <div key={row.id} className={styles.card}>
@@ -115,7 +120,7 @@ const RequestsCardView: React.FC = () => {
               <CalendarEmptyRegular />
               <span>{new Date(row.getValue("deadline")).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })}</span>
             </div>
-            <hr className={styles.divider} />
+            <Divider />
             <TagGroup>
               <Tag shape="circular" appearance="outline">{row.getValue("leadMinistry")}</Tag>
               {typeof row.getValue("additionalMinistry") === "string" && (
@@ -125,6 +130,19 @@ const RequestsCardView: React.FC = () => {
           </div>
         ))}
       </div>
+
+      <Drawer
+        type="overlay"
+        separator
+        position="end"
+        open={isDrawerOpen}
+        onOpenChange={(_, { open }) => setIsDrawerOpen(open)}
+        style={{ width: '650px' }}
+      >
+        <div className={styles.drawerContent}>
+          <NewRequestPage />
+        </div>
+      </Drawer>
     </div>
   );
 };

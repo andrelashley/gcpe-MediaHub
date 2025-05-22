@@ -1,33 +1,27 @@
 .container {
-    padding: 24px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    min-width: 600px;
 }
 
 .form {
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    max-width: 800px;
-    margin-top: 24px;
-    display: flex;
-    flex-direction: column;
     gap: 24px;
 }
 
-/* Make all form fields the same width */
+/* Make all form fields take full width */
 .form > div {
     width: 100%;
-    max-width: 600px;
+    min-width: 580px;
 }
 
-/* Ensure the field with date input container matches other fields */
+/* Ensure the field with date input container takes full width */
 .form > div > div {
     width: 100%;
-    max-width: 600px;
+    min-width: 580px;
 }
 
 .buttonContainer {
