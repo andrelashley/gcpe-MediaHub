@@ -7,11 +7,13 @@ import { MediaRequest } from "../../api/apiClient";
 import { requestService } from "../../services/requestService";
 import styles from "./requestsCardView.module.css";
 import NewRequestPage from './newRequest';
+import RequestDetailView from './requestDetailView';
 
 const RequestsCardView: React.FC = () => {
   const [globalFilter, setGlobalFilter] = useState("");
   const [selectedTab, setSelectedTab] = useState("all");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [selectedRequest, setSelectedRequest] = useState<MediaRequest | null>(null);
 
   const { data: requests = [], isLoading, error } = useQuery<MediaRequest[], Error>({
     queryKey: ["requests"],
@@ -75,7 +77,8 @@ const RequestsCardView: React.FC = () => {
 
   return (
     <div className={styles.layoutWrapper}>
-      <div className={styles.headerContainer}>
+      <div className={`${styles.mainContent} ${selectedRequest ? styles.mainContentWithDetail : ''}`}>
+        <div className={styles.headerContainer}>
         <Title1>Media Request</Title1>
         <Button appearance="primary" onClick={() => setIsDrawerOpen(true)}>Create new</Button>
       </div>
@@ -104,7 +107,14 @@ const RequestsCardView: React.FC = () => {
 
       <div className={styles.container}>
         {table.getRowModel().rows.map((row) => (
-          <div key={row.id} className={styles.card}>
+          <div
+            key={row.id}
+            className={styles.card}
+            onClick={() => setSelectedRequest(row.original as MediaRequest)}
+            role="button"
+            tabIndex={0}
+            style={{ cursor: 'pointer' }}
+          >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span>REQ-00001</span>
               <div className={styles.statusBadge}>
@@ -140,9 +150,16 @@ const RequestsCardView: React.FC = () => {
         style={{ width: '650px' }}
       >
         <div className={styles.drawerContent}>
-          <NewRequestPage />
+          <NewRequestPage onClose={() => setIsDrawerOpen(false)} />
         </div>
       </Drawer>
+      </div>
+      {selectedRequest && (
+        <RequestDetailView
+          request={selectedRequest}
+          onClose={() => setSelectedRequest(null)}
+        />
+      )}
     </div>
   );
 };
