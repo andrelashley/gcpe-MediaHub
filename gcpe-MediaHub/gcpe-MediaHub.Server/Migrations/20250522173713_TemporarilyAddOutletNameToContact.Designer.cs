@@ -12,8 +12,8 @@ using gcpe_MediaHub.Server.Data;
 namespace gcpe_MediaHub.Server.Migrations
 {
     [DbContext(typeof(MediaHubContext))]
-    [Migration("20250516230514_addedMissingFields")]
-    partial class addedMissingFields
+    [Migration("20250522173713_TemporarilyAddOutletNameToContact")]
+    partial class TemporarilyAddOutletNameToContact
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,11 +64,9 @@ namespace gcpe_MediaHub.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsPressGallery")
@@ -81,24 +79,18 @@ namespace gcpe_MediaHub.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MobilePhone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.PrimitiveCollection<string>("Outlets")
+                    b.Property<string>("OutletName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.PrimitiveCollection<string>("Requests")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SocialMediaInstagramURL")
@@ -163,7 +155,6 @@ namespace gcpe_MediaHub.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("WebsiteURL")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -180,11 +171,7 @@ namespace gcpe_MediaHub.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("LeadMinistry")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("RequestBy")
-                        .HasColumnType("int");
 
                     b.Property<string>("RequestType")
                         .IsRequired()
@@ -211,7 +198,7 @@ namespace gcpe_MediaHub.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RequestBy");
+                    b.HasIndex("RequestedBy");
 
                     b.ToTable("MediaRequests");
                 });
@@ -219,7 +206,7 @@ namespace gcpe_MediaHub.Server.Migrations
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.ContactOutlet", b =>
                 {
                     b.HasOne("gcpe_MediaHub.Server.Models.MediaContact", "Contact")
-                        .WithMany()
+                        .WithMany("Outlets")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -238,10 +225,19 @@ namespace gcpe_MediaHub.Server.Migrations
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaRequest", b =>
                 {
                     b.HasOne("gcpe_MediaHub.Server.Models.MediaContact", "Contact")
-                        .WithMany()
-                        .HasForeignKey("RequestBy");
+                        .WithMany("Requests")
+                        .HasForeignKey("RequestedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Contact");
+                });
+
+            modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaContact", b =>
+                {
+                    b.Navigation("Outlets");
+
+                    b.Navigation("Requests");
                 });
 #pragma warning restore 612, 618
         }
