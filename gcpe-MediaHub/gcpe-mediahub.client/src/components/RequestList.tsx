@@ -20,7 +20,17 @@ interface Request {
   createdBy: string;
 }
 
-const RequestList = ({ requests }: { requests: Request[] }) => {
+const RequestList = () => {
+    const [requests, setRequests] = React.useState<Request[]>([]);
+
+    React.useEffect(() => {
+        const fetchRequests = async () => {
+            const response = await fetch('/data/mock-requests.json');
+            const data = await response.json();
+            setRequests(data);
+        };
+        fetchRequests();
+    }, []);
   const navigate = useNavigate();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState<PaginationState>({

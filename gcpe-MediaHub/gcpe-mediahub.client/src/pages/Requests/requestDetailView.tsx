@@ -31,7 +31,9 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ request, onClose 
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <Text weight="semibold" style={{ width: '140px' }}>Requested By</Text>
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <Tag shape="circular" media={<Avatar name={request.requestedBy} size={24} />}>{request.requestedBy}</Tag>
+                        <Tag shape="circular" media={<Avatar name={request.requestedBy} size={24} />}>
+                            {request.requestedBy} - {request.outlet}
+                        </Tag>
                     </div>
                 </div>
 
@@ -39,7 +41,7 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ request, onClose 
                     <Text weight="semibold" style={{ width: '140px' }}>Deadline</Text>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <CalendarEmptyRegular />
-                        <Text>{new Date(request.deadline).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })}</Text>
+                        <Text>{request.deadline ? new Date(request.deadline).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" }) : 'N/A'}</Text>
                     </div>
                 </div>
 

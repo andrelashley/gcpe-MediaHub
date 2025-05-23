@@ -17,7 +17,7 @@ const RequestsCardView: React.FC = () => {
 
   const { data: requests = [], isLoading, error } = useQuery<MediaRequest[], Error>({
     queryKey: ["requests"],
-    queryFn: requestService.getRequests,
+    queryFn: requestService.getRequests, // Ensure consistency with the requests page
   });
 
   const columns = React.useMemo(
@@ -42,6 +42,10 @@ const RequestsCardView: React.FC = () => {
       {
         accessorKey: "additionalMinistry",
         header: "Additional Ministry",
+      },
+      {
+        accessorKey: "outlet",
+        header: "Outlet",
       },
       {
         accessorKey: "status",
@@ -105,7 +109,7 @@ const RequestsCardView: React.FC = () => {
         </div>
       </div>
 
-      <div className={styles.container}>
+      <div className={styles.container} style={{ overflowY: 'auto' }}>
         {table.getRowModel().rows.map((row) => (
           <div
             key={row.id}
@@ -124,7 +128,9 @@ const RequestsCardView: React.FC = () => {
             <h3>{row.getValue("requestTitle")}</h3>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <Avatar name={row.getValue("requestedBy")} size={24} />
-              <span>{row.getValue("requestedBy")}</span>
+              <span>
+                {row.getValue("requestedBy")} - {row.getValue("outlet")}
+              </span>
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <CalendarEmptyRegular />

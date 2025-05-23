@@ -28,7 +28,10 @@ function validateMockData(data: any[]): MediaRequest[] {
         requestType: item.requestType as RequestType,
         requestResolution: item.requestResolution as RequestResolution,
         leadMinistry: item.leadMinistry as Ministry,
-        additionalMinistry: item.additionalMinistry as Ministry | undefined
+        additionalMinistry: item.additionalMinistry as Ministry | undefined,
+        isPressGallery: item.isPressGallery, // New field added
+        outlet: item.outlet || "Unknown Outlet", // Ensure outlet field is handled
+        deadline: isNaN(Date.parse(item.deadline)) ? null : item.deadline // Handle invalid dates
     }));
 }
 
