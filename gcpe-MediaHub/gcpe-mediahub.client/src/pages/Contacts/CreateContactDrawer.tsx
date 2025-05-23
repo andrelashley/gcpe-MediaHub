@@ -204,6 +204,12 @@ export const CreateContactDrawer = () => {
                     <Button icon={<AddCircle24Regular />} className={styles.addButton} title="this has no functionality yet">
                         Add Outlet
                     </Button>
+                    <Divider/>
+                    <label htmlFor="interests-section">Interests and Outreach</label>
+                    <div id="interests-section" className={styles.outletsSection}>
+                        {/* this too should be a separate component */}
+                
+                    </div>
                 </DrawerBody>
             </OverlayDrawer>
 
@@ -214,12 +220,6 @@ export const CreateContactDrawer = () => {
             >
                 Create
             </Button>
-            <Divider/>
-            <label htmlFor="interests-section">Interests and Outreach</label>
-            <div id="interests-section">
-                {/* this too should be a separate component */}
-                className={styles.outletsSection}
-            </div>
         </div>
     );
 };
