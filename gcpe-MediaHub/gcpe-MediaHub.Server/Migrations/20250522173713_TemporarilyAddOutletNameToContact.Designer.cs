@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using gcpe_MediaHub.Server.Data;
 
@@ -11,9 +12,11 @@ using gcpe_MediaHub.Server.Data;
 namespace gcpe_MediaHub.Server.Migrations
 {
     [DbContext(typeof(MediaHubContext))]
-    partial class MediaHubContextModelSnapshot : ModelSnapshot
+    [Migration("20250522173713_TemporarilyAddOutletNameToContact")]
+    partial class TemporarilyAddOutletNameToContact
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

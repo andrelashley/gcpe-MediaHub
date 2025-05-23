@@ -26,6 +26,8 @@ namespace gcpe_MediaHub.Server.Models
         public string? SocialMediaInstagramURL { get; set; }
         [BindRequired]
         public string? Location { get; set; }
+ 
+        public string? OutletName { get; set; }
   
         public virtual ICollection<ContactOutlet>? Outlets { get; set; }
         public virtual ICollection<MediaRequest>? Requests { get; set; }

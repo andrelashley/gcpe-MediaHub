@@ -4,6 +4,8 @@ import Layout from '../../components/Layout';
 import MediaContact from '../../models/MediaContact';
 import ContactsTable from './ContactsTable';
 import { useState, useEffect } from 'react';
+import CreateContactButton from './CreateContactButton';
+import CreateContactDrawer from './CreateContactDrawer';
 //import { AuthenticationContext } from '../../App';
 //import React from 'react';
 // import MediaContact from '../../models/mediaContact';
@@ -20,14 +22,15 @@ import { useState, useEffect } from 'react';
 
 
 const MediaContacts = () => {
-    const [contacts, setContacts] = useState<MediaContact[]>([]);
+    const [contacts, setContacts] = useState<any[]>([]);
 
 
     const fetchContacts = async () => {
         const response = await fetch('mediacontacts');
         const data = await response.json();
-        console.log(JSON.stringify(data));
-        const contacts: MediaContact[] = data as MediaContact[];
+        //console.log(JSON.stringify(data));
+        const contacts: any[] = data as any[];
+        console.log(JSON.stringify(contacts[0]));
         setContacts(contacts);
     };
 
@@ -37,7 +40,7 @@ const MediaContacts = () => {
 
     return (
         <div>
-            <Layout title={"Media Contacts"} selectedNavItem={"3"}>
+            <Layout title={"Media Contacts"} selectedNavItem={"3"} headingButton={<CreateContactButton />} >
                 <ContactsTable items={contacts} />
             </Layout>
         </div>

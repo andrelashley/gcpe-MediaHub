@@ -11,12 +11,12 @@ namespace gcpe_MediaHub.Server.Models
         [Required]
         public int ContactId { get; set; }
         [ForeignKey("ContactId")]
-        public virtual MediaContact? Contact { get; set; }
+        public MediaContact? Contact { get; set; }
 
         [Required]
         public int OutletId { get; set; }
         [ForeignKey("OutletId")]
-        public virtual MediaOutlet? Outlet { get; set; }
+        public MediaOutlet? Outlet { get; set; }
 
         [Required]
         public string? ContactEmail { get; set; }

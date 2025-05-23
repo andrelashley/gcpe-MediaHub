@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IMediaContactRepository, MediaContactRepository>();
+builder.Services.AddScoped<IMediaOutletRepository, MediaOutletRepository>();
 //    builder.Services.AddSingleton(dataContext);
 /* end of json test data concerns */
 builder.Services.AddDbContext<MediaHubContext>(options =>
     options
     .UseSqlServer(builder.Configuration.GetConnectionString("MediaHubContext") ?? throw new InvalidOperationException("Connection string 'Service_BillingContext' not found.")
     , o => o.UseCompatibilityLevel(120))); // "use compatibility" was added to deal with problems that arose when upgrading to .Net 8.0
-//builder.Services.AddScoped<IMediaContactRepository, MediaContactRepository>();
+
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

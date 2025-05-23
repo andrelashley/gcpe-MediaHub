@@ -12,13 +12,14 @@ export class MediaContact {
     location: string;
     lastActive: Date;
 
-    constructor(firstName: string, lastName: string, email: string, phone: string, location: string, lastActive: Date) {
+    constructor(firstName: string, lastName: string, email: string, phone: string, location: string, lastActive: Date, mediaRequests: MediaRequest[] = []) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
         this.phone = phone;
         this.location = location;
-        this.lastActive = lastActive
+        this.lastActive = lastActive;
+        this.mediaRequests = mediaRequests;
     }
 }
 
