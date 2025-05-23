@@ -11,7 +11,7 @@ interface RequestDetailViewProps {
 
 const RequestDetailView: React.FC<RequestDetailViewProps> = ({ request, onClose }) => {
     return (
-        <div className={styles.detailView}>
+        <div className={styles.detailView} style={{ position: 'sticky', top: 0 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                 <Text weight="semibold">REQ-0001</Text>
                 <Badge shape="circular" appearance="filled">{request.status}</Badge>

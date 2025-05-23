@@ -17,7 +17,7 @@ const RequestsCardView: React.FC = () => {
 
   const { data: requests = [], isLoading, error } = useQuery<MediaRequest[], Error>({
     queryKey: ["requests"],
-    queryFn: requestService.getRequests, // Ensure consistency with the requests page
+    queryFn: requestService.getRequests,
   });
 
   const columns = React.useMemo(
@@ -81,70 +81,84 @@ const RequestsCardView: React.FC = () => {
 
   return (
     <div className={styles.layoutWrapper}>
-      <div className={`${styles.mainContent} ${selectedRequest ? styles.mainContentWithDetail : ''}`}>
-        <div className={styles.headerContainer}>
-        <Title1>Media Request</Title1>
-        <Button appearance="primary" onClick={() => setIsDrawerOpen(true)}>Create new</Button>
-      </div>
-
-      <div className={styles.controls}>
-        <TabList selectedValue={selectedTab} onTabSelect={(_, data) => setSelectedTab(data.value as string)}>
-          <Tab value="all">All</Tab>
-        </TabList>
-        <div className={styles.searchAndFilterContainer}>
-          <Input
-            contentBefore={<Search16Regular />}
-            placeholder="Search requests"
-            value={globalFilter}
-            onChange={(_, data) => setGlobalFilter(data.value || "")}
-            className={styles.searchInput}
-          />
-          <Button
-            icon={<Filter24Regular />}
-            appearance="outline"
-            className={styles.filterButton}
-          >
-            Filter
-          </Button>
-        </div>
-      </div>
-
-      <div className={styles.container} style={{ overflowY: 'auto' }}>
-        {table.getRowModel().rows.map((row) => (
-          <div
-            key={row.id}
-            className={styles.card}
-            onClick={() => setSelectedRequest(row.original as MediaRequest)}
-            role="button"
-            tabIndex={0}
-            style={{ cursor: 'pointer' }}
-          >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span>REQ-00001</span>
-              <div className={styles.statusBadge}>
-                <Badge shape="circular" appearance="filled">{row.getValue("status")}</Badge>
-              </div>
-            </div>
-            <h3>{row.getValue("requestTitle")}</h3>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Avatar name={row.getValue("requestedBy")} size={24} />
-              <span>
-                {row.getValue("requestedBy")} - {row.getValue("outlet")}
-              </span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <CalendarEmptyRegular />
-              <span>{new Date(row.getValue("deadline")).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })}</span>
-            </div>
-            <Divider />
-            <TagGroup>
-              <Tag shape="circular" appearance="outline">{row.getValue("leadMinistry")}</Tag>
-              {typeof row.getValue("additionalMinistry") === "string" && (
-                <Tag shape="circular" appearance="outline">{row.getValue("additionalMinistry") as string}</Tag>
-              )}
-            </TagGroup>
+      <div className={`${styles.mainContent} ${selectedRequest ? styles.mainContentWithDetail : ''}`} style={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
+        <div style={{ width: '100%', overflowY: 'auto', maxHeight: '100%', padding: '20px' }}>
+          <div className={styles.headerContainer}>
+            <Title1>Media Request</Title1>
+            <Button appearance="primary" onClick={() => setIsDrawerOpen(true)}>Create new</Button>
           </div>
-        ))}
+
+          <div className={styles.controls}>
+            <TabList selectedValue={selectedTab} onTabSelect={(_, data) => setSelectedTab(data.value as string)}>
+              <Tab value="all">All</Tab>
+            </TabList>
+            <div className={styles.searchAndFilterContainer}>
+              <Input
+                contentBefore={<Search16Regular />}
+                placeholder="Search requests"
+                value={globalFilter}
+                onChange={(_, data) => setGlobalFilter(data.value || "")}
+                className={styles.searchInput}
+              />
+              <Button
+                icon={<Filter24Regular />}
+                appearance="outline"
+                className={styles.filterButton}
+              >
+                Filter
+              </Button>
+            </div>
+          </div>
+
+          <div className={styles.container}>
+            {table.getRowModel().rows.map((row) => (
+              <div
+                key={row.id}
+                className={styles.card}
+                onClick={() => setSelectedRequest(row.original as MediaRequest)}
+                role="button"
+                tabIndex={0}
+                style={{ cursor: 'pointer' }}
+              >
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span>REQ-00001</span>
+                    <div className={styles.statusBadge}>
+                      <Badge shape="circular" appearance="filled">{row.getValue("status")}</Badge>
+                    </div>
+                  </div>
+                  <h3>{row.getValue("requestTitle")}</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Avatar name={row.getValue("requestedBy")} size={24} />
+                    <span>
+                      {row.getValue("requestedBy")} - {row.getValue("outlet")}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <CalendarEmptyRegular />
+                    <span>{new Date(row.getValue("deadline")).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })}</span>
+                  </div>
+                  <Divider />
+                  <TagGroup className={styles.ministryTags}>
+                    <Tag shape="circular" appearance="outline">{row.getValue("leadMinistry")}</Tag>
+                    {typeof row.getValue("additionalMinistry") === "string" && (
+                      <Tag shape="circular" appearance="outline">{row.getValue("additionalMinistry") as string}</Tag>
+                    )}
+                  </TagGroup>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {selectedRequest && (
+          <div style={{ width: '60%', position: 'sticky', top: 0, height: '100%', overflow: 'hidden' }}>
+            <RequestDetailView
+              request={selectedRequest}
+              onClose={() => setSelectedRequest(null)}
+            />
+          </div>
+        )}
       </div>
 
       <Drawer
@@ -159,13 +173,6 @@ const RequestsCardView: React.FC = () => {
           <NewRequestPage onClose={() => setIsDrawerOpen(false)} />
         </div>
       </Drawer>
-      </div>
-      {selectedRequest && (
-        <RequestDetailView
-          request={selectedRequest}
-          onClose={() => setSelectedRequest(null)}
-        />
-      )}
     </div>
   );
 };
