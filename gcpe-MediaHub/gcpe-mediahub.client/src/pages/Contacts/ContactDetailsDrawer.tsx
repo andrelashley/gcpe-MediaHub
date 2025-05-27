@@ -25,10 +25,14 @@ import {
 } from "@fluentui/react-components";
 import { Dismiss24Regular, AddCircle24Regular, SubtractCircle24Regular } from "@fluentui/react-icons";
 import type { CheckboxProps, TagPickerProps } from "@fluentui/react-components";
-import OutletDetails from "../../components/OutletDetails";
+import OutletDetails from "./OutletDetails";
+import ContactRelatedItemsList from "./ContactRelatedItemsList";
 
 
 const useStyles = makeStyles({
+    drawer: {
+        width: "425px",
+    },
     formGroup: {
         display: "inline-flex",
 
@@ -83,6 +87,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                 {...restoreFocusSourceAttributes}
                 open={isOpen && contact}
                 onOpenChange={(_, { open }) => isOpen(open)}
+                className={styles.drawer}
             >
                 <DrawerHeader>
                     <DrawerHeaderTitle
@@ -111,21 +116,11 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                 </DrawerHeader>
 
                 <DrawerBody>
-                    <div className={styles.formGroup}>
-                        <h2>Outlets</h2>
-                        <Button
-                            appearance="primary"
-                            icon={<AddCircle24Regular />} title="this has no functionality yet">
-                            Outlet
-                        </Button>
-                    </div>
-
-                    {contact.outlets &&
-                        contact.outlets.map((outlet: any) => (
-                            <div className={styles.outletsSection}>
-                                <OutletDetails outlet={outlet} />
-                            </div>
-                        ))}
+                    <ContactRelatedItemsList
+                        outlets={contact.outlets}
+                        requests={contact.requests}
+                    />
+                 
                 </DrawerBody>
             </OverlayDrawer>
         </div>

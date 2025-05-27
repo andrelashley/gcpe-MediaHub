@@ -17,7 +17,7 @@ namespace gcpe_MediaHub.Server.Models
         [BindRequired]
         public string NewsDeskPhone { get; set; }
         [BindRequired]
-        public IEnumerable<string> MediaTypes { get; set; }
+        public string? MediaTypes { get; set; }
         //[Required]
         //public IEnumerable<string> Languages { get; set; }
         [BindRequired]
