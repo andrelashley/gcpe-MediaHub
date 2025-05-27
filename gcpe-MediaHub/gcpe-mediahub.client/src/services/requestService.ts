@@ -31,7 +31,7 @@ function validateMockData(data: any[]): MediaRequest[] {
         additionalMinistry: item.additionalMinistry as Ministry | undefined,
         isPressGallery: item.isPressGallery, // New field added
         outlet: item.outlet || "Unknown Outlet", // Ensure outlet field is handled
-        deadline: isNaN(Date.parse(item.deadline)) ? null : item.deadline // Handle invalid dates
+        deadline: item.deadline && !isNaN(Date.parse(item.deadline)) ? item.deadline : "Invalid Date" as string // Handle invalid dates
     }));
 }
 
