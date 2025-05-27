@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { Field, Input, makeStyles } from '@fluentui/react-components';
-import MediaOutlet from '../models/MediaOutlet';
+import MediaOutlet from '../../models/MediaOutlet';
 
 
 interface OutletDetailsProps {

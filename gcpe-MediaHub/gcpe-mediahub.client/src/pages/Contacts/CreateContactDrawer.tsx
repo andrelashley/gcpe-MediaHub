@@ -27,6 +27,9 @@ import type { CheckboxProps, TagPickerProps } from "@fluentui/react-components";
 
 
 const useStyles = makeStyles({
+    drawer: {
+        width: "425px",
+    },
     formGroup: {
         display: "inline-flex",
     },  
@@ -76,6 +79,7 @@ export const CreateContactDrawer = () => {
                 {...restoreFocusSourceAttributes}
                 open={isOpen}
                 onOpenChange={(_, { open }) => setIsOpen(open)}
+                className={styles.drawer}
             >
                 <DrawerHeader>
                     <DrawerHeaderTitle

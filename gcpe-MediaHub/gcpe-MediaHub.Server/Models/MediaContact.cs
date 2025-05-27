@@ -32,10 +32,6 @@ namespace gcpe_MediaHub.Server.Models
         public virtual ICollection<ContactOutlet>? Outlets { get; set; }
         public virtual ICollection<MediaRequest>? Requests { get; set; }
 
-        //[ForeignKey ("Id")]
-        //public virtual IEnumerable<ContactOutlet> Outlets { get; set; }
-        //   public IEnumerable<MediaRequest>? Requests { get; set; }
-        //   public string[]? Requests { get; set; } // TODO: should ultimately be a collection, not a string
         public DateTime? LastActive { get; set; }
 
     }

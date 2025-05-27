@@ -130,7 +130,10 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                                 </TableCell>
                                 <TableCell>
                                     <TableCellLayout>
-                                        {item.phone}
+                                        {item.phone ?
+                                            (item.phone)
+                                            : (item.mobilePhone)
+                                        }
                                     </TableCellLayout>
                                 </TableCell>
                                 <TableCell>

@@ -28,9 +28,8 @@ const MediaContacts = () => {
     const fetchContacts = async () => {
         const response = await fetch('mediacontacts');
         const data = await response.json();
-        //console.log(JSON.stringify(data));
         const contacts: any[] = data as any[];
-        console.log(JSON.stringify(contacts[0]));
+        console.log(JSON.stringify(contacts[2]));
         setContacts(contacts);
     };
 

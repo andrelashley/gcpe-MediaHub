@@ -21,19 +21,20 @@ namespace gcpe_MediaHub.Server.Models.Repositories
         {
             try
             {
+
                 IEnumerable<MediaContact> contacts = await _context.MediaContacts
-                    .Include(x => x.Outlets)  /*No clue why this isn't working */
+                    .Include(x => x.Outlets).ThenInclude(y => y.Outlet)  /*No clue why this isn't working */
                     .Include(x => x.Requests)
                 .ToListAsync();
                 /*well, this sucks */
-                foreach(MediaContact contact in contacts)
+                foreach (MediaContact contact in contacts)
                 {
-                   contact.Outlets = _context.ContactOutlets.Where(x => x.ContactId == contact.Id).ToList();
+                    contact.Outlets = _context.ContactOutlets.Where(x => x.ContactId == contact.Id).ToList();
                     //booooo! 
-                    //foreach (ContactOutlet contactOutlet in contact.Outlets)
-                    //{
-                    //    contactOutlet.Outlet = await _mediaOutletRepository.GetOutletById(contactOutlet.OutletId);
-                    //}
+                    foreach (ContactOutlet contactOutlet in contact.Outlets)
+                    {
+                        contactOutlet.Outlet = await _mediaOutletRepository.GetOutletById(contactOutlet.OutletId);
+                    }
                 }
                 return contacts;
             }
