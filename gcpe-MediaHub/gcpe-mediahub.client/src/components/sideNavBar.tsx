@@ -78,7 +78,7 @@ export const SideNavbar = (props: Partial<NavDrawerProps>) => {
                     <NavItem href={'./'} value="1">
                         Home
                     </NavItem>
-                    <NavItem href={'./Media'} value="2">
+                    <NavItem href={'./requests'} value="2">
                         Media Requests
                     </NavItem>
                     <NavItem href={'./Contacts'} value="3">

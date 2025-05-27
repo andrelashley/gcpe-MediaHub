@@ -8,6 +8,7 @@ export type RequestResolution = 'DeclinedToComment' | 'ProvidedBackgrounder' | '
 export type Ministry = 'ENV' | 'FIN' | 'FOR' | 'HLTH' | 'HOUS';
 
 export interface MediaRequest {
+    outlet?: string; // Added outlet field
     isPressGallery: boolean;
     requestId: string;
     status: RequestStatus;
@@ -15,7 +16,7 @@ export interface MediaRequest {
     requestType: RequestType;
     requestedBy: string;
     receivedOn: string;
-    deadline: string;
+    deadline: string | null; // Allow null for invalid dates
     requestDetails: string;
     requestResolution: RequestResolution;
     leadMinistry: Ministry;
