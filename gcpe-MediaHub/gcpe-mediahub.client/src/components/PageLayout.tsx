@@ -35,6 +35,7 @@ const useStyles = makeStyles({
 });
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children }) => {
+    const [contactDetailsOpen, setContactDetailsOpen] = React.useState(false);
   const styles = useStyles();
 
   return (

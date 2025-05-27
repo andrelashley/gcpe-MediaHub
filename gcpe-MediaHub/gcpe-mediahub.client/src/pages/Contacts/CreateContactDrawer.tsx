@@ -208,7 +208,32 @@ export const CreateContactDrawer = () => {
                     <label htmlFor="interests-section">Interests and Outreach</label>
                     <div id="interests-section" className={styles.outletsSection}>
                         {/* this too should be a separate component */}
-                
+                        <Field label="Cities">
+                            <Combobox>
+                                <option>Prince George</option>
+                                <option>Cranbrook</option>
+                                <option>Kamloops</option>
+                                <option>Kimberley</option>
+                                <option>Vancouver</option>
+                                <option>Victoria</option>
+                            </Combobox>
+                        </Field>
+                        <Field label="Regions">
+                            <Combobox>
+                            </Combobox>
+                        </Field>
+                        <Field label="Topics">
+                            <Combobox>
+                            </Combobox>
+                        </Field>
+                        <Field label="Send to">
+                            <Combobox>
+                            </Combobox>
+                        </Field>
+                        <Field label="Distribution lists">
+                            <Combobox>
+                            </Combobox>
+                        </Field>
                     </div>
                 </DrawerBody>
             </OverlayDrawer>

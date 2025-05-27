@@ -22,7 +22,8 @@ import {
 
 
 import MediaContact from "../../models/MediaContact";
-import React from "react";
+import React, { useState } from "react";
+import ContactDetailsDrawer from "./ContactDetailsDrawer";
 
 
 const useStyles = makeStyles({
@@ -59,10 +60,20 @@ interface TableProps {
 }
 
 const ContactsTable: React.FC<TableProps> = ({ items }) => {
+    const [contactDetailsOpen, setContactDetailsOpen] = useState(false);
+    const [currentContact, setCurrentContact] = useState<any>(null);
+    const closeContactDetails = () => {
+        setContactDetailsOpen(false);
+    }
     const styles = useStyles();
     {
         items === undefined &&
             console.log("UNDEFINED!");
+    }
+
+    const openDetails = (contact: any) => {
+        setContactDetailsOpen(true);
+        setCurrentContact(contact);
     }
     //const dateOptions: Intl.DateTimeFormatOptions = {
     //    day: "numeric", month: "numeric", year: "numeric",
@@ -93,7 +104,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                 <TableBody>
                     {items &&
                         items.map((item) => (
-                            <TableRow key={item.id}>
+                            <TableRow key={item.id} onClick={() => openDetails(item)}>
                                 <TableCell>
                                     <TableCellLayout>
                                         {item.firstName} {item.lastName}
@@ -147,6 +158,9 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                         ))}
                 </TableBody>
             </Table>
+            {currentContact &&
+                <ContactDetailsDrawer contact={currentContact} isOpen={contactDetailsOpen} closeContactDetails={closeContactDetails} />
+            }
         </div>
     );
 }
