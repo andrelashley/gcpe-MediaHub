@@ -73,6 +73,11 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-word;
+    transition: background-color 0.2s ease;
+}
+
+.selectedCard {
+    background-color: #d0d0d0;
 }
 
 .card h3 {
