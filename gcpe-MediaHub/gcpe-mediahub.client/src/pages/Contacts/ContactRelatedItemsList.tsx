@@ -42,7 +42,7 @@ interface ContactItemsListProps {
 
 const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({outlets, requests, mailingLists }) => {
     const styles = useStyles();
-
+    console.log(JSON.stringify(outlets));
     const [selectedValue, setSelectedValue] =
         React.useState<TabValue>("conditions");
     
@@ -56,7 +56,7 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({outlets, requ
         <div role="tabpanel" aria-labelledby="Workplaces">
             {outlets &&
                 outlets.map((outlet) => (
-                    <OutletDetails outlet={outlet} key={outlet.Id} />
+                    <OutletDetails key={outlet.id} outlet={outlet}/>
                 ))}
         </div>
     )); 
