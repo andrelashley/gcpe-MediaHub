@@ -1,0 +1,61 @@
+import React, { ReactNode } from 'react';
+import { Badge, Divider, Field, InfoLabel, Input, Label, makeStyles, Tag, TagGroup } from '@fluentui/react-components';
+
+
+import { ViewDesktopMobileRegular, MailRegular, WarningRegular } from "@fluentui/react-icons";
+interface RequestDetailsProps {
+    request: any;
+}
+
+const useStyles = makeStyles({
+    container: {
+        border: "1px solid #ccc!important",
+        padding: "4px",
+        width: "100%",
+        marginBottom: "6px",
+        borderRadius: "6px",
+    },
+    inline: {
+        display: "inline-flex",
+        width: "100%",
+    },
+    requestName: {
+        fontWeight: "600",
+    },
+    warning: {
+        color: "orange",
+        display: "inline-flex",
+    },
+    floatRight: {
+        position: "absolute",
+        right: "60px",
+    }
+});
+
+const RequestDetails: React.FC<RequestDetailsProps> = ({ request }) => {
+    const styles = useStyles();
+    console.log(JSON.stringify(request));
+    return (
+        <div className={styles.container}>
+            <div className={styles.inline}>
+                <div>{request.id}</div>
+                <div className={styles.floatRight}>
+                    <Badge>
+                    Created
+                    </Badge>
+                </div>
+            </div>
+            <div className={styles.requestName}>{request.title}</div>
+            <div>{request.deadline? request.deadline : "deadline goes here"} </div>
+            <Divider />
+            <TagGroup>
+                {request.leadMinistry ? 
+                    <Tag shape="circular" appearance="outline">{request.leadMinistry}</Tag> :
+                    <Tag shape="circular" appearance="outline">Ministry</Tag>
+                    }
+            </TagGroup>
+        </div>
+    );
+}
+
+export default RequestDetails

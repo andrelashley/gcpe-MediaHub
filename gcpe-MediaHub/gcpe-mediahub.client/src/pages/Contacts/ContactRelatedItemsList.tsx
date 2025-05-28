@@ -7,6 +7,8 @@ import type {
     TabValue,
 } from "@fluentui/react-components";
 import OutletDetails from "./OutletDetails";
+import { useState } from "react";
+import RequestDetails from "./RequestDetails";
 
 const useStyles = makeStyles({
     root: {
@@ -42,9 +44,11 @@ interface ContactItemsListProps {
 
 const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({outlets, requests, mailingLists }) => {
     const styles = useStyles();
-    console.log(JSON.stringify(outlets));
+    const [currentPastAll, setCurrentPastAll] = useState<string>("all");
+
+  //  console.log(JSON.stringify(outlets));
     const [selectedValue, setSelectedValue] =
-        React.useState<TabValue>("conditions");
+        React.useState<TabValue>("workplaces");
     
     const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
         console.log(data.value);
@@ -57,13 +61,18 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({outlets, requ
             {outlets &&
                 outlets.map((outlet) => (
                     <OutletDetails key={outlet.id} outlet={outlet}/>
-                ))}
+                    ))
+                }
         </div>
     )); 
 
     const Requests = React.memo(() => (
         <div role="tabpanel" aria-labelledby="Requests">
-            {JSON.stringify(requests)}
+            {requests && 
+                requests.map((request) => (
+                    <RequestDetails key={request.id} request={request } />
+                ))
+            }
         </div>
     )); 
 

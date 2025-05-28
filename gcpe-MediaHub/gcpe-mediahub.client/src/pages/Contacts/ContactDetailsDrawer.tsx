@@ -60,6 +60,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
     const restoreFocusSourceAttributes = useRestoreFocusSource();
 
     const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
+
     const languageOptions = [
         "English",
         "French",
