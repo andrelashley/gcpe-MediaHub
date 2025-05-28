@@ -114,7 +114,7 @@ const RequestsCardView: React.FC = () => {
             {table.getRowModel().rows.map((row) => (
               <div
                 key={row.id}
-                className={styles.card}
+                className={`${styles.card} ${selectedRequest?.requestTitle === row.original.requestTitle ? styles.selectedCard : ''}`}
                 onClick={() => setSelectedRequest(row.original as MediaRequest)}
                 role="button"
                 tabIndex={0}
@@ -122,7 +122,7 @@ const RequestsCardView: React.FC = () => {
               >
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span>REQ-00001</span>
+                    <span>{row.original.requestNo}</span>
                     <div className={styles.statusBadge}>
                       <Badge shape="circular" appearance="filled">{row.getValue("status")}</Badge>
                     </div>
@@ -152,7 +152,7 @@ const RequestsCardView: React.FC = () => {
         </div>
 
         {selectedRequest && (
-          <div style={{ width: '60%', position: 'sticky', top: 0, height: '100%', overflow: 'hidden' }}>
+          <div style={{ width: '90%', position: 'sticky', top: 0, height: '100%', overflow: 'hidden' }}>
             <RequestDetailView
               request={selectedRequest}
               onClose={() => setSelectedRequest(null)}
