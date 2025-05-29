@@ -1,5 +1,5 @@
 
-import React from 'react';
+
 import Layout from '../../components/Layout';
 // import MediaContact from '../../models/MediaContact';
 import ContactsTable from './ContactsTable';

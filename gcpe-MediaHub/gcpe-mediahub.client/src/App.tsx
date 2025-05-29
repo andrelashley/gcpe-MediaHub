@@ -15,7 +15,6 @@ import NewRequest from './pages/Requests/newRequest';
 import RequestsCardView from './pages/Requests/requestsCardView';
 import Media from './pages/MediaRequests/requests';
 import Contacs from './pages/Contacts/contacts'; 
-import React from 'react';
 
 
 const router = createBrowserRouter([
