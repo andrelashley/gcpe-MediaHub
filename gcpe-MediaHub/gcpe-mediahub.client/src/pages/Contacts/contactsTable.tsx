@@ -9,15 +9,13 @@ import {
     TableHeader,
     TableHeaderCell,
     TableCellLayout,
-    //PresenceBadgeStatus,
-    //Avatar,
     Tag,
     makeStyles,
     TagGroup,
     SearchBox,
     Text,
 } from "@fluentui/react-components";
-
+import { FilterRegular } from "@fluentui/react-icons";
 
 // import MediaContact from "../../models/MediaContact";
 import React, { useState } from "react";
@@ -36,8 +34,11 @@ const useStyles = makeStyles({
     searchELement: {
         display: "flex",
     },
-    leftElements: {
-        alignSelf: "flex-end"
+    marginLeftAuto: {
+        marginLeft: "auto",
+    },
+    rightMargin: {
+        marginRight: "10px",
     },
 });
 
@@ -82,9 +83,13 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             {/*  This section could maybe be a separate component*/}
             <div className={styles.searchELement}>
                 <Text>All</Text>
-                <div className={styles.leftElements}>
-                    <SearchBox contentBefore={<Text size={400}>Search:</Text>} title={"this doesn't do anything yet."} />
-                    <Button title={"this doesn't do anything yet."}>Filter</Button>
+                <div className={styles.marginLeftAuto}>
+                    <SearchBox
+                        contentBefore={<Text size={400}>Search:</Text>}
+                        title={"this doesn't do anything yet."}
+                        className={styles.rightMargin}
+                    />
+                    <Button title={"this doesn't do anything yet."} icon={<FilterRegular /> }>Filter</Button>
 
                 </div>
             </div>
