@@ -1,8 +1,6 @@
-import React, { ReactNode } from 'react';
-import { Badge, Divider, Field, InfoLabel, Input, Label, makeStyles, Tag, TagGroup } from '@fluentui/react-components';
+import React from 'react';
+import { Badge, Divider, makeStyles, Tag, TagGroup } from '@fluentui/react-components';
 
-
-import { ViewDesktopMobileRegular, MailRegular, WarningRegular } from "@fluentui/react-icons";
 interface RequestDetailsProps {
     request: any;
 }

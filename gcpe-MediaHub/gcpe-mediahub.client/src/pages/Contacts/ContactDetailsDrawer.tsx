@@ -6,26 +6,14 @@ import {
     OverlayDrawer,
     Button,
     useRestoreFocusSource,
-    useRestoreFocusTarget,
-    Field,
-    Input,
-    Checkbox,
-    TagPicker,
-    TagPickerList,
-    TagPickerGroup,
-    TagPickerInput,
-    Tag,
-    TagPickerControl,
-    TagPickerOption,
-    makeStyles,
-    Select,
-    Divider,
-    Combobox,
+
     TagGroup,
+    makeStyles,
+    Tag,
 } from "@fluentui/react-components";
-import { Dismiss24Regular, AddCircle24Regular, SubtractCircle24Regular } from "@fluentui/react-icons";
-import type { CheckboxProps, TagPickerProps } from "@fluentui/react-components";
-import OutletDetails from "./OutletDetails";
+import { Dismiss24Regular } from "@fluentui/react-icons";
+
+//import OutletDetails from "./OutletDetails";
 import ContactRelatedItemsList from "./ContactRelatedItemsList";
 
 
@@ -59,26 +47,6 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
     // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
     const restoreFocusSourceAttributes = useRestoreFocusSource();
 
-    const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
-
-    const languageOptions = [
-        "English",
-        "French",
-        "Chinese",
-        "Tagalog",
-        "Hindi",
-    ];
-
-    const onOptionSelect: TagPickerProps["onOptionSelect"] = (e, data) => {
-        if (data.value === "no-options") {
-            return;
-        }
-        setSelectedOptions(data.selectedOptions);
-    };
-
-    const tagPickerOptions = languageOptions.filter(
-        (option) => !selectedOptions.includes(option)
-    );
 
     return (
         /*we can probably break some of this out into separate components*/
@@ -87,7 +55,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                 as="aside"
                 {...restoreFocusSourceAttributes}
                 open={isOpen && contact}
-                onOpenChange={(_, { open }) => isOpen(open)}
+                onOpenChange={(_, { open }) => isOpen = open}
                 className={styles.drawer}
             >
                 <DrawerHeader>

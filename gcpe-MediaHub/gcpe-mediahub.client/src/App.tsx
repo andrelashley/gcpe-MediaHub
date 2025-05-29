@@ -11,7 +11,6 @@ import MediaLayout from './components/MediaLayout'; // Import MediaLayout
 
 // Pages
 import Home from './pages/Home/homePage';
-import Requests from './pages/Requests/requests.tsx';
 import NewRequest from './pages/Requests/newRequest';
 import RequestsCardView from './pages/Requests/requestsCardView';
 import Media from './pages/MediaRequests/requests';

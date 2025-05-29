@@ -1,7 +1,7 @@
 import React from 'react';
-import PageHeading from './pageHeading';
+import PageHeading from './PageHeading';
 import { makeStyles } from '@fluentui/react-components';
-import Header from './header';
+import Header from './Header';
 import SideNavbar from './sideNavBar';
 
 const useStyles = makeStyles({

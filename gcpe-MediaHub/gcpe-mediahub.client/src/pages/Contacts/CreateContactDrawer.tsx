@@ -23,7 +23,7 @@ import {
     Combobox,
 } from "@fluentui/react-components";
 import { Dismiss24Regular, AddCircle24Regular, SubtractCircle24Regular } from "@fluentui/react-icons";
-import type { CheckboxProps, TagPickerProps } from "@fluentui/react-components";
+import type { TagPickerProps } from "@fluentui/react-components";
 
 
 const useStyles = makeStyles({
@@ -62,7 +62,7 @@ export const CreateContactDrawer = () => {
 
     const onOptionSelect: TagPickerProps["onOptionSelect"] = (e, data) => {
         if (data.value === "no-options") {
-            return;
+            return e;
         }
         setSelectedOptions(data.selectedOptions);
     };

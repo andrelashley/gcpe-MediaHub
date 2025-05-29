@@ -1,11 +1,10 @@
 
 import React from 'react';
 import Layout from '../../components/Layout';
-import MediaContact from '../../models/MediaContact';
+// import MediaContact from '../../models/MediaContact';
 import ContactsTable from './ContactsTable';
 import { useState, useEffect } from 'react';
 import CreateContactButton from './CreateContactButton';
-import CreateContactDrawer from './CreateContactDrawer';
 //import { AuthenticationContext } from '../../App';
 //import React from 'react';
 // import MediaContact from '../../models/mediaContact';

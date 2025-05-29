@@ -14,14 +14,12 @@ import {
     Tag,
     makeStyles,
     TagGroup,
-    Tab,
-    TabList,
     SearchBox,
     Text,
 } from "@fluentui/react-components";
 
 
-import MediaContact from "../../models/MediaContact";
+// import MediaContact from "../../models/MediaContact";
 import React, { useState } from "react";
 import ContactDetailsDrawer from "./ContactDetailsDrawer";
 
