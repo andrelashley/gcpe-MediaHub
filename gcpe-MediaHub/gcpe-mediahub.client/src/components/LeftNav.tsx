@@ -136,13 +136,17 @@ const LeftNav = () => {
                             </NavSubItem>
                             <NavSubItem
                                 value={navConfig.outlets.value}
-                                onClick={() => handleNavigation(navConfig.outlets.path)}
+                                onClick={(e) => e.preventDefault()} // Disable click functionality
+                                aria-disabled="true" // Add accessibility attribute
+                                style={{ color: 'grey', pointerEvents: 'none' }} // Greyed out style
                             >
-                                Outlets
+                                Organizations
                             </NavSubItem>
                             <NavSubItem
                                 value={navConfig.distributionList.value}
-                                onClick={() => handleNavigation(navConfig.distributionList.path)}
+                                onClick={(e) => e.preventDefault()} // Disable click functionality
+                                aria-disabled="true" // Add accessibility attribute
+                                style={{ color: 'grey', pointerEvents: 'none' }} // Greyed out style
                             >
                                 Distribution List
                             </NavSubItem>
