@@ -26,9 +26,25 @@ const useStyles = makeStyles({
         color: "orange",
         display: "inline-flex",
     },
-    floatRight: {
-        position: "absolute",
-        right: "60px",
+    badge: {
+        marginLeft: "10%",
+    },
+    input: {
+        marginTop: "5px",
+        marginBottom: "5px",
+        display: "inline-block",
+        marginLeft: "20px",
+    },
+    label: {
+        display: "inline-block",
+        float: "left",
+        paddingTop: "5px",
+        textAlign: "right",
+        width: "50px",
+    },
+    icon: {
+        fontSize: "large",
+        paddingTop: "5px",
     },
 });
 
@@ -44,31 +60,50 @@ const OutletDetails: React.FC<OutletDetailsProps> = ({ outlet }) => {
                         Reporter
                     </div>
                     {outlet.outlet.isMajorMedia &&
-                        <div className={styles.floatRight}>
+                        <div className={styles.badge}>
                         <Badge>! Major</Badge>
                     </div>
                     }
                 </div>
             </Field>
             <Field className={styles.inline}>
-                <ViewDesktopMobileRegular />
-                <Label htmlFor="primaryPhone-input" style={{ paddingInlineEnd: "12px" }}>Phone: </Label>
-                <Input readOnly={true} value={outlet.phonePrimary} id="primaryPhone-input" />
+                <ViewDesktopMobileRegular className={styles.icon} />
+                <Label htmlFor="primaryPhone-input" style={{ paddingInlineEnd: "12px" }} className={styles.label}>Phone: </Label>
+                <Input
+                    readOnly={true}
+                    value={outlet.phonePrimary}
+                    id="primaryPhone-input"
+                    type="tel"
+                    className={styles.input}
+            
+                />
             </Field>
             <Field className={styles.inline}>
-                <ViewDesktopMobileRegular />
-                <Label htmlFor="mobile-input" style={{ paddingInlineEnd: "12px" }}>Mobile: </Label>
-                <Input readOnly={true} value={outlet.phoneMobile} id="mobile-input" />
+                <ViewDesktopMobileRegular className={styles.icon} />
+                <Label htmlFor="mobile-input" style={{ paddingInlineEnd: "12px" }} className={styles.label}>Mobile: </Label>
+                <Input
+                    readOnly={true}
+                    value={outlet.phoneMobile}
+                    id="mobile-input"
+                    type="tel"
+                    className={styles.input}
+                />
             </Field>
             <Field className={styles.inline}>
-                <MailRegular />
-                <Label htmlFor="email-input" style={{ paddingInlineEnd: "12px" }}>Email:</Label>
-                <Input readOnly={true} value={outlet.contactEmail} id="email-input" />
+                <MailRegular className={styles.icon} />
+                <Label htmlFor="email-input" style={{ paddingInlineEnd: "12px" }} className={styles.label}>Email:</Label>
+                <Input
+                    readOnly={true}
+                    value={outlet.contactEmail}
+                    id="email-input"
+                    type="email"
+                    className={styles.input}
+                />
             </Field>
             {outlet.lastRequestDate &&
             <div className={styles.warning} >
                     <WarningRegular />
-                    <Input readOnly={true} value={outlet.lastRequestDate} />
+                    <Input readOnly={true} value={outlet.lastRequestDate} type="date"/>
                 </div>
            }
         </div>

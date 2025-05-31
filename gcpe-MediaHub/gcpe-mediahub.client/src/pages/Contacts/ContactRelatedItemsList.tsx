@@ -1,10 +1,12 @@
 import * as React from "react";
-import { makeStyles, tokens, Tab, TabList } from "@fluentui/react-components";
+import { makeStyles, tokens, Tab, TabList, TagGroup, Tag, InteractionTag, InteractionTagPrimary } from "@fluentui/react-components";
 
 import type {
     SelectTabData,
     SelectTabEvent,
     TabValue,
+    TagGroupProps,
+    TagValue,
 } from "@fluentui/react-components";
 import OutletDetails from "./OutletDetails";
 
@@ -42,46 +44,74 @@ interface ContactItemsListProps {
     mailingLists?: any[];
 }
 
-const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({outlets, requests }) => {
+const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, requests }) => {
     const styles = useStyles();
 
 
-  //  console.log(JSON.stringify(outlets));
+    //  console.log(JSON.stringify(outlets));
     const [selectedValue, setSelectedValue] =
         React.useState<TabValue>("workplaces");
-    
+
     const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
-        console.log(data.value);
         setSelectedValue(data.value);
         return event;
     };
 
-   
+
+    const [selectedTag, setSelectedTag] = React.useState<TagValue>();
+
+    const onWorkPlaceTagSelect: TagGroupProps["onTagSelect"] = (_e, { value }) => {
+        console.log("onWorkplaceTagSelect");
+        setSelectedTag(value);
+        console.log(selectedTag)
+    };
+
     const Workplaces = React.memo(() => (
         <div role="tabpanel" aria-labelledby="Workplaces">
+            <TagGroup
+                onTagSelect={onWorkPlaceTagSelect}
+                aria-label="Filter by All associations, or current or former associations"
+            >
+                <InteractionTag>
+                    <InteractionTagPrimary>
+                        All
+                    </InteractionTagPrimary>
+                </InteractionTag>
+                <InteractionTag>
+                    <InteractionTagPrimary>
+                        Current
+                    </InteractionTagPrimary>
+                </InteractionTag>
+
+                <InteractionTag>
+                    <InteractionTagPrimary>
+                        Former
+                    </InteractionTagPrimary>
+                </InteractionTag>
+            </TagGroup>
             {outlets &&
                 outlets.map((outlet) => (
-                    <OutletDetails key={outlet.id} outlet={outlet}/>
-                    ))
-                }
-        </div>
-    )); 
-
-    const Requests = React.memo(() => (
-        <div role="tabpanel" aria-labelledby="Requests">
-            {requests && 
-                requests.map((request) => (
-                    <RequestDetails key={request.id} request={request } />
+                    <OutletDetails key={outlet.id} outlet={outlet} />
                 ))
             }
         </div>
-    )); 
+    ));
+
+    const Requests = React.memo(() => (
+        <div role="tabpanel" aria-labelledby="Requests">
+            {requests &&
+                requests.map((request) => (
+                    <RequestDetails key={request.id} request={request} />
+                ))
+            }
+        </div>
+    ));
 
     const MailingLists = React.memo(() => (
         <div role="tabpanel" aria-labelledby="Mailing Lists">
             mailing lists
         </div>
-    )); 
+    ));
 
     return (
         <div className={styles.root}>

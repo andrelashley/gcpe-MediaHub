@@ -19,7 +19,7 @@ import ContactRelatedItemsList from "./ContactRelatedItemsList";
 
 const useStyles = makeStyles({
     drawer: {
-        width: "425px",
+        width: "650px",
     },
     formGroup: {
         display: "inline-flex",
@@ -57,6 +57,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                 open={isOpen && contact}
                 onOpenChange={(_, { open }) => isOpen = open}
                 className={styles.drawer}
+                position="end"
             >
                 <DrawerHeader>
                     <DrawerHeaderTitle

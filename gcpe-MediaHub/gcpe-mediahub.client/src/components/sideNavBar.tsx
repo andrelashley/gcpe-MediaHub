@@ -61,23 +61,17 @@ export const SideNavbar = (props: Partial<NavDrawerProps>) => {
                 open={true}
                 type={'inline'}
                 className={styles.nav}
-                selectedValue={props.selectedValue ? props.selectedValue : "1"}
+                selectedValue={props.selectedValue ? props.selectedValue : "2"}
                 defaultSelectedCategoryValue=""
 
             >
                 <NavDrawerHeader>
-                    <div>
-                        Nav Bar Header
-                    </div>
                     {/*<Tooltip content="Close Navigation" relationship="label">*/}
                     {/*    <Hamburger onClick={() => setIsOpen(!isOpen)} />*/}
                     {/*</Tooltip>*/}
                 </NavDrawerHeader>
 
                 <NavDrawerBody>
-                    <NavItem href={'./'} value="1">
-                        Home
-                    </NavItem>
                     <NavItem href={'./requests'} value="2">
                         Media Requests
                     </NavItem>

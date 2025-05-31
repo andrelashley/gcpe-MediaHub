@@ -28,7 +28,7 @@ import type { TagPickerProps } from "@fluentui/react-components";
 
 const useStyles = makeStyles({
     drawer: {
-        width: "425px",
+        width: "650px",
     },
     formGroup: {
         display: "inline-flex",
@@ -80,6 +80,7 @@ export const CreateContactDrawer = () => {
                 open={isOpen}
                 onOpenChange={(_, { open }) => setIsOpen(open)}
                 className={styles.drawer}
+                position="end"
             >
                 <DrawerHeader>
                     <DrawerHeaderTitle

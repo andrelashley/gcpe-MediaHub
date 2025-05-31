@@ -16,6 +16,7 @@ const useStyles = makeStyles({
     inline: {
         display: "inline-flex",
         width: "100%",
+        justifyContent: "space-between",
     },
     requestName: {
         fontWeight: "600",
@@ -25,8 +26,7 @@ const useStyles = makeStyles({
         display: "inline-flex",
     },
     floatRight: {
-        position: "absolute",
-        right: "60px",
+        
     }
 });
 
