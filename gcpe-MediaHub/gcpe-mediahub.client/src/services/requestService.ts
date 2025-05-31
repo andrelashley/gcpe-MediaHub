@@ -13,10 +13,7 @@ function isValidMediaRequest(request: any): request is MediaRequest {
         typeof request.requestId === 'string' &&
         typeof request.status === 'string' &&
         ['New', 'Pending', 'Rejected', 'Reviewed', 'Scheduled', 'Unavailable', 'Approved', 'Completed'].includes(request.status) &&
-        typeof request.requestType === 'string' &&
-        ['Information', 'Interview', 'Scrum/Halls'].includes(request.requestType) &&
-        ['ENV', 'FIN', 'FOR', 'HLTH', 'HOUS'].includes(request.leadMinistry) &&
-        (!request.additionalMinistry || ['ENV', 'FIN', 'FOR', 'HLTH', 'HOUS'].includes(request.additionalMinistry))
+        typeof request.requestType === 'string'
     );
 }
 

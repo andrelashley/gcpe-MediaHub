@@ -33,7 +33,18 @@ const RequestsCardView: React.FC = () => {
       {
         accessorKey: "deadline",
         header: "Deadline",
-        cell: (info: any) => new Date(info.getValue()).toLocaleDateString(),
+        cell: (info: any) => {
+            const dateValue = info.getValue();
+            if (!dateValue || typeof dateValue !== "string") {
+                return "Invalid Date";
+            }
+            try {
+                const parsedDate = new Date(dateValue);
+                return isNaN(parsedDate.getTime()) ? "Invalid Date" : parsedDate.toLocaleDateString();
+            } catch (error) {
+                return "Invalid Date";
+            }
+        },
       },
       {
         accessorKey: "leadMinistry",
@@ -84,7 +95,7 @@ const RequestsCardView: React.FC = () => {
       <div className={`${styles.mainContent} ${selectedRequest ? styles.mainContentWithDetail : ''}`} style={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
         <div style={{ width: '100%', overflowY: 'auto', maxHeight: '100%', padding: '20px' }}>
           <div className={styles.headerContainer}>
-            <Title1>Media Request</Title1>
+            <Title1>Media Requests</Title1>
             <Button appearance="primary" onClick={() => setIsDrawerOpen(true)}>Create new</Button>
           </div>
 
