@@ -279,6 +279,8 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                     <Dropdown
                         placeholder="Select additional ministry"
                         selectedOptions={additionalMinistry ? [additionalMinistry] : []}
+                        size="medium"
+                        multiselect
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
                                 setAdditionalMinistry(data.optionValue as Ministry);
