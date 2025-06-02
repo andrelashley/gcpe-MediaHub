@@ -1,0 +1,20 @@
+[ 
+  {
+    "id": 2,
+    "firstName": "Cindy",
+    "lastName": "Harnett",
+    "isPressGallery": false,
+    "jobTitle": "Reporter",
+    "email": "ceharnett@timescolonist.com",
+    "phone": "250-380-5348",
+    "mobilePhone": "250-213-3603",
+    "callInPhone": "",
+    "socialMediaXURL": "http://www.twitter.com/cindyeharnett",
+    "socialMediaInstagramURL": "",
+    "location": "Victoria",
+    "outletName": "Victoria Times Colonist",
+    "outlets": [],
+    "requests": [],
+    "lastActive": null
+  }
+]
