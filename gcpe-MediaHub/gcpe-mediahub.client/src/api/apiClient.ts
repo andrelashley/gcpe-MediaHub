@@ -39,5 +39,49 @@ export const apiClient = {
             console.error('Error fetching requests:', error);
             throw error;
         }
+    },
+
+    async get<T>(url: string): Promise<{ data: T }> {
+        const response = await fetch(`${BASE_URL}${url}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return { data };
+    },
+
+    async post<T>(url: string, body: any): Promise<{ data: T }> {
+        const response = await fetch(`${BASE_URL}${url}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return { data };
+    },
+
+    async put<T>(url: string, body: any): Promise<{ data: T }> {
+        const response = await fetch(`${BASE_URL}${url}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body),
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return { data };
+    },
+
+    async delete(url: string): Promise<void> {
+        const response = await fetch(`${BASE_URL}${url}`, {
+            method: 'DELETE',
+        });
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
     }
 };
