@@ -5,6 +5,8 @@ import Layout from '../../components/Layout';
 import ContactsTable from './contactsTable';
 import { useState, useEffect } from 'react';
 import CreateContactButton from './CreateContactButton';
+import { contactService } from '../../services/contactService';
+import { useQuery } from '@tanstack/react-query';
 //import { AuthenticationContext } from '../../App';
 //import React from 'react';
 // import MediaContact from '../../models/mediaContact';
@@ -21,12 +23,16 @@ import CreateContactButton from './CreateContactButton';
 
 
 const MediaContacts = () => {
+    //const { data: contacts = [] } = useQuery<any[], Error>({
+    //    queryKey: ["contacts"],
+    //    queryFn: contactService.getContacts,
+    //});
     const [contacts, setContacts] = useState<any[]>([]);
 
 
     const fetchContacts = async () => {
         // const response = await fetch('mediacontacts');
-        const response = await fetch('/data/mock-contacts.json');
+        const response = await fetch('../../data/mock-contacts.json');
         const data = await response.json();
         const contacts: any[] = data as any[];
         console.log(JSON.stringify(contacts[2]));
