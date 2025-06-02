@@ -25,7 +25,8 @@ const MediaContacts = () => {
 
 
     const fetchContacts = async () => {
-        const response = await fetch('mediacontacts');
+        // const response = await fetch('mediacontacts');
+        const response = await fetch('/data/mock-contacts.json');
         const data = await response.json();
         const contacts: any[] = data as any[];
         console.log(JSON.stringify(contacts[2]));

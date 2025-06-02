@@ -1,5 +1,5 @@
 import * as React from "react";
-import { makeStyles, tokens, Tab, TabList, TagGroup, Tag, InteractionTag, InteractionTagPrimary } from "@fluentui/react-components";
+import { makeStyles, tokens, Tab, TabList, TagGroup, InteractionTag, InteractionTagPrimary } from "@fluentui/react-components";
 
 import type {
     SelectTabData,
@@ -61,9 +61,9 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
     const [selectedTag, setSelectedTag] = React.useState<TagValue>();
 
     const onWorkPlaceTagSelect: TagGroupProps["onTagSelect"] = (_e, { value }) => {
-        console.log("onWorkplaceTagSelect");
+ //       console.log("onWorkplaceTagSelect");
         setSelectedTag(value);
-        console.log(selectedTag)
+   //     console.log(selectedTag)
     };
 
     const Workplaces = React.memo(() => (

@@ -26,6 +26,48 @@ export interface MediaRequest {
     notifiedRecipients: string;
 }
 
+export interface MediaContact {
+    id: number,
+    firstName: string,
+    lastName: string,
+    isPressGallery: boolean,
+    jobTitle: string,
+    email: string,
+    phone: string,
+    mobilePhone: string,
+    callInPhone: string,
+    socialMediaXURL: string,
+    socialMediaInstagramURL: string,
+    location: string,
+    outletName: string,
+    outlets: any[],
+    requests: any[],
+    lastActive: Date
+}
+
+export interface MediaOutlet {
+    id: number,
+    contactId: number,
+    //   contact: null,
+    outletId: number,
+    outlet: {
+        id: number,
+        name: string,
+        email: string,
+        primaryPhone: string,
+        newsDeskPhone: string,
+        mediaTypes: string,
+        language: string,
+        languageShortName: string,
+        isMajorMedia: boolean,
+        websiteURL: string,
+        socialMediaXURL: string,
+        socialMediaInstagramURL: string,
+        address: string,
+        location: string
+    }
+}
+
 export const apiClient = {
     async getRequests(): Promise<MediaRequest[]> {
         try {
@@ -37,6 +79,21 @@ export const apiClient = {
             return data;
         } catch (error) {
             console.error('Error fetching requests:', error);
+            throw error;
+        }
+    },
+
+    async getContacts(): Promise<MediaContact[]> {
+        try {
+            console.log("apiClient.getContacts");
+            const response = await fetch(`${BASE_URL}/contacts`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching contacts:', error);
             throw error;
         }
     }
