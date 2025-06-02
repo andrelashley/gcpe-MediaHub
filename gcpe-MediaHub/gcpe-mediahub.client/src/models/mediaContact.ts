@@ -1,5 +1,5 @@
-import MediaOutlet from './MediaOutlet';
-import MediaRequest from './MediaRequest';
+import MediaOutlet from './mediaOutlet';
+import MediaRequest from './mediaRequest';
 
 export class MediaContact {
     id: number = 0;
