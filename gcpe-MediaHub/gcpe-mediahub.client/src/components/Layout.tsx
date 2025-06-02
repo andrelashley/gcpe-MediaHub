@@ -1,15 +1,19 @@
 import React from 'react';
 import PageHeading from './pageHeading';
 import { makeStyles } from '@fluentui/react-components';
-import Header from './header';
-import SideNavbar from './sideNavBar';
+//import SideNavbar from './sideNavBar';
+import LeftNav from './LeftNav';
+import Header from './MediaHeader';
 
 const useStyles = makeStyles({
 	mainContainer: {
 		display: "inline-flex",
+		width: "100vw"
 	},
 	pageContent: {
 		marginLeft: "40px",
+		marginRight: "40px",
+		width: "100%",
 	}
 }
 );
@@ -28,7 +32,7 @@ const Layout: React.FC<LayoutProps> = (props: LayoutProps) => {
 		<div>
 			<Header />
 			<div className={styles.mainContainer} >
-				<SideNavbar selectedValue={props.selectedNavItem} />
+				<LeftNav />
 				<main className={styles.pageContent} >
 					<PageHeading title={props.title} button={props.headingButton} />
 					{props.children}
