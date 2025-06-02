@@ -30,7 +30,7 @@
   flex: 1;
   padding: 16px;
   box-sizing: border-box;
-  overflow-y: auto;
+  /*overflow-y: hidden;*/
   min-height: calc(100vh - 56px); /* Full height minus header */
   max-width: calc(100vw - 250px); /* Prevent content from going under nav */
 }
