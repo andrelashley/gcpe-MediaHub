@@ -4,7 +4,7 @@ import { apiClient } from '../api/apiClient';
 async function loadMockData(): Promise<any[]> {
 
         console.log("contactService.loadMockData");
-        const response = await fetch('/data/mock-contacts.json');
+        const response = await fetch('../dist/data/mock-contacts.json');
         console.log(response);
         console.log(JSON.stringify(response));
         return response.json();
