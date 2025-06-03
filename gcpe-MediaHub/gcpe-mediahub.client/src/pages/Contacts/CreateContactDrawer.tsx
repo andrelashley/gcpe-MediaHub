@@ -21,6 +21,7 @@ import {
     Select,
     Divider,
     Combobox,
+    Title1,
 } from "@fluentui/react-components";
 import { Dismiss24Regular, AddCircle24Regular, SubtractCircle24Regular } from "@fluentui/react-icons";
 import type { TagPickerProps } from "@fluentui/react-components";
@@ -39,6 +40,7 @@ const useStyles = makeStyles({
 
     outletsSection: {
         border: "1px solid #ccc!important",
+        padding: "8px",
     }
 }
 );
@@ -93,7 +95,7 @@ export const CreateContactDrawer = () => {
                             />
                         }
                     >
-                        New Contact
+                        <Title1>New Contact</Title1>
                     </DrawerHeaderTitle>
                 </DrawerHeader>
 
@@ -114,19 +116,18 @@ export const CreateContactDrawer = () => {
                             selectedOptions={selectedOptions}
                         >
                             <TagPickerControl>
-                                <TagPickerGroup aria-label="Selected Employees">
+                                <TagPickerGroup aria-label="Selected Languages">
                                     {selectedOptions.map((option) => (
                                         <Tag
                                             key={option}
                                             shape="rounded"
-                                          
                                             value={option}
                                         >
                                             {option}
                                         </Tag>
                                     ))}
                                 </TagPickerGroup>
-                                <TagPickerInput aria-label="Select Employees" />
+                                <TagPickerInput aria-label="Select languages" />
                             </TagPickerControl>
                             <TagPickerList>
                                 {tagPickerOptions.length > 0 ? (
@@ -157,7 +158,6 @@ export const CreateContactDrawer = () => {
                     <Field label="Social Media">
                         <Select>
                             <option></option>
-                            <option>faXcist owned media</option>
                             <option>Instagram</option>
                             <option>Social Media Option 3</option>
                         </Select>
