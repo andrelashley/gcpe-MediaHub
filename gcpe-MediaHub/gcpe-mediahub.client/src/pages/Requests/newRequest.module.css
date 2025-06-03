@@ -4,6 +4,7 @@
     flex-direction: column;
     min-width: 600px;
     position: relative;
+    overflow-x: hidden;
 }
 
 .titleContainer {
