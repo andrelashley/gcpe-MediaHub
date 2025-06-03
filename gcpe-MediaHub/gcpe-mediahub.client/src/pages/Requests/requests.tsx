@@ -7,13 +7,15 @@ import {
     getPaginationRowModel,
     useReactTable,
 } from '@tanstack/react-table';
-import { Title1, Input, Button, TabList, Tab, Tag, Avatar, Link } from '@fluentui/react-components';
+import { Title1, Input, Button, TabList, Tab, Tag, Avatar, Link, Drawer } from '@fluentui/react-components';
 import { PressGalleryBadge } from '../../components/PressGalleryBadge';
 import { Search24Regular, Filter24Regular, Add24Regular } from '@fluentui/react-icons';
 import { useNavigate } from 'react-router-dom';
 import { MediaRequest } from '../../api/apiClient';
 import { RequestStatus, Ministry } from './types';
 import { requestService } from '../../services/requestService';
+import RequestDetailView from './requestDetailView';
+import NewRequestPage from './newRequest';
 import styles from './requests.module.css';
 
 const columnHelper = createColumnHelper<MediaRequest>();
@@ -84,6 +86,8 @@ const RequestsPage: React.FC = () => {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTab, setSelectedTab] = useState<string>("all");
+    const [selectedRequest, setSelectedRequest] = useState<MediaRequest | null>(null);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     const { data: requests = [], isLoading, error } = useQuery<MediaRequest[], Error>({
         queryKey: ['requests'],
@@ -123,9 +127,7 @@ const RequestsPage: React.FC = () => {
         },
     });
 
-    const handleNewRequest = () => {
-        navigate('/requests/new');
-    };
+    const [isNewRequestDrawerOpen, setIsNewRequestDrawerOpen] = useState(false);
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error loading requests: {error.message}</div>;
@@ -137,7 +139,7 @@ const RequestsPage: React.FC = () => {
                 <Button
                     icon={<Add24Regular />}
                     appearance="primary"
-                    onClick={handleNewRequest}
+                    onClick={() => setIsNewRequestDrawerOpen(true)}
                 >
                     Create
                 </Button>
@@ -163,6 +165,36 @@ const RequestsPage: React.FC = () => {
                         Filter
                     </Button>
                 </div>
+    
+                <Drawer
+                    type="overlay"
+                    separator
+                    position="end"
+                    open={isDrawerOpen}
+                    onOpenChange={(_, { open }) => setIsDrawerOpen(open)}
+                    style={{ width: '650px' }}
+                >
+                    {selectedRequest && (
+                        <RequestDetailView
+                            request={selectedRequest}
+                            onClose={() => {
+                                setIsDrawerOpen(false);
+                                setSelectedRequest(null);
+                            }}
+                        />
+                    )}
+                </Drawer>
+    
+                <Drawer
+                    type="overlay"
+                    separator
+                    position="end"
+                    open={isNewRequestDrawerOpen}
+                    onOpenChange={(_, { open }) => setIsNewRequestDrawerOpen(open)}
+                    style={{ width: '650px' }}
+                >
+                    <NewRequestPage onClose={() => setIsNewRequestDrawerOpen(false)} />
+                </Drawer>
             </div>
 
             <div>
@@ -185,7 +217,14 @@ const RequestsPage: React.FC = () => {
                     </thead>
                     <tbody>
                         {table.getRowModel().rows.map(row => (
-                            <tr key={row.id}>
+                            <tr
+                                key={row.id}
+                                onClick={() => {
+                                    setSelectedRequest(row.original);
+                                    setIsDrawerOpen(true);
+                                }}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 {row.getVisibleCells().map(cell => (
                                     <td key={cell.id}>
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
