@@ -60,7 +60,3 @@ TestResult.xml
 nunit-*.xml
 /gcpe-MediaHub/.vs
 /gcpe-MediaHub/gcpe-mediahub.client/node_modules
-
-# Local development files - keep local only
-/gcpe-MediaHub/gcpe-mediahub.client/src/pages/Requests/
-/gcpe-MediaHub/gcpe-mediahub.client/src/components/RequestList.tsx
