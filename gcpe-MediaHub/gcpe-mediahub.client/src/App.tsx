@@ -11,8 +11,8 @@ import MediaLayout from './components/MediaLayout'; // Import MediaLayout
 
 // Pages
 import Home from './pages/Home/homePage';
-import NewRequest from './pages/Requests/newRequest';
 import RequestsCardView from './pages/Requests/requestsCardView';
+import Requests from './pages/Requests/requests';
 import Media from './pages/MediaRequests/requests';
 import Contacs from './pages/Contacts/contacts'; 
 
@@ -34,23 +34,14 @@ const router = createBrowserRouter([
         path: '/requests',
         element: <MediaLayout />,
         children: [
-            // replace table with card view
-            //{
-                //index: true,
-                //element: <Requests />,
-            //},
-            //{
-                //path: 'cardview',
-                //element: <RequestsCardView />,
-            //},
             {
                 index: true,
                 element: <RequestsCardView />,
             },
             {
-                path: 'new',
-                element: <NewRequest />,
-            },
+                path: 'tableview',
+                element: <Requests />,
+            }
         ],
     },
 ]);
