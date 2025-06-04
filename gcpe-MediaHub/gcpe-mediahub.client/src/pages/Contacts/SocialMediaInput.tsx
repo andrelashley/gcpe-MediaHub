@@ -16,7 +16,11 @@ const useStyles = makeStyles({
     },
 });
 
-const SocialMediaInput = () => {
+interface SocialMediaInputProps {
+    onRemove: () => void;
+}
+
+const SocialMediaInput: React.FC<SocialMediaInputProps> = ({onRemove}) => {
     const styles = useStyles();
 
     return (
@@ -33,7 +37,12 @@ const SocialMediaInput = () => {
                     <Input placeholder="https://" />
                 </div>
                 <div>
-                    <Button appearance="subtle" icon={<SubtractCircle24Regular />} title="this has no functionality yet" />
+                    <Button
+                        appearance="subtle"
+                        icon={<SubtractCircle24Regular />}
+                        onClick={onRemove}
+                        title="Remove this social media input"
+                    />
                 </div>
         </div>
             </Field>

@@ -25,6 +25,8 @@ import {
 import { Dismiss24Regular, AddCircle24Regular} from "@fluentui/react-icons";
 import type { TagPickerProps } from "@fluentui/react-components";
 import SocialMediaInput from "./SocialMediaInput";
+import { useState } from "react";
+import MediaOutletInput from "./MediaOutletInput";
 
 
 const useStyles = makeStyles({
@@ -48,15 +50,30 @@ const useStyles = makeStyles({
 export const CreateContactDrawer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
 
-    const handleAddSocial = () => {
-  
-    }
+    // for tracking social media link inputs
+    const [socialMediaInputs, setSocialMediaInputs] = useState<number[]>([1]);
+    const addSocialMediaInput = () => {
+        setSocialMediaInputs([...socialMediaInputs, socialMediaInputs.length]);
+    };
+    const removeSocialMediaInput = (index: number) => {
+        setSocialMediaInputs(socialMediaInputs.filter((_, i) => i !== index));
+    };
+    // end of social media link tracking
+    // for tracking social media link inputs
+    const [outletInputs, setOutletInputs] = useState<number[]>([1]);
+    const addOutletInput = () => {
+        setOutletInputs([...outletInputs, outletInputs.length]);
+    };
+    const removeOutletInput = (index: number) => {
+        setOutletInputs(outletInputs.filter((_, i) => i !== index));
+    };
+    // end of social media link tracking
+
     const styles = useStyles();
     // all Drawers need manual focus restoration attributes
     // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
     const restoreFocusTargetAttributes = useRestoreFocusTarget();
     const restoreFocusSourceAttributes = useRestoreFocusSource();
-
     const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
     const languageOptions = [
         "English",
@@ -159,59 +176,33 @@ export const CreateContactDrawer = () => {
          
                     {/*this should for shizz be its own component*/}
                     <div id="socialMedia">
-                        <SocialMediaInput />
+                        {socialMediaInputs.map((_, index) => (
+                            <SocialMediaInput key={index} onRemove={() => removeSocialMediaInput(index)} />
+                        ))}
                     </div>
                     <Button appearance="subtle"
                         className={styles.addButton}
                         icon={<AddCircle24Regular />}
                         title="this has no functionality yet"
-                        onClick={handleAddSocial}
+                        onClick={addSocialMediaInput}
                     >
                         Add Social Media
                     </Button>
                     <Divider />
                     <label htmlFor="outlets-section">Outlets</label>
-                        {/*this should be its own component too*/}
+                    
                     <div id="outlets-section" className={styles.outletsSection}>
-                        <Field label="Outlet" required>
-                            <Combobox>
-                                {/*need to map this bit from actual data, not hard coded */}
-                                <option>Media Outlet 1</option>
-                                <option>Media Outlet 2</option>
-                                <option>Media Outlet 3</option>
-                            </Combobox>
-                        </Field>
-                        <Field label="Job Title" required>
-                            <Combobox>
-                                {/*need to map this bit from actual data, not hard coded */}
-                                <option>Reporter</option>
-                                <option>Photographer</option>
-                                <option>Hype Man</option>
-                            </Combobox>
-                        </Field>
-                        <Field label="Email" required>
-                            <Input/>
-                        </Field>
-              
-                        <Field label="Phone" required>
-                            <Combobox>
-                                {/*need to map this bit from actual data, not hard coded */}
-                                <option>Primary</option>
-                                <option>Mobile</option>
-                                <option>Studio Call In</option>
-                            </Combobox>
-                            <Input />
-                            <Button icon={<AddCircle24Regular />} className={styles.addButton} title="this has no functionality yet">
-                                Add phone
-                            </Button>
-                        </Field>
+                        {outletInputs.map((_, index) => (
+                            <MediaOutletInput key={index} onRemove={() => removeOutletInput(index)} />
+                        ))}
                      
                     </div>
                     <Button
                         icon={<AddCircle24Regular />}
                         className={styles.addButton}
-                        title="this has no functionality yet"
+                        title="Add a media outlet"
                         appearance="subtle"
+                        onClick={addOutletInput}
                     >
                         Add Outlet
                     </Button>
