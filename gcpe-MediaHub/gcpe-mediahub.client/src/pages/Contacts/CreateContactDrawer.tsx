@@ -25,9 +25,6 @@ import {
 import { Dismiss24Regular, AddCircle24Regular} from "@fluentui/react-icons";
 import type { TagPickerProps } from "@fluentui/react-components";
 import SocialMediaInput from "./SocialMediaInput";
-import { useRef } from "react";
-import { link } from "node:fs/promises";
-
 
 
 const useStyles = makeStyles({
@@ -51,9 +48,8 @@ const useStyles = makeStyles({
 export const CreateContactDrawer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
 
-    const socialMediaLinks = useRef({});
     const handleAddSocial = () => {
-        console.log("add social");
+  
     }
     const styles = useStyles();
     // all Drawers need manual focus restoration attributes
@@ -163,7 +159,6 @@ export const CreateContactDrawer = () => {
          
                     {/*this should for shizz be its own component*/}
                     <div id="socialMedia">
-                      
                         <SocialMediaInput />
                     </div>
                     <Button appearance="subtle"
@@ -212,7 +207,12 @@ export const CreateContactDrawer = () => {
                         </Field>
                      
                     </div>
-                    <Button icon={<AddCircle24Regular />} className={styles.addButton} title="this has no functionality yet">
+                    <Button
+                        icon={<AddCircle24Regular />}
+                        className={styles.addButton}
+                        title="this has no functionality yet"
+                        appearance="subtle"
+                    >
                         Add Outlet
                     </Button>
                     <Divider/>
