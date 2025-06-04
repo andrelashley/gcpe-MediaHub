@@ -18,13 +18,16 @@ import {
     TagPickerControl,
     TagPickerOption,
     makeStyles,
-    Select,
     Divider,
     Combobox,
     Title1,
 } from "@fluentui/react-components";
-import { Dismiss24Regular, AddCircle24Regular, SubtractCircle24Regular } from "@fluentui/react-icons";
+import { Dismiss24Regular, AddCircle24Regular} from "@fluentui/react-icons";
 import type { TagPickerProps } from "@fluentui/react-components";
+import SocialMediaInput from "./SocialMediaInput";
+import { useRef } from "react";
+import { link } from "node:fs/promises";
+
 
 
 const useStyles = makeStyles({
@@ -47,6 +50,11 @@ const useStyles = makeStyles({
 
 export const CreateContactDrawer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
+
+    const socialMediaLinks = useRef({});
+    const handleAddSocial = () => {
+        console.log("add social");
+    }
     const styles = useStyles();
     // all Drawers need manual focus restoration attributes
     // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
@@ -154,18 +162,16 @@ export const CreateContactDrawer = () => {
                     {/* social media stuff goes here*/}
          
                     {/*this should for shizz be its own component*/}
-                    <div id="socialMedia" className={styles.formGroup}>
-                    <Field label="Social Media">
-                        <Select>
-                            <option></option>
-                            <option>Instagram</option>
-                            <option>Social Media Option 3</option>
-                        </Select>
-                        <Input placeholder="https://" />
-                            <Button icon={<SubtractCircle24Regular />} title="this has no functionality yet" />
-                        </Field>
+                    <div id="socialMedia">
+                      
+                        <SocialMediaInput />
                     </div>
-                    <Button className={styles.addButton} icon={<AddCircle24Regular />} title="this has no functionality yet">
+                    <Button appearance="subtle"
+                        className={styles.addButton}
+                        icon={<AddCircle24Regular />}
+                        title="this has no functionality yet"
+                        onClick={handleAddSocial}
+                    >
                         Add Social Media
                     </Button>
                     <Divider />
