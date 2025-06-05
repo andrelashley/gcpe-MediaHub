@@ -12,6 +12,20 @@ const useStyles = makeStyles({
     addButton: {
         float: "right",
     },
+    outletsSection: {
+        border: "1px solid #ccc!important",
+        borderRadius: "4px",
+        padding: "8px",
+        marginBottom: "8px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: "Global.Size.80",
+        alignSelf: "stretch",
+        '& .fui-Field': {
+            width: "100%",
+        }, 
+    },
 });
 interface MediaOutletInputProps {
     onRemove: () => void;
@@ -21,7 +35,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
     const styles = useStyles();
 
     return (
-        <div>
+        <div id="outlets-section" className={styles.outletsSection}>
             <Field label="Outlet" required>
                 <Combobox>
                     {/*need to map this bit from actual data, not hard coded */}
@@ -57,7 +71,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
             <Button
                 icon={<SubtractCircle24Regular />}
                 className={styles.addButton}
-                title="this has no functionality yet"
+                title="Remove this outlet"
                 onClick={onRemove}
             >
                 Remove this Outlet

@@ -39,11 +39,20 @@ const useStyles = makeStyles({
     addButton: {
         float: "right",
     },
-
     outletsSection: {
         border: "1px solid #ccc!important",
+        borderRadius: "4px",
         padding: "8px",
-    }
+        marginBottom: "8px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: "Global.Size.80",
+        alignSelf: "stretch",
+        '& .fui-Field': {
+            width: "100%",
+        },
+    },
 }
 );
 
@@ -175,11 +184,13 @@ export const CreateContactDrawer = () => {
                     {/* social media stuff goes here*/}
          
                     {/*this should for shizz be its own component*/}
-                    <div id="socialMedia">
-                        {socialMediaInputs.map((_, index) => (
-                            <SocialMediaInput key={index} onRemove={() => removeSocialMediaInput(index)} />
-                        ))}
-                    </div>
+                    <Field label="Social Media">
+                        <div id="socialMedia">
+                            {socialMediaInputs.map((_, index) => (
+                                <SocialMediaInput key={index} onRemove={() => removeSocialMediaInput(index)} />
+                            ))}
+                        </div>
+                    </Field>
                     <Button appearance="subtle"
                         className={styles.addButton}
                         icon={<AddCircle24Regular />}
@@ -191,12 +202,12 @@ export const CreateContactDrawer = () => {
                     <Divider />
                     <label htmlFor="outlets-section">Outlets</label>
                     
-                    <div id="outlets-section" className={styles.outletsSection}>
+               
                         {outletInputs.map((_, index) => (
                             <MediaOutletInput key={index} onRemove={() => removeOutletInput(index)} />
                         ))}
                      
-                    </div>
+        
                     <Button
                         icon={<AddCircle24Regular />}
                         className={styles.addButton}
