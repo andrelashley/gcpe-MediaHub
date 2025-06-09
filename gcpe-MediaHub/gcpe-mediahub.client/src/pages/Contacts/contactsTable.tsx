@@ -2,7 +2,7 @@
 
 import { FilterRegular } from "@fluentui/react-icons";
 
-import MediaContact from "../../models/MediaContact";
+// import MediaContact from "../../models/MediaContact";
 import React, { useState } from "react";
 import ContactDetailsDrawer from "./ContactDetailsDrawer";
 import {
@@ -128,6 +128,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
     const styles = useStyles();
 
     const openDetails = (contact: any) => {
+        console.log(JSON.stringify(contact));
         setContactDetailsOpen(true);
         setCurrentContact(contact);
     }
@@ -180,7 +181,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                     {table.getRowModel().rows.map(row => (
                         <tr
                             key={row.id}
-                            onClick={() => openDetails(row)}
+                            onClick={() => openDetails(row.original)}
                             style={{
                                 cursor: 'pointer',
                                 backgroundColor: 'transparent',
