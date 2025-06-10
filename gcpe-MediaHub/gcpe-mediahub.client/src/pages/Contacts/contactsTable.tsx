@@ -21,6 +21,9 @@ import {
     SearchBox,
     Button,
 } from "@fluentui/react-components";
+import MediaContact from "../../models/mediaContact";
+import { MediaRequest } from "../../models/mediaRequest";
+import MediaOutlet from "../../models/MediaOutlet";
 
 const useStyles = makeStyles({
     searchElement: {
@@ -36,12 +39,12 @@ const useStyles = makeStyles({
 
 interface TableProps {
 
-    items: any[],
+    items: MediaContact[],
 }
 
 const ContactsTable: React.FC<TableProps> = ({ items }) => {
     const [contactDetailsOpen, setContactDetailsOpen] = useState(false);
-    const [currentContact, setCurrentContact] = useState<any>(null);
+    const [currentContact, setCurrentContact] = useState<MediaContact | undefined>();
 
     // Tanstack pagination stuff
     const [sorting, setSorting] = React.useState<SortingState>([]);
@@ -50,9 +53,9 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
         pageSize: 10,
     });
 
-    const columnHelper = createColumnHelper<any>();
+    const columnHelper = createColumnHelper<MediaContact>();
 
-    const getRequestTag = (requests?: any[]) => {
+    const getRequestTag = (requests?: MediaRequest[]) => {
         if (requests != null && requests.length > 0) {
             return <Tag shape="circular" appearance="outline" > {requests.length} active</Tag>;
         } else {
@@ -61,19 +64,21 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
     } 
 
     const columns = [
-        columnHelper.accessor('name', {
+        columnHelper.accessor('firstName', {
             header: 'Name',
             cell: item => item.getValue(),
         }),
         columnHelper.accessor('outlets', {
             header: 'Media Outlets',
-            cell: item => (
+            cell: item => 
+         
+
                 (item.getValue() as any[]).map(outlet =>
-                    <Tag appearance="outline" shape="circular" key={outlet.outlet.id}>
+                    <Tag appearance="outline" shape="circular" key={outlet.id}>
                         {outlet.outlet.name}
                     </Tag>
                 )
-            )
+            
         }),
         columnHelper.accessor('email', {
             header: 'Email',
@@ -127,8 +132,8 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
     }
     const styles = useStyles();
 
-    const openDetails = (contact: any) => {
-        console.log(JSON.stringify(contact));
+    const openDetails = (contact: MediaContact) => {
+      //  console.log(JSON.stringify(contact));
         setContactDetailsOpen(true);
         setCurrentContact(contact);
     }

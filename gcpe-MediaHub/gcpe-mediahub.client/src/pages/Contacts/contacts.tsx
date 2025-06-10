@@ -5,21 +5,12 @@ import Layout from '../../components/Layout';
 import ContactsTable from './contactsTable';
 import { useState, useEffect } from 'react';
 import CreateContactButton from './CreateContactButton';
-import { contactService } from '../../services/contactService';
-import { useQuery } from '@tanstack/react-query';
+//import { contactService } from '../../services/contactService';
+import MediaContact from '../../models/mediaContact';
+//import { useQuery } from '@tanstack/react-query';
 //import { AuthenticationContext } from '../../App';
 //import React from 'react';
 // import MediaContact from '../../models/mediaContact';
-
-//import {
-//    FolderRegular,
-//    EditRegular,
-//    OpenRegular,
-//    DocumentRegular,
-//    PeopleRegular,
-//    DocumentPdfRegular,
-//    VideoRegular,
-//} from "@fluentui/react-icons";
 
 
 const MediaContacts = () => {
@@ -27,14 +18,14 @@ const MediaContacts = () => {
     //    queryKey: ["contacts"],
     //    queryFn: contactService.getContacts,
     //});
-    const [contacts, setContacts] = useState<any[]>([]);
+    const [contacts, setContacts] = useState<MediaContact[]>([]);
 
 
     const fetchContacts = async () => {
          const response = await fetch('mediacontacts');
      //   const response = await fetch('../../data/mock-contacts.json');
         const data = await response.json();
-        const contacts: any[] = data as any[];
+        const contacts: MediaContact[] = data as MediaContact[];
         console.log(JSON.stringify(contacts[2]));
         setContacts(contacts);
     };
