@@ -20,8 +20,8 @@ import {
     makeStyles,
     Divider,
     Combobox,
-    Title1,
 } from "@fluentui/react-components";
+
 import { Dismiss24Regular, AddCircle24Regular} from "@fluentui/react-icons";
 import type { TagPickerProps } from "@fluentui/react-components";
 import SocialMediaInput from "./SocialMediaInput";
@@ -32,6 +32,16 @@ import MediaOutletInput from "./MediaOutletInput";
 const useStyles = makeStyles({
     drawer: {
         width: "650px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: "Global.Size.20",
+    },
+    title:{
+        fontSize: "var(--Font - size - 500, 20px)",
+        fontStyle: "normal",
+        fontWeight: "400",
+        lineHeight: "var(--Line - height - 500, 28px)",
     },
     formGroup: {
         display: "inline-flex",
@@ -125,12 +135,11 @@ export const CreateContactDrawer = () => {
                             />
                         }
                     >
-                        <Title1>New Contact</Title1>
+                        <div className={styles.title }>New Contact</div>
                     </DrawerHeaderTitle>
                 </DrawerHeader>
 
                 <DrawerBody>
-                    <p>General Information</p>
                     <Field label="First name" required>
                         <Input />
                     </Field>
