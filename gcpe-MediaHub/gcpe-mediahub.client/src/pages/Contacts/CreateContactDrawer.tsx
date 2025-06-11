@@ -55,15 +55,26 @@ const useStyles = makeStyles({
         alignItems: "flex-start",
         gap: "Global.Size.80",
         alignSelf: "stretch",
-       
+
     },
     maxWidth: {
         width: "100%",
     },
+    saveCancelButtons: {
+        marginTop: "20px",
+        '& Button': {
+            marginRight: "8px",
+        },
+    },
 }
 );
 
+
 export const CreateContactDrawer = () => {
+    const createContact = () => {
+        console.log("create contact");
+        setIsOpen(false)
+    };
     const [isOpen, setIsOpen] = React.useState(false);
 
     //for primary contact info input tracking
@@ -153,7 +164,7 @@ export const CreateContactDrawer = () => {
                             Add Primary Contact Info
                         </Button>
                     </p> <br />
-                    <Field label="Online Presence" className={styles.maxWidth }>
+                    <Field label="Online Presence" className={styles.maxWidth}>
                         <div >
                             {socialMediaInputs.map((_, index) => (
                                 <SocialMediaInput key={index} onRemove={() => removeSocialMediaInput(index)} />
@@ -189,6 +200,21 @@ export const CreateContactDrawer = () => {
                         Add Outlet
                     </Button>
 
+                    <div className={styles.saveCancelButtons}>
+                        <Button
+                            aria-label="Create this contact"
+                            appearance="primary"
+                            onClick={() => createContact()}
+                        >
+                            Save
+                        </Button>
+                        <Button
+                            aria-label="Cancel and close this dialog"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
                 </DrawerBody>
             </OverlayDrawer>
 
@@ -199,6 +225,7 @@ export const CreateContactDrawer = () => {
             >
                 Create
             </Button>
+
         </div>
     );
 };
