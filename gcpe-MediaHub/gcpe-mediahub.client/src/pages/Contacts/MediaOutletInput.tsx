@@ -6,6 +6,8 @@ import {
     makeStyles,
 } from "@fluentui/react-components";
 import { AddCircle24Regular, SubtractCircle24Regular } from "@fluentui/react-icons";
+import React from "react";
+import OrgPhoneNumber from "./OrgPhoneNumber";
 
 
 const useStyles = makeStyles({
@@ -24,14 +26,26 @@ const useStyles = makeStyles({
         alignSelf: "stretch",
         '& .fui-Field': {
             width: "100%",
-        }, 
+        },
     },
 });
+
+
+
 interface MediaOutletInputProps {
     onRemove: () => void;
 }
 
 const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
+    const [phoneNumbers, setPhoneNumbers] = React.useState<number[]>([1])
+
+    const addPhoneNumber = () => {
+    
+        setPhoneNumbers([...phoneNumbers, phoneNumbers.length]);
+    }
+    const removePhoneNumber = (index: number) => {
+        setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
+    };
     const styles = useStyles();
 
     return (
@@ -49,7 +63,6 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
                     {/*need to map this bit from actual data, not hard coded */}
                     <option>Reporter</option>
                     <option>Photographer</option>
-                    <option>Hype Man</option>
                 </Combobox>
             </Field>
             <Field label="Email" required>
@@ -57,14 +70,14 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
             </Field>
 
             <Field label="Phone" required>
-                <Combobox>
-                    {/*need to map this bit from actual data, not hard coded */}
-                    <option>Primary</option>
-                    <option>Mobile</option>
-                    <option>Studio Call In</option>
-                </Combobox>
-                <Input />
-                <Button icon={<AddCircle24Regular />} className={styles.addButton} title="this has no functionality yet">
+                {phoneNumbers.map((_, index) => (
+                    <OrgPhoneNumber key={index} onRemove={() => removePhoneNumber(index)} />
+                ))}
+                <Button icon={<AddCircle24Regular />}
+                    className={styles.addButton}
+                    title="Add another phone number"
+                    onClick={addPhoneNumber}
+                >
                     Add phone
                 </Button>
             </Field>
