@@ -1,10 +1,16 @@
+
 import {
-    Button,
-    Input,
     Select,
-    makeStyles,
+    Input,
+    Button,
+    makeStyles
 } from "@fluentui/react-components";
 import { Dismiss16Regular } from "@fluentui/react-icons";
+
+
+interface PrimaryContactInputProps {
+    onRemove: () => void;
+}
 
 const useStyles = makeStyles({
     socialMediaInput: {
@@ -24,26 +30,21 @@ const useStyles = makeStyles({
     },
 });
 
-interface SocialMediaInputProps {
-    onRemove: () => void;
-}
-
-const SocialMediaInput: React.FC<SocialMediaInputProps> = ({ onRemove }) => {
+const PrimaryContactInfoInput: React.FC<PrimaryContactInputProps> = ({ onRemove }) => {
     const styles = useStyles();
 
-    return (
-
+    return  (
         <div className={styles.socialMediaInput}>
 
             <div className={styles.platformSelector}>
                 <Select>
-                    <option></option>
-                    <option>Instagram</option>
-                    <option>Social Media Option 3</option>
+                    <option>Phone</option>
+                    <option>Mobile</option>
+                    <option>Email</option>
                 </Select>
             </div>
             <div className={styles.linkInput}>
-                <Input placeholder="https://" />
+                <Input />
             </div>
             <div>
                 <Button
@@ -56,4 +57,4 @@ const SocialMediaInput: React.FC<SocialMediaInputProps> = ({ onRemove }) => {
     );
 }
 
-export default SocialMediaInput;
+export default PrimaryContactInfoInput;

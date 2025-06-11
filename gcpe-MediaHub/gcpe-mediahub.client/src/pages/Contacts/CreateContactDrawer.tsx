@@ -10,23 +10,15 @@ import {
     Field,
     Input,
     Checkbox,
-    TagPicker,
-    TagPickerList,
-    TagPickerGroup,
-    TagPickerInput,
-    Tag,
-    TagPickerControl,
-    TagPickerOption,
     makeStyles,
     Divider,
-    Combobox,
 } from "@fluentui/react-components";
 
-import { Dismiss24Regular, AddCircle24Regular} from "@fluentui/react-icons";
-import type { TagPickerProps } from "@fluentui/react-components";
+import { Dismiss24Regular, AddCircle24Regular } from "@fluentui/react-icons";
 import SocialMediaInput from "./SocialMediaInput";
 import { useState } from "react";
 import MediaOutletInput from "./MediaOutletInput";
+import PrimaryContactInfoInput from "./PrimaryContactInfoInput";
 
 
 const useStyles = makeStyles({
@@ -35,9 +27,13 @@ const useStyles = makeStyles({
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
+        fontSize: "16px",
         gap: "Global.Size.20",
+        '& div': {
+            marginBottom: "10px",
+        },
     },
-    title:{
+    title: {
         fontSize: "var(--Font - size - 500, 20px)",
         fontStyle: "normal",
         fontWeight: "400",
@@ -45,7 +41,7 @@ const useStyles = makeStyles({
     },
     formGroup: {
         display: "inline-flex",
-    },  
+    },
     addButton: {
         float: "right",
     },
@@ -59,9 +55,10 @@ const useStyles = makeStyles({
         alignItems: "flex-start",
         gap: "Global.Size.80",
         alignSelf: "stretch",
-        '& .fui-Field': {
-            width: "100%",
-        },
+       
+    },
+    maxWidth: {
+        width: "100%",
     },
 }
 );
@@ -69,6 +66,14 @@ const useStyles = makeStyles({
 export const CreateContactDrawer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
 
+    //for primary contact info input tracking
+    const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
+    const addPrimaryContactInfoInput = () => {
+        setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length]);
+    };
+    const removePrimaryContactInfoInput = (index: number) => {
+        setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
+    };
     // for tracking social media link inputs
     const [socialMediaInputs, setSocialMediaInputs] = useState<number[]>([1]);
     const addSocialMediaInput = () => {
@@ -93,25 +98,6 @@ export const CreateContactDrawer = () => {
     // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
     const restoreFocusTargetAttributes = useRestoreFocusTarget();
     const restoreFocusSourceAttributes = useRestoreFocusSource();
-    const [selectedOptions, setSelectedOptions] = React.useState<string[]>([]);
-    const languageOptions = [
-        "English",
-        "French",
-        "Chinese",
-        "Tagalog",
-        "Hindi",
-    ];
-
-    const onOptionSelect: TagPickerProps["onOptionSelect"] = (e, data) => {
-        if (data.value === "no-options") {
-            return e;
-        }
-        setSelectedOptions(data.selectedOptions);
-    };
-
-    const tagPickerOptions = languageOptions.filter(
-        (option) => !selectedOptions.includes(option)
-    );
 
     return (
         /*we can probably break some of this out into separate components*/
@@ -135,7 +121,7 @@ export const CreateContactDrawer = () => {
                             />
                         }
                     >
-                        <div className={styles.title }>New Contact</div>
+                        <div className={styles.title}>New Contact</div>
                     </DrawerHeaderTitle>
                 </DrawerHeader>
 
@@ -149,74 +135,50 @@ export const CreateContactDrawer = () => {
                     <Checkbox
                         label="Press gallery"
                     />
-                    <Field label="Language" required>
-                        <TagPicker
-                            onOptionSelect={onOptionSelect}
-                            selectedOptions={selectedOptions}
+
+                    <Field label="Primary Contact Info" required>
+                        <div id="primaryContactInfo">
+                            {primaryContactInfoInputs.map((_, index) => (
+                                <PrimaryContactInfoInput key={index} onRemove={() => removePrimaryContactInfoInput(index)} />
+                            ))}
+                        </div>
+                    </Field>
+                    <p>
+                        <Button appearance="subtle"
+                            className={styles.addButton}
+                            icon={<AddCircle24Regular />}
+                            title="Add a new primary contact info input"
+                            onClick={addPrimaryContactInfoInput}
                         >
-                            <TagPickerControl>
-                                <TagPickerGroup aria-label="Selected Languages">
-                                    {selectedOptions.map((option) => (
-                                        <Tag
-                                            key={option}
-                                            shape="rounded"
-                                            value={option}
-                                        >
-                                            {option}
-                                        </Tag>
-                                    ))}
-                                </TagPickerGroup>
-                                <TagPickerInput aria-label="Select languages" />
-                            </TagPickerControl>
-                            <TagPickerList>
-                                {tagPickerOptions.length > 0 ? (
-                                    tagPickerOptions.map((option) => (
-                                        <TagPickerOption
-                                           
-                                            value={option}
-                                            key={option}
-                                        >
-                                            {option}
-                                        </TagPickerOption>
-                                    ))
-                                ) : (
-                                    <TagPickerOption value="no-options">
-                                        No options available
-                                    </TagPickerOption>
-                                )}
-                            </TagPickerList>
-                            </TagPicker>
-                    </Field>
-                    <Field label="Website" >
-                        <Input placeholder="https://" />
-                    </Field>
-                    {/* social media stuff goes here*/}
-         
-                    {/*this should for shizz be its own component*/}
-                    <Field label="Social Media">
-                        <div id="socialMedia">
+                            Add Primary Contact Info
+                        </Button>
+                    </p> <br />
+                    <Field label="Online Presence" className={styles.maxWidth }>
+                        <div >
                             {socialMediaInputs.map((_, index) => (
                                 <SocialMediaInput key={index} onRemove={() => removeSocialMediaInput(index)} />
                             ))}
                         </div>
                     </Field>
-                    <Button appearance="subtle"
-                        className={styles.addButton}
-                        icon={<AddCircle24Regular />}
-                        title="this has no functionality yet"
-                        onClick={addSocialMediaInput}
-                    >
-                        Add Social Media
-                    </Button>
+                    <p>
+                        <Button appearance="subtle"
+                            className={styles.addButton}
+                            icon={<AddCircle24Regular />}
+                            title="Add a new social media input"
+                            onClick={addSocialMediaInput}
+                        >
+                            Add Social Media
+                        </Button>
+                    </p>
                     <Divider />
-                    <label htmlFor="outlets-section">Outlets</label>
-                    
-               
-                        {outletInputs.map((_, index) => (
-                            <MediaOutletInput key={index} onRemove={() => removeOutletInput(index)} />
-                        ))}
-                     
-        
+                    <label htmlFor="outlets-section">Workplaces</label>
+
+
+                    {outletInputs.map((_, index) => (
+                        <MediaOutletInput key={index} onRemove={() => removeOutletInput(index)} />
+                    ))}
+
+
                     <Button
                         icon={<AddCircle24Regular />}
                         className={styles.addButton}
@@ -226,37 +188,7 @@ export const CreateContactDrawer = () => {
                     >
                         Add Outlet
                     </Button>
-                    <Divider/>
-                    <label htmlFor="interests-section">Interests and Outreach</label>
-                    <div id="interests-section" className={styles.outletsSection}>
-                        {/* this too should be a separate component */}
-                        <Field label="Cities">
-                            <Combobox>
-                                <option>Prince George</option>
-                                <option>Cranbrook</option>
-                                <option>Kamloops</option>
-                                <option>Kimberley</option>
-                                <option>Vancouver</option>
-                                <option>Victoria</option>
-                            </Combobox>
-                        </Field>
-                        <Field label="Regions">
-                            <Combobox>
-                            </Combobox>
-                        </Field>
-                        <Field label="Topics">
-                            <Combobox>
-                            </Combobox>
-                        </Field>
-                        <Field label="Send to">
-                            <Combobox>
-                            </Combobox>
-                        </Field>
-                        <Field label="Distribution lists">
-                            <Combobox>
-                            </Combobox>
-                        </Field>
-                    </div>
+
                 </DrawerBody>
             </OverlayDrawer>
 

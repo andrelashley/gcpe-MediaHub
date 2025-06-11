@@ -36,7 +36,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
 
     return (
         <div id="outlets-section" className={styles.outletsSection}>
-            <Field label="Outlet" required>
+            <Field label="Media organization" required>
                 <Combobox>
                     {/*need to map this bit from actual data, not hard coded */}
                     <option>Media Outlet 1</option>
@@ -44,7 +44,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
                     <option>Media Outlet 3</option>
                 </Combobox>
             </Field>
-            <Field label="Job Title" required>
+            <Field label="Job title" required>
                 <Combobox>
                     {/*need to map this bit from actual data, not hard coded */}
                     <option>Reporter</option>
