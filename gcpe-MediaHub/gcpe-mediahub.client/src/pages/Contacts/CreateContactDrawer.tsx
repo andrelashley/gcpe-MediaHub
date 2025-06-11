@@ -14,7 +14,7 @@ import {
     Divider,
 } from "@fluentui/react-components";
 
-import { Dismiss24Regular, AddCircle24Regular } from "@fluentui/react-icons";
+import { Dismiss24Regular, Add24Regular } from "@fluentui/react-icons";
 import SocialMediaInput from "./SocialMediaInput";
 import { useState } from "react";
 import MediaOutletInput from "./MediaOutletInput";
@@ -157,7 +157,7 @@ export const CreateContactDrawer = () => {
                     <p>
                         <Button appearance="subtle"
                             className={styles.addButton}
-                            icon={<AddCircle24Regular />}
+                            icon={<Add24Regular />}
                             title="Add a new primary contact info input"
                             onClick={addPrimaryContactInfoInput}
                         >
@@ -174,7 +174,7 @@ export const CreateContactDrawer = () => {
                     <p>
                         <Button appearance="subtle"
                             className={styles.addButton}
-                            icon={<AddCircle24Regular />}
+                            icon={<Add24Regular />}
                             title="Add a new social media input"
                             onClick={addSocialMediaInput}
                         >
@@ -191,7 +191,7 @@ export const CreateContactDrawer = () => {
 
 
                     <Button
-                        icon={<AddCircle24Regular />}
+                        icon={<Add24Regular />}
                         className={styles.addButton}
                         title="Add a media outlet"
                         appearance="subtle"

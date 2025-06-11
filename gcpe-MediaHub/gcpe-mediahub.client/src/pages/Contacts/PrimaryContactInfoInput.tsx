@@ -5,7 +5,7 @@ import {
     Button,
     makeStyles
 } from "@fluentui/react-components";
-import { Dismiss16Regular } from "@fluentui/react-icons";
+import { Dismiss12Regular } from "@fluentui/react-icons";
 
 
 interface PrimaryContactInputProps {
@@ -18,6 +18,7 @@ const useStyles = makeStyles({
         alignItems: "flex-end",
         gap: "8px",
         alignSelf: "stretch",
+        justifyContent: "center",
     },
     platformSelector: {
         width: "128px",
@@ -26,6 +27,16 @@ const useStyles = makeStyles({
         width: "100%",
         '& span': {
             width: "95%",
+        },
+    },
+    dismissButton: {
+        justifyContent: "center",
+        alignItems: "center",
+        paddingBottom: "8px",
+        '& Button': {
+            maxWidth: "18px",
+            minWidth: "18px",
+            maxHeight: "18px",
         },
     },
 });
@@ -46,11 +57,11 @@ const PrimaryContactInfoInput: React.FC<PrimaryContactInputProps> = ({ onRemove 
             <div className={styles.linkInput}>
                 <Input />
             </div>
-            <div>
+            <div className={styles.dismissButton }>
                 <Button
-                    icon={<Dismiss16Regular />}
+                    icon={<Dismiss12Regular />}
                     onClick={onRemove}
-                    title="Remove this social media input"
+                    title="Remove this contact info"
                 />
             </div>
         </div>

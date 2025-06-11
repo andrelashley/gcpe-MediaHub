@@ -4,7 +4,7 @@ import {
     Select,
     makeStyles,
 } from "@fluentui/react-components";
-import { Dismiss16Regular } from "@fluentui/react-icons";
+import { Dismiss12Regular } from "@fluentui/react-icons";
 
 const useStyles = makeStyles({
     socialMediaInput: {
@@ -21,6 +21,16 @@ const useStyles = makeStyles({
         width: "100%",
         '& span': {
             width: "95%",
+        },
+    },
+    dismissButton: {
+        justifyContent: "center",
+        alignItems: "center",
+        paddingBottom: "8px",
+        '& Button': {
+            maxWidth: "18px",
+            minWidth: "18px",
+            maxHeight: "18px",
         },
     },
 });
@@ -48,9 +58,9 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove }) => {
             <div className={styles.linkInput}>
                 <Input placeholder="https://" />
             </div>
-            <div>
+            <div className={styles.dismissButton }>
                 <Button
-                    icon={<Dismiss16Regular />}
+                    icon={<Dismiss12Regular />}
                     onClick={onRemove}
                     title="Remove phone number"
                 />
