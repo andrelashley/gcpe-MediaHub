@@ -105,14 +105,28 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
         }),
         columnHelper.accessor('lastActive', {
             header: 'Last Active',
-            cell: info => info.getValue(),
-            //new Date(info.getValue()).toLocaleDateString(
-            //<Tag appearance="outline" shape="circular">
-            //    {info.getValue()}
-            //</Tag>
-            //),
+
+            cell: item => {
+                const dateValue = item.getValue();
+                if (!dateValue || typeof dateValue !== "string") {
+                    return "Invalid Date";
+                }
+                try {
+                    const parsedDate = new Date(dateValue);
+                    return isNaN(parsedDate.getTime()) ? "Invalid Date" : parsedDate.toLocaleDateString('en-US', dateOptions);
+                } catch (error) {
+                    return "Invalid Date";
+                }
+            },
+           
+
         }),
     ];
+   
+    const dateOptions: Intl.DateTimeFormatOptions = {
+        day: "numeric", month: "long", year: "numeric",
+     /*   hour: "2-digit", minute: "2-digit"*/
+    };
 
     const table = useReactTable({
         data: items || [],
@@ -137,10 +151,6 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
         setContactDetailsOpen(true);
         setCurrentContact(contact);
     }
-    //const dateOptions: Intl.DateTimeFormatOptions = {
-    //    day: "numeric", month: "numeric", year: "numeric",
-    //    hour: "2-digit", minute: "2-digit"
-    //};
     return (
 
         <div style={{ width: '100%', overflowX: 'auto' }}>
