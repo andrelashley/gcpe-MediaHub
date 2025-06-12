@@ -5,7 +5,7 @@ import {
     Input,
     makeStyles,
 } from "@fluentui/react-components";
-import { AddCircle24Regular, SubtractCircle24Regular } from "@fluentui/react-icons";
+import { Add24Regular, Subtract24Regular } from "@fluentui/react-icons";
 import React from "react";
 import OrgPhoneNumber from "./OrgPhoneNumber";
 
@@ -73,16 +73,19 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
                 {phoneNumbers.map((_, index) => (
                     <OrgPhoneNumber key={index} onRemove={() => removePhoneNumber(index)} />
                 ))}
-                <Button icon={<AddCircle24Regular />}
+                <p>
+                <Button icon={<Add24Regular />}
                     className={styles.addButton}
                     title="Add another phone number"
                     onClick={addPhoneNumber}
+                    appearance="subtle"
                 >
                     Add phone
-                </Button>
+                    </Button>
+                </p>
             </Field>
             <Button
-                icon={<SubtractCircle24Regular />}
+                icon={<Subtract24Regular />}
                 className={styles.addButton}
                 title="Remove this outlet"
                 onClick={onRemove}

@@ -35,8 +35,6 @@ const useStyles = makeStyles({
     },
 });
 
-
-
 interface OrgPhoneProps {
     onRemove: () => void;
 }
@@ -58,7 +56,7 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove }) => {
             <div className={styles.linkInput}>
                 <Input placeholder="https://" />
             </div>
-            <div className={styles.dismissButton }>
+            <div className={styles.dismissButton}>
                 <Button
                     icon={<Dismiss12Regular />}
                     onClick={onRemove}
