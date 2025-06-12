@@ -161,7 +161,7 @@ export const CreateContactDrawer = () => {
                             title="Add a new primary contact info input"
                             onClick={addPrimaryContactInfoInput}
                         >
-                            Add Primary Contact Info
+                            Contact info
                         </Button>
                     </p> <br />
                     <Field label="Online Presence" className={styles.maxWidth}>
@@ -178,7 +178,7 @@ export const CreateContactDrawer = () => {
                             title="Add a new social media input"
                             onClick={addSocialMediaInput}
                         >
-                            Add Social Media
+                            Social Media
                         </Button>
                     </p>
                     <Divider />
@@ -197,7 +197,7 @@ export const CreateContactDrawer = () => {
                         appearance="subtle"
                         onClick={addOutletInput}
                     >
-                        Add Outlet
+                        Workplace
                     </Button>
 
                     <div className={styles.saveCancelButtons}>

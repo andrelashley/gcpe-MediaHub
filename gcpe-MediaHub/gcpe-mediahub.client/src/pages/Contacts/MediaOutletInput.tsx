@@ -5,7 +5,7 @@ import {
     Input,
     makeStyles,
 } from "@fluentui/react-components";
-import { Add24Regular, Subtract24Regular } from "@fluentui/react-icons";
+import { Add24Regular, Dismiss16Regular} from "@fluentui/react-icons";
 import React from "react";
 import OrgPhoneNumber from "./OrgPhoneNumber";
 
@@ -50,6 +50,10 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
 
     return (
         <div id="outlets-section" className={styles.outletsSection}>
+
+            
+            
+         
             <Field label="Media organization" required>
                 <Combobox>
                     {/*need to map this bit from actual data, not hard coded */}
@@ -80,18 +84,16 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
                     onClick={addPhoneNumber}
                     appearance="subtle"
                 >
-                    Add phone
+                    Contact info
                     </Button>
                 </p>
             </Field>
             <Button
-                icon={<Subtract24Regular />}
+                icon={<Dismiss16Regular />}
                 className={styles.addButton}
                 title="Remove this outlet"
                 onClick={onRemove}
-            >
-                Remove this Outlet
-            </Button>
+            />
         </div>
     );
 }
