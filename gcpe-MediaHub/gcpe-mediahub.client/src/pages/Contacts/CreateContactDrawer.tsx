@@ -19,6 +19,7 @@ import SocialMediaInput from "./SocialMediaInput";
 import { useState } from "react";
 import MediaOutletInput from "./MediaOutletInput";
 import PrimaryContactInfoInput from "./PrimaryContactInfoInput";
+import MediaContact from "../../models/mediaContact";
 
 
 const useStyles = makeStyles({
@@ -71,12 +72,7 @@ const useStyles = makeStyles({
 
 
 export const CreateContactDrawer = () => {
-    const createContact = () => {
-        console.log("create contact");
-        setIsOpen(false)
-    };
     const [isOpen, setIsOpen] = React.useState(false);
-
     //for primary contact info input tracking
     const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
     const addPrimaryContactInfoInput = () => {
@@ -110,6 +106,24 @@ export const CreateContactDrawer = () => {
     const restoreFocusTargetAttributes = useRestoreFocusTarget();
     const restoreFocusSourceAttributes = useRestoreFocusSource();
 
+
+    // contact fields
+    const [firstName, setFirstName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
+    const [isPressGallery, setIsPressGallery] = React.useState(false);
+
+
+    const createContact = () => {
+        const contact: MediaContact = new MediaContact()
+        contact.firstName = firstName;
+        contact.lastName = lastName;
+        contact.isPressGallery = isPressGallery;
+        console.log(JSON.stringify(contact));
+
+        //give a little toast saying how the transaction went, 
+        // if it was successful, close drawer after brief delay
+        //  setIsOpen(false)
+    };
     return (
         /*we can probably break some of this out into separate components*/
         <div>
@@ -138,13 +152,27 @@ export const CreateContactDrawer = () => {
 
                 <DrawerBody>
                     <Field label="First name" required>
-                        <Input />
+                        <Input
+                            value={firstName}
+                            onChange={(_, data) => {
+                                setFirstName(data.value);
+                                //if (data.value.trim()) {
+                                //    setShowValidation(false);
+                                //}
+                            }}
+                        />
                     </Field>
                     <Field label="Last name" required>
-                        <Input />
+                        <Input
+                            onChange={(_, data) => {
+                                setLastName(data.value);
+                            }}
+                        />
                     </Field>
                     <Checkbox
+                        checked={isPressGallery}
                         label="Press gallery"
+                        onChange={(_, data) => setIsPressGallery(!!data.checked)}
                     />
 
                     <Field label="Primary Contact Info" required>
