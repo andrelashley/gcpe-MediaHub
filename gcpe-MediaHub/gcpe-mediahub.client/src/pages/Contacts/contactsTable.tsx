@@ -23,7 +23,6 @@ import {
 } from "@fluentui/react-components";
 import MediaContact from "../../models/mediaContact";
 import { MediaRequest } from "../../models/mediaRequest";
-import MediaOutlet from "../../models/MediaOutlet";
 
 const useStyles = makeStyles({
     searchElement: {
@@ -71,14 +70,11 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
         columnHelper.accessor('outlets', {
             header: 'Media Outlets',
             cell: item => 
-         
-
                 (item.getValue() as any[]).map(outlet =>
                     <Tag appearance="outline" shape="circular" key={outlet.id}>
                         {outlet.outlet.name}
                     </Tag>
-                )
-            
+                )    
         }),
         columnHelper.accessor('email', {
             header: 'Email',
@@ -105,7 +101,6 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
         }),
         columnHelper.accessor('lastActive', {
             header: 'Last Active',
-
             cell: item => {
                 const dateValue = item.getValue();
                 if (!dateValue || typeof dateValue !== "string") {
@@ -118,8 +113,6 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                     return "Invalid Date";
                 }
             },
-           
-
         }),
     ];
    
@@ -163,7 +156,6 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                         className={styles.rightMargin}
                     />
                     <Button title={"this doesn't do anything yet."} icon={<FilterRegular />}>Filter</Button>
-
                 </div>
             </div>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
@@ -255,98 +247,6 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                 </button>
             </div>
         </div>
-
-
-
-        //<div>
-        //    {/*  This section could maybe be a separate component*/}
-        //    <div className={styles.searchElement}>
-        //        <Text>All</Text>
-        //        <div className={styles.marginLeftAuto}>
-        //            <SearchBox
-        //                contentBefore={<Text size={400}>Search:</Text>}
-        //                title={"this doesn't do anything yet."}
-        //                className={styles.rightMargin}
-        //            />
-        //            <Button title={"this doesn't do anything yet."} icon={<FilterRegular /> }>Filter</Button>
-
-        //        </div>
-        //    </div>
-        //    <Table arial-label="Default table" className={styles.table}>
-
-        //        <TableHeader>
-        //            <TableRow>
-        //                {columns.map((column) => (
-        //                    <TableHeaderCell key={column.columnKey} style={{ fontWeight: "900" }}>
-        //                        {column.label}
-        //                    </TableHeaderCell>
-        //                ))}
-        //            </TableRow>
-        //        </TableHeader>
-        //        <TableBody>
-        //            {items &&
-        //                items.map((item) => (
-        //                    <TableRow key={item.id} onClick={() => openDetails(item)}>
-        //                        <TableCell>
-        //                            <TableCellLayout>
-        //                                {item.firstName} {item.lastName}
-        //                            </TableCellLayout>
-        //                        </TableCell>
-        //                        <TableCell>
-        //                            {/*    {item.outlets &&*/}
-        //                            {/*        item.outlets.map((outlet: any, index: number) => (*/}
-        //                            {/*    <TableCellLayout key={index}>*/}
-        //                            {/*        <TagGroup>*/}
-        //                            {/*            <Tag shape="circular" appearance="outline"> {outlet.contactEmail} </Tag>*/}
-        //                            {/*        </TagGroup>*/}
-        //                            {/*    </TableCellLayout>*/}
-        //                            {/*))}*/}
-        //                            <TagGroup>
-        //                                <Tag shape="circular" appearance="outline">{item.outletName}</Tag>
-        //                            </TagGroup>
-        //                        </TableCell>
-        //                        <TableCell>
-        //                            <TableCellLayout>
-        //                                {item.email}
-        //                            </TableCellLayout>
-        //                        </TableCell>
-        //                        <TableCell>
-        //                            <TableCellLayout>
-        //                                {item.phone ?
-        //                                    (item.phone)
-        //                                    : (item.mobilePhone)
-        //                                }
-        //                            </TableCellLayout>
-        //                        </TableCell>
-        //                        <TableCell>
-        //                            <TableCellLayout>
-        //                                <TagGroup>
-        //                                    <Tag shape="circular" appearance="outline">{item.location}</Tag>
-        //                                </TagGroup>
-        //                            </TableCellLayout>
-        //                        </TableCell>
-        //                        <TableCell>
-        //                            <TableCellLayout>
-        //                                {item.requests && item.requests.length > 0 &&
-        //                                    <TagGroup>
-        //                                        <Tag shape="circular" appearance="outline">{item.requests.length} active</Tag>
-        //                                    </TagGroup>
-        //                                }
-        //                            </TableCellLayout>
-        //                        </TableCell>
-        //                        <TableCell>
-        //                            <TableCellLayout>
-        //                                {item.lastActive}
-        //                            </TableCellLayout>
-        //                        </TableCell>
-        //                    </TableRow>
-        //                ))}
-        //        </TableBody>
-        //    </Table>
-        //    {currentContact &&
-        //        <ContactDetailsDrawer contact={currentContact} isOpen={contactDetailsOpen} closeContactDetails={closeContactDetails} />
-        //    }
-        //</div>
     );
 }
 
