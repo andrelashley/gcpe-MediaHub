@@ -9,8 +9,7 @@ import {
 } from '@tanstack/react-table';
 import { Title1, Input, Button, TabList, Tab, Tag, Avatar, Link, Drawer } from '@fluentui/react-components';
 import { PressGalleryBadge } from '../../components/PressGalleryBadge';
-import { Search24Regular, Filter24Regular, Add24Regular } from '@fluentui/react-icons';
-import { useNavigate } from 'react-router-dom';
+import { Search16Regular, Filter24Regular, Add24Regular } from '@fluentui/react-icons';
 import { MediaRequest } from '../../api/apiClient';
 import { RequestStatus, Ministry } from './types';
 import { requestService } from '../../services/requestService';
@@ -83,7 +82,7 @@ const columns = [
 ];
 
 const RequestsPage: React.FC = () => {
-    const navigate = useNavigate();
+    // Removed unused navigate
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTab, setSelectedTab] = useState<string>("all");
     const [selectedRequest, setSelectedRequest] = useState<MediaRequest | null>(null);
@@ -151,7 +150,7 @@ const RequestsPage: React.FC = () => {
                 </TabList>
                 <div className={styles.searchAndFilterContainer}>
                     <Input
-                        contentBefore={<Search24Regular />}
+                        contentBefore={<Search16Regular />}
                         placeholder="Search requests..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
