@@ -1,6 +1,5 @@
 import { fileURLToPath, URL } from 'node:url';
-
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import plugin from '@vitejs/plugin-react';
 import fs from 'fs';
 import path from 'path';
@@ -34,30 +33,40 @@ const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_H
     env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:5173';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-    base: './',
-    plugins: [plugin()],
-    resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
-        }
-    },
-    server: {
-        proxy: {
-           // 'mediaContacts': `${env.ASPNETCORE_HTTPS_PORT}/MediaContacts`,
-            '^/mediacontacts': {
-                target,
-                secure: false
-            },
-            '^/mediaoutlets': {
-                target,
-                secure: false
+export default defineConfig(({ mode }) => {
+
+    const env = loadEnv(mode, process.cwd());
+    const apiUrl = env.VITE_API_URL;
+    return {
+        base: '/',
+        plugins: [plugin()],
+        resolve: {
+            alias: {
+                '@': fileURLToPath(new URL('./src', import.meta.url))
             }
         },
-        port: 5173,
-        https: {
-            key: fs.readFileSync(keyFilePath),
-            cert: fs.readFileSync(certFilePath),
+        server: {
+            proxy: {
+                // 'mediaContacts': `${env.ASPNETCORE_HTTPS_PORT}/MediaContacts`,
+                '^/mediacontacts': {
+                    target,
+                    secure: false
+                },
+                '^/mediaoutlets': {
+                    target,
+                    secure: false
+                },
+                '/api': {
+                    target: apiUrl,
+                    changeOrigin: true,
+                    secure: false
+                }
+            },
+            port: 5173,
+            https: {
+                key: fs.readFileSync(keyFilePath),
+                cert: fs.readFileSync(certFilePath),
+            }
         }
     }
 })
