@@ -29,7 +29,7 @@ namespace gcpe_MediaHub.Server.Models
  
         public string? OutletName { get; set; }
   
-        public virtual ICollection<ContactOutlet>? Outlets { get; set; }
+        public virtual ICollection<OutletAssociation>? Outlets { get; set; }
         public virtual ICollection<MediaRequest>? Requests { get; set; }
 
         public DateTime? LastActive { get; set; }

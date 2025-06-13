@@ -1,7 +1,5 @@
 
 import { Badge, Field, Input, Label, makeStyles } from '@fluentui/react-components';
-
-
 import { ViewDesktopMobileRegular, MailRegular, WarningRegular } from "@fluentui/react-icons";
 interface OutletDetailsProps {
     outlet: any;

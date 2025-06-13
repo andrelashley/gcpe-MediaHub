@@ -14,9 +14,9 @@ namespace gcpe_MediaHub.Server.Models.Repositories
             _context = context;
         }
 
-        public IEnumerable<MediaOutlet> GetAll()
+        public async Task<IEnumerable<MediaOutlet>> GetAll()
         {
-            return _context.MediaOutlets;
+            return await _context.MediaOutlets.ToListAsync();
         }
 
         public async Task<MediaOutlet?> GetOutletById(int id)

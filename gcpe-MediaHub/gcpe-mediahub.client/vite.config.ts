@@ -6,9 +6,8 @@ import plugin from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, process.cwd());
     const apiUrl = env.VITE_API_URL;
-
     return {
-        base: '/',
+        base: './',
         plugins: [plugin()],
         resolve: {
             alias: {
@@ -17,13 +16,21 @@ export default defineConfig(({ mode }) => {
         },
         server: {
             proxy: {
+                // 'mediaContacts': `${env.ASPNETCORE_HTTPS_PORT}/MediaContacts`,
+                '^/mediacontacts': {
+                    target,
+                    secure: false
+                },
+                '^/mediaoutlets': {
+                    target,
+                    secure: false
+                },
                 '/api': {
                     target: apiUrl,
                     changeOrigin: true,
                     secure: false
                 }
             },
-            port: 5173
         }
     }
 });
