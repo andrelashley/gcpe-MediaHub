@@ -70,7 +70,7 @@ function convertMockData(data: any[]): MediaRequest[] {
 const axiosInstance = axios.create({
     baseURL: '/',
     headers: {
-        'Authorization': `Basic ${btoa('username:password')}`
+        'Authorization': `Basic ${btoa(import.meta.env.VITE_API_BASIC_AUTH ?? '')}`
     }
 });
 
