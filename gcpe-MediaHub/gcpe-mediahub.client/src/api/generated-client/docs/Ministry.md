@@ -1,0 +1,28 @@
+# Ministry
+
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**id** | **number** |  | [optional] [default to undefined]
+**name** | **string** |  | [optional] [default to undefined]
+**acronym** | **string** |  | [optional] [default to undefined]
+**leadMediaRequests** | [**Array&lt;MediaRequest&gt;**](MediaRequest.md) |  | [optional] [default to undefined]
+**additionalMediaRequests** | [**Array&lt;MediaRequest&gt;**](MediaRequest.md) |  | [optional] [default to undefined]
+
+## Example
+
+```typescript
+import { Ministry } from './api';
+
+const instance: Ministry = {
+    id,
+    name,
+    acronym,
+    leadMediaRequests,
+    additionalMediaRequests,
+};
+```
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

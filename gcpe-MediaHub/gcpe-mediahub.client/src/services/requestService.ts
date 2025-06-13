@@ -1,4 +1,4 @@
-import { MediaRequest } from '../api/generated/data-contracts';
+import { MediaRequest } from '../api/generated-client/model';
 import axios from 'axios';
 
 async function loadMockData(): Promise<any[]> {
@@ -68,6 +68,7 @@ function convertMockData(data: any[]): MediaRequest[] {
 
 // Create an axios instance with auth headers
 const axiosInstance = axios.create({
+    baseURL: '/',
     headers: {
         'Authorization': `Basic ${btoa('username:password')}`
     }
