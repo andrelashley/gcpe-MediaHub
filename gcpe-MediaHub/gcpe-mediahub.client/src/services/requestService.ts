@@ -6,7 +6,7 @@ async function loadMockData(): Promise<any[]> {
     return response.json();
 }
 
-// Convert mock data to our MediaRequest type
+// Convert mock data to our MediaRequest type, will remove after API is stable
 function convertMockData(data: any[]): MediaRequest[] {
     return data.map(item => ({
         id: item.requestId,
@@ -85,3 +85,8 @@ export const requestService = {
         return response.data;
     }
 };
+
+export async function createRequest(request: MediaRequest): Promise<MediaRequest> {
+    const response = await axiosInstance.post<MediaRequest>('/api/MediaRequests', request);
+    return response.data;
+}
