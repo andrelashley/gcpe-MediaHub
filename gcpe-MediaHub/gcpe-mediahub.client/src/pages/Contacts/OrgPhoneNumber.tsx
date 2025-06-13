@@ -5,6 +5,7 @@ import {
     makeStyles,
 } from "@fluentui/react-components";
 import { Dismiss12Regular } from "@fluentui/react-icons";
+import { useState } from "react";
 
 const useStyles = makeStyles({
     socialMediaInput: {
@@ -37,16 +38,23 @@ const useStyles = makeStyles({
 
 interface OrgPhoneProps {
     onRemove: () => void;
+    onInput: (type: string, phoneNumber: number) => void;
 }
 
-const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove }) => {
+const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onInput }) => {
+    const [type, setType] = useState<string>('');
+    const [phoneNumber, setPhoneNumber] = useState<number>();
 
     const styles = useStyles();
     return (
         <div className={styles.socialMediaInput}>
 
             <div className={styles.platformSelector}>
-                <Select>
+                <Select
+                    onChange={(_, data) => {
+                        setType(data.value)
+                    }}
+                >
                     {/*need to map this bit from actual data, not hard coded */}
                     <option value='primary'>Primary</option>
                     <option value='mobile'>Mobile</option>
@@ -54,7 +62,12 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove }) => {
                 </Select>
             </div>
             <div className={styles.linkInput}>
-                <Input placeholder="https://" />
+                <Input
+                    onChange={(_, data) => {
+                        setPhoneNumber(parseInt(data.value));
+                        onInput(type, phoneNumber);
+                    } }
+                />
             </div>
             <div className={styles.dismissButton}>
                 <Button

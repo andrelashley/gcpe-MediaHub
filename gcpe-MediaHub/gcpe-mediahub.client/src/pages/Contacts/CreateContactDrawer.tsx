@@ -16,10 +16,10 @@ import {
 
 import { Dismiss24Regular, Add24Regular } from "@fluentui/react-icons";
 import SocialMediaInput from "./SocialMediaInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MediaOutletInput from "./MediaOutletInput";
-import PrimaryContactInfoInput from "./PrimaryContactInfoInput";
 import MediaContact from "../../models/mediaContact";
+import MediaOutlet from "../../models/MediaOutlet";
 
 
 const useStyles = makeStyles({
@@ -78,9 +78,7 @@ export const CreateContactDrawer = () => {
     const addPrimaryContactInfoInput = () => {
         setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length]);
     };
-    const removePrimaryContactInfoInput = (index: number) => {
-        setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
-    };
+
     // for tracking social media link inputs
     const [socialMediaInputs, setSocialMediaInputs] = useState<number[]>([1]);
     const addSocialMediaInput = () => {
@@ -111,6 +109,9 @@ export const CreateContactDrawer = () => {
     const [firstName, setFirstName] = useState<string>('');
     const [lastName, setLastName] = useState<string>('');
     const [isPressGallery, setIsPressGallery] = React.useState(false);
+    const [email, setEmail] = React.useState('');
+    const [primaryPhone, setPrimaryPhone] = React.useState('');
+    const [mobilePhone, setMobilePhone] = React.useState('');
 
 
     const createContact = () => {
@@ -118,12 +119,31 @@ export const CreateContactDrawer = () => {
         contact.firstName = firstName;
         contact.lastName = lastName;
         contact.isPressGallery = isPressGallery;
+        contact.email = email;
+        contact.primaryPhone = primaryPhone;
+        contact.mobilePhone = mobilePhone;
+        
         console.log(JSON.stringify(contact));
 
         //give a little toast saying how the transaction went, 
         // if it was successful, close drawer after brief delay
         //  setIsOpen(false)
     };
+
+    const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
+    const fetchOutlets = async () => {
+        const response = await fetch('mediaoutlets');
+        //   const response = await fetch('../../data/mock-contacts.json');
+        const data = await response.json();
+        const outlets: MediaOutlet[] = data as MediaOutlet[];
+        //console.log(JSON.stringify(outlets[2]));
+        setOutlets(outlets);
+    };
+
+    useEffect(() => {
+        fetchOutlets();
+    }, []);
+
     return (
         /*we can probably break some of this out into separate components*/
         <div>
@@ -174,13 +194,28 @@ export const CreateContactDrawer = () => {
                         label="Press gallery"
                         onChange={(_, data) => setIsPressGallery(!!data.checked)}
                     />
-
                     <Field label="Primary Contact Info" required>
-                        <div id="primaryContactInfo">
-                            {primaryContactInfoInputs.map((_, index) => (
-                                <PrimaryContactInfoInput key={index} onRemove={() => removePrimaryContactInfoInput(index)} />
-                            ))}
-                        </div>
+                        <Field label="Email" required>
+                            <Input
+                                onChange={(_, data) => {
+                                    setEmail(data.value);
+                                }}
+                            />
+                        </Field>
+                        <Field label="Primary phone" required>
+                            <Input
+                                onChange={(_, data) => {
+                                    setPrimaryPhone(data.value);
+                                }}
+                            />
+                        </Field>
+                        <Field label="Mobile phone">
+                            <Input
+                                onChange={(_, data) => {
+                                    setMobilePhone(data.value);
+                                }}
+                            />
+                        </Field>
                     </Field>
                     <p>
                         <Button appearance="subtle"
@@ -214,7 +249,11 @@ export const CreateContactDrawer = () => {
 
 
                     {outletInputs.map((_, index) => (
-                        <MediaOutletInput key={index} onRemove={() => removeOutletInput(index)} />
+                        <MediaOutletInput
+                            key={index}
+                            onRemove={() => removeOutletInput(index)}      
+                            outlets={outlets}
+                        />
                     ))}
 
 

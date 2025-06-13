@@ -26,7 +26,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-
 app.UseDefaultFiles();
 app.UseStaticFiles();
 using (var scope = app.Services.CreateScope())

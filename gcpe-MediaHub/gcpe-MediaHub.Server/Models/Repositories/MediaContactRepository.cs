@@ -26,16 +26,6 @@ namespace gcpe_MediaHub.Server.Models.Repositories
                     .Include(x => x.Outlets).ThenInclude(y => y.Outlet)  /*No clue why this isn't working */
                     .Include(x => x.Requests)
                 .ToListAsync();
-                /*well, this sucks */
-                //foreach (MediaContact contact in contacts)
-                //{
-                //    contact.Outlets = _context.ContactOutlets.Where(x => x.ContactId == contact.Id).ToList();
-                //    //booooo! 
-                //    foreach (ContactOutlet contactOutlet in contact.Outlets)
-                //    {
-                //        contactOutlet.Outlet = await _mediaOutletRepository.GetOutletById(contactOutlet.OutletId);
-                //    }
-                //}
                 return contacts;
             }
             catch (Exception ex)

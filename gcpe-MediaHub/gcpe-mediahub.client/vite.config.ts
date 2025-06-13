@@ -45,11 +45,11 @@ export default defineConfig({
     server: {
         proxy: {
            // 'mediaContacts': `${env.ASPNETCORE_HTTPS_PORT}/MediaContacts`,
-            '^/weatherforecast': {
+            '^/mediacontacts': {
                 target,
                 secure: false
             },
-            '^/mediacontacts': {
+            '^/mediaoutlets': {
                 target,
                 secure: false
             }

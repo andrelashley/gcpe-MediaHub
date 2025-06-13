@@ -10,7 +10,8 @@ export class MediaContact {
     socialMediaXURL: string | undefined; 
     socialMediaInstagramURL: string | undefined;
     email: string | undefined;
-    phone: string | undefined;
+    primaryPhone: string | undefined;
+    mobilePhone: string | undefined;
     outlets: MediaOutlet[] = [];
     requests: MediaRequest[] = [];
     location: string | undefined;

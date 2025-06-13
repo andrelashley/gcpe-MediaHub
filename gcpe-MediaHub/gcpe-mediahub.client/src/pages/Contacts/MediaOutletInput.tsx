@@ -1,13 +1,15 @@
 import {
     Button,
-    Combobox,
     Field,
     Input,
     makeStyles,
+    Select,
 } from "@fluentui/react-components";
 import { Add24Regular, Dismiss16Regular} from "@fluentui/react-icons";
-import React from "react";
+import React, { useState } from "react";
 import OrgPhoneNumber from "./OrgPhoneNumber";
+import { MediaOutlet } from "../../models/MediaOutlet";
+
 
 
 const useStyles = makeStyles({
@@ -34,48 +36,67 @@ const useStyles = makeStyles({
 
 interface MediaOutletInputProps {
     onRemove: () => void;
+    outlets: MediaOutlet[];
 }
 
-const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove }) => {
-    const [phoneNumbers, setPhoneNumbers] = React.useState<number[]>([1])
+const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets }) => {
+    const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
+    const [outletId, setOutletId] = useState<number>();
+    const [contactEmail, setContactEmail] = useState<string>();
+    const [phonePrimary, setPhonePrimary] = useState<number>();
+    const [phoneMobile, setPhoneMobile] = useState<number>();
+    const [phoneCallIn, setPhoneCallIn] = useState<number>();
+    const [worksHere, setWorksHere] = useState<boolean>(true);
+
 
     const addPhoneNumber = () => {
-    
         setPhoneNumbers([...phoneNumbers, phoneNumbers.length]);
     }
     const removePhoneNumber = (index: number) => {
         setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
     };
+
+    const handlePhoneNumberChange = (key: number) => {
+        console.log(`phone number changed from media outlet with index = ${key}`);
+    }
+
     const styles = useStyles();
 
     return (
         <div id="outlets-section" className={styles.outletsSection}>
-
-            
-            
-         
             <Field label="Media organization" required>
-                <Combobox>
-                    {/*need to map this bit from actual data, not hard coded */}
-                    <option>Media Outlet 1</option>
-                    <option>Media Outlet 2</option>
-                    <option>Media Outlet 3</option>
-                </Combobox>
+                <Select
+                    onChange={(_, data) => {
+                        setOutletId(parseInt(data.value))
+                    }}
+                >
+                    <option/>
+                    {outlets.map((outlet) => (
+                        <option value={outlet.id.toString()}>{outlet.name}</option>
+                    ))}
+                </Select>
             </Field>
             <Field label="Job title" required>
-                <Combobox>
+                <Select>
                     {/*need to map this bit from actual data, not hard coded */}
                     <option>Reporter</option>
                     <option>Photographer</option>
-                </Combobox>
+                </Select>
             </Field>
             <Field label="Email" required>
-                <Input />
+                <Input
+                    onChange={(_, data) => {
+                        setContactEmail(data.value)
+                    } }
+                />
             </Field>
 
             <Field label="Phone" required>
                 {phoneNumbers.map((_, index) => (
-                    <OrgPhoneNumber key={index} onRemove={() => removePhoneNumber(index)} />
+                    <OrgPhoneNumber key={index}
+                        onRemove={() => removePhoneNumber(index)}
+                        onInput={() => handlePhoneNumberChange(index)}
+                    />
                 ))}
                 <p>
                 <Button icon={<Add24Regular />}

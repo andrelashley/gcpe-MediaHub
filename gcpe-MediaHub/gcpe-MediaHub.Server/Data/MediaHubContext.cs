@@ -11,7 +11,7 @@ namespace gcpe_MediaHub.Server.Data
 
         }
         public DbSet<MediaContact> MediaContacts { get; set; } = default!;
-        public DbSet<ContactOutlet> ContactOutlets { get; set; }
+        public DbSet<OutletAssociation> OutletAssociations { get; set; }
         public DbSet<MediaOutlet> MediaOutlets { get; set; }
         public DbSet<MediaRequest> MediaRequests { get; set; }
     }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace gcpe_MediaHub.Server.Models
 {
-    public class ContactOutlet // association between MediaContact, and a MediaOutlet
+    public class OutletAssociation // association between MediaContact, and a MediaOutlet
     {
         [Key] 
         public int Id { get; set; }
@@ -28,7 +28,7 @@ namespace gcpe_MediaHub.Server.Models
         
         public DateTime? LastRequestDate { get; set; }
 
-        public ContactOutlet(int id, int contactId, int outletId, string contactEmail )
+        public OutletAssociation(int id, int contactId, int outletId, string contactEmail )
         {
             Id = id;
             ContactId = contactId;
