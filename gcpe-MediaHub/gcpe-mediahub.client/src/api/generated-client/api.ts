@@ -14,9 +14,10 @@
 
 
 
-export * from './api/media-contacts-api';
-export * from './api/media-outlets-api';
-export * from './api/media-requests-api';
-export * from './api/media-types-api';
-export * from './api/secure-api';
+export * from './api//media-contacts-api';
+export * from './api//media-outlets-api';
+export * from './api//media-requests-api';
+export * from './api//media-types-api';
+export * from './api//ministries-api';
+export * from './api//secure-api';
 

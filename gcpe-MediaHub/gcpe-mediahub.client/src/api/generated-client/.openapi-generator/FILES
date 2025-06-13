@@ -6,6 +6,7 @@ api/media-contacts-api.ts
 api/media-outlets-api.ts
 api/media-requests-api.ts
 api/media-types-api.ts
+api/ministries-api.ts
 api/secure-api.ts
 base.ts
 common.ts
@@ -26,6 +27,7 @@ docs/MediaRequest.md
 docs/MediaRequestsApi.md
 docs/MediaType.md
 docs/MediaTypesApi.md
+docs/MinistriesApi.md
 docs/Ministry.md
 docs/PhoneNumber.md
 docs/RequestResolution.md
