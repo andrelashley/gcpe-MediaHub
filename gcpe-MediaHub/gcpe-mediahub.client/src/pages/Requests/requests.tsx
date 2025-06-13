@@ -9,9 +9,8 @@ import {
 } from '@tanstack/react-table';
 import { Title1, Input, Button, TabList, Tab, Tag, Avatar, Link, Drawer } from '@fluentui/react-components';
 import { PressGalleryBadge } from '../../components/PressGalleryBadge';
-import { Search24Regular, Filter24Regular, Add24Regular } from '@fluentui/react-icons';
-import { useNavigate } from 'react-router-dom';
-import { MediaRequest } from '../../api/apiClient';
+import { Search16Regular, Filter24Regular, Add24Regular } from '@fluentui/react-icons';
+import { MediaRequest } from '../../api/generated-client/model';
 import { RequestStatus, Ministry } from './types';
 import { requestService } from '../../services/requestService';
 import RequestDetailView from './requestDetailView';
@@ -33,57 +32,54 @@ const columns = [
         cell: info => new Date(info.getValue() || "1970-01-01").toLocaleDateString(),
         size: 120,
     }),
-    columnHelper.accessor('status', {
+    columnHelper.accessor('requestStatus', {
         header: () => 'Status',
-        cell: info => {
-            const status = info.getValue() as RequestStatus;
-            return <Tag shape="circular" appearance="outline">{status}</Tag>;
-        },
+        cell: info => (
+            <Tag shape="circular" appearance="outline">
+                {info.getValue()?.name || info.row.original.requestStatusId || "Unknown"}
+            </Tag>
+        ),
         size: 80,
     }),
-    columnHelper.accessor('requestedBy', {
+    columnHelper.accessor('requestorContact', {
         header: () => 'Requested By',
-        cell: info => (
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <span>{info.getValue()}</span>
-                {info.row.original.isPressGallery && <PressGalleryBadge />}
-            </div>
-        ),
+        cell: info => {
+            const contact = info.getValue();
+            return (
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <span>{contact?.firstName} {contact?.lastName}</span>
+                </div>
+            );
+        },
         size: 150,
     }),
     columnHelper.accessor('leadMinistry', {
         header: () => 'Lead Ministry',
-        cell: info => {
-            const ministry = info.getValue() as Ministry;
-            return <Tag shape="circular" appearance="outline">{ministry}</Tag>;
-        },
+        cell: info => (
+            <Tag shape="circular" appearance="outline">
+                {info.getValue()?.acronym || 'Unknown'}
+            </Tag>
+        ),
         size: 100,
     }),
-    columnHelper.accessor('additionalMinistry', {
+    columnHelper.accessor('additionalMinistries', {
         header: () => 'Additional Ministry',
-        cell: info => {
-            const ministry = info.getValue() as Ministry | undefined;
-            return ministry ? <Tag shape="circular" appearance="outline">{ministry}</Tag> : null;
-        },
+        cell: info => (
+            info.getValue()?.[0]?.acronym
+                ? <Tag shape="circular" appearance="outline">{info.getValue()[0].acronym}</Tag>
+                : null
+        ),
         size: 100,
     }),
-    columnHelper.accessor('assignedTo', {
-        header: () => 'Assigned To',
-        cell: info => {
-            const name = info.getValue();
-            return (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Avatar name={name} size={24} />
-                    <span>{name}</span>
-                </div>
-            );
-        },
-        size: 200,
+    columnHelper.accessor('requestorOutlet', {
+        header: () => 'Outlet',
+        cell: info => info.getValue()?.outletName || 'Unknown',
+        size: 120,
     }),
 ];
 
 const RequestsPage: React.FC = () => {
-    const navigate = useNavigate();
+    // Removed unused navigate
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTab, setSelectedTab] = useState<string>("all");
     const [selectedRequest, setSelectedRequest] = useState<MediaRequest | null>(null);
@@ -102,11 +98,11 @@ const RequestsPage: React.FC = () => {
         return requests.filter((request) => {
             const searchableFields = [
                 request.requestTitle,
-                request.requestedBy,
-                request.assignedTo,
-                request.status,
-                request.leadMinistry,
-                request.additionalMinistry,
+                `${request.requestorContact?.firstName ?? ""} ${request.requestorContact?.lastName ?? ""}`,
+                request.leadMinistry?.acronym ?? "",
+                request.additionalMinistries?.[0]?.acronym ?? "",
+                request.requestStatus?.name ?? request.requestStatusId ?? "",
+                request.requestorOutlet?.outletName ?? "",
                 new Date(request.deadline ?? "").toLocaleDateString()
             ];
             return searchableFields.some(field =>
@@ -151,7 +147,7 @@ const RequestsPage: React.FC = () => {
                 </TabList>
                 <div className={styles.searchAndFilterContainer}>
                     <Input
-                        contentBefore={<Search24Regular />}
+                        contentBefore={<Search16Regular />}
                         placeholder="Search requests..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}

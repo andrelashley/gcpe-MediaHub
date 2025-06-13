@@ -3,7 +3,7 @@ import { Input, Badge, Tag, Tab, TabList, Avatar, TagGroup, Button, Title1, Divi
 import { CalendarEmptyRegular, Filter24Regular, Search16Regular } from "@fluentui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
-import { MediaRequest } from "../../api/apiClient";
+import { MediaRequest } from "../../api/generated-client/model";
 import { requestService } from "../../services/requestService";
 import styles from "./requestsCardView.module.css";
 import NewRequestPage from './newRequest';
@@ -17,8 +17,17 @@ const RequestsCardView: React.FC = () => {
 
   const { data: requests = [], isLoading, error } = useQuery<MediaRequest[], Error>({
     queryKey: ["requests"],
-    queryFn: requestService.getRequests,
+    queryFn: async () => {
+      return await requestService.getRequests();
+    },
   });
+
+  // Debug: log the loaded requests to inspect requestStatus
+  React.useEffect(() => {
+    if (requests.length > 0) {
+      console.log("Loaded requests:", requests);
+    }
+  }, [requests]);
 
   const columns = React.useMemo(
     () => [
@@ -27,40 +36,48 @@ const RequestsCardView: React.FC = () => {
         header: "Request Title",
       },
       {
-        accessorKey: "requestedBy",
+        accessorKey: "requestorContact",
         header: "Requested By",
+        cell: (info: any) => {
+          const contact = info.getValue();
+          return `${contact?.firstName} ${contact?.lastName}`;
+        }
       },
       {
         accessorKey: "deadline",
         header: "Deadline",
         cell: (info: any) => {
-            const dateValue = info.getValue();
-            if (!dateValue || typeof dateValue !== "string") {
-                return "Invalid Date";
-            }
-            try {
-                const parsedDate = new Date(dateValue);
-                return isNaN(parsedDate.getTime()) ? "Invalid Date" : parsedDate.toLocaleDateString();
-            } catch (error) {
-                return "Invalid Date";
-            }
+          const dateValue = info.getValue();
+          if (!dateValue) return "Invalid Date";
+          try {
+            const parsedDate = new Date(dateValue);
+            return isNaN(parsedDate.getTime()) 
+              ? "Invalid Date" 
+              : parsedDate.toLocaleDateString();
+          } catch (error) {
+            return "Invalid Date";
+          }
         },
       },
       {
         accessorKey: "leadMinistry",
         header: "Lead Ministry",
+        cell: (info: any) => info.getValue()?.acronym || 'Unknown'
       },
       {
-        accessorKey: "additionalMinistry",
+        accessorKey: "additionalMinistries",
         header: "Additional Ministry",
+        cell: (info: any) => info.getValue()?.[0]?.acronym || ''
       },
       {
-        accessorKey: "outlet",
+        accessorKey: "requestorOutlet",
         header: "Outlet",
+        cell: (info: any) => info.getValue()?.outletName || 'Unknown'
       },
       {
-        accessorKey: "status",
+        accessorKey: "requestStatus",
         header: "Status",
+        cell: (info: any) => info.getValue()?.name || info.row.original.requestStatusId || 'Unknown'
       },
     ],
     []
@@ -70,10 +87,10 @@ const RequestsCardView: React.FC = () => {
     if (!globalFilter) return requests;
     const filterLower = globalFilter.toLowerCase();
     return requests.filter(request =>
-      request.requestTitle.toLowerCase().includes(filterLower) ||
-      request.requestedBy.toLowerCase().includes(filterLower) ||
-      request.leadMinistry.toLowerCase().includes(filterLower) ||
-      (request.additionalMinistry && request.additionalMinistry.toLowerCase().includes(filterLower))
+      request.requestTitle?.toLowerCase().includes(filterLower) ||
+      (request.requestorContact?.firstName + ' ' + request.requestorContact?.lastName).toLowerCase().includes(filterLower) ||
+      request.leadMinistry?.acronym?.toLowerCase().includes(filterLower) ||
+      request.additionalMinistries?.[0]?.acronym?.toLowerCase().includes(filterLower)
     );
   }, [requests, globalFilter]);
 
@@ -125,7 +142,7 @@ const RequestsCardView: React.FC = () => {
             {table.getRowModel().rows.map((row) => (
               <div
                 key={row.id}
-                className={`${styles.card} ${selectedRequest?.requestTitle === row.original.requestTitle ? styles.selectedCard : ''}`}
+                className={`${styles.card} ${selectedRequest?.id === row.original.id ? styles.selectedCard : ''}`}
                 onClick={() => setSelectedRequest(row.original as MediaRequest)}
                 role="button"
                 tabIndex={0}
@@ -133,27 +150,39 @@ const RequestsCardView: React.FC = () => {
               >
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span>{row.original.requestNo}</span>
+                    <span>{`REQ-${row.original.requestNo}`}</span>
                     <div className={styles.statusBadge}>
-                      <Badge shape="circular" appearance="filled">{row.getValue("status")}</Badge>
+                      <Badge shape="circular" appearance="filled">
+                        {row.original.requestStatus?.name || row.original.requestStatusId || "Unknown"}
+                      </Badge>
                     </div>
                   </div>
-                  <h3>{row.getValue("requestTitle")}</h3>
+                  <h3>{row.original.requestTitle}</h3>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Avatar name={row.getValue("requestedBy")} size={24} />
+                    <Avatar 
+                      name={`${row.original.requestorContact?.firstName} ${row.original.requestorContact?.lastName}`} 
+                      size={24} 
+                    />
                     <span>
-                      {row.getValue("requestedBy")} - {row.getValue("outlet")}
+                      {row.original.requestorContact?.firstName} {row.original.requestorContact?.lastName} - {row.original.requestorOutlet?.outletName}
                     </span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <CalendarEmptyRegular />
-                    <span>{new Date(row.getValue("deadline")).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })}</span>
+                    <span>
+                      {row.original.deadline 
+                        ? new Date(row.original.deadline).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })
+                        : "No deadline"
+                      }
+                    </span>
                   </div>
                   <Divider />
                   <TagGroup className={styles.ministryTags}>
-                    <Tag shape="circular" appearance="outline">{row.getValue("leadMinistry")}</Tag>
-                    {typeof row.getValue("additionalMinistry") === "string" && (
-                      <Tag shape="circular" appearance="outline">{row.getValue("additionalMinistry") as string}</Tag>
+                    {row.original.leadMinistry?.acronym && (
+                      <Tag shape="circular" appearance="outline">{row.original.leadMinistry.acronym}</Tag>
+                    )}
+                    {row.original.additionalMinistries?.[0]?.acronym && (
+                      <Tag shape="circular" appearance="outline">{row.original.additionalMinistries[0].acronym}</Tag>
                     )}
                   </TagGroup>
                 </div>
