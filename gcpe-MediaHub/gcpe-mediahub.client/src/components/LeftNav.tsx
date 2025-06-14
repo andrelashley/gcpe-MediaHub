@@ -21,7 +21,7 @@ const navConfig = {
     mediaRequests: { path: '/requests', value: 'mediaRequests', categoryValue: null }, // Updated path
     mediaContactsCategory: { value: 'mediaContactsCategory' },
     contacts: { path: '/contacts', value: 'contacts', categoryValue: 'mediaContactsCategory' },
-    outlets: { path: '/outlets', value: 'outlets', categoryValue: 'mediaContactsCategory' },
+    organizations: { path: '/organizations', value: 'organizations', categoryValue: null },
     distributionList: { path: '/', value: 'distributionList', categoryValue: 'mediaContactsCategory' },
 } as const;
 
@@ -135,10 +135,8 @@ const LeftNav = () => {
                                 Contacts
                             </NavSubItem>
                             <NavSubItem
-                                value={navConfig.outlets.value}
-                                onClick={(e) => e.preventDefault()} // Disable click functionality
-                                aria-disabled="true" // Add accessibility attribute
-                                style={{ color: 'grey', pointerEvents: 'none' }} // Greyed out style
+                                value={navConfig.organizations.value}
+                                onClick={() => handleNavigation(navConfig.organizations.path)}
                             >
                                 Organizations
                             </NavSubItem>
