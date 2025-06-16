@@ -1,7 +1,7 @@
 import React from 'react';
-import { Title1, Text, Divider, Badge, Avatar, Tag } from '@fluentui/react-components';
+import { Title3, Text, Divider, Badge, Avatar, Tag } from '@fluentui/react-components';
 import { Dismiss24Regular, CalendarEmptyRegular } from '@fluentui/react-icons';
-import { MediaRequest } from '../../api/generated/data-contracts';
+import { MediaRequest } from '../../api/generated-client/model';
 import styles from './requestsCardView.module.css';
 
 interface RequestDetailViewProps {
@@ -22,8 +22,25 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ request, onClose 
     };
 
     return (
-        <div className={styles.detailView} style={{ position: 'sticky', top: 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+        <div className={styles.detailView} style={{ position: 'relative', top: 0 }}>
+            <button
+                onClick={onClose}
+                style={{
+                    position: 'absolute',
+                    top: 16,
+                    right: 16,
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    zIndex: 10,
+                    padding: 0,
+                    lineHeight: 0
+                }}
+                aria-label="Close"
+            >
+                <Dismiss24Regular style={{ color: 'var(--colorNeutralForeground1)' }} />
+            </button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', marginTop: '30px' }}>
                 <Text weight="semibold">{request.requestNo}</Text>
                 <Badge shape="circular" appearance="filled">
                   {request.requestStatus?.name || request.requestStatusId || "Unknown"}
@@ -31,11 +48,7 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ request, onClose 
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
-                <Title1>{request.requestTitle}</Title1>
-                <Dismiss24Regular
-                    style={{ cursor: 'pointer', color: 'var(--colorNeutralForeground1)' }}
-                    onClick={onClose}
-                />
+                <Title3>{request.requestTitle}</Title3>
             </div>
             
             <Divider style={{ margin: '16px 0' }} />
