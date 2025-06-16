@@ -1,3 +1,11 @@
+﻿/* Override FluentProvider font variable */
+.fluent-provider, :root, [data-theme] {
+    --fontFamilyBase: 'BCSans', sans-serif !important;
+}
+﻿/* Force BCSans font globally, including Fluent UI components */
+* {
+    font-family: 'BCSans', sans-serif !important;
+}
 ﻿#root {
    
 

@@ -31,6 +31,8 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
     const [deadline, setDeadline] = React.useState('');
     const [receivedOn, setReceivedOn] = React.useState('');
     const [showValidation, setShowValidation] = React.useState(false);
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
+    const [error, setError] = React.useState<string | null>(null);
 
     const statusOptions = Object.entries(RequestStatus)
         .filter(([key]) => isNaN(Number(key)))
@@ -52,6 +54,32 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
 
     const dateInputRef = React.useRef<HTMLInputElement>(null);
     const receivedOnInputRef = React.useRef<HTMLInputElement>(null);
+
+    // Example submit handler using createRequest
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setShowValidation(true);
+        setError(null);
+
+        // TODO: Map form state to the correct MediaRequest shape for your API
+        const newRequest: MediaRequest = {
+            requestTitle,
+            requestDetails,
+            deadline,
+            receivedOn,
+            // Add other required fields here, mapping from your form state
+        };
+
+        setIsSubmitting(true);
+        try {
+            await createRequest(newRequest);
+            setIsSubmitting(false);
+            if (onClose) onClose();
+        } catch (err: any) {
+            setIsSubmitting(false);
+            setError(err?.message || "Failed to create request");
+        }
+    };
 
     return (
         <div className={styles.container}>
