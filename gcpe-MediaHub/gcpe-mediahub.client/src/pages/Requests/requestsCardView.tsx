@@ -177,14 +177,29 @@ const RequestsCardView: React.FC = () => {
                     </span>
                   </div>
                   <Divider />
-                  <TagGroup className={styles.ministryTags}>
-                    {row.original.leadMinistry?.acronym && (
-                      <Tag shape="circular" appearance="outline">{row.original.leadMinistry.acronym}</Tag>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <TagGroup className={styles.ministryTags}>
+                      {row.original.leadMinistry?.acronym && (
+                        <Tag shape="circular" appearance="outline">{row.original.leadMinistry.acronym}</Tag>
+                      )}
+                      {row.original.additionalMinistries?.[0]?.acronym && (
+                        <Tag shape="circular" appearance="outline">{row.original.additionalMinistries[0].acronym}</Tag>
+                      )}
+                    </TagGroup>
+                    {row.original.assignedUser && (
+                      <div style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', gap: '8px' }}>
+                        <Avatar
+                          name={row.original.assignedUser.idir ?? row.original.assignedUser.id ?? ""}
+                          size={24}
+                          initials={
+                            row.original.assignedUser.idir
+                              ? row.original.assignedUser.idir.slice(0, 2).toUpperCase()
+                              : (row.original.assignedUser.id ?? "").slice(0, 2).toUpperCase()
+                          }
+                        />
+                      </div>
                     )}
-                    {row.original.additionalMinistries?.[0]?.acronym && (
-                      <Tag shape="circular" appearance="outline">{row.original.additionalMinistries[0].acronym}</Tag>
-                    )}
-                  </TagGroup>
+                  </div>
                 </div>
               </div>
             ))}
@@ -192,7 +207,7 @@ const RequestsCardView: React.FC = () => {
         </div>
 
         {selectedRequest && (
-          <div style={{ width: '90%', position: 'sticky', top: 0, height: '100%', overflow: 'hidden' }}>
+          <div style={{ width: '100%', position: 'sticky', top: 0, height: '100%', overflow: 'hidden' }}>
             <RequestDetailView
               request={selectedRequest}
               onClose={() => setSelectedRequest(null)}
