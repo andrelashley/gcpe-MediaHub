@@ -81,7 +81,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             cell: item => item.getValue(),
 
         }),
-        columnHelper.accessor('phone', {
+        columnHelper.accessor('primaryPhone', {
             header: 'Phone',
             cell: item => item.getValue(),
         }),

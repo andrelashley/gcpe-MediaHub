@@ -2,7 +2,7 @@
 
 import Layout from '../../components/Layout';
 // import MediaContact from '../../models/MediaContact';
-import ContactsTable from './contactsTable';
+import ContactsTable from './ContactsTable';
 import { useState, useEffect } from 'react';
 import CreateContactButton from './CreateContactButton';
 //import { contactService } from '../../services/contactService';
