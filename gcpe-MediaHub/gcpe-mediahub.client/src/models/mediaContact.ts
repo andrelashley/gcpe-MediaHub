@@ -1,6 +1,7 @@
 
 import MediaOutlet from './MediaOutlet';
 import MediaRequest from './mediaRequest';
+import { OutletAssociation } from './OutletAssociation';
 
 export class MediaContact {
     id: number = 0;
@@ -12,7 +13,7 @@ export class MediaContact {
     email: string | undefined;
     primaryPhone: string | undefined;
     mobilePhone: string | undefined;
-    outlets: MediaOutlet[] = [];
+    outletAssociations: OutletAssociation[] = [];
     requests: MediaRequest[] = [];
     location: string | undefined;
     lastActive: Date | undefined;

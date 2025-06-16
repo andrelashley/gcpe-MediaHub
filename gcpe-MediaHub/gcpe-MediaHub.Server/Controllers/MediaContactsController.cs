@@ -23,5 +23,20 @@ namespace gcpe_MediaHub.Server.Controllers
 
             return Ok(contacts);
         }
+
+        [HttpPost(Name = "CreateMediaContact")]
+        public async Task<IActionResult> CreateMediaContact([FromBody] string value)
+        {
+            try
+            {
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                string x = ex.Message;
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

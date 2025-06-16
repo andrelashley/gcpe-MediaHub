@@ -9,6 +9,8 @@ import { Add24Regular, Dismiss16Regular} from "@fluentui/react-icons";
 import React, { useState } from "react";
 import OrgPhoneNumber from "./OrgPhoneNumber";
 import { MediaOutlet } from "../../models/MediaOutlet";
+import { OutletAssociation } from "../../models/OutletAssociation";
+import { useEffect } from "react";
 
 
 
@@ -37,17 +39,21 @@ const useStyles = makeStyles({
 interface MediaOutletInputProps {
     onRemove: () => void;
     outlets: MediaOutlet[];
+    onAssociationDataChange: (data: OutletAssociation) => void; 
+    itemId: number;
 }
 
-const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets }) => {
+const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, itemId}) => {
     const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
     const [outletId, setOutletId] = useState<number>();
     const [contactEmail, setContactEmail] = useState<string>();
+    const [jobTitle, setJobTitle] = useState<string>();
     const [phonePrimary, setPhonePrimary] = useState<number>();
     const [phoneMobile, setPhoneMobile] = useState<number>();
     const [phoneCallIn, setPhoneCallIn] = useState<number>();
-    const [worksHere, setWorksHere] = useState<boolean>(true);
+    const [doesNotWorkHere, setDoesNotWorksHere] = useState<boolean>(false); 
 
+    const association = new OutletAssociation;
 
     const addPhoneNumber = () => {
         setPhoneNumbers([...phoneNumbers, phoneNumbers.length]);
@@ -56,9 +62,21 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets }
         setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
     };
 
-    const handlePhoneNumberChange = (key: number) => {
-        console.log(`phone number changed from media outlet with index = ${key}`);
-    }
+    useEffect(() => {
+        // Call onDataChange whenever the input changes
+        onAssociationDataChange({
+            id: itemId,
+            contactId: 0,
+            outletId: outletId,
+            contactEmail: contactEmail,
+            phoneMobile: phoneMobile,
+            phonePrimary: phonePrimary,
+            phoneCallIn: phoneCallIn,
+            noLongerWorksHere: doesNotWorkHere,
+            lastRequestDate: undefined,
+            jobTitle: jobTitle,
+        });
+    }, [outletId, contactEmail, phonePrimary, phoneMobile, phoneCallIn, doesNotWorkHere]);
 
     const styles = useStyles();
 
@@ -77,7 +95,11 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets }
                 </Select>
             </Field>
             <Field label="Job title" required>
-                <Select>
+                <Select
+                    onChange={(_, data) => {
+                        setJobTitle(data.value)
+                    } }
+                >
                     {/*need to map this bit from actual data, not hard coded */}
                     <option>Reporter</option>
                     <option>Photographer</option>
@@ -92,22 +114,45 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets }
             </Field>
 
             <Field label="Phone" required>
-                {phoneNumbers.map((_, index) => (
-                    <OrgPhoneNumber key={index}
-                        onRemove={() => removePhoneNumber(index)}
-                        onInput={() => handlePhoneNumberChange(index)}
-                    />
-                ))}
-                <p>
-                <Button icon={<Add24Regular />}
-                    className={styles.addButton}
-                    title="Add another phone number"
-                    onClick={addPhoneNumber}
-                    appearance="subtle"
-                >
-                    Contact info
-                    </Button>
-                </p>
+                {/*{phoneNumbers.map((_, index) => (*/}
+                {/*    <OrgPhoneNumber key={index}*/}
+                {/*        onRemove={() => removePhoneNumber(index)}*/}
+                {/*        onInput={() => handlePhoneNumberChange(index)}*/}
+                {/*    />*/}
+                {/*))}*/}
+                <Field>
+                    <Field label="Primary phone" required>
+                        <Input
+                            onChange={(_, data) => {
+                                setPhonePrimary(parseInt(data.value));
+                            }}
+                        />
+                    </Field>
+                    <Field label="Mobile phone">
+                        <Input
+                            onChange={(_, data) => {
+                                setPhoneMobile(parseInt(data.value));
+                            }}
+                        />
+                    </Field>
+                    <Field label="Studio Call-In">
+                        <Input
+                            onChange={(_, data) => {
+                                setPhoneCallIn(parseInt(data.value));
+                            }}
+                        />
+                    </Field>
+                </Field>
+                {/*<p>*/}
+                {/*<Button icon={<Add24Regular />}*/}
+                {/*    className={styles.addButton}*/}
+                {/*    title="Add another phone number"*/}
+                {/*    onClick={addPhoneNumber}*/}
+                {/*    appearance="subtle"*/}
+                {/*>*/}
+                {/*    Contact info*/}
+                {/*    </Button>*/}
+                {/*</p>*/}
             </Field>
             <Button
                 icon={<Dismiss16Regular />}
