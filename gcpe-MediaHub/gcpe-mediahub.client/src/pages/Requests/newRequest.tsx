@@ -10,7 +10,10 @@ import {
     Textarea,
     Button,
 } from '@fluentui/react-components';
-import { RequestStatus, RequestType, Ministry } from './types';
+import { RequestStatus, RequestType } from './types';
+import { ministryService } from '../../services/ministryService';
+import { Ministry, MediaRequest } from '../../api/generated-client/model';
+import { createRequest } from '../../services/requestService';
 import { CalendarEmpty24Regular, Dismiss24Regular } from '@fluentui/react-icons';
 import styles from './newRequest.module.css';
 
@@ -19,10 +22,24 @@ interface NewRequestPageProps {
 }
 
 const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
+    React.useEffect(() => {
+        const fetchMinistries = async () => {
+            try {
+                const ministryList = await ministryService.getMinistries();
+                setMinistries(ministryList);
+            } catch (error) {
+                console.error('Failed to fetch ministries:', error);
+            }
+        };
+        
+        fetchMinistries();
+    }, []);
+
     const [status, setStatus] = React.useState<RequestStatus | null>(null);
     const [requestType, setRequestType] = React.useState<RequestType | null>(null);
-    const [leadMinistry, setLeadMinistry] = React.useState<Ministry | null>(null);
-    const [additionalMinistry, setAdditionalMinistry] = React.useState<Ministry | null>(null);
+    const [ministries, setMinistries] = React.useState<Ministry[]>([]);
+    const [leadMinistry, setLeadMinistry] = React.useState<number | null>(null);
+    const [additionalMinistries, setAdditionalMinistries] = React.useState<number[]>([]);
     const [assignedTo, setAssignedTo] = React.useState('');
     const [notifiedRecipients, setNotifiedRecipients] = React.useState('');
     const [requestDetails, setRequestDetails] = React.useState('');
@@ -61,13 +78,25 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
         setShowValidation(true);
         setError(null);
 
-        // TODO: Map form state to the correct MediaRequest shape for your API
+        // Map form state to the correct MediaRequest shape for your API
         const newRequest: MediaRequest = {
             requestTitle,
             requestDetails,
             deadline,
             receivedOn,
-            // Add other required fields here, mapping from your form state
+            leadMinistryId: leadMinistry || 0,
+            additionalMinistries: additionalMinistries.map(id => ({
+                id,
+                name: ministries.find(m => m.id === id)?.name || '',
+                acronym: ''
+            })),
+            requestStatusId: 1, // We'll update this when we integrate with the API
+            requestTypeId: 1, // We'll update this when we integrate with the API
+            requestorContactId: '00000000-0000-0000-0000-000000000000', // Default UUID for now
+            assignedUserId: '00000000-0000-0000-0000-000000000000', // Default UUID for now
+            requestorOutletId: '00000000-0000-0000-0000-000000000000', // Default UUID for now
+            requestResolutionId: 1, // Default value
+            response: ''
         };
 
         setIsSubmitting(true);
@@ -281,10 +310,10 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                 >
                     <Dropdown
                         placeholder="Select lead ministry"
-                        selectedOptions={leadMinistry ? [leadMinistry] : []}
+                        selectedOptions={leadMinistry ? [leadMinistry.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
-                                setLeadMinistry(data.optionValue as Ministry);
+                                setLeadMinistry(Number(data.optionValue));
                                 setShowValidation(false);
                             }
                         }}
@@ -294,32 +323,38 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                             }
                         }}
                     >
-                        {Object.values(Ministry).map(ministry => (
-                            <Option key={ministry} value={ministry}>
-                                {ministry}
+                        {ministries.map(ministry => (
+                            <Option key={ministry.id} value={ministry.id.toString()}>
+                                {ministry.name}
                             </Option>
                         ))}
                     </Dropdown>
                 </Field>
                 <Field
-                    label="Additional Ministry"
+                    label="Additional Ministries"
                 >
                     <Dropdown
-                        placeholder="Select additional ministry"
-                        selectedOptions={additionalMinistry ? [additionalMinistry] : []}
+                        placeholder="Select additional ministries"
+                        selectedOptions={additionalMinistries.map(id => id.toString())}
                         size="medium"
                         multiselect
                         onOptionSelect={(_, data) => {
-                            if (data.optionValue) {
-                                setAdditionalMinistry(data.optionValue as Ministry);
-                            }
+                            const selectedIds = data.selectedOptions.map(Number);
+                            // Filter out the lead ministry if it's selected
+                            const filteredIds = leadMinistry
+                                ? selectedIds.filter(id => id !== leadMinistry)
+                                : selectedIds;
+                            setAdditionalMinistries(filteredIds);
                         }}
                     >
-                        {Object.values(Ministry).map(ministry => (
-                            <Option key={ministry} value={ministry}>
-                                {ministry}
-                            </Option>
-                        ))}
+                        {ministries
+                            .filter(ministry => ministry.id !== leadMinistry) // Filter out the lead ministry
+                            .map(ministry => (
+                                <Option key={ministry.id} value={ministry.id.toString()}>
+                                    {ministry.name}
+                                </Option>
+                            ))
+                        }
                     </Dropdown>
                 </Field>
                 <Field
