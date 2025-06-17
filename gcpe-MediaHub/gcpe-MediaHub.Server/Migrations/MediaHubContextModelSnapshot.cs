@@ -22,48 +22,6 @@ namespace gcpe_MediaHub.Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("gcpe_MediaHub.Server.Models.ContactOutlet", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("ContactEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ContactId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastRequestDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("NoLongerWorksHere")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("OutletId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PhoneCallIn")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneMobile")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhonePrimary")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContactId");
-
-                    b.HasIndex("OutletId");
-
-                    b.ToTable("ContactOutlets");
-                });
-
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaContact", b =>
                 {
                     b.Property<int>("Id")
@@ -214,7 +172,60 @@ namespace gcpe_MediaHub.Server.Migrations
                     b.ToTable("MediaRequests");
                 });
 
-            modelBuilder.Entity("gcpe_MediaHub.Server.Models.ContactOutlet", b =>
+            modelBuilder.Entity("gcpe_MediaHub.Server.Models.OutletAssociation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContactEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ContactId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastRequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("NoLongerWorksHere")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OutletId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneCallIn")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneMobile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhonePrimary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContactId");
+
+                    b.HasIndex("OutletId");
+
+                    b.ToTable("OutletAssociations");
+                });
+
+            modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaRequest", b =>
+                {
+                    b.HasOne("gcpe_MediaHub.Server.Models.MediaContact", "Contact")
+                        .WithMany("Requests")
+                        .HasForeignKey("RequestedBy")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contact");
+                });
+
+            modelBuilder.Entity("gcpe_MediaHub.Server.Models.OutletAssociation", b =>
                 {
                     b.HasOne("gcpe_MediaHub.Server.Models.MediaContact", "Contact")
                         .WithMany("Outlets")
@@ -231,17 +242,6 @@ namespace gcpe_MediaHub.Server.Migrations
                     b.Navigation("Contact");
 
                     b.Navigation("Outlet");
-                });
-
-            modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaRequest", b =>
-                {
-                    b.HasOne("gcpe_MediaHub.Server.Models.MediaContact", "Contact")
-                        .WithMany("Requests")
-                        .HasForeignKey("RequestedBy")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contact");
                 });
 
             modelBuilder.Entity("gcpe_MediaHub.Server.Models.MediaContact", b =>

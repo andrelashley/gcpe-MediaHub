@@ -15,6 +15,7 @@ import { Dismiss24Regular } from "@fluentui/react-icons";
 
 //import OutletDetails from "./OutletDetails";
 import ContactRelatedItemsList from "./ContactRelatedItemsList";
+import { MediaContact } from "../../models/mediaContact";
 
 
 const useStyles = makeStyles({
@@ -36,7 +37,7 @@ const useStyles = makeStyles({
 );
 
 interface ContactDetailsProps {
-    contact: any;
+    contact: MediaContact;
     isOpen: boolean;
     closeContactDetails: any;
 }
@@ -47,6 +48,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
     // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
     const restoreFocusSourceAttributes = useRestoreFocusSource();
 
+    console.log(JSON.stringify(contact.outlets));
 
     return (
         /*we can probably break some of this out into separate components*/
@@ -54,7 +56,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
             <OverlayDrawer
                 as="aside"
                 {...restoreFocusSourceAttributes}
-                open={isOpen && contact}
+                open={isOpen}
                 onOpenChange={(_, { open }) => isOpen = open}
                 className={styles.drawer}
                 position="end"

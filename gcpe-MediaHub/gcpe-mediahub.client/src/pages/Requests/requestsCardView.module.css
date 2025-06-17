@@ -1,5 +1,5 @@
 .layoutWrapper {
-    padding: 0 24px 24px 24px;
+    padding: 0 0 24px 12px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -15,7 +15,6 @@
 
 .mainContentWithDetail {
     width: 30%;
-    margin-right: 16px; /* Add space on the right of the card list */
 }
 
 .detailView {

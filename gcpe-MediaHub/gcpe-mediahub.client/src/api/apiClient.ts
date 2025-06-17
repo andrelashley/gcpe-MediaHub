@@ -1,3 +1,4 @@
+// need to delete this file after api integration soon since it's mainly for .json
 const BASE_URL = 'http://localhost:5020/api';
 
 export type RequestStatus = 'New' | 'Pending' | 'Rejected' | 'Reviewed' | 'Scheduled' | 'Unavailable' | 'Approved' | 'Completed';

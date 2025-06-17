@@ -107,12 +107,6 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
         </div>
     ));
 
-    const MailingLists = React.memo(() => (
-        <div role="tabpanel" aria-labelledby="Mailing Lists">
-            mailing lists
-        </div>
-    ));
-
     return (
         <div className={styles.root}>
             <TabList selectedValue={selectedValue} onTabSelect={onTabSelect}>
@@ -122,14 +116,10 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
                 <Tab id="Requests" value="requests">
                     Requests
                 </Tab>
-                <Tab id="MailingLists" value="mailingLists">
-                    Mailing lists
-                </Tab>
             </TabList>
             <div className={styles.panels}>
                 {selectedValue === "workplaces" && <Workplaces />}
                 {selectedValue === "requests" && <Requests />}
-                {selectedValue === "mailingLists" && <MailingLists />}
             </div>
         </div>
     );

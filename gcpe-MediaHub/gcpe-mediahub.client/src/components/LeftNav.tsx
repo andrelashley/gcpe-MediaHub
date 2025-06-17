@@ -140,14 +140,6 @@ const LeftNav = () => {
                             >
                                 Organizations
                             </NavSubItem>
-                            <NavSubItem
-                                value={navConfig.distributionList.value}
-                                onClick={(e) => e.preventDefault()} // Disable click functionality
-                                aria-disabled="true" // Add accessibility attribute
-                                style={{ color: 'grey', pointerEvents: 'none' }} // Greyed out style
-                            >
-                                Distribution List
-                            </NavSubItem>
                         </NavSubItemGroup>
                     </NavCategory>
                 </NavDrawerBody>

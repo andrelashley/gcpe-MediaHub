@@ -2,7 +2,7 @@
 {
     public interface IMediaOutletRepository
     {
-        IEnumerable<MediaOutlet> GetAll();
+        Task<IEnumerable<MediaOutlet> > GetAll();
         Task<MediaOutlet?> GetOutletById(int id);
     }
 }

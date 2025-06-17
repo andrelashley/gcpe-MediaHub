@@ -7,6 +7,12 @@ import {
     makeStyles,
     webLightTheme,
 } from "@fluentui/react-components";
+
+const customTheme = {
+    ...webLightTheme,
+    fontFamilyBase: "'BC Sans', 'Noto Sans', Verdana, Arial, sans-serif",
+    fontFamilyHeader: "'BC Sans', 'Noto Sans', Verdana, Arial, sans-serif",
+};
 import MediaLayout from './components/MediaLayout'; // Import MediaLayout
 
 // Pages
@@ -17,7 +23,6 @@ import Media from './pages/MediaRequests/requests';
 import Contacs from './pages/Contacts/contacts'; 
 import OrganizationsLayout from './components/OrganizationsLayout';
 import Organizations from './pages/Organizations/organizations';
-
 
 const router = createBrowserRouter([
     {
@@ -89,7 +94,7 @@ function App() {
     const styles = useStyles();
     return (
         <>
-            <FluentProvider theme={webLightTheme} className={styles.root} >
+            <FluentProvider theme={customTheme} className={styles.root} >
                 <QueryClientProvider client={queryClient}> {/* Wrap with QueryClientProvider */}
                     {/* Ensure RouterProvider is active. If authentication is not yet implemented,
                         render it directly. For now, I'll assume it should be active. */}
