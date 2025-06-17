@@ -23,6 +23,8 @@ Name | Type | Description | Notes
 **additionalMinistries** | [**Array&lt;Ministry&gt;**](Ministry.md) |  | [optional] [default to undefined]
 **assignedUserId** | **string** |  | [optional] [default to undefined]
 **assignedUser** | [**User**](User.md) |  | [optional] [default to undefined]
+**fyiContactUserId** | **string** |  | [optional] [default to undefined]
+**fyiContactUser** | [**User**](User.md) |  | [optional] [default to undefined]
 **response** | **string** |  | [optional] [default to undefined]
 **requestNo** | **number** |  | [optional] [default to undefined]
 **receivedOn** | **string** |  | [optional] [default to undefined]
@@ -52,6 +54,8 @@ const instance: MediaRequest = {
     additionalMinistries,
     assignedUserId,
     assignedUser,
+    fyiContactUserId,
+    fyiContactUser,
     response,
     requestNo,
     receivedOn,
