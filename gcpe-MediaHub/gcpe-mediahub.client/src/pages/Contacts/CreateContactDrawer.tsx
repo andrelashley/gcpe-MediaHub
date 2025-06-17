@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import MediaOutletInput from "./MediaOutletInput";
 import MediaContact from "../../models/mediaContact";
 import MediaOutlet from "../../models/MediaOutlet";
+import { OutletAssociation } from "../../models/OutletAssociation";
 
 
 const useStyles = makeStyles({
@@ -90,11 +91,13 @@ export const CreateContactDrawer = () => {
     // end of social media link tracking
     // for tracking social media link inputs
     const [outletInputs, setOutletInputs] = useState<number[]>([1]);
+
     const addOutletInput = () => {
         setOutletInputs([...outletInputs, outletInputs.length]);
     };
     const removeOutletInput = (index: number) => {
         setOutletInputs(outletInputs.filter((_, i) => i !== index));
+        setOutletAssociations(outletAssociations.filter((_, i) => i !== index)); 
     };
     // end of social media link tracking
 
@@ -113,8 +116,15 @@ export const CreateContactDrawer = () => {
     const [primaryPhone, setPrimaryPhone] = React.useState('');
     const [mobilePhone, setMobilePhone] = React.useState('');
 
+    const [outletAssociations, setOutletAssociations] = useState<OutletAssociation[]>([]);
 
-    const createContact = () => {
+    const handleAssociationDataChange = (index: number, data: OutletAssociation) => {
+        const newAssociations = [...outletAssociations];
+        newAssociations[index] = data; // Update the specific index
+        setOutletAssociations(newAssociations);
+        console.log(JSON.stringify(outletAssociations));
+    };
+    const createContact = async() => {
         const contact: MediaContact = new MediaContact()
         contact.firstName = firstName;
         contact.lastName = lastName;
@@ -122,9 +132,19 @@ export const CreateContactDrawer = () => {
         contact.email = email;
         contact.primaryPhone = primaryPhone;
         contact.mobilePhone = mobilePhone;
+        outletAssociations.map((association) => {
+            contact.outletAssociations.push(association);
+        })
         
         console.log(JSON.stringify(contact));
-
+        const response = await fetch('mediacontacts/CreateMediaContact',
+            {
+                method: "POST",
+                body: JSON.stringify(contact)
+            })
+            .then((response) => {
+                alert(JSON.stringify(response.text));
+            });
         //give a little toast saying how the transaction went, 
         // if it was successful, close drawer after brief delay
         //  setIsOpen(false)
@@ -133,10 +153,8 @@ export const CreateContactDrawer = () => {
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
     const fetchOutlets = async () => {
         const response = await fetch('mediaoutlets');
-        //   const response = await fetch('../../data/mock-contacts.json');
         const data = await response.json();
         const outlets: MediaOutlet[] = data as MediaOutlet[];
-        //console.log(JSON.stringify(outlets[2]));
         setOutlets(outlets);
     };
 
@@ -145,7 +163,6 @@ export const CreateContactDrawer = () => {
     }, []);
 
     return (
-        /*we can probably break some of this out into separate components*/
         <div>
             <OverlayDrawer
                 as="aside"
@@ -251,8 +268,10 @@ export const CreateContactDrawer = () => {
                     {outletInputs.map((_, index) => (
                         <MediaOutletInput
                             key={index}
-                            onRemove={() => removeOutletInput(index)}      
+                            onRemove={() => removeOutletInput(index)}
                             outlets={outlets}
+                            onAssociationDataChange={(data) => handleAssociationDataChange(index, data)}
+                            itemId={index}
                         />
                     ))}
 

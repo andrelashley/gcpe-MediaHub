@@ -9,4 +9,5 @@ export class OutletAssociation {
     phoneCallIn: number | undefined;
     noLongerWorksHere: boolean = false;
     lastRequestDate: Date | undefined;
+    jobTitle: string | undefined;
 }
