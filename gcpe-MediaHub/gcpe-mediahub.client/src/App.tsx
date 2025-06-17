@@ -21,6 +21,8 @@ import RequestsCardView from './pages/Requests/requestsCardView';
 import Requests from './pages/Requests/requests';
 import Media from './pages/MediaRequests/requests';
 import Contacs from './pages/Contacts/contacts'; 
+import OrganizationsLayout from './components/OrganizationsLayout';
+import Organizations from './pages/Organizations/organizations';
 
 const router = createBrowserRouter([
     {
@@ -36,6 +38,16 @@ const router = createBrowserRouter([
         element: <Contacs />, // Contacts page renders directly
     },
     {
+        path: '/organizations',
+        element: <OrganizationsLayout />,
+         children: [
+            {
+                index: true,
+                element: <Organizations />
+            }
+        ]
+    },
+    {
         path: '/requests',
         element: <MediaLayout />,
         children: [
@@ -49,6 +61,10 @@ const router = createBrowserRouter([
             }
         ],
     },
+    {
+        path: '*',
+        element: <div>404 - Not Found</div>
+    }
 ]);
 const useStyles = makeStyles({
     root: {

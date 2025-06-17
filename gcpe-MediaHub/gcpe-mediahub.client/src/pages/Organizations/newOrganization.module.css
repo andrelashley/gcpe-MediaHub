@@ -1,0 +1,45 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.titleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.dismissIcon {
+    color: var(--colorNeutralForeground1);
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.dismissIcon:hover {
+    color: var(--colorNeutralForeground1Hover);
+}
+
+.form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Make all form fields take full width */
+.form > div {
+    width: 100%;
+    min-width: 580px;
+}
+
+/* Ensure the field with date input container takes full width */
+.form > div > div {
+    width: 100%;
+    min-width: 580px;
+}
