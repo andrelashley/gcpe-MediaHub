@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 api/media-contacts-api.ts
 api/media-outlets-api.ts

@@ -154,6 +154,18 @@ export interface MediaRequest {
      * @type {string}
      * @memberof MediaRequest
      */
+    'fyiContactUserId'?: string | null;
+    /**
+     * 
+     * @type {User}
+     * @memberof MediaRequest
+     */
+    'fyiContactUser'?: User;
+    /**
+     * 
+     * @type {string}
+     * @memberof MediaRequest
+     */
     'response'?: string | null;
     /**
      * 

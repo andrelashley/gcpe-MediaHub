@@ -1,5 +1,5 @@
 import React from 'react';
-import { Title3, Text, Divider, Badge, Avatar, Tag } from '@fluentui/react-components';
+import { Text, Divider, Badge, Avatar, Tag } from '@fluentui/react-components';
 import { Dismiss24Regular, CalendarEmptyRegular } from '@fluentui/react-icons';
 import { MediaRequest } from '../../api/generated-client/model';
 import styles from './requestsCardView.module.css';
@@ -41,17 +41,15 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ request, onClose 
                 <Dismiss24Regular style={{ color: 'var(--colorNeutralForeground1)' }} />
             </button>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', marginTop: '30px' }}>
-                <Text weight="semibold">{request.requestNo}</Text>
+                <Text weight="semibold">REQ-{request.requestNo}</Text>
                 <Badge shape="circular" appearance="filled">
                   {request.requestStatus?.name || request.requestStatusId || "Unknown"}
                 </Badge>
             </div>
             
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
-                <Title3>{request.requestTitle}</Title3>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <h3>{request.requestTitle}</h3>
             </div>
-            
-            <Divider style={{ margin: '16px 0' }} />
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
