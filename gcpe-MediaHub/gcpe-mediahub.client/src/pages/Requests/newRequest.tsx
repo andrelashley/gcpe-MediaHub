@@ -10,10 +10,10 @@ import {
     Textarea,
     Button,
 } from '@fluentui/react-components';
-import { RequestStatus, RequestType } from './types';
 import { ministryService } from '../../services/ministryService';
-import { Ministry, MediaRequest } from '../../api/generated-client/model';
-import { createRequest } from '../../services/requestService';
+import { userService } from '../../services/userService';
+import { requestService } from '../../services/requestService';
+import { Ministry, MediaRequest, RequestStatus, RequestType } from '../../api/generated-client/model';
 import { CalendarEmpty24Regular, Dismiss24Regular } from '@fluentui/react-icons';
 import styles from './newRequest.module.css';
 
@@ -35,8 +35,10 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
         fetchMinistries();
     }, []);
 
-    const [status, setStatus] = React.useState<RequestStatus | null>(null);
-    const [requestType, setRequestType] = React.useState<RequestType | null>(null);
+    const [statuses, setStatuses] = React.useState<RequestStatus[]>([]);
+    const [selectedStatus, setSelectedStatus] = React.useState<number | null>(null);
+    const [requestTypes, setRequestTypes] = React.useState<RequestType[]>([]);
+    const [selectedRequestType, setSelectedRequestType] = React.useState<number | null>(null);
     const [ministries, setMinistries] = React.useState<Ministry[]>([]);
     const [leadMinistry, setLeadMinistry] = React.useState<number | null>(null);
     const [additionalMinistries, setAdditionalMinistries] = React.useState<number[]>([]);
@@ -50,58 +52,135 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
     const [showValidation, setShowValidation] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
+    const [assignedUserId, setAssignedUserId] = React.useState<string>('00000000-0000-0000-0000-000000000000');
+    const [requestorContactId, setRequestorContactId] = React.useState<string>('00000000-0000-0000-0000-000000000000');
 
-    const statusOptions = Object.entries(RequestStatus)
-        .filter(([key]) => isNaN(Number(key)))
-        .map(([key]) => ({
-            text: key,
-            value: RequestStatus[key as keyof typeof RequestStatus].toString()
-        }));
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [statusList, typeList] = await Promise.all([
+                    requestService.getRequestStatuses(),
+                    requestService.getRequestTypes()
+                ]);
+                setStatuses(statusList);
+                setRequestTypes(typeList);
+            } catch (error) {
+                console.error('Failed to fetch data:', error);
+            }
+        };
+        
+        fetchData();
+    }, []);
 
-    const requestTypeOptions = Object.entries(RequestType)
-        .filter(([key]) => isNaN(Number(key)))
-        .map(([key]) => {
-            // Format the display text (e.g., "ScrumHalls" -> "Scrum/Halls")
-            const text = key === 'ScrumHalls' ? 'Scrum/Halls' : key;
-            return {
-                text,
-                value: RequestType[key as keyof typeof RequestType].toString()
-            };
-        });
+    // Effect to update assignedUserId when assignedTo changes
+    React.useEffect(() => {
+        if (lookupTimeout.current) {
+            clearTimeout(lookupTimeout.current);
+        }
+
+        lookupTimeout.current = setTimeout(async () => {
+            if (assignedTo.trim()) {
+                try {
+                    console.log("Calling getUserByIdir with IDIR:", assignedTo.trim());
+                    const user = await userService.getUserByIdir(assignedTo.trim());
+                    console.log("Retrieved user:", user);
+                    if (user?.id) {
+                        setAssignedUserId(user.id);
+                    } else {
+                        setAssignedUserId('00000000-0000-0000-0000-000000000000');
+                    }
+                } catch (error) {
+                    console.error("Failed to retrieve assignedUserId:", error);
+                    setAssignedUserId('00000000-0000-0000-0000-000000000000');
+                }
+            }
+        }, 500); // 500ms debounce
+
+        return () => {
+            if (lookupTimeout.current) {
+                clearTimeout(lookupTimeout.current);
+            }
+        };
+    }, [assignedTo]);
+
+    // Effect to update requestorContactId when requestedBy changes
+    React.useEffect(() => {
+        if (lookupTimeout.current) {
+            clearTimeout(lookupTimeout.current);
+        }
+
+        lookupTimeout.current = setTimeout(async () => {
+            if (requestedBy.trim()) {
+                try {
+                    console.log("Calling getUserByIdir for requestedBy:", requestedBy.trim());
+                    const user = await userService.getUserByIdir(requestedBy.trim());
+                    console.log("Retrieved requestor user:", user);
+                    if (user?.id) {
+                        setRequestorContactId(user.id);
+                    } else {
+                        setRequestorContactId('00000000-0000-0000-0000-000000000000');
+                    }
+                } catch (error) {
+                    console.error("Failed to retrieve requestorContactId:", error);
+                    setRequestorContactId('00000000-0000-0000-0000-000000000000');
+                }
+            }
+        }, 500); // 500ms debounce
+
+        return () => {
+            if (lookupTimeout.current) {
+                clearTimeout(lookupTimeout.current);
+            }
+        };
+    }, [requestedBy]);
+
 
     const dateInputRef = React.useRef<HTMLInputElement>(null);
     const receivedOnInputRef = React.useRef<HTMLInputElement>(null);
+    const lookupTimeout = React.useRef<NodeJS.Timeout>();
 
-    // Example submit handler using createRequest
-    const handleSubmit = async (e: React.FormEvent) => {
+    // Submit handler for creating new request
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setShowValidation(true);
         setError(null);
-
-        // Map form state to the correct MediaRequest shape for your API
-        const newRequest: MediaRequest = {
-            requestTitle,
-            requestDetails,
-            deadline,
-            receivedOn,
-            leadMinistryId: leadMinistry || 0,
-            additionalMinistries: additionalMinistries.map(id => ({
-                id,
-                name: ministries.find(m => m.id === id)?.name || '',
-                acronym: ''
-            })),
-            requestStatusId: 1, // We'll update this when we integrate with the API
-            requestTypeId: 1, // We'll update this when we integrate with the API
-            requestorContactId: '00000000-0000-0000-0000-000000000000', // Default UUID for now
-            assignedUserId: '00000000-0000-0000-0000-000000000000', // Default UUID for now
-            requestorOutletId: '00000000-0000-0000-0000-000000000000', // Default UUID for now
-            requestResolutionId: 1, // Default value
-            response: ''
-        };
-
-        setIsSubmitting(true);
+    
         try {
-            await createRequest(newRequest);
+            // Validate that we have valid user IDs
+            if (assignedUserId === '00000000-0000-0000-0000-000000000000' && assignedTo.trim()) {
+                setError("Unable to find user with provided Assigned To IDIR");
+                return;
+            }
+
+            if (requestorContactId === '00000000-0000-0000-0000-000000000000' && requestedBy.trim()) {
+                setError("Unable to find user with provided Requested By IDIR");
+                return;
+            }
+            
+            // Map form state to the correct MediaRequest shape for your API
+            const newRequest: MediaRequest = {
+                requestTitle,
+                requestDetails,
+                deadline,
+                receivedOn,
+                leadMinistryId: leadMinistry || 0,
+                additionalMinistries: additionalMinistries.map(id => ({
+                    id,
+                    name: ministries.find(m => m.id === id)?.name || '',
+                    acronym: ''
+                })),
+                requestStatusId: selectedStatus || 0,
+                requestTypeId: selectedRequestType || 0,
+                requestorContactId, // Retrieved from userService.getUserByIdir
+                assignedUserId, // Retrieved from userService.getUserByIdir
+                requestorOutletId: '00000000-0000-0000-0000-000000000000', // This will be set when outlet is implemented
+                requestResolutionId: 1, // Default value
+                response: ''
+            };
+    
+            console.log("newRequest:", newRequest);
+            setIsSubmitting(true);
+            await requestService.createRequest(newRequest);
             setIsSubmitting(false);
             if (onClose) onClose();
         } catch (err: any) {
@@ -127,27 +206,23 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                 <Field
                     label="Status"
                     required
-                    validationMessage={showValidation && !status ? "Status is required" : undefined}
-                    validationState={showValidation && !status ? "error" : "none"}
+                    validationMessage={showValidation && !selectedStatus ? "Status is required" : undefined}
+                    validationState={showValidation && !selectedStatus ? "error" : "none"}
                 >
                     <Dropdown
                         placeholder="Select a status"
-                        selectedOptions={status ? [status.toString()] : []}
+                        defaultSelectedOptions={selectedStatus ? [selectedStatus.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
-                                setStatus(data.optionValue as RequestStatus);
+                                const value = Number(data.optionValue);
+                                setSelectedStatus(value);
                                 setShowValidation(false);
                             }
                         }}
-                        onOpenChange={(_, data) => {
-                            if (!data.open) {
-                                setShowValidation(true);
-                            }
-                        }}
                     >
-                        {statusOptions.map(option => (
-                            <Option key={option.value} value={option.value}>
-                                {option.text}
+                        {statuses.map(status => (
+                            <Option key={status.id} value={status.id.toString()}>
+                                {status.name}
                             </Option>
                         ))}
                     </Dropdown>
@@ -255,27 +330,23 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                 <Field
                     label="Request Type"
                     required
-                    validationMessage={showValidation && !requestType ? "Request type is required" : undefined}
-                    validationState={showValidation && !requestType ? "error" : "none"}
+                    validationMessage={showValidation && !selectedRequestType ? "Request type is required" : undefined}
+                    validationState={showValidation && !selectedRequestType ? "error" : "none"}
                 >
                     <Dropdown
                         placeholder="Select a request type"
-                        selectedOptions={requestType ? [requestType.toString()] : []}
+                        defaultSelectedOptions={selectedRequestType ? [selectedRequestType.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
-                                setRequestType(data.optionValue as RequestType);
+                                const value = Number(data.optionValue);
+                                setSelectedRequestType(value);
                                 setShowValidation(false);
                             }
                         }}
-                        onOpenChange={(_, data) => {
-                            if (!data.open) {
-                                setShowValidation(true);
-                            }
-                        }}
                     >
-                        {requestTypeOptions.map(option => (
-                            <Option key={option.value} value={option.value}>
-                                {option.text}
+                        {requestTypes.map(type => (
+                            <Option key={type.id} value={type.id.toString()}>
+                                {type.name}
                             </Option>
                         ))}
                     </Dropdown>
@@ -310,16 +381,18 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                 >
                     <Dropdown
                         placeholder="Select lead ministry"
-                        selectedOptions={leadMinistry ? [leadMinistry.toString()] : []}
+                        defaultSelectedOptions={leadMinistry ? [leadMinistry.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
-                                setLeadMinistry(Number(data.optionValue));
+                                const newLeadMinistry = Number(data.optionValue);
+                                setLeadMinistry(newLeadMinistry);
+                                
+                                // Remove the new lead ministry from additional ministries if it's there
+                                setAdditionalMinistries(prev =>
+                                    prev.filter(id => id !== newLeadMinistry)
+                                );
+                                
                                 setShowValidation(false);
-                            }
-                        }}
-                        onOpenChange={(_, data) => {
-                            if (!data.open) {
-                                setShowValidation(true);
                             }
                         }}
                     >
@@ -339,12 +412,14 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                         size="medium"
                         multiselect
                         onOptionSelect={(_, data) => {
+                            // Get currently selected IDs, excluding lead ministry
+                            const currentAdditionalMinistries = additionalMinistries.filter(id => id !== leadMinistry);
+                            
+                            // Add newly selected IDs, also excluding lead ministry
                             const selectedIds = data.selectedOptions.map(Number);
-                            // Filter out the lead ministry if it's selected
-                            const filteredIds = leadMinistry
-                                ? selectedIds.filter(id => id !== leadMinistry)
-                                : selectedIds;
-                            setAdditionalMinistries(filteredIds);
+                            const newAdditionalMinistries = selectedIds.filter(id => id !== leadMinistry);
+                            
+                            setAdditionalMinistries(newAdditionalMinistries);
                         }}
                     >
                         {ministries
@@ -395,12 +470,10 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                     </Button>
                     <Button
                         appearance="primary"
-                        onClick={() => {
-                            // TODO: Handle save
-                            setShowValidation(true);
-                        }}
+                        onClick={(e) => handleSubmit(e)}
+                        disabled={isSubmitting}
                     >
-                        Save
+                        {isSubmitting ? 'Saving...' : 'Save'}
                     </Button>
                 </div>
             </div>
