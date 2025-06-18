@@ -8,3 +8,24 @@
   align-items: center;
   box-sizing: border-box; /* Include padding in width/height */
 }
+
+.alphaDisclaimer {
+    padding-left: 10%;
+    min-width: 265px;
+    background: var(--background-fill-support-info-emphasis, #013366);
+    display: flex;
+    color: ivory;
+    line-height: 1em;
+    width: 100%;
+}
+.alphaInfoIcon {
+    padding-right: 10px;
+}
+.disclaimerText {
+    font-weight: 100;
+}
+.alphaDisclaimerDismiss {
+    float: right;
+    color: ivory;
+    margin-left: 20%;
+}

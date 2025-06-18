@@ -20,7 +20,7 @@ import Home from './pages/Home/homePage';
 import RequestsCardView from './pages/Requests/requestsCardView';
 import Requests from './pages/Requests/requests';
 import Media from './pages/MediaRequests/requests';
-import Contacs from './pages/Contacts/contacts'; 
+import Contacs from './pages/Contacts/Contacts'; 
 import OrganizationsLayout from './components/OrganizationsLayout';
 import Organizations from './pages/Organizations/organizations';
 

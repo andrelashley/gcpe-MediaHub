@@ -48,7 +48,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
     // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
     const restoreFocusSourceAttributes = useRestoreFocusSource();
 
-    console.log(JSON.stringify(contact.outlets));
+    console.log(JSON.stringify(contact.outletAssociations));
 
     return (
         /*we can probably break some of this out into separate components*/
@@ -89,7 +89,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
 
                 <DrawerBody>
                     <ContactRelatedItemsList
-                        outlets={contact.outlets}
+                        outlets={contact.outletAssociations}
                         requests={contact.requests}
                     />
                  
