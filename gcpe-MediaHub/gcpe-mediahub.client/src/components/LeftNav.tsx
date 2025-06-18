@@ -65,7 +65,6 @@ const LeftNav = () => {
     const styles = useStyles();
     const location = useLocation();
     const navigate = useNavigate();
-
     // Initialize state with default values
     const [selectedValue, setSelectedValue] = useState<string>(navConfig.mediaRequests.value);
     const [selectedCategoryValue, setSelectedCategoryValue] = useState<string>(navConfig.mediaContactsCategory.value);
@@ -152,7 +151,7 @@ const LeftNav = () => {
                         </NavSubItemGroup>
                     </NavCategory>
                     <div className={styles.versionInfo}>
-                        Ver 0.1.0
+                        {APP_VERSION}
                    </div>
 
                 </NavDrawerBody>
