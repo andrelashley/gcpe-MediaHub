@@ -1,4 +1,5 @@
 import { makeStyles, } from "@fluentui/react-components";
+import logo from '../assets/logo.svg';
 
 const useStyles = makeStyles({
     header: {
@@ -22,7 +23,7 @@ const Header = () => {
 
     return (
         <header className={styles.header}>
-                <div className={styles.div}><a href="/"><img src="./src/assets/bc-gov-theme/dist/images/bcid-mstile-70x70.png" /></a></div>
+                <div className={styles.div}><a href="/"><img src={logo} /></a></div>
         </header>
     );
 }
