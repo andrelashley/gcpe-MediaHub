@@ -1,4 +1,4 @@
-import { MediaRequest } from '../api/generated-client/model';
+import { MediaRequest, RequestType, RequestStatus, RequestResolution } from '../api/generated-client/model';
 import axios from 'axios';
 
 async function loadMockData(): Promise<any[]> {
@@ -68,9 +68,10 @@ function convertMockData(data: any[]): MediaRequest[] {
 
 // Create an axios instance with auth headers
 const axiosInstance = axios.create({
-    baseURL: '/',
+    baseURL: import.meta.env.VITE_API_URL,
     headers: {
-        'Authorization': `Basic ${btoa(import.meta.env.VITE_API_BASIC_AUTH ?? '')}`
+        'Authorization': `Basic ${btoa(import.meta.env.VITE_API_BASIC_AUTH ?? '')}`,
+        'Content-Type': 'application/json'
     }
 });
 
@@ -83,10 +84,25 @@ export const requestService = {
         
         const response = await axiosInstance.get<MediaRequest[]>('/api/MediaRequests');
         return response.data;
+    },
+
+    async getRequestTypes(): Promise<RequestType[]> {
+        const response = await axiosInstance.get<RequestType[]>('/api/RequestTypes');
+        return response.data;
+    },
+
+    async getRequestStatuses(): Promise<RequestStatus[]> {
+        const response = await axiosInstance.get<RequestStatus[]>('/api/RequestStatuses');
+        return response.data;
+    },
+
+    async getRequestResolutions(): Promise<RequestResolution[]> {
+        const response = await axiosInstance.get<RequestResolution[]>('/api/RequestResolutions');
+        return response.data;
+    },
+
+    async createRequest(request: MediaRequest): Promise<MediaRequest> {
+        const response = await axiosInstance.post<MediaRequest>('/api/MediaRequests', request);
+        return response.data;
     }
 };
-
-export async function createRequest(request: MediaRequest): Promise<MediaRequest> {
-    const response = await axiosInstance.post<MediaRequest>('/api/MediaRequests', request);
-    return response.data;
-}

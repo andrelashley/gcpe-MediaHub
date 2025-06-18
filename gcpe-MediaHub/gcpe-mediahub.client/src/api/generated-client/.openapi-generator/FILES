@@ -6,7 +6,11 @@ api/media-outlets-api.ts
 api/media-requests-api.ts
 api/media-types-api.ts
 api/ministries-api.ts
+api/request-resolutions-api.ts
+api/request-statuses-api.ts
+api/request-types-api.ts
 api/secure-api.ts
+api/users-api.ts
 base.ts
 common.ts
 configuration.ts
@@ -30,11 +34,15 @@ docs/MinistriesApi.md
 docs/Ministry.md
 docs/PhoneNumber.md
 docs/RequestResolution.md
+docs/RequestResolutionsApi.md
 docs/RequestStatus.md
+docs/RequestStatusesApi.md
 docs/RequestType.md
+docs/RequestTypesApi.md
 docs/SecureApi.md
 docs/SocialMedia.md
 docs/User.md
+docs/UsersApi.md
 docs/WrittenLanguage.md
 git_push.sh
 index.ts
