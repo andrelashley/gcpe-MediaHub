@@ -33,6 +33,8 @@ const AlphaInfo = () => {
                     icon={<Dismiss24Regular color={"ivory"} />}
                     appearance="subtle"
                     onClick={handleDismiss}
+                    title="this button is not enabled in alpha."
+                  
                     />
             </div>
         </div>

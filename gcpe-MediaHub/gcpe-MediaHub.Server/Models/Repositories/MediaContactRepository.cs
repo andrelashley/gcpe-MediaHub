@@ -23,7 +23,7 @@ namespace gcpe_MediaHub.Server.Models.Repositories
             {
 
                 IEnumerable<MediaContact> contacts = await _context.MediaContacts
-                    .Include(x => x.Outlets).ThenInclude(y => y.Outlet)  /*No clue why this isn't working */
+                    .Include(x => x.Outlets).ThenInclude(y => y.Outlet)  
                     .Include(x => x.Requests)
                 .ToListAsync();
                 return contacts;

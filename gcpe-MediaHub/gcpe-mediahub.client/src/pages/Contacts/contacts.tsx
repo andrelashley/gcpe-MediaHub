@@ -10,6 +10,7 @@ import {
     Title1,
     makeStyles,
 } from '@fluentui/react-components';
+import Layout from '../../components/Layout';
 //import { useQuery } from '@tanstack/react-query';
 //import { AuthenticationContext } from '../../App';
 //import React from 'react';
@@ -52,11 +53,9 @@ const MediaContacts = () => {
 
     return (
         <div>
-            <div className={styles.header}>
-            <Title1>Media Contacts</Title1>
-                <CreateContactButton  />
-            </div>
-            <ContactsTable items={contacts} />
+            <Layout title={"Media Contacts"} selectedNavItem={"3"} headingButton={<CreateContactButton />} >Add commentMore actions
+                <ContactsTable items={contacts} />
+            </Layout>
         </div>
     );
 }

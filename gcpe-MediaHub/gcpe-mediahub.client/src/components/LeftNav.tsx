@@ -28,7 +28,8 @@ const navConfig = {
 const useStyles = makeStyles({
     navContainer: {
         width: '240px',
-        height: '100vh',
+        height: 'inherit',
+        minHeight: '100%',
         flexShrink: 0,
         display: 'flex',
         '& button': {
@@ -42,13 +43,21 @@ const useStyles = makeStyles({
         },
         '& span': {
             fontSize: `calc(${tokens.fontSizeBase400})`,
-        }
+        },
+        '& NavDrawer': {
+            height: '100vh',
+        },
+       
     },
     appTitle: {
         fontSize: '18px',
         fontWeight: 'bold',
         paddingTop: '50px',
         marginLeft: tokens.spacingHorizontalM,
+    },
+    versionInfo: {
+        position: 'absolute',
+        bottom: '0',
     },
 });
 
@@ -115,7 +124,7 @@ const LeftNav = () => {
                 openCategories={openCategories}
                 onNavCategoryItemToggle={(ev, data) => handleCategoryToggle(ev as React.MouseEvent<HTMLElement>, data)}
             >
-                <NavDrawerBody style={{ paddingTop: '30px' }}>
+                <NavDrawerBody style={{ paddingTop: '30px', height: '100%' }}>
                     <NavItem
                         value={navConfig.mediaRequests.value}
                         onClick={() => handleNavigation(navConfig.mediaRequests.path)}
@@ -142,6 +151,10 @@ const LeftNav = () => {
                             </NavSubItem>
                         </NavSubItemGroup>
                     </NavCategory>
+                    <div className={styles.versionInfo}>
+                        Ver 0.1.0
+                   </div>
+
                 </NavDrawerBody>
             </NavDrawer>
         </div>

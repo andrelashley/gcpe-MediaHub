@@ -31,13 +31,7 @@ const router = createBrowserRouter([
 
     {
         path: '/Contacts',
-        element: <MediaLayout />,
-        children: [
-            {
-                index: true,
-                element: <Contacts />,
-            },
-        ],
+        element: <Contacts />,
     },
     {
         path: '/organizations',
