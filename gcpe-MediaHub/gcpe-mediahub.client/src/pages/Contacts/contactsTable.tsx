@@ -67,7 +67,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             header: 'Name',
             cell: item => item.getValue(),
         }),
-        columnHelper.accessor('outlets', {
+        columnHelper.accessor('outletAssociations', {
             header: 'Media Outlets',
             cell: item => 
                 (item.getValue() as any[]).map(outlet =>
