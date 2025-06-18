@@ -19,8 +19,7 @@ import MediaLayout from './components/MediaLayout'; // Import MediaLayout
 import Home from './pages/Home/homePage';
 import RequestsCardView from './pages/Requests/requestsCardView';
 import Requests from './pages/Requests/requests';
-import Media from './pages/MediaRequests/requests';
-import Contacs from './pages/Contacts/Contacts'; 
+import Contacts from './pages/Contacts/Contacts'; 
 import OrganizationsLayout from './components/OrganizationsLayout';
 import Organizations from './pages/Organizations/organizations';
 
@@ -29,13 +28,16 @@ const router = createBrowserRouter([
         path: '/',
         element: <Home />, // Home page renders directly
     },
-    {
-        path: '/Media',
-        element: <Media />, // Media page renders directly
-    },
+
     {
         path: '/Contacts',
-        element: <Contacs />, // Contacts page renders directly
+        element: <MediaLayout />,
+        children: [
+            {
+                index: true,
+                element: <Contacts />,
+            },
+        ],
     },
     {
         path: '/organizations',
