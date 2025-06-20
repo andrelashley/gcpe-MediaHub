@@ -40,6 +40,9 @@ export default defineConfig(({ mode }) => {
     return {
         base: '/',
         plugins: [plugin()],
+        define: {
+            APP_VERSION: JSON.stringify(process.env.npm_package_version),
+        },
         resolve: {
             alias: {
                 '@': fileURLToPath(new URL('./src', import.meta.url))

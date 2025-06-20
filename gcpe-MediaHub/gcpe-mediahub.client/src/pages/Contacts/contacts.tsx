@@ -1,19 +1,36 @@
 
 
-import Layout from '../../components/Layout';
 // import MediaContact from '../../models/MediaContact';
 import ContactsTable from './ContactsTable';
 import { useState, useEffect } from 'react';
 import CreateContactButton from './CreateContactButton';
 //import { contactService } from '../../services/contactService';
 import MediaContact from '../../models/mediaContact';
+import {
+    Title1,
+    makeStyles,
+} from '@fluentui/react-components';
+import Layout from '../../components/Layout';
 //import { useQuery } from '@tanstack/react-query';
 //import { AuthenticationContext } from '../../App';
 //import React from 'react';
 // import MediaContact from '../../models/mediaContact';
 
+const useStyles = makeStyles({
+    button: {
+        verticalAlign: "top",
+    },
+
+    header: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "20px",
+    },
+});
 
 const MediaContacts = () => {
+    const styles = useStyles();
     //const { data: contacts = [] } = useQuery<any[], Error>({
     //    queryKey: ["contacts"],
     //    queryFn: contactService.getContacts,
@@ -22,8 +39,8 @@ const MediaContacts = () => {
 
 
     const fetchContacts = async () => {
-         const response = await fetch('mediacontacts');
-     //   const response = await fetch('../../data/mock-contacts.json');
+        const response = await fetch('mediacontacts');
+        //   const response = await fetch('../../data/mock-contacts.json');
         const data = await response.json();
         const contacts: MediaContact[] = data as MediaContact[];
         console.log(JSON.stringify(contacts[2]));
@@ -36,7 +53,7 @@ const MediaContacts = () => {
 
     return (
         <div>
-            <Layout title={"Media Contacts"} selectedNavItem={"3"} headingButton={<CreateContactButton />} >
+            <Layout title={"Media Contacts"} selectedNavItem={"3"} headingButton={<CreateContactButton />} >Add commentMore actions
                 <ContactsTable items={contacts} />
             </Layout>
         </div>
