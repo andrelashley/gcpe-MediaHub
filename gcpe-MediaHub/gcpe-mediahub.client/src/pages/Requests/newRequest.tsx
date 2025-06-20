@@ -43,6 +43,26 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     const [assignedUserId, setAssignedUserId] = React.useState<string>('00000000-0000-0000-0000-000000000000');
     const [fyiContactUserId, setfyiContactUserId] = React.useState<string>('00000000-0000-0000-0000-000000000000');
     const [requestorContactId, setRequestorContactId] = React.useState<string>('00000000-0000-0000-0000-000000000000');
+    const [formErrors, setFormErrors] = React.useState({
+        requestTitle: '',
+        requestedBy: '',
+        deadline: '',
+        receivedOn: '',
+        requestType: '',
+        requestDetails: '',
+        leadMinistry: '',
+        assignedTo: ''
+    });
+    const [touchedFields, setTouchedFields] = React.useState({
+        requestTitle: false,
+        requestedBy: false,
+        deadline: false,
+        receivedOn: false,
+        requestType: false,
+        requestDetails: false,
+        leadMinistry: false,
+        assignedTo: false
+    });
 
     // Refs
     const dateInputRef = React.useRef<HTMLInputElement>(null);
@@ -168,40 +188,27 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         e.preventDefault();
         setShowValidation(true);
         setError(null);
-    
-        // Validate all required fields
-        if (!selectedStatus) {
-            setError("Status is required");
-            return;
-        }
-
-        if (!requestTitle.trim()) {
-            setError("Request title is required");
-            return;
-        }
-
-        if (!selectedRequestType) {
-            setError("Request type is required");
-            return;
-        }
-
-        if (!requestDetails.trim()) {
-            setError("Request details are required");
-            return;
-        }
-
-        if (!requestedBy.trim()) {
-            setError("Requested By is required");
-            return;
-        }
-
-        if (!leadMinistry) {
-            setError("Lead ministry is required");
-            return;
-        }
-
-        if (!assignedTo.trim()) {
-            setError("Assigned To is required");
+        const errors: any = {};
+        if (!requestTitle.trim()) errors.requestTitle = 'Request title is required';
+        if (!requestedBy.trim()) errors.requestedBy = 'Requested by is required';
+        if (!deadline.trim()) errors.deadline = 'Deadline is required';
+        if (!receivedOn.trim()) errors.receivedOn = 'Received date is required';
+        if (!selectedRequestType) errors.requestType = 'Request type is required';
+        if (!requestDetails.trim()) errors.requestDetails = 'Request details are required';
+        if (!leadMinistry) errors.leadMinistry = 'Lead ministry is required';
+        if (!assignedTo.trim()) errors.assignedTo = 'Assigned to is required';
+        setFormErrors(errors);
+        if (Object.keys(errors).length > 0) {
+            setTouchedFields({
+                requestTitle: true,
+                requestedBy: true,
+                deadline: true,
+                receivedOn: true,
+                requestType: true,
+                requestDetails: true,
+                leadMinistry: true,
+                assignedTo: true
+            });
             return;
         }
 
@@ -317,8 +324,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 <Field
                     label="Request Title"
                     required
-                    validationMessage={showValidation && !requestTitle.trim() ? "Request title is required" : undefined}
-                    validationState={showValidation && !requestTitle.trim() ? "error" : "none"}
+                    validationMessage={touchedFields.requestTitle && formErrors.requestTitle ? formErrors.requestTitle : undefined}
+                    validationState={touchedFields.requestTitle && formErrors.requestTitle ? "error" : "none"}
                 >
                     <Input
                         placeholder="Enter request title"
@@ -326,17 +333,17 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         onChange={(_, data) => {
                             setRequestTitle(data.value);
                             if (data.value.trim()) {
-                                setShowValidation(false);
+                                setFormErrors(prev => ({ ...prev, requestTitle: '' }));
                             }
                         }}
-                        onBlur={() => setShowValidation(true)}
+                        onBlur={() => setTouchedFields(prev => ({ ...prev, requestTitle: true }))}
                     />
                 </Field>
                 <Field
                     label="Requested By"
                     required
-                    validationMessage={showValidation && !requestedBy.trim() ? "Requested by is required" : undefined}
-                    validationState={showValidation && !requestedBy.trim() ? "error" : "none"}
+                    validationMessage={touchedFields.requestedBy && formErrors.requestedBy ? formErrors.requestedBy : undefined}
+                    validationState={touchedFields.requestedBy && formErrors.requestedBy ? "error" : "none"}
                 >
                     <Input
                         placeholder="Enter full name (First Last)"
@@ -344,17 +351,17 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         onChange={(_, data) => {
                             setRequestedBy(data.value);
                             if (data.value.trim()) {
-                                setShowValidation(false);
+                                setFormErrors(prev => ({ ...prev, requestedBy: '' }));
                             }
                         }}
-                        onBlur={() => setShowValidation(true)}
+                        onBlur={() => setTouchedFields(prev => ({ ...prev, requestedBy: true }))}
                     />
                 </Field>
                 <Field
                     label="Deadline"
                     required
-                    validationMessage={showValidation && !deadline ? "Deadline is required" : undefined}
-                    validationState={showValidation && !deadline ? "error" : "none"}
+                    validationMessage={touchedFields.deadline && formErrors.deadline ? formErrors.deadline : undefined}
+                    validationState={touchedFields.deadline && formErrors.deadline ? "error" : "none"}
                 >
                     <div style={{ position: 'relative', width: '100%' }}>
                         <Input
@@ -369,7 +376,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                                     onClick={() => dateInputRef.current?.showPicker()}
                                 />
                             }
-                            onBlur={() => setShowValidation(true)}
+                            onBlur={() => setTouchedFields(prev => ({ ...prev, deadline: true }))}
                         />
                         <input
                             ref={dateInputRef}
@@ -385,8 +392,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 <Field
                     label="Received On"
                     required
-                    validationMessage={showValidation && !receivedOn ? "Received date is required" : undefined}
-                    validationState={showValidation && !receivedOn ? "error" : "none"}
+                    validationMessage={touchedFields.receivedOn && formErrors.receivedOn ? formErrors.receivedOn : undefined}
+                    validationState={touchedFields.receivedOn && formErrors.receivedOn ? "error" : "none"}
                 >
                     <div style={{ position: 'relative', width: '100%' }}>
                         <Input
@@ -401,7 +408,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                                     onClick={() => receivedOnInputRef.current?.showPicker()}
                                 />
                             }
-                            onBlur={() => setShowValidation(true)}
+                            onBlur={() => setTouchedFields(prev => ({ ...prev, receivedOn: true }))}
                         />
                         <input
                             ref={receivedOnInputRef}
@@ -417,8 +424,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 <Field
                     label="Request Type"
                     required
-                    validationMessage={showValidation && !selectedRequestType ? "Request type is required" : undefined}
-                    validationState={showValidation && !selectedRequestType ? "error" : "none"}
+                    validationMessage={touchedFields.requestType && formErrors.requestType ? formErrors.requestType : undefined}
+                    validationState={touchedFields.requestType && formErrors.requestType ? "error" : "none"}
                 >
                     <Dropdown
                         placeholder="Select a request type"
@@ -441,8 +448,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 <Field
                     label="Request Details"
                     required
-                    validationMessage={showValidation && !requestDetails.trim() ? "Request details are required" : undefined}
-                    validationState={showValidation && !requestDetails.trim() ? "error" : "none"}
+                    validationMessage={touchedFields.requestDetails && formErrors.requestDetails ? formErrors.requestDetails : undefined}
+                    validationState={touchedFields.requestDetails && formErrors.requestDetails ? "error" : "none"}
                 >
                     <Textarea
                         placeholder="Enter request details"
@@ -455,7 +462,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                                 setShowValidation(false);
                             }
                         }}
-                        onBlur={() => setShowValidation(true)}
+                        onBlur={() => setTouchedFields(prev => ({ ...prev, requestDetails: true }))}
                     />
                 </Field>
                 <Divider style={{ margin: '24px 0 16px 0' }} />
@@ -463,8 +470,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 <Field
                     label="Lead Ministry"
                     required
-                    validationMessage={showValidation && !leadMinistry ? "Lead ministry is required" : undefined}
-                    validationState={showValidation && !leadMinistry ? "error" : "none"}
+                    validationMessage={touchedFields.leadMinistry && formErrors.leadMinistry ? formErrors.leadMinistry : undefined}
+                    validationState={touchedFields.leadMinistry && formErrors.leadMinistry ? "error" : "none"}
                 >
                     <Dropdown
                         placeholder="Select lead ministry"
@@ -520,8 +527,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 <Field
                     label="Assigned To"
                     required
-                    validationMessage={showValidation && !assignedTo.trim() ? "Assigned to is required" : undefined}
-                    validationState={showValidation && !assignedTo.trim() ? "error" : "none"}
+                    validationMessage={touchedFields.assignedTo && formErrors.assignedTo ? formErrors.assignedTo : undefined}
+                    validationState={touchedFields.assignedTo && formErrors.assignedTo ? "error" : "none"}
                 >
                     <Input
                         placeholder="Enter name of assignee"
@@ -529,10 +536,10 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         onChange={(_, data) => {
                             setAssignedTo(data.value);
                             if (data.value.trim()) {
-                                setShowValidation(false);
+                                setFormErrors(prev => ({ ...prev, assignedTo: '' }));
                             }
                         }}
-                        onBlur={() => setShowValidation(true)}
+                        onBlur={() => setTouchedFields(prev => ({ ...prev, assignedTo: true }))}
                     />
                 </Field>
                 <Field

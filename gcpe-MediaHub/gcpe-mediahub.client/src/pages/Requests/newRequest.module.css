@@ -66,3 +66,19 @@
     clip: rect(0, 0, 0, 0);
     border: 0;
 }
+
+/* Standardize dropdown placeholder color */
+:global(.fui-Dropdown__button)::placeholder,
+:global(.fui-Dropdown__button[aria-placeholder]),
+:global(.fui-Dropdown__button[aria-label='Select lead ministry']),
+:global(.fui-Dropdown__button[aria-label='Select a status']),
+:global(.fui-Dropdown__button[aria-label='Select a request type']),
+:global(.fui-Dropdown__button[aria-label='Select additional ministries']) {
+    color: #888 !important;
+    opacity: 1 !important;
+}
+
+/* Force placeholder color for Additional Ministries dropdown */
+:global(.fui-Dropdown__button[value='Select additional ministries']) {
+    color: var(--colorNeutralForeground4, #8a8a8a) !important;
+}
