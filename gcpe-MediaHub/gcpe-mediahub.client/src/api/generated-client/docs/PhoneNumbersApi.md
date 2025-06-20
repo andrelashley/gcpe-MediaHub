@@ -1,32 +1,31 @@
-# MediaContactsApi
+# PhoneNumbersApi
 
 All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**apiMediaContactsGet**](#apimediacontactsget) | **GET** /api/MediaContacts | |
-|[**apiMediaContactsIdDelete**](#apimediacontactsiddelete) | **DELETE** /api/MediaContacts/{id} | |
-|[**apiMediaContactsIdGet**](#apimediacontactsidget) | **GET** /api/MediaContacts/{id} | |
-|[**apiMediaContactsIdPut**](#apimediacontactsidput) | **PUT** /api/MediaContacts/{id} | |
-|[**apiMediaContactsPost**](#apimediacontactspost) | **POST** /api/MediaContacts | |
-|[**apiMediaContactsSearchFullNameGet**](#apimediacontactssearchfullnameget) | **GET** /api/MediaContacts/search/{fullName} | |
+|[**apiPhoneNumbersGet**](#apiphonenumbersget) | **GET** /api/PhoneNumbers | |
+|[**apiPhoneNumbersIdDelete**](#apiphonenumbersiddelete) | **DELETE** /api/PhoneNumbers/{id} | |
+|[**apiPhoneNumbersIdGet**](#apiphonenumbersidget) | **GET** /api/PhoneNumbers/{id} | |
+|[**apiPhoneNumbersIdPut**](#apiphonenumbersidput) | **PUT** /api/PhoneNumbers/{id} | |
+|[**apiPhoneNumbersPost**](#apiphonenumberspost) | **POST** /api/PhoneNumbers | |
 
-# **apiMediaContactsGet**
-> Array<ContactDto> apiMediaContactsGet()
+# **apiPhoneNumbersGet**
+> Array<PhoneNumber> apiPhoneNumbersGet()
 
 
 ### Example
 
 ```typescript
 import {
-    MediaContactsApi,
+    PhoneNumbersApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new MediaContactsApi(configuration);
+const apiInstance = new PhoneNumbersApi(configuration);
 
-const { status, data } = await apiInstance.apiMediaContactsGet();
+const { status, data } = await apiInstance.apiPhoneNumbersGet();
 ```
 
 ### Parameters
@@ -35,7 +34,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**Array<ContactDto>**
+**Array<PhoneNumber>**
 
 ### Authorization
 
@@ -54,24 +53,24 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiMediaContactsIdDelete**
-> apiMediaContactsIdDelete()
+# **apiPhoneNumbersIdDelete**
+> apiPhoneNumbersIdDelete()
 
 
 ### Example
 
 ```typescript
 import {
-    MediaContactsApi,
+    PhoneNumbersApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new MediaContactsApi(configuration);
+const apiInstance = new PhoneNumbersApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.apiMediaContactsIdDelete(
+const { status, data } = await apiInstance.apiPhoneNumbersIdDelete(
     id
 );
 ```
@@ -104,24 +103,24 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiMediaContactsIdGet**
-> MediaContact apiMediaContactsIdGet()
+# **apiPhoneNumbersIdGet**
+> PhoneNumber apiPhoneNumbersIdGet()
 
 
 ### Example
 
 ```typescript
 import {
-    MediaContactsApi,
+    PhoneNumbersApi,
     Configuration
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new MediaContactsApi(configuration);
+const apiInstance = new PhoneNumbersApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.apiMediaContactsIdGet(
+const { status, data } = await apiInstance.apiPhoneNumbersIdGet(
     id
 );
 ```
@@ -135,7 +134,7 @@ const { status, data } = await apiInstance.apiMediaContactsIdGet(
 
 ### Return type
 
-**MediaContact**
+**PhoneNumber**
 
 ### Authorization
 
@@ -154,28 +153,28 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiMediaContactsIdPut**
-> apiMediaContactsIdPut()
+# **apiPhoneNumbersIdPut**
+> apiPhoneNumbersIdPut()
 
 
 ### Example
 
 ```typescript
 import {
-    MediaContactsApi,
+    PhoneNumbersApi,
     Configuration,
-    MediaContact
+    PhoneNumber
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new MediaContactsApi(configuration);
+const apiInstance = new PhoneNumbersApi(configuration);
 
 let id: string; // (default to undefined)
-let mediaContact: MediaContact; // (optional)
+let phoneNumber: PhoneNumber; // (optional)
 
-const { status, data } = await apiInstance.apiMediaContactsIdPut(
+const { status, data } = await apiInstance.apiPhoneNumbersIdPut(
     id,
-    mediaContact
+    phoneNumber
 );
 ```
 
@@ -183,7 +182,7 @@ const { status, data } = await apiInstance.apiMediaContactsIdPut(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **mediaContact** | **MediaContact**|  | |
+| **phoneNumber** | **PhoneNumber**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -208,26 +207,26 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiMediaContactsPost**
-> MediaContact apiMediaContactsPost()
+# **apiPhoneNumbersPost**
+> PhoneNumber apiPhoneNumbersPost()
 
 
 ### Example
 
 ```typescript
 import {
-    MediaContactsApi,
+    PhoneNumbersApi,
     Configuration,
-    MediaContact
+    PhoneNumber
 } from './api';
 
 const configuration = new Configuration();
-const apiInstance = new MediaContactsApi(configuration);
+const apiInstance = new PhoneNumbersApi(configuration);
 
-let mediaContact: MediaContact; // (optional)
+let phoneNumber: PhoneNumber; // (optional)
 
-const { status, data } = await apiInstance.apiMediaContactsPost(
-    mediaContact
+const { status, data } = await apiInstance.apiPhoneNumbersPost(
+    phoneNumber
 );
 ```
 
@@ -235,12 +234,12 @@ const { status, data } = await apiInstance.apiMediaContactsPost(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **mediaContact** | **MediaContact**|  | |
+| **phoneNumber** | **PhoneNumber**|  | |
 
 
 ### Return type
 
-**MediaContact**
+**PhoneNumber**
 
 ### Authorization
 
@@ -249,56 +248,6 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiMediaContactsSearchFullNameGet**
-> MediaContact apiMediaContactsSearchFullNameGet()
-
-
-### Example
-
-```typescript
-import {
-    MediaContactsApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new MediaContactsApi(configuration);
-
-let fullName: string; // (default to undefined)
-
-const { status, data } = await apiInstance.apiMediaContactsSearchFullNameGet(
-    fullName
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **fullName** | [**string**] |  | defaults to undefined|
-
-
-### Return type
-
-**MediaContact**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
  - **Accept**: text/plain, application/json, text/json
 
 

@@ -19,6 +19,7 @@ export * from './api//media-outlets-api';
 export * from './api//media-requests-api';
 export * from './api//media-types-api';
 export * from './api//ministries-api';
+export * from './api//phone-numbers-api';
 export * from './api//request-resolutions-api';
 export * from './api//request-statuses-api';
 export * from './api//request-types-api';

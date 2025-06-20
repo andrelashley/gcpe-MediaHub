@@ -6,6 +6,7 @@ api/media-outlets-api.ts
 api/media-requests-api.ts
 api/media-types-api.ts
 api/ministries-api.ts
+api/phone-numbers-api.ts
 api/request-resolutions-api.ts
 api/request-statuses-api.ts
 api/request-types-api.ts
@@ -33,6 +34,7 @@ docs/MediaTypesApi.md
 docs/MinistriesApi.md
 docs/Ministry.md
 docs/PhoneNumber.md
+docs/PhoneNumbersApi.md
 docs/RequestResolution.md
 docs/RequestResolutionsApi.md
 docs/RequestStatus.md
