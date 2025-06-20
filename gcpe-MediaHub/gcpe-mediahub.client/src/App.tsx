@@ -18,13 +18,7 @@ import MediaLayout from './components/MediaLayout'; // Import MediaLayout
 // Pages
 import Home from './pages/Home/homePage';
 import RequestsCardView from './pages/Requests/requestsCardView';
-<<<<<<< HEAD
-import Media from './pages/MediaRequests/requests';
-import Contacs from './pages/Contacts/Contacts'; 
-=======
-import Requests from './pages/Requests/requests';
 import Contacts from './pages/Contacts/Contacts'; 
->>>>>>> 601629e85602c5beefafcf1a7251816672e2d1ea
 import OrganizationsLayout from './components/OrganizationsLayout';
 import Organizations from './pages/Organizations/organizations';
 
