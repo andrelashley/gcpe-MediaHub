@@ -196,6 +196,39 @@ export const MediaContactsApiAxiosParamCreator = function (configuration?: Confi
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} fullName 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaContactsSearchFullNameGet: async (fullName: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'fullName' is not null or undefined
+            assertParamExists('apiMediaContactsSearchFullNameGet', 'fullName', fullName)
+            const localVarPath = `/api/MediaContacts/search/{fullName}`
+                .replace(`{${"fullName"}}`, encodeURIComponent(String(fullName)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -266,6 +299,18 @@ export const MediaContactsApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['MediaContactsApi.apiMediaContactsPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @param {string} fullName 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiMediaContactsSearchFullNameGet(fullName: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaContact>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaContactsSearchFullNameGet(fullName, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MediaContactsApi.apiMediaContactsSearchFullNameGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -319,6 +364,15 @@ export const MediaContactsApiFactory = function (configuration?: Configuration, 
          */
         apiMediaContactsPost(requestParameters: MediaContactsApiApiMediaContactsPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<MediaContact> {
             return localVarFp.apiMediaContactsPost(requestParameters.mediaContact, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {MediaContactsApiApiMediaContactsSearchFullNameGetRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaContactsSearchFullNameGet(requestParameters: MediaContactsApiApiMediaContactsSearchFullNameGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<MediaContact> {
+            return localVarFp.apiMediaContactsSearchFullNameGet(requestParameters.fullName, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -387,6 +441,20 @@ export interface MediaContactsApiApiMediaContactsPostRequest {
 }
 
 /**
+ * Request parameters for apiMediaContactsSearchFullNameGet operation in MediaContactsApi.
+ * @export
+ * @interface MediaContactsApiApiMediaContactsSearchFullNameGetRequest
+ */
+export interface MediaContactsApiApiMediaContactsSearchFullNameGetRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof MediaContactsApiApiMediaContactsSearchFullNameGet
+     */
+    readonly fullName: string
+}
+
+/**
  * MediaContactsApi - object-oriented interface
  * @export
  * @class MediaContactsApi
@@ -445,6 +513,17 @@ export class MediaContactsApi extends BaseAPI {
      */
     public apiMediaContactsPost(requestParameters: MediaContactsApiApiMediaContactsPostRequest = {}, options?: RawAxiosRequestConfig) {
         return MediaContactsApiFp(this.configuration).apiMediaContactsPost(requestParameters.mediaContact, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {MediaContactsApiApiMediaContactsSearchFullNameGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MediaContactsApi
+     */
+    public apiMediaContactsSearchFullNameGet(requestParameters: MediaContactsApiApiMediaContactsSearchFullNameGetRequest, options?: RawAxiosRequestConfig) {
+        return MediaContactsApiFp(this.configuration).apiMediaContactsSearchFullNameGet(requestParameters.fullName, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

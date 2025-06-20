@@ -21,20 +21,8 @@ interface NewRequestPageProps {
     onClose?: () => void;
 }
 
-const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
-    React.useEffect(() => {
-        const fetchMinistries = async () => {
-            try {
-                const ministryList = await ministryService.getMinistries();
-                setMinistries(ministryList);
-            } catch (error) {
-                console.error('Failed to fetch ministries:', error);
-            }
-        };
-        
-        fetchMinistries();
-    }, []);
-
+const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
+    // State declarations
     const [statuses, setStatuses] = React.useState<RequestStatus[]>([]);
     const [selectedStatus, setSelectedStatus] = React.useState<number | null>(null);
     const [requestTypes, setRequestTypes] = React.useState<RequestType[]>([]);
@@ -43,7 +31,7 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
     const [leadMinistry, setLeadMinistry] = React.useState<number | null>(null);
     const [additionalMinistries, setAdditionalMinistries] = React.useState<number[]>([]);
     const [assignedTo, setAssignedTo] = React.useState('');
-    const [notifiedRecipients, setNotifiedRecipients] = React.useState('');
+    const [fyiContactUser, setfyiContactUsers] = React.useState('');
     const [requestDetails, setRequestDetails] = React.useState('');
     const [requestTitle, setRequestTitle] = React.useState('');
     const [requestedBy, setRequestedBy] = React.useState('');
@@ -53,7 +41,26 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
     const [assignedUserId, setAssignedUserId] = React.useState<string>('00000000-0000-0000-0000-000000000000');
+    const [fyiContactUserId, setfyiContactUserId] = React.useState<string>('00000000-0000-0000-0000-000000000000');
     const [requestorContactId, setRequestorContactId] = React.useState<string>('00000000-0000-0000-0000-000000000000');
+
+    // Refs
+    const dateInputRef = React.useRef<HTMLInputElement>(null);
+    const receivedOnInputRef = React.useRef<HTMLInputElement>(null);
+    const lookupTimeout = React.useRef<NodeJS.Timeout>();
+
+    // Effects
+    React.useEffect(() => {
+        const fetchMinistries = async () => {
+            try {
+                const ministryList = await ministryService.getMinistries();
+                setMinistries(ministryList);
+            } catch (error) {
+                console.error('Failed to fetch ministries:', error);
+            }
+        };
+        fetchMinistries();
+    }, []);
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -68,31 +75,39 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                 console.error('Failed to fetch data:', error);
             }
         };
-        
         fetchData();
     }, []);
 
-    // Effect to update assignedUserId when assignedTo changes
+    // Effect to update assignedUserId and fyiContactUserId when inputs change
     React.useEffect(() => {
         if (lookupTimeout.current) {
             clearTimeout(lookupTimeout.current);
         }
 
-        lookupTimeout.current = setTimeout(async () => {
-            if (assignedTo.trim()) {
+        const updateUser = async (idir: string, setUserId: (id: string) => void, fieldName: string) => {
+            if (idir.trim()) {
                 try {
-                    console.log("Calling getUserByIdir with IDIR:", assignedTo.trim());
-                    const user = await userService.getUserByIdir(assignedTo.trim());
-                    console.log("Retrieved user:", user);
+                    console.log(`Calling getUserByIdir for ${fieldName}:`, idir.trim());
+                    const user = await userService.getUserByIdir(idir.trim());
+                    console.log(`Retrieved ${fieldName} user:`, user);
                     if (user?.id) {
-                        setAssignedUserId(user.id);
+                        setUserId(user.id);
                     } else {
-                        setAssignedUserId('00000000-0000-0000-0000-000000000000');
+                        setUserId('00000000-0000-0000-0000-000000000000');
                     }
                 } catch (error) {
-                    console.error("Failed to retrieve assignedUserId:", error);
-                    setAssignedUserId('00000000-0000-0000-0000-000000000000');
+                    console.error(`Failed to retrieve ${fieldName}:`, error);
+                    setUserId('00000000-0000-0000-0000-000000000000');
                 }
+            }
+        };
+
+        lookupTimeout.current = setTimeout(async () => {
+            if (assignedTo.trim()) {
+                await updateUser(assignedTo, setAssignedUserId, 'Assigned To');
+            }
+            if (fyiContactUser.trim()) {
+                await updateUser(fyiContactUser, setfyiContactUserId, 'FYI Contact');
             }
         }, 500); // 500ms debounce
 
@@ -101,7 +116,7 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                 clearTimeout(lookupTimeout.current);
             }
         };
-    }, [assignedTo]);
+    }, [assignedTo, fyiContactUser]);
 
     // Effect to update requestorContactId when requestedBy changes
     React.useEffect(() => {
@@ -112,11 +127,11 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
         lookupTimeout.current = setTimeout(async () => {
             if (requestedBy.trim()) {
                 try {
-                    console.log("Calling getUserByIdir for requestedBy:", requestedBy.trim());
-                    const user = await userService.getUserByIdir(requestedBy.trim());
-                    console.log("Retrieved requestor user:", user);
-                    if (user?.id) {
-                        setRequestorContactId(user.id);
+                    console.log("Calling getMediaContactByFullName for requestedBy:", requestedBy.trim());
+                    const contact = await userService.getMediaContactByFullName(requestedBy.trim());
+                    console.log("Retrieved requestor contact:", contact);
+                    if (contact?.id) {
+                        setRequestorContactId(contact.id);
                     } else {
                         setRequestorContactId('00000000-0000-0000-0000-000000000000');
                     }
@@ -134,58 +149,130 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
         };
     }, [requestedBy]);
 
+    // Helper function to get ministry names string
+    const getSelectedMinistriesDisplay = (selectedIds: number[]) => {
+        return selectedIds
+            .map(id => ministries.find(m => m.id === id)?.name)
+            .filter(Boolean)
+            .join(", ") || "Select additional ministries";
+    };
 
-    const dateInputRef = React.useRef<HTMLInputElement>(null);
-    const receivedOnInputRef = React.useRef<HTMLInputElement>(null);
-    const lookupTimeout = React.useRef<NodeJS.Timeout>();
+    // Keep selected ministries display updated
+    const [ministriesDisplay, setMinistriesDisplay] = React.useState("");
+    React.useEffect(() => {
+        setMinistriesDisplay(getSelectedMinistriesDisplay(additionalMinistries));
+    }, [additionalMinistries, ministries]);
 
     // Submit handler for creating new request
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
         setShowValidation(true);
         setError(null);
     
-        try {
-            // Validate that we have valid user IDs
-            if (assignedUserId === '00000000-0000-0000-0000-000000000000' && assignedTo.trim()) {
-                setError("Unable to find user with provided Assigned To IDIR");
-                return;
-            }
+        // Validate all required fields
+        if (!selectedStatus) {
+            setError("Status is required");
+            return;
+        }
 
-            if (requestorContactId === '00000000-0000-0000-0000-000000000000' && requestedBy.trim()) {
-                setError("Unable to find user with provided Requested By IDIR");
-                return;
+        if (!requestTitle.trim()) {
+            setError("Request title is required");
+            return;
+        }
+
+        if (!selectedRequestType) {
+            setError("Request type is required");
+            return;
+        }
+
+        if (!requestDetails.trim()) {
+            setError("Request details are required");
+            return;
+        }
+
+        if (!requestedBy.trim()) {
+            setError("Requested By is required");
+            return;
+        }
+
+        if (!leadMinistry) {
+            setError("Lead ministry is required");
+            return;
+        }
+
+        if (!assignedTo.trim()) {
+            setError("Assigned To is required");
+            return;
+        }
+
+        // Validate dates
+        if (!deadline.trim() || !receivedOn.trim()) {
+            setError("Deadline and Received On dates are required");
+            return;
+        }
+
+        // Validate IDs
+        if (requestorContactId === '00000000-0000-0000-0000-000000000000') {
+            setError("Unable to find media contact with provided full name");
+            return;
+        }
+
+        if (assignedUserId === '00000000-0000-0000-0000-000000000000') {
+            setError("Unable to find user with provided Assigned To IDIR");
+            return;
+        }
+
+        if (fyiContactUser.trim() && fyiContactUserId === '00000000-0000-0000-0000-000000000000') {
+            setError("Unable to find user with provided FYI Contact IDIR");
+            return;
+        }
+        
+        // Map form state to the correct MediaRequest shape for your API
+        // Convert date strings to DateTimeOffset format
+        const deadlineDate = deadline ? new Date(deadline) : null;
+        const receivedOnDate = receivedOn ? new Date(receivedOn) : null;
+
+        if (!deadlineDate || !receivedOnDate) {
+            setError("Deadline and Received On dates are required");
+            return;
+        }
+
+        const newRequest: MediaRequest = {
+            requestTitle,
+            requestDetails,
+            deadline: deadlineDate.toISOString(),
+            receivedOn: receivedOnDate.toISOString(),
+            leadMinistryId: leadMinistry,
+            additionalMinistries: additionalMinistries.map(id => ({ id })),
+            requestStatusId: selectedStatus,
+            requestTypeId: selectedRequestType,
+            requestorContactId: requestorContactId !== '00000000-0000-0000-0000-000000000000' ? requestorContactId : null,
+            assignedUserId: assignedUserId !== '00000000-0000-0000-0000-000000000000' ? assignedUserId : null,
+            fyiContactUserId: fyiContactUser.trim() && fyiContactUserId !== '00000000-0000-0000-0000-000000000000' ? fyiContactUserId : null,
+            requestorOutletId: null, // Will be set when outlet is implemented
+            requestResolutionId: null, // Default value
+            response: '',
+            requestNo: 0 // This will be set by the API
+        };
+
+        console.log("newRequest:", newRequest);
+        setIsSubmitting(true);
+        try {
+            const response = await requestService.createRequest(newRequest);
+            if (response) {
+                if (onClose) onClose();
             }
-            
-            // Map form state to the correct MediaRequest shape for your API
-            const newRequest: MediaRequest = {
-                requestTitle,
-                requestDetails,
-                deadline,
-                receivedOn,
-                leadMinistryId: leadMinistry || 0,
-                additionalMinistries: additionalMinistries.map(id => ({
-                    id,
-                    name: ministries.find(m => m.id === id)?.name || '',
-                    acronym: ''
-                })),
-                requestStatusId: selectedStatus || 0,
-                requestTypeId: selectedRequestType || 0,
-                requestorContactId, // Retrieved from userService.getUserByIdir
-                assignedUserId, // Retrieved from userService.getUserByIdir
-                requestorOutletId: '00000000-0000-0000-0000-000000000000', // This will be set when outlet is implemented
-                requestResolutionId: 1, // Default value
-                response: ''
-            };
-    
-            console.log("newRequest:", newRequest);
-            setIsSubmitting(true);
-            await requestService.createRequest(newRequest);
-            setIsSubmitting(false);
-            if (onClose) onClose();
         } catch (err: any) {
+            console.error("Error creating request:", err);
+            if (err.response?.data) {
+                setError(err.response.data);
+            } else if (err.message.includes("Foreign key constraint failed")) {
+                setError("One or more referenced entities do not exist. Please check all fields.");
+            } else {
+                setError(err.message || "Failed to create request");
+            }
+        } finally {
             setIsSubmitting(false);
-            setError(err?.message || "Failed to create request");
         }
     };
 
@@ -252,7 +339,7 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                     validationState={showValidation && !requestedBy.trim() ? "error" : "none"}
                 >
                     <Input
-                        placeholder="Enter name of requester"
+                        placeholder="Enter full name (First Last)"
                         value={requestedBy}
                         onChange={(_, data) => {
                             setRequestedBy(data.value);
@@ -408,17 +495,15 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                 >
                     <Dropdown
                         placeholder="Select additional ministries"
+                        defaultValue={ministriesDisplay}
+                        value={ministriesDisplay}
                         selectedOptions={additionalMinistries.map(id => id.toString())}
                         size="medium"
                         multiselect
                         onOptionSelect={(_, data) => {
-                            // Get currently selected IDs, excluding lead ministry
-                            const currentAdditionalMinistries = additionalMinistries.filter(id => id !== leadMinistry);
-                            
-                            // Add newly selected IDs, also excluding lead ministry
+                            // Add newly selected IDs, excluding lead ministry
                             const selectedIds = data.selectedOptions.map(Number);
                             const newAdditionalMinistries = selectedIds.filter(id => id !== leadMinistry);
-                            
                             setAdditionalMinistries(newAdditionalMinistries);
                         }}
                     >
@@ -451,13 +536,17 @@ const NewRequestPage: React.FC<NewRequestPageProps> = ({ onClose }) => {
                     />
                 </Field>
                 <Field
-                    label="Notified Recipient(s)"
+                    label="FYI Contacts"
                 >
                     <Input
-                        placeholder="Enter recipient names"
-                        value={notifiedRecipients}
+                        placeholder="Enter IDIR for FYI Contact"
+                        value={fyiContactUser}
                         onChange={(_, data) => {
-                            setNotifiedRecipients(data.value);
+                            setfyiContactUsers(data.value);
+                            // Clear invalid user ID if input is empty
+                            if (!data.value.trim()) {
+                                setfyiContactUserId('00000000-0000-0000-0000-000000000000');
+                            }
                         }}
                     />
                 </Field>

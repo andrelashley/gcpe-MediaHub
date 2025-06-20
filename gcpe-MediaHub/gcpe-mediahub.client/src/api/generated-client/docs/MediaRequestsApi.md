@@ -208,7 +208,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiMediaRequestsPost**
-> MediaRequest apiMediaRequestsPost()
+> apiMediaRequestsPost()
 
 
 ### Example
@@ -239,7 +239,7 @@ const { status, data } = await apiInstance.apiMediaRequestsPost(
 
 ### Return type
 
-**MediaRequest**
+void (empty response body)
 
 ### Authorization
 
@@ -248,7 +248,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
+ - **Accept**: Not defined
 
 
 ### HTTP response details

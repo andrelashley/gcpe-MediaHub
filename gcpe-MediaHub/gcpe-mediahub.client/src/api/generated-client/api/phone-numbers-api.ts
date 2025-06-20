@@ -22,20 +22,20 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { MediaRequest } from '../model';
+import type { PhoneNumber } from '../model';
 /**
- * MediaRequestsApi - axios parameter creator
+ * PhoneNumbersApi - axios parameter creator
  * @export
  */
-export const MediaRequestsApiAxiosParamCreator = function (configuration?: Configuration) {
+export const PhoneNumbersApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaRequestsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/MediaRequests`;
+        apiPhoneNumbersGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/PhoneNumbers`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -64,10 +64,10 @@ export const MediaRequestsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaRequestsIdDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiPhoneNumbersIdDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiMediaRequestsIdDelete', 'id', id)
-            const localVarPath = `/api/MediaRequests/{id}`
+            assertParamExists('apiPhoneNumbersIdDelete', 'id', id)
+            const localVarPath = `/api/PhoneNumbers/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -97,10 +97,10 @@ export const MediaRequestsApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaRequestsIdGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiPhoneNumbersIdGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiMediaRequestsIdGet', 'id', id)
-            const localVarPath = `/api/MediaRequests/{id}`
+            assertParamExists('apiPhoneNumbersIdGet', 'id', id)
+            const localVarPath = `/api/PhoneNumbers/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -127,14 +127,14 @@ export const MediaRequestsApiAxiosParamCreator = function (configuration?: Confi
         /**
          * 
          * @param {string} id 
-         * @param {MediaRequest} [mediaRequest] 
+         * @param {PhoneNumber} [phoneNumber] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaRequestsIdPut: async (id: string, mediaRequest?: MediaRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiPhoneNumbersIdPut: async (id: string, phoneNumber?: PhoneNumber, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiMediaRequestsIdPut', 'id', id)
-            const localVarPath = `/api/MediaRequests/{id}`
+            assertParamExists('apiPhoneNumbersIdPut', 'id', id)
+            const localVarPath = `/api/PhoneNumbers/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -154,7 +154,7 @@ export const MediaRequestsApiAxiosParamCreator = function (configuration?: Confi
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(mediaRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(phoneNumber, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -163,12 +163,12 @@ export const MediaRequestsApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @param {MediaRequest} [mediaRequest] 
+         * @param {PhoneNumber} [phoneNumber] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaRequestsPost: async (mediaRequest?: MediaRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/MediaRequests`;
+        apiPhoneNumbersPost: async (phoneNumber?: PhoneNumber, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/PhoneNumbers`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -187,7 +187,7 @@ export const MediaRequestsApiAxiosParamCreator = function (configuration?: Confi
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(mediaRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(phoneNumber, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -198,21 +198,21 @@ export const MediaRequestsApiAxiosParamCreator = function (configuration?: Confi
 };
 
 /**
- * MediaRequestsApi - functional programming interface
+ * PhoneNumbersApi - functional programming interface
  * @export
  */
-export const MediaRequestsApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = MediaRequestsApiAxiosParamCreator(configuration)
+export const PhoneNumbersApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PhoneNumbersApiAxiosParamCreator(configuration)
     return {
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiMediaRequestsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MediaRequest>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaRequestsGet(options);
+        async apiPhoneNumbersGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<PhoneNumber>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPhoneNumbersGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MediaRequestsApi.apiMediaRequestsGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PhoneNumbersApi.apiPhoneNumbersGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -221,10 +221,10 @@ export const MediaRequestsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiMediaRequestsIdDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaRequestsIdDelete(id, options);
+        async apiPhoneNumbersIdDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPhoneNumbersIdDelete(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MediaRequestsApi.apiMediaRequestsIdDelete']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PhoneNumbersApi.apiPhoneNumbersIdDelete']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -233,216 +233,216 @@ export const MediaRequestsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiMediaRequestsIdGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaRequest>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaRequestsIdGet(id, options);
+        async apiPhoneNumbersIdGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PhoneNumber>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPhoneNumbersIdGet(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MediaRequestsApi.apiMediaRequestsIdGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PhoneNumbersApi.apiPhoneNumbersIdGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {string} id 
-         * @param {MediaRequest} [mediaRequest] 
+         * @param {PhoneNumber} [phoneNumber] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiMediaRequestsIdPut(id: string, mediaRequest?: MediaRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaRequestsIdPut(id, mediaRequest, options);
+        async apiPhoneNumbersIdPut(id: string, phoneNumber?: PhoneNumber, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPhoneNumbersIdPut(id, phoneNumber, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MediaRequestsApi.apiMediaRequestsIdPut']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PhoneNumbersApi.apiPhoneNumbersIdPut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {MediaRequest} [mediaRequest] 
+         * @param {PhoneNumber} [phoneNumber] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiMediaRequestsPost(mediaRequest?: MediaRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaRequestsPost(mediaRequest, options);
+        async apiPhoneNumbersPost(phoneNumber?: PhoneNumber, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PhoneNumber>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiPhoneNumbersPost(phoneNumber, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['MediaRequestsApi.apiMediaRequestsPost']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PhoneNumbersApi.apiPhoneNumbersPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
 };
 
 /**
- * MediaRequestsApi - factory interface
+ * PhoneNumbersApi - factory interface
  * @export
  */
-export const MediaRequestsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = MediaRequestsApiFp(configuration)
+export const PhoneNumbersApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PhoneNumbersApiFp(configuration)
     return {
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaRequestsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<MediaRequest>> {
-            return localVarFp.apiMediaRequestsGet(options).then((request) => request(axios, basePath));
+        apiPhoneNumbersGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<PhoneNumber>> {
+            return localVarFp.apiPhoneNumbersGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {MediaRequestsApiApiMediaRequestsIdDeleteRequest} requestParameters Request parameters.
+         * @param {PhoneNumbersApiApiPhoneNumbersIdDeleteRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaRequestsIdDelete(requestParameters: MediaRequestsApiApiMediaRequestsIdDeleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.apiMediaRequestsIdDelete(requestParameters.id, options).then((request) => request(axios, basePath));
+        apiPhoneNumbersIdDelete(requestParameters: PhoneNumbersApiApiPhoneNumbersIdDeleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiPhoneNumbersIdDelete(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {MediaRequestsApiApiMediaRequestsIdGetRequest} requestParameters Request parameters.
+         * @param {PhoneNumbersApiApiPhoneNumbersIdGetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaRequestsIdGet(requestParameters: MediaRequestsApiApiMediaRequestsIdGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<MediaRequest> {
-            return localVarFp.apiMediaRequestsIdGet(requestParameters.id, options).then((request) => request(axios, basePath));
+        apiPhoneNumbersIdGet(requestParameters: PhoneNumbersApiApiPhoneNumbersIdGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<PhoneNumber> {
+            return localVarFp.apiPhoneNumbersIdGet(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {MediaRequestsApiApiMediaRequestsIdPutRequest} requestParameters Request parameters.
+         * @param {PhoneNumbersApiApiPhoneNumbersIdPutRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaRequestsIdPut(requestParameters: MediaRequestsApiApiMediaRequestsIdPutRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.apiMediaRequestsIdPut(requestParameters.id, requestParameters.mediaRequest, options).then((request) => request(axios, basePath));
+        apiPhoneNumbersIdPut(requestParameters: PhoneNumbersApiApiPhoneNumbersIdPutRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiPhoneNumbersIdPut(requestParameters.id, requestParameters.phoneNumber, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {MediaRequestsApiApiMediaRequestsPostRequest} requestParameters Request parameters.
+         * @param {PhoneNumbersApiApiPhoneNumbersPostRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaRequestsPost(requestParameters: MediaRequestsApiApiMediaRequestsPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.apiMediaRequestsPost(requestParameters.mediaRequest, options).then((request) => request(axios, basePath));
+        apiPhoneNumbersPost(requestParameters: PhoneNumbersApiApiPhoneNumbersPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PhoneNumber> {
+            return localVarFp.apiPhoneNumbersPost(requestParameters.phoneNumber, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for apiMediaRequestsIdDelete operation in MediaRequestsApi.
+ * Request parameters for apiPhoneNumbersIdDelete operation in PhoneNumbersApi.
  * @export
- * @interface MediaRequestsApiApiMediaRequestsIdDeleteRequest
+ * @interface PhoneNumbersApiApiPhoneNumbersIdDeleteRequest
  */
-export interface MediaRequestsApiApiMediaRequestsIdDeleteRequest {
+export interface PhoneNumbersApiApiPhoneNumbersIdDeleteRequest {
     /**
      * 
      * @type {string}
-     * @memberof MediaRequestsApiApiMediaRequestsIdDelete
+     * @memberof PhoneNumbersApiApiPhoneNumbersIdDelete
      */
     readonly id: string
 }
 
 /**
- * Request parameters for apiMediaRequestsIdGet operation in MediaRequestsApi.
+ * Request parameters for apiPhoneNumbersIdGet operation in PhoneNumbersApi.
  * @export
- * @interface MediaRequestsApiApiMediaRequestsIdGetRequest
+ * @interface PhoneNumbersApiApiPhoneNumbersIdGetRequest
  */
-export interface MediaRequestsApiApiMediaRequestsIdGetRequest {
+export interface PhoneNumbersApiApiPhoneNumbersIdGetRequest {
     /**
      * 
      * @type {string}
-     * @memberof MediaRequestsApiApiMediaRequestsIdGet
+     * @memberof PhoneNumbersApiApiPhoneNumbersIdGet
      */
     readonly id: string
 }
 
 /**
- * Request parameters for apiMediaRequestsIdPut operation in MediaRequestsApi.
+ * Request parameters for apiPhoneNumbersIdPut operation in PhoneNumbersApi.
  * @export
- * @interface MediaRequestsApiApiMediaRequestsIdPutRequest
+ * @interface PhoneNumbersApiApiPhoneNumbersIdPutRequest
  */
-export interface MediaRequestsApiApiMediaRequestsIdPutRequest {
+export interface PhoneNumbersApiApiPhoneNumbersIdPutRequest {
     /**
      * 
      * @type {string}
-     * @memberof MediaRequestsApiApiMediaRequestsIdPut
+     * @memberof PhoneNumbersApiApiPhoneNumbersIdPut
      */
     readonly id: string
 
     /**
      * 
-     * @type {MediaRequest}
-     * @memberof MediaRequestsApiApiMediaRequestsIdPut
+     * @type {PhoneNumber}
+     * @memberof PhoneNumbersApiApiPhoneNumbersIdPut
      */
-    readonly mediaRequest?: MediaRequest
+    readonly phoneNumber?: PhoneNumber
 }
 
 /**
- * Request parameters for apiMediaRequestsPost operation in MediaRequestsApi.
+ * Request parameters for apiPhoneNumbersPost operation in PhoneNumbersApi.
  * @export
- * @interface MediaRequestsApiApiMediaRequestsPostRequest
+ * @interface PhoneNumbersApiApiPhoneNumbersPostRequest
  */
-export interface MediaRequestsApiApiMediaRequestsPostRequest {
+export interface PhoneNumbersApiApiPhoneNumbersPostRequest {
     /**
      * 
-     * @type {MediaRequest}
-     * @memberof MediaRequestsApiApiMediaRequestsPost
+     * @type {PhoneNumber}
+     * @memberof PhoneNumbersApiApiPhoneNumbersPost
      */
-    readonly mediaRequest?: MediaRequest
+    readonly phoneNumber?: PhoneNumber
 }
 
 /**
- * MediaRequestsApi - object-oriented interface
+ * PhoneNumbersApi - object-oriented interface
  * @export
- * @class MediaRequestsApi
+ * @class PhoneNumbersApi
  * @extends {BaseAPI}
  */
-export class MediaRequestsApi extends BaseAPI {
+export class PhoneNumbersApi extends BaseAPI {
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MediaRequestsApi
+     * @memberof PhoneNumbersApi
      */
-    public apiMediaRequestsGet(options?: RawAxiosRequestConfig) {
-        return MediaRequestsApiFp(this.configuration).apiMediaRequestsGet(options).then((request) => request(this.axios, this.basePath));
+    public apiPhoneNumbersGet(options?: RawAxiosRequestConfig) {
+        return PhoneNumbersApiFp(this.configuration).apiPhoneNumbersGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {MediaRequestsApiApiMediaRequestsIdDeleteRequest} requestParameters Request parameters.
+     * @param {PhoneNumbersApiApiPhoneNumbersIdDeleteRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MediaRequestsApi
+     * @memberof PhoneNumbersApi
      */
-    public apiMediaRequestsIdDelete(requestParameters: MediaRequestsApiApiMediaRequestsIdDeleteRequest, options?: RawAxiosRequestConfig) {
-        return MediaRequestsApiFp(this.configuration).apiMediaRequestsIdDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public apiPhoneNumbersIdDelete(requestParameters: PhoneNumbersApiApiPhoneNumbersIdDeleteRequest, options?: RawAxiosRequestConfig) {
+        return PhoneNumbersApiFp(this.configuration).apiPhoneNumbersIdDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {MediaRequestsApiApiMediaRequestsIdGetRequest} requestParameters Request parameters.
+     * @param {PhoneNumbersApiApiPhoneNumbersIdGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MediaRequestsApi
+     * @memberof PhoneNumbersApi
      */
-    public apiMediaRequestsIdGet(requestParameters: MediaRequestsApiApiMediaRequestsIdGetRequest, options?: RawAxiosRequestConfig) {
-        return MediaRequestsApiFp(this.configuration).apiMediaRequestsIdGet(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public apiPhoneNumbersIdGet(requestParameters: PhoneNumbersApiApiPhoneNumbersIdGetRequest, options?: RawAxiosRequestConfig) {
+        return PhoneNumbersApiFp(this.configuration).apiPhoneNumbersIdGet(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {MediaRequestsApiApiMediaRequestsIdPutRequest} requestParameters Request parameters.
+     * @param {PhoneNumbersApiApiPhoneNumbersIdPutRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MediaRequestsApi
+     * @memberof PhoneNumbersApi
      */
-    public apiMediaRequestsIdPut(requestParameters: MediaRequestsApiApiMediaRequestsIdPutRequest, options?: RawAxiosRequestConfig) {
-        return MediaRequestsApiFp(this.configuration).apiMediaRequestsIdPut(requestParameters.id, requestParameters.mediaRequest, options).then((request) => request(this.axios, this.basePath));
+    public apiPhoneNumbersIdPut(requestParameters: PhoneNumbersApiApiPhoneNumbersIdPutRequest, options?: RawAxiosRequestConfig) {
+        return PhoneNumbersApiFp(this.configuration).apiPhoneNumbersIdPut(requestParameters.id, requestParameters.phoneNumber, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {MediaRequestsApiApiMediaRequestsPostRequest} requestParameters Request parameters.
+     * @param {PhoneNumbersApiApiPhoneNumbersPostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof MediaRequestsApi
+     * @memberof PhoneNumbersApi
      */
-    public apiMediaRequestsPost(requestParameters: MediaRequestsApiApiMediaRequestsPostRequest = {}, options?: RawAxiosRequestConfig) {
-        return MediaRequestsApiFp(this.configuration).apiMediaRequestsPost(requestParameters.mediaRequest, options).then((request) => request(this.axios, this.basePath));
+    public apiPhoneNumbersPost(requestParameters: PhoneNumbersApiApiPhoneNumbersPostRequest = {}, options?: RawAxiosRequestConfig) {
+        return PhoneNumbersApiFp(this.configuration).apiPhoneNumbersPost(requestParameters.phoneNumber, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
