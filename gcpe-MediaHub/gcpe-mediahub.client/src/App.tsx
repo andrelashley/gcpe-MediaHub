@@ -18,7 +18,6 @@ import MediaLayout from './components/MediaLayout'; // Import MediaLayout
 // Pages
 import Home from './pages/Home/homePage';
 import RequestsCardView from './pages/Requests/requestsCardView';
-import Requests from './pages/Requests/requests';
 import Contacts from './pages/Contacts/Contacts'; 
 import OrganizationsLayout from './components/OrganizationsLayout';
 import Organizations from './pages/Organizations/organizations';
@@ -50,10 +49,6 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <RequestsCardView />,
-            },
-            {
-                path: 'tableview',
-                element: <Requests />,
             }
         ],
     },
