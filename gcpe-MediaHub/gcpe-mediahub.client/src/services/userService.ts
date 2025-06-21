@@ -48,5 +48,18 @@ export const userService = {
             console.error("Error in getMediaContactByFullName:", error);
             throw error;
         }
+    },
+
+    /**
+     * Get all media contacts
+     */
+    async getMediaContacts(): Promise<MediaContact[]> {
+        try {
+            const response = await axiosInstance.get<MediaContact[]>('/api/MediaContacts');
+            return response.data;
+        } catch (error) {
+            console.error("Error in getMediaContacts:", error);
+            throw error;
+        }
     }
 };

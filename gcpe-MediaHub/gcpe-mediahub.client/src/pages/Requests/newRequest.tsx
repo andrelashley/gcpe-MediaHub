@@ -13,7 +13,7 @@ import {
 import { ministryService } from '../../services/ministryService';
 import { userService } from '../../services/userService';
 import { requestService } from '../../services/requestService';
-import { Ministry, MediaRequest, RequestStatus, RequestType } from '../../api/generated-client/model';
+import { Ministry, MediaRequest, RequestStatus, RequestType, MediaContact } from '../../api/generated-client/model';
 import { CalendarEmpty24Regular, Dismiss24Regular } from '@fluentui/react-icons';
 import styles from './newRequest.module.css';
 
@@ -34,7 +34,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     const [fyiContactUser, setfyiContactUsers] = React.useState('');
     const [requestDetails, setRequestDetails] = React.useState('');
     const [requestTitle, setRequestTitle] = React.useState('');
-    const [requestedBy, setRequestedBy] = React.useState('');
+    const [requestedById, setRequestedById] = React.useState<string>('');
     const [deadline, setDeadline] = React.useState('');
     const [receivedOn, setReceivedOn] = React.useState('');
     const [showValidation, setShowValidation] = React.useState(false);
@@ -63,6 +63,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         leadMinistry: false,
         assignedTo: false
     });
+    const [mediaContacts, setMediaContacts] = React.useState<MediaContact[]>([]);
 
     // Refs
     const dateInputRef = React.useRef<HTMLInputElement>(null);
@@ -96,6 +97,19 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             }
         };
         fetchData();
+    }, []);
+
+    React.useEffect(() => {
+        const fetchMediaContacts = async () => {
+            try {
+                const contacts = await userService.getMediaContacts();
+                console.log('Fetched media contacts:', contacts);
+                setMediaContacts(contacts);
+            } catch (error) {
+                console.error('Failed to fetch media contacts:', error);
+            }
+        };
+        fetchMediaContacts();
     }, []);
 
     // Effect to update assignedUserId and fyiContactUserId when inputs change
@@ -138,37 +152,6 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         };
     }, [assignedTo, fyiContactUser]);
 
-    // Effect to update requestorContactId when requestedBy changes
-    React.useEffect(() => {
-        if (lookupTimeout.current) {
-            clearTimeout(lookupTimeout.current);
-        }
-
-        lookupTimeout.current = setTimeout(async () => {
-            if (requestedBy.trim()) {
-                try {
-                    console.log("Calling getMediaContactByFullName for requestedBy:", requestedBy.trim());
-                    const contact = await userService.getMediaContactByFullName(requestedBy.trim());
-                    console.log("Retrieved requestor contact:", contact);
-                    if (contact?.id) {
-                        setRequestorContactId(contact.id);
-                    } else {
-                        setRequestorContactId('00000000-0000-0000-0000-000000000000');
-                    }
-                } catch (error) {
-                    console.error("Failed to retrieve requestorContactId:", error);
-                    setRequestorContactId('00000000-0000-0000-0000-000000000000');
-                }
-            }
-        }, 500); // 500ms debounce
-
-        return () => {
-            if (lookupTimeout.current) {
-                clearTimeout(lookupTimeout.current);
-            }
-        };
-    }, [requestedBy]);
-
     // Helper function to get ministry names string
     const getSelectedMinistriesDisplay = (selectedIds: number[]) => {
         return selectedIds
@@ -190,7 +173,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         setError(null);
         const errors: any = {};
         if (!requestTitle.trim()) errors.requestTitle = 'Request title is required';
-        if (!requestedBy.trim()) errors.requestedBy = 'Requested by is required';
+        if (!requestedById) errors.requestedBy = 'Requested by is required';
         if (!deadline.trim()) errors.deadline = 'Deadline is required';
         if (!receivedOn.trim()) errors.receivedOn = 'Received date is required';
         if (!selectedRequestType) errors.requestType = 'Request type is required';
@@ -219,11 +202,6 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         }
 
         // Validate IDs
-        if (requestorContactId === '00000000-0000-0000-0000-000000000000') {
-            setError("Unable to find media contact with provided full name");
-            return;
-        }
-
         if (assignedUserId === '00000000-0000-0000-0000-000000000000') {
             setError("Unable to find user with provided Assigned To IDIR");
             return;
@@ -253,7 +231,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             additionalMinistries: additionalMinistries.map(id => ({ id })),
             requestStatusId: selectedStatus,
             requestTypeId: selectedRequestType,
-            requestorContactId: requestorContactId !== '00000000-0000-0000-0000-000000000000' ? requestorContactId : null,
+            requestorContactId: requestedById,
             assignedUserId: assignedUserId !== '00000000-0000-0000-0000-000000000000' ? assignedUserId : null,
             fyiContactUserId: fyiContactUser.trim() && fyiContactUserId !== '00000000-0000-0000-0000-000000000000' ? fyiContactUserId : null,
             requestorOutletId: null, // Will be set when outlet is implemented
@@ -286,7 +264,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     return (
         <div className={styles.container}>
             <div className={styles.titleContainer}>
-                <Title1>New Media Request</Title1>
+                <h3>New Media Request</h3>
                 <div
                     className={styles.dismissIcon}
                     onClick={onClose}
@@ -345,17 +323,22 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationMessage={touchedFields.requestedBy && formErrors.requestedBy ? formErrors.requestedBy : undefined}
                     validationState={touchedFields.requestedBy && formErrors.requestedBy ? "error" : "none"}
                 >
-                    <Input
-                        placeholder="Enter full name (First Last)"
-                        value={requestedBy}
-                        onChange={(_, data) => {
-                            setRequestedBy(data.value);
-                            if (data.value.trim()) {
+                    <Dropdown
+                        placeholder="Select a contact"
+                        defaultSelectedOptions={requestedById ? [requestedById] : []}
+                        onOptionSelect={(_, data) => {
+                            if (data.optionValue) {
+                                setRequestedById(data.optionValue);
                                 setFormErrors(prev => ({ ...prev, requestedBy: '' }));
                             }
                         }}
                         onBlur={() => setTouchedFields(prev => ({ ...prev, requestedBy: true }))}
-                    />
+                    >
+                        {mediaContacts.map(contact => (
+                            <Option key={contact.id} value={contact.id.toString()} text={`${contact.firstName} ${contact.lastName}`}>{contact.firstName} {contact.lastName}</Option>
+                        ))}
+                        
+                    </Dropdown>
                 </Field>
                 <Field
                     label="Deadline"
@@ -465,8 +448,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         onBlur={() => setTouchedFields(prev => ({ ...prev, requestDetails: true }))}
                     />
                 </Field>
-                <Divider style={{ margin: '24px 0 16px 0' }} />
-                <Title2>Ministry & Contact Information</Title2>
+                <Divider className={styles.dividerSection} />
+                <h3>Responsibility</h3>
                 <Field
                     label="Lead Ministry"
                     required
@@ -498,6 +481,25 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </Dropdown>
                 </Field>
                 <Field
+                    label="Assigned To"
+                    required
+                    validationMessage={touchedFields.assignedTo && formErrors.assignedTo ? formErrors.assignedTo : undefined}
+                    validationState={touchedFields.assignedTo && formErrors.assignedTo ? "error" : "none"}
+                >
+                    <Input
+                        placeholder="Enter name of assignee"
+                        value={assignedTo}
+                        onChange={(_, data) => {
+                            setAssignedTo(data.value);
+                            if (data.value.trim()) {
+                                setFormErrors(prev => ({ ...prev, assignedTo: '' }));
+                            }
+                        }}
+                        onBlur={() => setTouchedFields(prev => ({ ...prev, assignedTo: true }))}
+                    />
+                </Field>
+                <Divider className={styles.dividerSection} />
+                <Field
                     label="Additional Ministries"
                 >
                     <Dropdown
@@ -523,25 +525,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             ))
                         }
                     </Dropdown>
-                </Field>
-                <Field
-                    label="Assigned To"
-                    required
-                    validationMessage={touchedFields.assignedTo && formErrors.assignedTo ? formErrors.assignedTo : undefined}
-                    validationState={touchedFields.assignedTo && formErrors.assignedTo ? "error" : "none"}
-                >
-                    <Input
-                        placeholder="Enter name of assignee"
-                        value={assignedTo}
-                        onChange={(_, data) => {
-                            setAssignedTo(data.value);
-                            if (data.value.trim()) {
-                                setFormErrors(prev => ({ ...prev, assignedTo: '' }));
-                            }
-                        }}
-                        onBlur={() => setTouchedFields(prev => ({ ...prev, assignedTo: true }))}
-                    />
-                </Field>
+                </Field>     
                 <Field
                     label="FYI Contacts"
                 >
