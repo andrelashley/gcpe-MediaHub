@@ -64,6 +64,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         assignedTo: false
     });
     const [mediaContacts, setMediaContacts] = React.useState<MediaContact[]>([]);
+    const [userIdirs, setUserIdirs] = React.useState<string[]>([]);
 
     // Refs
     const dateInputRef = React.useRef<HTMLInputElement>(null);
@@ -110,6 +111,18 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             }
         };
         fetchMediaContacts();
+    }, []);
+
+    React.useEffect(() => {
+        const fetchUserIdirs = async () => {
+            try {
+                const idirs = await userService.getUserIdirs();
+                setUserIdirs(idirs);
+            } catch (error) {
+                console.error('Failed to fetch user IDIRs:', error);
+            }
+        };
+        fetchUserIdirs();
     }, []);
 
     // Effect to update assignedUserId and fyiContactUserId when inputs change
@@ -486,17 +499,21 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationMessage={touchedFields.assignedTo && formErrors.assignedTo ? formErrors.assignedTo : undefined}
                     validationState={touchedFields.assignedTo && formErrors.assignedTo ? "error" : "none"}
                 >
-                    <Input
-                        placeholder="Enter name of assignee"
-                        value={assignedTo}
-                        onChange={(_, data) => {
-                            setAssignedTo(data.value);
-                            if (data.value.trim()) {
+                    <Dropdown
+                        placeholder="Select assignee IDIR"
+                        defaultSelectedOptions={assignedTo ? [assignedTo] : []}
+                        onOptionSelect={(_, data) => {
+                            if (data.optionValue) {
+                                setAssignedTo(data.optionValue);
                                 setFormErrors(prev => ({ ...prev, assignedTo: '' }));
                             }
                         }}
                         onBlur={() => setTouchedFields(prev => ({ ...prev, assignedTo: true }))}
-                    />
+                    >
+                        {userIdirs.map(idir => (
+                            <Option key={idir} value={idir} text={idir}>{idir}</Option>
+                        ))}
+                    </Dropdown>
                 </Field>
                 <Divider className={styles.dividerSection} />
                 <Field
@@ -529,17 +546,20 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 <Field
                     label="FYI Contacts"
                 >
-                    <Input
-                        placeholder="Enter IDIR for FYI Contact"
-                        value={fyiContactUser}
-                        onChange={(_, data) => {
-                            setfyiContactUsers(data.value);
-                            // Clear invalid user ID if input is empty
-                            if (!data.value.trim()) {
-                                setfyiContactUserId('00000000-0000-0000-0000-000000000000');
+                    <Dropdown
+                        placeholder="Select FYI Contact IDIR"
+                        defaultSelectedOptions={fyiContactUser ? [fyiContactUser] : []}
+                        onOptionSelect={(_, data) => {
+                            if (data.optionValue) {
+                                setfyiContactUsers(data.optionValue);
+                                // Optionally clear error if you add validation
                             }
                         }}
-                    />
+                    >
+                        {userIdirs.map(idir => (
+                            <Option key={idir} value={idir} text={idir}>{idir}</Option>
+                        ))}
+                    </Dropdown>
                 </Field>
                 <div className={styles.buttonContainer}>
                     <Button

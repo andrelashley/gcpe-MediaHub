@@ -61,5 +61,19 @@ export const userService = {
             console.error("Error in getMediaContacts:", error);
             throw error;
         }
+    },
+
+    /**
+     * Get all user IDIRs (usernames)
+     */
+    async getUserIdirs(): Promise<string[]> {
+        try {
+            const response = await axiosInstance.get<User[]>('/api/Users');
+            // Use 'idir' as the IDIR field
+            return response.data.map(user => user.idir).filter(Boolean);
+        } catch (error) {
+            console.error("Error in getUserIdirs:", error);
+            throw error;
+        }
     }
 };
