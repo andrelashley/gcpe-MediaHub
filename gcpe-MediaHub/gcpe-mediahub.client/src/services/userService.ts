@@ -48,5 +48,32 @@ export const userService = {
             console.error("Error in getMediaContactByFullName:", error);
             throw error;
         }
+    },
+
+    /**
+     * Get all media contacts
+     */
+    async getMediaContacts(): Promise<MediaContact[]> {
+        try {
+            const response = await axiosInstance.get<MediaContact[]>('/api/MediaContacts');
+            return response.data;
+        } catch (error) {
+            console.error("Error in getMediaContacts:", error);
+            throw error;
+        }
+    },
+
+    /**
+     * Get all user IDIRs (usernames)
+     */
+    async getUserIdirs(): Promise<string[]> {
+        try {
+            const response = await axiosInstance.get<User[]>('/api/Users');
+            // Use 'idir' as the IDIR field
+            return response.data.map(user => user.idir).filter(Boolean);
+        } catch (error) {
+            console.error("Error in getUserIdirs:", error);
+            throw error;
+        }
     }
 };
