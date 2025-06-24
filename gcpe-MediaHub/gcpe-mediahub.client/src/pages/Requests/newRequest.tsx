@@ -10,6 +10,8 @@ import {
     Textarea,
     Button,
 } from '@fluentui/react-components';
+// Remove duplicate import of Fluent UI toast components
+import { useToastController, Toaster, Toast, ToastTitle, ToastBody } from '@fluentui/react-components';
 import { ministryService } from '../../services/ministryService';
 import { userService } from '../../services/userService';
 import { requestService } from '../../services/requestService';
@@ -179,6 +181,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         setMinistriesDisplay(getSelectedMinistriesDisplay(additionalMinistries));
     }, [additionalMinistries, ministries]);
 
+    const { dispatchToast } = useToastController();
+    
     // Submit handler for creating new request
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
@@ -258,6 +262,15 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         try {
             const response = await requestService.createRequest(newRequest);
             if (response) {
+                dispatchToast(
+                    <Toast>
+                        <ToastTitle>Request Created</ToastTitle>
+                        <ToastBody>
+                            Request #{response.requestNo}: <b>{response.requestTitle}</b> created successfully.
+                        </ToastBody>
+                    </Toast>,
+                    { intent: 'success' }
+                );
                 if (onClose) onClose();
             }
         } catch (err: any) {
