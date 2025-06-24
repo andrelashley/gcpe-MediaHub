@@ -1,7 +1,7 @@
 import { Button, TabList, Title1, Tab, Input, Tag, Drawer, DrawerBody } from '@fluentui/react-components';
 import { Search24Regular, Filter24Regular, Add24Regular } from '@fluentui/react-icons';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 import {
   createColumnHelper,
@@ -12,6 +12,8 @@ import {
 
 import styles from './organizations.module.css';
 import NewOrganizationPage from './newOrganization';
+import OrganizationDetailView from './organizationDetailView';
+import { Outlet } from '../../models/Outlet';
 
 type Organization = {
   name: string
@@ -127,10 +129,21 @@ const columns = [
 
 const Organizations = () => {
     const [data, _setData] = React.useState(() => [...defaultData]);
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [isOrgDetailDrawerOpen, setIsOrgDetailDrawerOpen] = useState(false);
     const [selectedOrganization, setSelectedOrganization] = useState<Organization | null>(null);
     const [isNewOrganizationDrawerOpen, setIsNewOrganizationDrawerOpen] = useState(false);
+    const [outlets, setOutlets] = useState<Outlet[]>([]);
+    
+    useEffect(() => {
+      const fetchOutlets = async() => {
+        const response = await fetch('https://localhost:7145/api/mediaOutlets');
+        const data = await response.json();
+        console.log(data);
+        setOutlets(data);
+      }
 
+      fetchOutlets();
+    }, []);
 
       const table = useReactTable({
         data,
@@ -153,9 +166,7 @@ const Organizations = () => {
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px'}}>
           <TabList selectedValue="all">
             <Tab value="all">All</Tab>
-            <Tab value="outlets">Outlets</Tab>
           </TabList>
-
 
           <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
             <Input placeholder='Search'
@@ -171,11 +182,17 @@ const Organizations = () => {
         type="overlay"
         separator
         position="end"
-        open={isDrawerOpen}
+        open={isOrgDetailDrawerOpen}
+        onOpenChange={(_, { open }) => setIsOrgDetailDrawerOpen(open)}
         style={{ width: '650px' }}
         >
-        {selectedOrganization && (                
-        <p>selected org</p>
+        {selectedOrganization && (
+          <DrawerBody>
+            <OrganizationDetailView onClose={(): void => {
+              setIsOrgDetailDrawerOpen(false);   
+              setSelectedOrganization(null);    
+            }} />
+          </DrawerBody>
         )}
         </Drawer>
 
@@ -216,7 +233,7 @@ const Organizations = () => {
             <tr key={row.id}
               onClick={() => {
                 setSelectedOrganization(row.original);
-                setIsDrawerOpen(true);
+                setIsOrgDetailDrawerOpen(true);
               }}
               style={{ cursor: 'pointer' }}
               >
