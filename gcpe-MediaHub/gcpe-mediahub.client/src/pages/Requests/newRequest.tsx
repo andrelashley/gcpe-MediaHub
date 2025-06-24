@@ -576,18 +576,18 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 </Field>
                 <div className={styles.buttonContainer}>
                     <Button
-                        appearance="secondary"
-                        onClick={onClose}
-                    >
-                        Cancel
-                    </Button>
-                    <Button
                         appearance="primary"
                         onClick={(e) => handleSubmit(e)}
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? 'Saving...' : 'Save'}
                     </Button>
+                    <Button
+                        appearance="secondary"
+                        onClick={onClose}
+                    >
+                        Cancel
+                    </Button>        
                 </div>
             </div>
         </div>
