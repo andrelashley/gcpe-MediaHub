@@ -109,7 +109,7 @@ const RequestsCardView: React.FC = () => {
 
   return (
     <div className={styles.layoutWrapper}>
-      <div className={`${styles.mainContent} ${selectedRequest ? styles.mainContentWithDetail : ''}`} style={{ display: 'flex', height: 'calc(100vh - 64px)' }}>
+      <div className={`${styles.mainContent} ${selectedRequest ? styles.mainContentWithDetail : ''}`} style={{ display: 'flex', height: 'calc(100vh - 150px)' }}>
         <div style={{ width: '100%', overflowY: 'auto', maxHeight: '100%', padding: '20px' }}>
           <div className={styles.headerContainer}>
             <Title1>Media Requests</Title1>
