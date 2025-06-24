@@ -1,15 +1,14 @@
 import { 
     Title1,
-    Title2,
     Title3,
     Field, 
-    Dropdown, 
+    Dropdown,
+    Option,
     Input, 
     Checkbox,
     Divider, 
     Button } from '@fluentui/react-components';
 import { Dismiss24Regular, Add24Regular } from '@fluentui/react-icons';
-
 import styles from './newOrganization.module.css';
 
 interface NewOrganizationPageProps {
@@ -17,6 +16,42 @@ interface NewOrganizationPageProps {
 }
 
 const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose }) => {
+    const orgTypeOptions = [
+      "Network",
+      "Outlet",
+    ];
+
+    const mediaTypeOptions = [
+      "Radio",
+      "TV",
+    ];
+
+    const languageTypeOptions = [
+      "English",
+      "French",
+      "Spanish"
+    ];
+
+    const phoneTypeOptions = [
+      "News Desk",
+      "General",
+      "Fax",
+      "After hours",
+      "Other"
+    ];
+
+    const socialMediaTypeOptions = [
+      "LinkedIn",
+      "X",
+      "Facebook"
+    ];
+
+    const provinceOptions = [
+      "BC",
+      "AB",
+    ];
+
+
     return(
         <div className={styles.container}>
         
@@ -36,9 +71,12 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose }) =>
                 label="Media organization type"
                 required
                 >
-                <Dropdown
-                placeholder='Select a media organization type'
-                >
+                <Dropdown placeholder='Select a media organization type'>
+                  {orgTypeOptions.map((option) => (
+                  <Option key={option}>
+                    {option}
+                  </Option>
+                ))}
                 </Dropdown>
             </Field>
 
@@ -46,8 +84,12 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose }) =>
                 label="Media type"
                 required
                 >
-                <Dropdown
-                >
+                <Dropdown>
+                  {mediaTypeOptions.map((option) => (
+                  <Option key={option}>
+                    {option}
+                  </Option>
+                ))}
                 </Dropdown>
             </Field>
 
@@ -75,6 +117,11 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose }) =>
                 label="Language"
             >
                 <Dropdown>
+                  {languageTypeOptions.map((option) => (
+                  <Option key={option}>
+                    {option}
+                  </Option>
+                ))}
                 </Dropdown>
             </Field>
 
@@ -101,8 +148,14 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose }) =>
     <Dropdown
       placeholder="Select"
       appearance="outline"
-      style={{ flex: '0 0 120px', minWidth: 0 }}
-    />
+      style={{ flex: '0 0 120px', minWidth: 0 }}  
+    >
+      {phoneTypeOptions.map((option) => (
+                  <Option key={option}>
+                    {option}
+                  </Option>
+                ))}
+    </Dropdown>
     <Input
       placeholder="+1"
       appearance="outline"
@@ -146,8 +199,13 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose }) =>
     <Dropdown
       placeholder="Select"
       appearance="outline"
-      style={{ flex: '0 0 120px', minWidth: 0 }}
-    />
+      style={{ flex: '0 0 120px', minWidth: 0 }}>
+        {socialMediaTypeOptions.map((option) => (
+                  <Option key={option}>
+                    {option}
+                  </Option>
+                ))}
+    </Dropdown>
     <Input
       placeholder="http://"
       appearance="outline"
@@ -200,7 +258,13 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose }) =>
 
   <div style={{ flex: '1 1 250px', minWidth: 0 }}>
     <Field label="Province">
-      <Dropdown placeholder="Select" />
+      <Dropdown placeholder="Select">
+        {provinceOptions.map((option) => (
+                  <Option key={option}>
+                    {option}
+                  </Option>
+                ))}
+      </Dropdown>
     </Field>
   </div>
 
