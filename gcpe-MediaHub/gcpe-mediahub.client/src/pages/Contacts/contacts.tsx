@@ -1,7 +1,7 @@
 
 
 // import MediaContact from '../../models/MediaContact';
-import ContactsTable from './ContactsTable';
+import ContactsTable from './contactsTable';
 import { useState, useEffect } from 'react';
 import CreateContactButton from './CreateContactButton';
 //import { contactService } from '../../services/contactService';
@@ -39,11 +39,11 @@ const MediaContacts = () => {
 
 
     const fetchContacts = async () => {
-        const response = await fetch('mediacontacts');
+        const response = await fetch('https://localhost:7145/api/mediacontacts');
         //   const response = await fetch('../../data/mock-contacts.json');
         const data = await response.json();
         const contacts: MediaContact[] = data as MediaContact[];
-        console.log(JSON.stringify(contacts[2]));
+      // console.log(JSON.stringify(contacts));
         setContacts(contacts);
     };
 
@@ -53,7 +53,7 @@ const MediaContacts = () => {
 
     return (
         <div>
-            <Layout title={"Media Contacts"} selectedNavItem={"3"} headingButton={<CreateContactButton />} >Add commentMore actions
+            <Layout title={"Media Contacts"} selectedNavItem={"3"} headingButton={<CreateContactButton />} >
                 <ContactsTable items={contacts} />
             </Layout>
         </div>

@@ -17,7 +17,7 @@ enum languages {
 
 export class MediaOutlet {
     id: Number = 0;
-    name: String;
+    outletName: String;
     email: String;
     phone: String;
     mediaType: mediaType[] = [];

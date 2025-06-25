@@ -1,5 +1,6 @@
 
-import MediaOutlet from './MediaOutlet';
+import ContactPhone from './ContactPhone';
+import MediaOutlet from './mediaOutlet';
 import MediaRequest from './mediaRequest';
 import { OutletAssociation } from './OutletAssociation';
 
@@ -11,9 +12,8 @@ export class MediaContact {
     socialMediaXURL: string | undefined; 
     socialMediaInstagramURL: string | undefined;
     email: string | undefined;
-    primaryPhone: string | undefined;
-    mobilePhone: string | undefined;
-    outletAssociations: OutletAssociation[] = [];
+    contactPhones: string[] | undefined;
+    outlets: OutletAssociation[] = [];
     requests: MediaRequest[] = [];
     location: string | undefined;
     lastActive: Date | undefined;
