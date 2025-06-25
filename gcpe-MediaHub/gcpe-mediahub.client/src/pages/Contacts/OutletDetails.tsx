@@ -53,11 +53,11 @@ const OutletDetails: React.FC<OutletDetailsProps> = ({ outlet }) => {
         <div className={styles.container }>
             <Field>
                 <div className={styles.inline}>
-                    <div className={styles.outletName}>{outlet.outlet.name}</div>
+                    <div className={styles.outletName}>{outlet.outletName}</div>
                     <div>
                         Reporter
                     </div>
-                    {outlet.outlet.isMajorMedia &&
+                    {outlet.isMajorMedia &&
                         <div className={styles.badge}>
                         <Badge>! Major</Badge>
                     </div>
@@ -90,6 +90,7 @@ const OutletDetails: React.FC<OutletDetailsProps> = ({ outlet }) => {
             <Field className={styles.inline}>
                 <MailRegular className={styles.icon} />
                 <Label htmlFor="email-input" style={{ paddingInlineEnd: "12px" }} className={styles.label}>Email:</Label>
+
                 <Input
                     readOnly={true}
                     value={outlet.contactEmail}

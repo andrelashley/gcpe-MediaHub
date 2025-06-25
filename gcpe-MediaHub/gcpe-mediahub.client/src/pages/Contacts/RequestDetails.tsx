@@ -43,7 +43,7 @@ const RequestDetails: React.FC<RequestDetailsProps> = ({ request }) => {
                     </Badge>
                 </div>
             </div>
-            <div className={styles.requestName}>{request.title}</div>
+            <div className={styles.requestName}>{request.requestTitle}</div>
             <div>{request.deadline? request.deadline : "deadline goes here"} </div>
             <Divider />
             <TagGroup>

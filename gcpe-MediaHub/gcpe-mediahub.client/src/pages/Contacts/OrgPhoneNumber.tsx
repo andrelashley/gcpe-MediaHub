@@ -38,10 +38,10 @@ const useStyles = makeStyles({
 
 interface OrgPhoneProps {
     onRemove: () => void;
-    onInput: (type: string, phoneNumber: number) => void;
+   // onInput: (type: string, phoneNumber: number) => void;
 }
 
-const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onInput }) => {
+const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove }) => {
     const [type, setType] = useState<string>('');
     const [phoneNumber, setPhoneNumber] = useState<number>();
 
@@ -65,7 +65,7 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onInput }) => {
                 <Input
                     onChange={(_, data) => {
                         setPhoneNumber(parseInt(data.value));
-                        onInput(type, phoneNumber);
+                     //  onInput(type, phoneNumber);
                     } }
                 />
             </div>
@@ -74,6 +74,7 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onInput }) => {
                     icon={<Dismiss12Regular />}
                     onClick={onRemove}
                     title="Remove phone number"
+                    disabled={true}
                 />
             </div>
         </div>

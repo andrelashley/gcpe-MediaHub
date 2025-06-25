@@ -67,12 +67,12 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             header: 'Name',
             cell: item => item.getValue(),
         }),
-        columnHelper.accessor('outletAssociations', {
+        columnHelper.accessor('outlets', {
             header: 'Media Outlets',
             cell: item => 
-                (item.getValue() as any[]).map(outlet =>
-                    <Tag appearance="outline" shape="circular" key={outlet.id}>
-                        {outlet.outlet.name}
+                (item.getValue() as any[]).map((outlet, index) =>
+                    <Tag appearance="outline" shape="circular" key={index}>
+                        {outlet.outletName}
                     </Tag>
                 )    
         }),
@@ -81,18 +81,27 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             cell: item => item.getValue(),
 
         }),
-        columnHelper.accessor('primaryPhone', {
+        columnHelper.accessor('contactPhones', {
             header: 'Phone',
-            cell: item => item.getValue(),
+            cell: item => {
+                const phones = item.getValue() as string[];
+                return phones ? phones.map((phone, index) => (
+                    { phone }
+                )) : null; // or return an empty array or a placeholder if preferred
+            }
         }),
         columnHelper.accessor('location', {
             header: 'Location',
-            cell: item => (
-                <Tag appearance="outline" shape="circular">
-                    {item.getValue()}
-                </Tag>
-            ),
-        }),
+            cell: item => {
+                const location = item.getValue();
+                return location ?
+                    <Tag appearance="outline" shape="circular">
+                        {location}
+                    </Tag >
+                    : null;
+                }
+            },
+        ),
         columnHelper.accessor('requests', {
             header: 'Media Requests',
             cell: item => (

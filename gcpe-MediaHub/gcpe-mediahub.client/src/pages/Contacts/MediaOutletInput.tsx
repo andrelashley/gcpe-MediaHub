@@ -8,7 +8,7 @@ import {
 import { Add24Regular, Dismiss16Regular} from "@fluentui/react-icons";
 import React, { useState } from "react";
 import OrgPhoneNumber from "./OrgPhoneNumber";
-import { MediaOutlet } from "../../models/MediaOutlet";
+import { MediaOutlet } from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
 import { useEffect } from "react";
 
@@ -40,7 +40,7 @@ interface MediaOutletInputProps {
     onRemove: () => void;
     outlets: MediaOutlet[];
     onAssociationDataChange: (data: OutletAssociation) => void; 
-    itemId: number;
+    itemId: string;
 }
 
 const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, itemId}) => {
@@ -55,9 +55,9 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
 
     const association = new OutletAssociation;
 
-    const addPhoneNumber = () => {
-        setPhoneNumbers([...phoneNumbers, phoneNumbers.length]);
-    }
+    //const addPhoneNumber = () => {
+    //    setPhoneNumbers([...phoneNumbers, phoneNumbers.length]);
+    //}
     const removePhoneNumber = (index: number) => {
         setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
     };
@@ -90,7 +90,11 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                 >
                     <option/>
                     {outlets.map((outlet) => (
-                        <option value={outlet.id.toString()}>{outlet.name}</option>
+                        <option value={outlet.id.toString()}
+                            key={outlet.id.toString()}
+                        >
+                            {outlet.outletName}
+                        </option>
                     ))}
                 </Select>
             </Field>
@@ -114,35 +118,13 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             </Field>
 
             <Field label="Phone" required>
-                {/*{phoneNumbers.map((_, index) => (*/}
-                {/*    <OrgPhoneNumber key={index}*/}
-                {/*        onRemove={() => removePhoneNumber(index)}*/}
-                {/*        onInput={() => handlePhoneNumberChange(index)}*/}
-                {/*    />*/}
-                {/*))}*/}
-                <Field>
-                    <Field label="Primary phone" required>
-                        <Input
-                            onChange={(_, data) => {
-                                setPhonePrimary(parseInt(data.value));
-                            }}
-                        />
-                    </Field>
-                    <Field label="Mobile phone">
-                        <Input
-                            onChange={(_, data) => {
-                                setPhoneMobile(parseInt(data.value));
-                            }}
-                        />
-                    </Field>
-                    <Field label="Studio Call-In">
-                        <Input
-                            onChange={(_, data) => {
-                                setPhoneCallIn(parseInt(data.value));
-                            }}
-                        />
-                    </Field>
-                </Field>
+                {phoneNumbers.map((_, index) => (
+                    <OrgPhoneNumber key={index}
+                        onRemove={() => removePhoneNumber(index)}
+                       // onInput={() => handlePhoneNumberChange(index)}
+                    />
+                ))}
+              
                 {/*<p>*/}
                 {/*<Button icon={<Add24Regular />}*/}
                 {/*    className={styles.addButton}*/}

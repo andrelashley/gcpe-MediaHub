@@ -19,8 +19,10 @@ import SocialMediaInput from "./SocialMediaInput";
 import { useEffect, useState } from "react";
 import MediaOutletInput from "./MediaOutletInput";
 import MediaContact from "../../models/mediaContact";
-import MediaOutlet from "../../models/MediaOutlet";
+import MediaOutlet from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
+import PrimaryContactInfoInput from "./PrimaryContactInfoInput";
+import { SocialMediaCompany } from "../../models/SocialMediaCompany";
 
 
 const useStyles = makeStyles({
@@ -76,9 +78,14 @@ export const CreateContactDrawer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     //for primary contact info input tracking
     const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
+
     const addPrimaryContactInfoInput = () => {
         setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length]);
     };
+    const removePrimaryContactInfoInput = (index: number) => {
+        setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
+    };
+
 
     // for tracking social media link inputs
     const [socialMediaInputs, setSocialMediaInputs] = useState<number[]>([1]);
@@ -101,6 +108,15 @@ export const CreateContactDrawer = () => {
     };
     // end of social media link tracking
 
+    const [socials, setSocials] = useState<SocialMediaCompany[]>([]);
+
+    const fetchSocialMediaCompanies = async () => {
+        const response = await fetch('https://localhost:7145/api/MediaContacts/GetSocialMedias');
+        const data = await response.json();
+        const companies: SocialMediaCompany[] = data as SocialMediaCompany[];
+        setSocials(companies);
+    };
+
     const styles = useStyles();
     // all Drawers need manual focus restoration attributes
     // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
@@ -122,7 +138,7 @@ export const CreateContactDrawer = () => {
         const newAssociations = [...outletAssociations];
         newAssociations[index] = data; // Update the specific index
         setOutletAssociations(newAssociations);
-        console.log(JSON.stringify(outletAssociations));
+     //   console.log(JSON.stringify(outletAssociations));
     };
     const createContact = async() => {
         const contact: MediaContact = new MediaContact()
@@ -130,13 +146,12 @@ export const CreateContactDrawer = () => {
         contact.lastName = lastName;
         contact.isPressGallery = isPressGallery;
         contact.email = email;
-        contact.primaryPhone = primaryPhone;
-        contact.mobilePhone = mobilePhone;
+       
         outletAssociations.map((association) => {
-            contact.outletAssociations.push(association);
+            contact.outlets.push(association);
         })
         
-        console.log(JSON.stringify(contact));
+     //   console.log(JSON.stringify(contact));
         const response = await fetch('mediacontacts/CreateMediaContact',
             {
                 method: "POST",
@@ -152,14 +167,16 @@ export const CreateContactDrawer = () => {
 
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
     const fetchOutlets = async () => {
-        const response = await fetch('mediaoutlets');
+        const response = await fetch('https://localhost:7145/api/mediaoutlets');
         const data = await response.json();
+        console.log(JSON.stringify(data));
         const outlets: MediaOutlet[] = data as MediaOutlet[];
         setOutlets(outlets);
     };
 
     useEffect(() => {
         fetchOutlets();
+        fetchSocialMediaCompanies();
     }, []);
 
     return (
@@ -219,20 +236,27 @@ export const CreateContactDrawer = () => {
                                 }}
                             />
                         </Field>
-                        <Field label="Primary phone" required>
-                            <Input
-                                onChange={(_, data) => {
-                                    setPrimaryPhone(data.value);
-                                }}
+                        {primaryContactInfoInputs.map((_, index) => (
+                            <PrimaryContactInfoInput
+                                key={index}
+                                onRemove={() => removePrimaryContactInfoInput(index)}
+                              
                             />
-                        </Field>
-                        <Field label="Mobile phone">
-                            <Input
-                                onChange={(_, data) => {
-                                    setMobilePhone(data.value);
-                                }}
-                            />
-                        </Field>
+                        ))}
+                        {/*<Field label="Primary phone" required>*/}
+                        {/*    <Input*/}
+                        {/*        onChange={(_, data) => {*/}
+                        {/*            setPrimaryPhone(data.value);*/}
+                        {/*        }}*/}
+                        {/*    />*/}
+                        {/*</Field>*/}
+                        {/*<Field label="Mobile phone">*/}
+                        {/*    <Input*/}
+                        {/*        onChange={(_, data) => {*/}
+                        {/*            setMobilePhone(data.value);*/}
+                        {/*        }}*/}
+                        {/*    />*/}
+                       {/* </Field>*/}
                     </Field>
                     <p>
                         <Button appearance="subtle"
@@ -247,7 +271,7 @@ export const CreateContactDrawer = () => {
                     <Field label="Online Presence" className={styles.maxWidth}>
                         <div >
                             {socialMediaInputs.map((_, index) => (
-                                <SocialMediaInput key={index} onRemove={() => removeSocialMediaInput(index)} />
+                                <SocialMediaInput key={index} onRemove={() => removeSocialMediaInput(index)} socials={socials} />
                             ))}
                         </div>
                     </Field>

@@ -5,6 +5,7 @@ import {
     makeStyles,
 } from "@fluentui/react-components";
 import { Dismiss12Regular } from "@fluentui/react-icons";
+import { SocialMediaCompany } from "../../models/SocialMediaCompany";
 
 const useStyles = makeStyles({
     socialMediaInput: {
@@ -36,9 +37,10 @@ const useStyles = makeStyles({
 
 interface SocialMediaInputProps {
     onRemove: () => void;
+    socials: SocialMediaCompany[];
 }
 
-const SocialMediaInput: React.FC<SocialMediaInputProps> = ({ onRemove }) => {
+const SocialMediaInput: React.FC<SocialMediaInputProps> = ({ onRemove, socials }) => {
     const styles = useStyles();
 
     return (
@@ -48,8 +50,9 @@ const SocialMediaInput: React.FC<SocialMediaInputProps> = ({ onRemove }) => {
             <div className={styles.platformSelector}>
                 <Select>
                     <option></option>
-                    <option>Instagram</option>
-                    <option>Social Media Option 3</option>
+                    {socials.map((company) => (
+                        <option value={company.id} key={company.id}>{company.company}</option>
+                    ))}
                 </Select>
             </div>
             <div className={styles.linkInput}>

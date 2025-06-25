@@ -1,6 +1,6 @@
 
 export class OutletAssociation {
-    id: number | undefined;
+    id: string | undefined;
     contactId: number | undefined;
     outletId: number | undefined;
     contactEmail: string | undefined;
