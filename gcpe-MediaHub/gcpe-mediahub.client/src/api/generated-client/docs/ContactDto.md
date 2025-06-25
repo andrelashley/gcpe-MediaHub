@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **isActive** | **boolean** |  | [optional] [default to undefined]
 **jobTitle** | **string** |  | [optional] [default to undefined]
 **outlets** | [**Array&lt;ContactOutletDto&gt;**](ContactOutletDto.md) |  | [optional] [default to undefined]
+**requests** | [**Array&lt;MediaRequestDto&gt;**](MediaRequestDto.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -26,6 +27,7 @@ const instance: ContactDto = {
     isActive,
     jobTitle,
     outlets,
+    requests,
 };
 ```
 

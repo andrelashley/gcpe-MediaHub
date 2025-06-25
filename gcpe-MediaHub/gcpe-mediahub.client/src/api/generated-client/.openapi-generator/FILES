@@ -28,6 +28,7 @@ docs/MediaOutlet.md
 docs/MediaOutletContactRelationship.md
 docs/MediaOutletsApi.md
 docs/MediaRequest.md
+docs/MediaRequestDto.md
 docs/MediaRequestsApi.md
 docs/MediaType.md
 docs/MediaTypesApi.md
@@ -43,6 +44,7 @@ docs/RequestType.md
 docs/RequestTypesApi.md
 docs/SecureApi.md
 docs/SocialMedia.md
+docs/SocialMediaCompanyDto.md
 docs/User.md
 docs/UsersApi.md
 docs/WrittenLanguage.md
@@ -59,6 +61,7 @@ model/media-contact-phone.ts
 model/media-contact.ts
 model/media-outlet-contact-relationship.ts
 model/media-outlet.ts
+model/media-request-dto.ts
 model/media-request.ts
 model/media-type.ts
 model/ministry.ts
@@ -66,6 +69,7 @@ model/phone-number.ts
 model/request-resolution.ts
 model/request-status.ts
 model/request-type.ts
+model/social-media-company-dto.ts
 model/social-media.ts
 model/user.ts
 model/written-language.ts

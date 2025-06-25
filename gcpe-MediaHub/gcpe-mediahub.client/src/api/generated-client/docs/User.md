@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  | [optional] [default to undefined]
 **idir** | **string** |  | [optional] [default to undefined]
+**fullName** | **string** |  | [optional] [default to undefined]
 **mediaRequests** | [**Array&lt;MediaRequest&gt;**](MediaRequest.md) |  | [optional] [default to undefined]
 
 ## Example
@@ -17,6 +18,7 @@ import { User } from './api';
 const instance: User = {
     id,
     idir,
+    fullName,
     mediaRequests,
 };
 ```
