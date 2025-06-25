@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **outletEmail** | **string** |  | [optional] [default to undefined]
 **contactEmails** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 **contactPhones** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
+**isMajorMedia** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -20,6 +21,7 @@ const instance: ContactOutletDto = {
     outletEmail,
     contactEmails,
     contactPhones,
+    isMajorMedia,
 };
 ```
 

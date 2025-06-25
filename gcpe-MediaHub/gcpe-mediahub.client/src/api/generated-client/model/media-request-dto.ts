@@ -15,37 +15,37 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { MediaRequest } from './media-request';
+import type { Ministry } from './ministry';
 
 /**
  * 
  * @export
- * @interface User
+ * @interface MediaRequestDto
  */
-export interface User {
+export interface MediaRequestDto {
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof MediaRequestDto
      */
-    'id'?: string;
+    'requestTitle'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof MediaRequestDto
      */
-    'idir'?: string | null;
+    'receivedOn'?: string;
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof MediaRequestDto
      */
-    'fullName'?: string | null;
+    'deadline'?: string;
     /**
      * 
-     * @type {Array<MediaRequest>}
-     * @memberof User
+     * @type {Ministry}
+     * @memberof MediaRequestDto
      */
-    'mediaRequests'?: Array<MediaRequest> | null;
+    'leadMinistry'?: Ministry;
 }
 

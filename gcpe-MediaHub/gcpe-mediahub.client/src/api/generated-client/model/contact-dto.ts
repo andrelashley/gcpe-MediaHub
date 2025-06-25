@@ -16,6 +16,9 @@
 // May contain unused imports in some cases
 // @ts-ignore
 import type { ContactOutletDto } from './contact-outlet-dto';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { MediaRequestDto } from './media-request-dto';
 
 /**
  * 
@@ -65,5 +68,11 @@ export interface ContactDto {
      * @memberof ContactDto
      */
     'outlets'?: Array<ContactOutletDto> | null;
+    /**
+     * 
+     * @type {Array<MediaRequestDto>}
+     * @memberof ContactDto
+     */
+    'requests'?: Array<MediaRequestDto> | null;
 }
 

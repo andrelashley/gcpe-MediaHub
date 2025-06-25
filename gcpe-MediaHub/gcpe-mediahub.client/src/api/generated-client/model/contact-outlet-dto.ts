@@ -44,5 +44,11 @@ export interface ContactOutletDto {
      * @memberof ContactOutletDto
      */
     'contactPhones'?: Array<string> | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ContactOutletDto
+     */
+    'isMajorMedia'?: boolean;
 }
 

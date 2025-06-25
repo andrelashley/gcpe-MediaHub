@@ -17,6 +17,7 @@ Name | Type | Description | Notes
 **mediaOutletContactRelationships** | [**Array&lt;MediaOutletContactRelationship&gt;**](MediaOutletContactRelationship.md) |  | [optional] [default to undefined]
 **mediaRequests** | [**Array&lt;MediaRequest&gt;**](MediaRequest.md) |  | [optional] [default to undefined]
 **socialMedias** | [**Array&lt;SocialMedia&gt;**](SocialMedia.md) |  | [optional] [default to undefined]
+**location** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -36,6 +37,7 @@ const instance: MediaContact = {
     mediaOutletContactRelationships,
     mediaRequests,
     socialMedias,
+    location,
 };
 ```
 

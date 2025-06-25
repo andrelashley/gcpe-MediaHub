@@ -25,6 +25,8 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 import type { ContactDto } from '../model';
 // @ts-ignore
 import type { MediaContact } from '../model';
+// @ts-ignore
+import type { SocialMediaCompanyDto } from '../model';
 /**
  * MediaContactsApi - axios parameter creator
  * @export
@@ -38,6 +40,35 @@ export const MediaContactsApiAxiosParamCreator = function (configuration?: Confi
          */
         apiMediaContactsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/MediaContacts`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaContactsGetSocialMediasGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/MediaContacts/GetSocialMedias`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -252,6 +283,17 @@ export const MediaContactsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiMediaContactsGetSocialMediasGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SocialMediaCompanyDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaContactsGetSocialMediasGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MediaContactsApi.apiMediaContactsGetSocialMediasGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -328,6 +370,14 @@ export const MediaContactsApiFactory = function (configuration?: Configuration, 
          */
         apiMediaContactsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<ContactDto>> {
             return localVarFp.apiMediaContactsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaContactsGetSocialMediasGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<SocialMediaCompanyDto>> {
+            return localVarFp.apiMediaContactsGetSocialMediasGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -469,6 +519,16 @@ export class MediaContactsApi extends BaseAPI {
      */
     public apiMediaContactsGet(options?: RawAxiosRequestConfig) {
         return MediaContactsApiFp(this.configuration).apiMediaContactsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MediaContactsApi
+     */
+    public apiMediaContactsGetSocialMediasGet(options?: RawAxiosRequestConfig) {
+        return MediaContactsApiFp(this.configuration).apiMediaContactsGetSocialMediasGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

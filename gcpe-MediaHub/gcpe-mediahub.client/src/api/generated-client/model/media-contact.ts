@@ -104,5 +104,11 @@ export interface MediaContact {
      * @memberof MediaContact
      */
     'socialMedias'?: Array<SocialMedia> | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof MediaContact
+     */
+    'location'?: string | null;
 }
 
