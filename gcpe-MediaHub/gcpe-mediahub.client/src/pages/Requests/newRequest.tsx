@@ -1,4 +1,5 @@
 import React from 'react';
+import type { User } from '../../api/generated-client/model';
 import {
     Title1,
     Title2,
@@ -66,7 +67,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         assignedTo: false
     });
     const [mediaContacts, setMediaContacts] = React.useState<MediaContact[]>([]);
-    const [userIdirs, setUserIdirs] = React.useState<string[]>([]);
+    const [userIdirs, setUserIdirs] = React.useState<User[]>([]);
 
     // Refs
     const dateInputRef = React.useRef<HTMLInputElement>(null);
@@ -118,8 +119,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     React.useEffect(() => {
         const fetchUserIdirs = async () => {
             try {
-                const idirs = await userService.getUserIdirs();
-                setUserIdirs(idirs);
+                const users = await userService.getUsers();
+                setUserIdirs(users);
             } catch (error) {
                 console.error('Failed to fetch user IDIRs:', error);
             }
@@ -133,31 +134,11 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             clearTimeout(lookupTimeout.current);
         }
 
-        const updateUser = async (idir: string, setUserId: (id: string) => void, fieldName: string) => {
-            if (idir.trim()) {
-                try {
-                    console.log(`Calling getUserByIdir for ${fieldName}:`, idir.trim());
-                    const user = await userService.getUserByIdir(idir.trim());
-                    console.log(`Retrieved ${fieldName} user:`, user);
-                    if (user?.id) {
-                        setUserId(user.id);
-                    } else {
-                        setUserId('00000000-0000-0000-0000-000000000000');
-                    }
-                } catch (error) {
-                    console.error(`Failed to retrieve ${fieldName}:`, error);
-                    setUserId('00000000-0000-0000-0000-000000000000');
-                }
-            }
-        };
+        // No longer needed: updateUser function
 
         lookupTimeout.current = setTimeout(async () => {
-            if (assignedTo.trim()) {
-                await updateUser(assignedTo, setAssignedUserId, 'Assigned To');
-            }
-            if (fyiContactUser.trim()) {
-                await updateUser(fyiContactUser, setfyiContactUserId, 'FYI Contact');
-            }
+            setAssignedUserId(assignedTo.trim() || '00000000-0000-0000-0000-000000000000');
+            setfyiContactUserId(fyiContactUser.trim() || '00000000-0000-0000-0000-000000000000');
         }, 500); // 500ms debounce
 
         return () => {
@@ -523,8 +504,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         }}
                         onBlur={() => setTouchedFields(prev => ({ ...prev, assignedTo: true }))}
                     >
-                        {userIdirs.map(idir => (
-                            <Option key={idir} value={idir} text={idir}>{idir}</Option>
+                        {userIdirs.map(user => (
+                            <Option key={user.id} value={user.id} text={user.fullName}>{user.fullName}</Option>
                         ))}
                     </Dropdown>
                 </Field>
@@ -569,8 +550,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             }
                         }}
                     >
-                        {userIdirs.map(idir => (
-                            <Option key={idir} value={idir} text={idir}>{idir}</Option>
+                        {userIdirs.map(user => (
+                            <Option key={user.id} value={user.id} text={user.fullName}>{user.fullName}</Option>
                         ))}
                     </Dropdown>
                 </Field>
