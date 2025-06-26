@@ -1,4 +1,4 @@
-import { MediaRequest, RequestType, RequestStatus, RequestResolution } from '../api/generated-client/model';
+import { MediaRequest, RequestType, RequestStatus, RequestResolution, RequestDto } from '../api/generated-client/model';
 import axios from 'axios';
 
 async function loadMockData(): Promise<any[]> {
@@ -101,8 +101,25 @@ export const requestService = {
         return response.data;
     },
 
+
     async createRequest(request: MediaRequest): Promise<MediaRequest> {
         const response = await axiosInstance.post<MediaRequest>('/api/MediaRequests', request);
+        return response.data;
+    },
+
+    async getRequestDtos(): Promise<any[]> {
+        const response = await axiosInstance.get('/api/MediaRequests/dtos');
+        return response.data;
+    },
+
+    async getRequestById(id: string): Promise<MediaRequest> {
+        if (import.meta.env.VITE_MRM_API === '0') {
+            const mockData = await loadMockData();
+            // Return the first mock as a RequestDto, or undefined if not found
+            const dtos = convertMockData(mockData);
+            return dtos.length > 0 ? dtos[0] : undefined;
+        }
+        const response = await axiosInstance.get<MediaRequest>(`/api/MediaRequests/${id}`);
         return response.data;
     }
 };

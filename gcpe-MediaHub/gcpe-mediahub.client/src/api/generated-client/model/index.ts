@@ -13,6 +13,7 @@ export * from './media-request-dto';
 export * from './media-type';
 export * from './ministry';
 export * from './phone-number';
+export * from './request-dto';
 export * from './request-resolution';
 export * from './request-status';
 export * from './request-type';
