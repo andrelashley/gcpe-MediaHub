@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import { MediaRequest } from "../../api/generated-client/model";
 import { requestService } from "../../services/requestService";
+import type { RequestDto } from "../../api/generated-client/model";
 import styles from "./requestsCardView.module.css";
 import NewRequestPage from './newRequest';
 import RequestDetailView from './requestDetailView';
@@ -13,12 +14,12 @@ const RequestsCardView: React.FC = () => {
   const [globalFilter, setGlobalFilter] = useState("");
   const [selectedTab, setSelectedTab] = useState("all");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [selectedRequest, setSelectedRequest] = useState<MediaRequest | null>(null);
+  const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
 
-  const { data: requests = [], isLoading, error } = useQuery<MediaRequest[], Error>({
+  const { data: requests = [], isLoading, error, refetch } = useQuery<RequestDto[], Error>({
     queryKey: ["requests"],
     queryFn: async () => {
-      return await requestService.getRequests();
+      return await requestService.getRequestDtos();
     },
   });
 
@@ -39,8 +40,8 @@ const RequestsCardView: React.FC = () => {
         accessorKey: "requestorContact",
         header: "Requested By",
         cell: (info: any) => {
-          const contact = info.getValue();
-          return `${contact?.firstName} ${contact?.lastName}`;
+          const row = info.row.original as RequestDto;
+          return `${row.requestorContactFirstName} ${row.requestorContactLastName}`;
         }
       },
       {
@@ -62,12 +63,18 @@ const RequestsCardView: React.FC = () => {
       {
         accessorKey: "leadMinistry",
         header: "Lead Ministry",
-        cell: (info: any) => info.getValue()?.acronym || 'Unknown'
+        cell: (info: any) => {
+          const row = info.row.original as RequestDto;
+          return row.leadMinistryAbbr;
+        }
       },
       {
-        accessorKey: "additionalMinistries",
+        accessorKey: "additionalMinistriesAbbr",
         header: "Additional Ministry",
-        cell: (info: any) => info.getValue()?.[0]?.acronym || ''
+        cell: (info: any) => {
+          const row = info.row.original as RequestDto;
+          return row.additionalMinistriesAbbr?.join(", ");
+        }
       },
       {
         accessorKey: "requestorOutlet",
@@ -77,7 +84,7 @@ const RequestsCardView: React.FC = () => {
       {
         accessorKey: "requestStatus",
         header: "Status",
-        cell: (info: any) => info.getValue()?.name || info.row.original.requestStatusId || 'Unknown'
+        cell: (info: any) => info.row.original.requestStatus || 'Unknown'
       },
     ],
     []
@@ -88,9 +95,9 @@ const RequestsCardView: React.FC = () => {
     const filterLower = globalFilter.toLowerCase();
     return requests.filter(request =>
       request.requestTitle?.toLowerCase().includes(filterLower) ||
-      (request.requestorContact?.firstName + ' ' + request.requestorContact?.lastName).toLowerCase().includes(filterLower) ||
-      request.leadMinistry?.acronym?.toLowerCase().includes(filterLower) ||
-      request.additionalMinistries?.[0]?.acronym?.toLowerCase().includes(filterLower)
+      (`${request.requestorContactFirstName} ${request.requestorContactLastName}`.toLowerCase().includes(filterLower)) ||
+      (request.leadMinistryAbbr?.toLowerCase().includes(filterLower)) ||
+      (request.additionalMinistriesAbbr?.join(",").toLowerCase().includes(filterLower))
     );
   }, [requests, globalFilter]);
 
@@ -104,12 +111,18 @@ const RequestsCardView: React.FC = () => {
     getCoreRowModel: getCoreRowModel(),
   });
 
+  // Handler for closing the new request drawer and refreshing the list
+  const handleCloseNewRequest = () => {
+    setIsDrawerOpen(false);
+    refetch();
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading requests: {error.message}</div>;
 
   return (
     <div className={styles.layoutWrapper}>
-      <div className={`${styles.mainContent} ${selectedRequest ? styles.mainContentWithDetail : ''}`} style={{ display: 'flex', height: 'calc(100vh - 200px)' }}>
+      <div className={`${styles.mainContent} ${selectedRequestId ? styles.mainContentWithDetail : ''}`} style={{ display: 'flex', height: 'calc(100vh - 200px)' }}>
         <div style={{ width: '100%', overflowY: 'auto', maxHeight: '100%', padding: '20px' }}>
           <div className={styles.headerContainer}>
             <Title1>Media Requests</Title1>
@@ -142,8 +155,8 @@ const RequestsCardView: React.FC = () => {
             {table.getRowModel().rows.map((row) => (
               <div
                 key={row.id}
-                className={`${styles.card} ${selectedRequest?.id === row.original.id ? styles.selectedCard : ''}`}
-                onClick={() => setSelectedRequest(row.original as MediaRequest)}
+                className={`${styles.card} ${selectedRequestId === row.original.id ? styles.selectedCard : ''}`}
+                onClick={() => setSelectedRequestId(row.original.id)}
                 role="button"
                 tabIndex={0}
                 style={{ cursor: 'pointer' }}
@@ -153,18 +166,18 @@ const RequestsCardView: React.FC = () => {
                     <span>{`REQ-${row.original.requestNo}`}</span>
                     <div className={styles.statusBadge}>
                       <Badge shape="circular" appearance="filled">
-                        {row.original.requestStatus?.name || row.original.requestStatusId || "Unknown"}
+                        {row.original.requestStatus || "Unknown"}
                       </Badge>
                     </div>
                   </div>
                   <h3>{row.original.requestTitle}</h3>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <Avatar 
-                      name={`${row.original.requestorContact?.firstName} ${row.original.requestorContact?.lastName}`} 
+                      name={`${row.original.requestorContactFirstName} ${row.original.requestorContactLastName}`}
                       size={24} 
                     />
                     <span>
-                      {row.original.requestorContact?.firstName} {row.original.requestorContact?.lastName} - {row.original.requestorOutlet?.outletName}
+                      {row.original.requestorContactFirstName} {row.original.requestorContactLastName}
                     </span>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -179,22 +192,22 @@ const RequestsCardView: React.FC = () => {
                   <Divider />
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <TagGroup className={styles.ministryTags}>
-                      {row.original.leadMinistry?.acronym && (
-                        <Tag shape="circular" appearance="outline">{row.original.leadMinistry.acronym}</Tag>
+                      {row.original.leadMinistryAbbr && (
+                        <Tag shape="circular" appearance="outline">{row.original.leadMinistryAbbr}</Tag>
                       )}
-                      {row.original.additionalMinistries?.[0]?.acronym && (
-                        <Tag shape="circular" appearance="outline">{row.original.additionalMinistries[0].acronym}</Tag>
+                      {row.original.additionalMinistriesAbbr?.length > 0 && (
+                        <Tag shape="circular" appearance="outline">{row.original.additionalMinistriesAbbr[0]}</Tag>
                       )}
                     </TagGroup>
-                    {row.original.assignedUser && (
+                    {row.original.assignedToFullName && (
                       <div style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', gap: '8px' }}>
                         <Avatar
-                          name={row.original.assignedUser.idir ?? row.original.assignedUser.id ?? ""}
+                          name={row.original.assignedToFullName}
                           size={24}
                           initials={
-                            row.original.assignedUser.idir
-                              ? row.original.assignedUser.idir.slice(0, 2).toUpperCase()
-                              : (row.original.assignedUser.id ?? "").slice(0, 2).toUpperCase()
+                            row.original.assignedToFullName
+                              ? row.original.assignedToFullName.slice(0, 2).toUpperCase()
+                              : ""
                           }
                         />
                       </div>
@@ -206,11 +219,11 @@ const RequestsCardView: React.FC = () => {
           </div>
         </div>
 
-        {selectedRequest && (
+        {selectedRequestId && (
           <div style={{ width: '100%', position: 'sticky', top: 0, height: '100%', overflow: 'hidden' }}>
             <RequestDetailView
-              request={selectedRequest}
-              onClose={() => setSelectedRequest(null)}
+              requestId={selectedRequestId}
+              onClose={() => setSelectedRequestId(null)}
             />
           </div>
         )}
@@ -225,7 +238,7 @@ const RequestsCardView: React.FC = () => {
         style={{ width: '650px' }}
       >
         <div className={styles.drawerContent}>
-          <NewRequestPage onClose={() => setIsDrawerOpen(false)} />
+          <NewRequestPage onClose={handleCloseNewRequest} />
         </div>
       </Drawer>
     </div>

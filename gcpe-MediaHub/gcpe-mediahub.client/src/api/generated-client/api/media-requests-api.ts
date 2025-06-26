@@ -23,12 +23,43 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
 import type { MediaRequest } from '../model';
+// @ts-ignore
+import type { RequestDto } from '../model';
 /**
  * MediaRequestsApi - axios parameter creator
  * @export
  */
 export const MediaRequestsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaRequestsDtosGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/MediaRequests/dtos`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -209,6 +240,17 @@ export const MediaRequestsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async apiMediaRequestsDtosGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RequestDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaRequestsDtosGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MediaRequestsApi.apiMediaRequestsDtosGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async apiMediaRequestsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MediaRequest>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaRequestsGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -274,6 +316,14 @@ export const MediaRequestsApiFp = function(configuration?: Configuration) {
 export const MediaRequestsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = MediaRequestsApiFp(configuration)
     return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaRequestsDtosGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<RequestDto>> {
+            return localVarFp.apiMediaRequestsDtosGet(options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -391,6 +441,16 @@ export interface MediaRequestsApiApiMediaRequestsPostRequest {
  * @extends {BaseAPI}
  */
 export class MediaRequestsApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MediaRequestsApi
+     */
+    public apiMediaRequestsDtosGet(options?: RawAxiosRequestConfig) {
+        return MediaRequestsApiFp(this.configuration).apiMediaRequestsDtosGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.
