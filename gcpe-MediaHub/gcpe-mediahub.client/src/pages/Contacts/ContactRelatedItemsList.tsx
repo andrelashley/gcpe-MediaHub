@@ -23,6 +23,7 @@ const useStyles = makeStyles({
     },
     panels: {
         padding: "0 10px",
+        width: '100%',
         "& th": {
             textAlign: "left",
             padding: "0 30px 0 0",
@@ -61,9 +62,7 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
     const [selectedTag, setSelectedTag] = React.useState<TagValue>();
 
     const onWorkPlaceTagSelect: TagGroupProps["onTagSelect"] = (_e, { value }) => {
- //       console.log("onWorkplaceTagSelect");
         setSelectedTag(value);
-   //     console.log(selectedTag)
     };
 
     const Workplaces = React.memo(() => (
@@ -73,18 +72,18 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
                 aria-label="Filter by All associations, or current or former associations"
             >
                 <InteractionTag>
-                    <InteractionTagPrimary>
+                    <InteractionTagPrimary title='this has no functionality yet'>
                         All
                     </InteractionTagPrimary>
                 </InteractionTag>
                 <InteractionTag>
-                    <InteractionTagPrimary>
+                    <InteractionTagPrimary title='this has no functionality yet'>
                         Current
                     </InteractionTagPrimary>
                 </InteractionTag>
 
                 <InteractionTag>
-                    <InteractionTagPrimary>
+                    <InteractionTagPrimary title='this has no functionality yet'>
                         Former
                     </InteractionTagPrimary>
                 </InteractionTag>

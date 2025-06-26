@@ -32,7 +32,7 @@ const useStyles = makeStyles({
 
 const RequestDetails: React.FC<RequestDetailsProps> = ({ request }) => {
     const styles = useStyles();
-    console.log(JSON.stringify(request));
+  // console.log(JSON.stringify(request));
     return (
         <div className={styles.container}>
             <div className={styles.inline}>

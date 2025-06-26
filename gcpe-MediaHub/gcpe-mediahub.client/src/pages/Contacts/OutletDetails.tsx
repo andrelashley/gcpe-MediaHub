@@ -10,7 +10,7 @@ const useStyles = makeStyles({
         border: "1px solid #ccc!important",
         padding: "4px",
         width: "100%",
-        marginBottom: "6px",
+        margin: "6px",
         borderRadius: "6px",
     },
     inline: {
