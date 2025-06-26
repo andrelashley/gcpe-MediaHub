@@ -89,8 +89,8 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
                 </InteractionTag>
             </TagGroup>
             {outlets &&
-                outlets.map((outlet) => (
-                    <OutletDetails key={outlet.id} outlet={outlet} />
+                outlets.map((outlet, index) => (
+                    <OutletDetails key={index} outlet={outlet} />
                 ))
             }
         </div>
@@ -99,8 +99,8 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
     const Requests = React.memo(() => (
         <div role="tabpanel" aria-labelledby="Requests">
             {requests &&
-                requests.map((request) => (
-                    <RequestDetails key={request.id} request={request} />
+                requests.map((request, index) => (
+                    <RequestDetails key={index} request={request} />
                 ))
             }
         </div>

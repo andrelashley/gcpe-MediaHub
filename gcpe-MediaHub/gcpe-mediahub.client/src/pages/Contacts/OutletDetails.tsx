@@ -10,7 +10,7 @@ const useStyles = makeStyles({
         border: "1px solid #ccc!important",
         padding: "4px",
         width: "100%",
-        margin: "6px",
+        margin: "6px 6px 6px 0px",
         borderRadius: "6px",
     },
     inline: {
@@ -67,37 +67,32 @@ const OutletDetails: React.FC<OutletDetailsProps> = ({ outlet }) => {
             <Field className={styles.inline}>
                 <ViewDesktopMobileRegular className={styles.icon} />
                 <Label htmlFor="primaryPhone-input" style={{ paddingInlineEnd: "12px" }} className={styles.label}>Phone: </Label>
-                <Input
-                    readOnly={true}
-                    value={outlet.phonePrimary}
-                    id="primaryPhone-input"
-                    type="tel"
-                    className={styles.input}
-            
-                />
+               
+                    {outlet.contactPhones.map((phone, index) => (
+                        <Input
+                            readOnly={true}
+                            value={phone}
+                           /* type="tel"*/
+                            className={styles.input}
+                            key={index}
+                        />
+                    ))}
             </Field>
-            <Field className={styles.inline}>
-                <ViewDesktopMobileRegular className={styles.icon} />
-                <Label htmlFor="mobile-input" style={{ paddingInlineEnd: "12px" }} className={styles.label}>Mobile: </Label>
-                <Input
-                    readOnly={true}
-                    value={outlet.phoneMobile}
-                    id="mobile-input"
-                    type="tel"
-                    className={styles.input}
-                />
-            </Field>
+       
             <Field className={styles.inline}>
                 <MailRegular className={styles.icon} />
                 <Label htmlFor="email-input" style={{ paddingInlineEnd: "12px" }} className={styles.label}>Email:</Label>
+                {outlet.contactEmails.map((email, index) => (
 
-                <Input
-                    readOnly={true}
-                    value={outlet.contactEmail}
-                    id="email-input"
-                    type="email"
-                    className={styles.input}
-                />
+                    <Input
+                        readOnly={true}
+                        value={email}
+                        id="email-input"
+                        type="email"
+                        className={styles.input}
+                        key={index}
+                    />
+                )) }
             </Field>
             {outlet.lastRequestDate &&
             <div className={styles.warning} >
