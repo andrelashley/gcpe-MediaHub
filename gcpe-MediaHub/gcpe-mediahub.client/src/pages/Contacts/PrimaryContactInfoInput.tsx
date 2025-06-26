@@ -49,8 +49,8 @@ const PrimaryContactInfoInput: React.FC<PrimaryContactInputProps> = ({ onRemove 
 
             <div className={styles.platformSelector}>
                 <Select>
-                    <option>Phone</option>
-                    <option>Mobile</option>
+                    <option value="primary">Phone</option>
+                    <option value="mobile">Mobile</option>
                 </Select>
             </div>
             <div className={styles.linkInput}>
