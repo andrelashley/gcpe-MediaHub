@@ -23,6 +23,7 @@ const useStyles = makeStyles({
     },
     panels: {
         padding: "0 10px",
+        width: '100%',
         "& th": {
             textAlign: "left",
             padding: "0 30px 0 0",
@@ -61,9 +62,7 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
     const [selectedTag, setSelectedTag] = React.useState<TagValue>();
 
     const onWorkPlaceTagSelect: TagGroupProps["onTagSelect"] = (_e, { value }) => {
- //       console.log("onWorkplaceTagSelect");
         setSelectedTag(value);
-   //     console.log(selectedTag)
     };
 
     const Workplaces = React.memo(() => (
@@ -73,25 +72,25 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
                 aria-label="Filter by All associations, or current or former associations"
             >
                 <InteractionTag>
-                    <InteractionTagPrimary>
+                    <InteractionTagPrimary title='this has no functionality yet'>
                         All
                     </InteractionTagPrimary>
                 </InteractionTag>
                 <InteractionTag>
-                    <InteractionTagPrimary>
+                    <InteractionTagPrimary title='this has no functionality yet'>
                         Current
                     </InteractionTagPrimary>
                 </InteractionTag>
 
                 <InteractionTag>
-                    <InteractionTagPrimary>
+                    <InteractionTagPrimary title='this has no functionality yet'>
                         Former
                     </InteractionTagPrimary>
                 </InteractionTag>
             </TagGroup>
             {outlets &&
-                outlets.map((outlet) => (
-                    <OutletDetails key={outlet.id} outlet={outlet} />
+                outlets.map((outlet, index) => (
+                    <OutletDetails key={index} outlet={outlet} />
                 ))
             }
         </div>
@@ -100,8 +99,8 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
     const Requests = React.memo(() => (
         <div role="tabpanel" aria-labelledby="Requests">
             {requests &&
-                requests.map((request) => (
-                    <RequestDetails key={request.id} request={request} />
+                requests.map((request, index) => (
+                    <RequestDetails key={index} request={request} />
                 ))
             }
         </div>

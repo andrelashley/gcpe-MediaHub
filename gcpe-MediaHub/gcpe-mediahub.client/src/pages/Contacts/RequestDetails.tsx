@@ -2,7 +2,7 @@ import React from 'react';
 import { Badge, Divider, makeStyles, Tag, TagGroup } from '@fluentui/react-components';
 
 interface RequestDetailsProps {
-    request: any;
+    request: any; //Todo: use proper type
 }
 
 const useStyles = makeStyles({
@@ -32,11 +32,11 @@ const useStyles = makeStyles({
 
 const RequestDetails: React.FC<RequestDetailsProps> = ({ request }) => {
     const styles = useStyles();
-    console.log(JSON.stringify(request));
+  // console.log(JSON.stringify(request));
     return (
         <div className={styles.container}>
             <div className={styles.inline}>
-                <div>{request.id}</div>
+                <div>REQ-{request.requestNo}</div>
                 <div className={styles.floatRight}>
                     <Badge>
                     Created
