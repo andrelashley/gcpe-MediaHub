@@ -40,43 +40,38 @@ interface MediaOutletInputProps {
     onRemove: () => void;
     outlets: MediaOutlet[];
     onAssociationDataChange: (data: OutletAssociation) => void; 
-    itemId: string;
 }
 
-const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, itemId}) => {
+const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange }) => {
     const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
+    const [contactPhones, setContactPhones] = useState<string[]>()
     const [outletId, setOutletId] = useState<number>();
     const [contactEmail, setContactEmail] = useState<string>();
     const [jobTitle, setJobTitle] = useState<string>();
-    const [phonePrimary, setPhonePrimary] = useState<number>();
-    const [phoneMobile, setPhoneMobile] = useState<number>();
-    const [phoneCallIn, setPhoneCallIn] = useState<number>();
+
     const [doesNotWorkHere, setDoesNotWorksHere] = useState<boolean>(false); 
 
     const association = new OutletAssociation;
 
-    //const addPhoneNumber = () => {
-    //    setPhoneNumbers([...phoneNumbers, phoneNumbers.length]);
-    //}
+    const addPhoneNumber = () => {
+        setPhoneNumbers([...phoneNumbers, phoneNumbers.length]);
+    }
     const removePhoneNumber = (index: number) => {
         setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
     };
 
     useEffect(() => {
         // Call onDataChange whenever the input changes
-        onAssociationDataChange({
-            id: itemId,
-            contactId: 0,
-            outletId: outletId,
-            contactEmail: contactEmail,
-            phoneMobile: phoneMobile,
-            phonePrimary: phonePrimary,
-            phoneCallIn: phoneCallIn,
-            noLongerWorksHere: doesNotWorkHere,
-            lastRequestDate: undefined,
-            jobTitle: jobTitle,
-        });
-    }, [outletId, contactEmail, phonePrimary, phoneMobile, phoneCallIn, doesNotWorkHere]);
+        //onAssociationDataChange({
+        //    contactId: 0,
+        //    outletId: outletId,
+        //    contactEmail: contactEmail,
+        //    noLongerWorksHere: doesNotWorkHere,
+        //    contactPhones: contactPhones,
+        //    lastRequestDate: undefined,
+        //    jobTitle: jobTitle,
+        //});
+    }, [outletId, contactEmail, contactPhones, doesNotWorkHere]);
 
     const styles = useStyles();
 
@@ -125,16 +120,16 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                     />
                 ))}
               
-                {/*<p>*/}
-                {/*<Button icon={<Add24Regular />}*/}
-                {/*    className={styles.addButton}*/}
-                {/*    title="Add another phone number"*/}
-                {/*    onClick={addPhoneNumber}*/}
-                {/*    appearance="subtle"*/}
-                {/*>*/}
-                {/*    Contact info*/}
-                {/*    </Button>*/}
-                {/*</p>*/}
+                <p>
+                <Button icon={<Add24Regular />}
+                    className={styles.addButton}
+                    title="Add another phone number"
+                    onClick={addPhoneNumber}
+                    appearance="subtle"
+                >
+                    Contact info
+                    </Button>
+                </p>
             </Field>
             <Button
                 icon={<Dismiss16Regular />}

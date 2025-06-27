@@ -86,6 +86,15 @@ export const CreateContactDrawer = () => {
         setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
     };
 
+    const [error, setError] = React.useState<string | null>(null);
+    const [showValidation, setShowValidation] = React.useState(false);
+    const [formErrors, setFormErrors] = React.useState({
+        firstName: '',
+        lastName: '',
+        email: '', //TODO: more sophisticated. check for '@', etc.
+        atLeastOnePhoneNumber: '', // at least one personal phone number (not on Outlet association)
+        atLeastOneWorkplace: '',      
+    });
 
     // for tracking social media link inputs
     const [socialMediaInputs, setSocialMediaInputs] = useState<number[]>([1]);
@@ -129,8 +138,7 @@ export const CreateContactDrawer = () => {
     const [lastName, setLastName] = useState<string>('');
     const [isPressGallery, setIsPressGallery] = React.useState(false);
     const [email, setEmail] = React.useState('');
-    const [primaryPhone, setPrimaryPhone] = React.useState('');
-    const [mobilePhone, setMobilePhone] = React.useState('');
+
 
     const [outletAssociations, setOutletAssociations] = useState<OutletAssociation[]>([]);
 
@@ -140,7 +148,16 @@ export const CreateContactDrawer = () => {
         setOutletAssociations(newAssociations);
      //   console.log(JSON.stringify(outletAssociations));
     };
-    const createContact = async() => {
+
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+        e.preventDefault();
+        setShowValidation(true);
+        setError(null);
+        const errors: any = {};
+        if (!firstName.trim()) errors.firstName = 'A first name is required';
+        if (!lastName.trim()) errors.lastName = 'A last name is required';
+        if (!email.trim()) errors.email = 'An email address is required';
         const contact: MediaContact = new MediaContact()
         contact.firstName = firstName;
         contact.lastName = lastName;
@@ -205,18 +222,23 @@ export const CreateContactDrawer = () => {
                 </DrawerHeader>
 
                 <DrawerBody>
-                    <Field label="First name" required>
+                    <Field label="First name"
+                        required
+                        validationMessage={showValidation ? "First name is required" : undefined}
+                        validationState={showValidation ? "error" : "none"}
+                    >
                         <Input
                             value={firstName}
                             onChange={(_, data) => {
                                 setFirstName(data.value);
-                                //if (data.value.trim()) {
-                                //    setShowValidation(false);
-                                //}
                             }}
                         />
                     </Field>
-                    <Field label="Last name" required>
+                    <Field label="Last name"
+                        required
+                        validationMessage={showValidation ? "Last name is required" : undefined}
+                        validationState={showValidation ? "error" : "none"}
+                    >
                         <Input
                             onChange={(_, data) => {
                                 setLastName(data.value);
@@ -228,7 +250,11 @@ export const CreateContactDrawer = () => {
                         label="Press gallery"
                         onChange={(_, data) => setIsPressGallery(!!data.checked)}
                     />
-                    <Field label="Primary Contact Info" required>
+                    <Field label="Primary Contact Info"
+                        required
+                        validationMessage={showValidation ? "An email address is required" : undefined}
+                        validationState={showValidation ? "error" : "none"}
+                    >
                         <Field label="Email" required>
                             <Input
                                 onChange={(_, data) => {
@@ -243,20 +269,7 @@ export const CreateContactDrawer = () => {
                               
                             />
                         ))}
-                        {/*<Field label="Primary phone" required>*/}
-                        {/*    <Input*/}
-                        {/*        onChange={(_, data) => {*/}
-                        {/*            setPrimaryPhone(data.value);*/}
-                        {/*        }}*/}
-                        {/*    />*/}
-                        {/*</Field>*/}
-                        {/*<Field label="Mobile phone">*/}
-                        {/*    <Input*/}
-                        {/*        onChange={(_, data) => {*/}
-                        {/*            setMobilePhone(data.value);*/}
-                        {/*        }}*/}
-                        {/*    />*/}
-                       {/* </Field>*/}
+                  
                     </Field>
                     <p>
                         <Button appearance="subtle"
@@ -288,14 +301,13 @@ export const CreateContactDrawer = () => {
                     <Divider />
                     <label htmlFor="outlets-section">Workplaces</label>
 
-
                     {outletInputs.map((_, index) => (
                         <MediaOutletInput
                             key={index}
                             onRemove={() => removeOutletInput(index)}
                             outlets={outlets}
                             onAssociationDataChange={(data) => handleAssociationDataChange(index, data)}
-                            itemId={index}
+                           
                         />
                     ))}
 
@@ -314,7 +326,7 @@ export const CreateContactDrawer = () => {
                         <Button
                             aria-label="Create this contact"
                             appearance="primary"
-                            onClick={() => createContact()}
+                            onClick={(e) => handleSubmit(e)}
                         >
                             Save
                         </Button>
