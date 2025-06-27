@@ -38,14 +38,20 @@ const useStyles = makeStyles({
 
 interface OrgPhoneProps {
     onRemove: () => void;
-   // onInput: (type: string, phoneNumber: number) => void;
+    onPhoneNumberChange: (index: number, phoneNumber: string | undefined) => void;
 }
 
-const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove }) => {
+const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onPhoneNumberChange }) => {
     const [type, setType] = useState<string>('');
-    const [phoneNumber, setPhoneNumber] = useState<number>();
+    const [phoneNumber, setPhoneNumber] = useState<string>();
 
     const styles = useStyles();
+
+    const handlePhoneNumberChange = (value: string) => {
+        const number = value ? value : undefined;
+        setPhoneNumber(number);
+        onPhoneNumberChange(number); // Call the callback with the new phone number
+    };
     return (
         <div className={styles.socialMediaInput}>
 
@@ -64,8 +70,7 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove }) => {
             <div className={styles.linkInput}>
                 <Input
                     onChange={(_, data) => {
-                        setPhoneNumber(parseInt(data.value));
-                     //  onInput(type, phoneNumber);
+                        handlePhoneNumberChange(data.value);
                     } }
                 />
             </div>

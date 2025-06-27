@@ -6,13 +6,11 @@ import {
     Select,
 } from "@fluentui/react-components";
 import { Add24Regular, Dismiss16Regular} from "@fluentui/react-icons";
-import React, { useState } from "react";
+import React, { useState, forwardRef, useImperativeHandle } from "react";
 import OrgPhoneNumber from "./OrgPhoneNumber";
 import { MediaOutlet } from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
 import { useEffect } from "react";
-
-
 
 const useStyles = makeStyles({
     addButton: {
@@ -40,11 +38,13 @@ interface MediaOutletInputProps {
     onRemove: () => void;
     outlets: MediaOutlet[];
     onAssociationDataChange: (data: OutletAssociation) => void; 
+    showValidation: boolean;
 }
 
-const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange }) => {
+const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, showValidation }) => {
     const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
-    const [contactPhones, setContactPhones] = useState<string[]>()
+    const [contactPhones, setContactPhones] = useState<(string | undefined)[]>([]);
+   
     const [outletId, setOutletId] = useState<number>();
     const [contactEmail, setContactEmail] = useState<string>();
     const [jobTitle, setJobTitle] = useState<string>();
@@ -54,11 +54,39 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
     const association = new OutletAssociation;
 
     const addPhoneNumber = () => {
-        setPhoneNumbers([...phoneNumbers, phoneNumbers.length]);
+        setPhoneNumbers([...phoneNumbers, phoneNumbers.length + 1]); // Better index handling
+        setContactPhones([...contactPhones, undefined]); // Add new slot
     }
     const removePhoneNumber = (index: number) => {
         setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
     };
+
+    const validate = () => {
+        const errors: string[] = [];
+        if (!outletId) {
+            errors.push("Media organization is required.");
+        }
+        if (!contactEmail) {
+            errors.push("Email is required.");
+        }
+        if (!jobTitle) {
+            errors.push("Job title is required.");
+        }
+        // Add more validations as needed
+        return errors;
+    }
+
+    const getContactPhones = () => {
+        let pn: string[] = [];
+        phoneNumbers.forEach((_, index) => {
+            if (contactPhones && contactPhones.length > 0) {
+                const phoneNumber: string = contactPhones[index];
+                pn.push(phoneNumber);
+            }
+        });
+
+        return pn;
+    }
 
     useEffect(() => {
         // Call onDataChange whenever the input changes
@@ -68,17 +96,28 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             outletId: outletId,
             contactEmail: contactEmail,
             noLongerWorksHere: doesNotWorkHere,
-            contactPhones: contactPhones,
+            contactPhones: getContactPhones(),
             lastRequestDate: undefined,
             jobTitle: jobTitle,
         });
     }, [outletId, contactEmail, contactPhones, doesNotWorkHere]);
 
     const styles = useStyles();
+    // Expose the validate method to the parent component
+
+    const handlePhoneNumberChange = (index: number, phoneNumber: string | undefined) => {
+        const updatedPhones = [...contactPhones];
+        updatedPhones[index] = phoneNumber;
+        setContactPhones(updatedPhones);
+    };
 
     return (
         <div id="outlets-section" className={styles.outletsSection}>
-            <Field label="Media organization" required>
+            <Field label="Media organization"
+                required
+                validationMessage={showValidation ? "Must select an organization" : undefined}
+                validationState={showValidation ? "error" : "none"}
+            >
                 <Select
                     onChange={(_, data) => {
                         setOutletId(parseInt(data.value))
@@ -117,7 +156,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                 {phoneNumbers.map((_, index) => (
                     <OrgPhoneNumber key={index}
                         onRemove={() => removePhoneNumber(index)}
-                       // onInput={() => handlePhoneNumberChange(index)}
+                        onPhoneNumberChange={(phoneNumber) => handlePhoneNumberChange(index, phoneNumber)}
                     />
                 ))}
               
@@ -140,6 +179,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             />
         </div>
     );
+
 }
 
 export default MediaOutletInput;

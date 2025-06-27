@@ -16,7 +16,7 @@ import {
 
 import { Dismiss24Regular, Add24Regular } from "@fluentui/react-icons";
 import SocialMediaInput from "./SocialMediaInput";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MediaOutletInput from "./MediaOutletInput";
 import MediaContact from "../../models/mediaContact";
 import MediaOutlet from "../../models/mediaOutlet";
@@ -107,8 +107,11 @@ export const CreateContactDrawer = () => {
     // end of social media link tracking
     // for tracking social media link inputs
     const [outletInputs, setOutletInputs] = useState<number[]>([1]);
+
+   /* const outletInputRefs = useRef<React.RefObject<MediaOutletInputRef>[]>([]);*/
     const addOutletInput = () => {
         setOutletInputs([...outletInputs, outletInputs.length]);
+     /*   outletInputRefs.current.push(React.createRef<MediaOutletInputRef>());*/
     };
     const removeOutletInput = (index: number) => {
         setOutletInputs(outletInputs.filter((_, i) => i !== index));
@@ -194,6 +197,18 @@ export const CreateContactDrawer = () => {
         if (!firstName.trim()) errors.firstName = 'A first name is required';
         if (!lastName.trim()) errors.lastName = 'A last name is required';
         if (!email.trim()) errors.email = 'An email address is required';
+
+        // Validate each MediaOutletInput
+        //outletInputRefs.current.forEach((ref) => {
+        //    if (ref.current) {
+        //        const outletErrors = ref.current.validate();
+        //        if (outletErrors.length > 0) {
+        //            errors.outletAssociations = errors.outletAssociations || [];
+        //            errors.outletAssociations.push(...outletErrors);
+        //        }
+        //    }
+        //});
+    
     }
 
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
@@ -318,10 +333,11 @@ export const CreateContactDrawer = () => {
                     {outletInputs.map((_, index) => (
                         <MediaOutletInput
                             key={index}
+                      //      ref={outletInputRefs.current[index]} // try as I might, I cannot get this to work
                             onRemove={() => removeOutletInput(index)}
                             outlets={outlets}
                             onAssociationDataChange={(data) => handleAssociationDataChange(index, data)}
-                           
+                            showValidation={showValidation }
                         />
                     ))}
 
