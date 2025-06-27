@@ -121,5 +121,11 @@ export const requestService = {
         }
         const response = await axiosInstance.get<MediaRequest>(`/api/MediaRequests/${id}`);
         return response.data;
+    },
+
+    async getRequestorOutletId(contactId: string): Promise<string | null> {
+        const response = await axiosInstance.get(`/api/MediaContacts/${contactId}`);
+        const contact = response.data;
+        return contact.mediaOutletContactRelationships?.[0]?.mediaOutletId ?? null;
     }
 };

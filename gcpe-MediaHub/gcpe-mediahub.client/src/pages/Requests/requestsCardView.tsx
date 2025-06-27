@@ -9,6 +9,7 @@ import type { RequestDto } from "../../api/generated-client/model";
 import styles from "./requestsCardView.module.css";
 import NewRequestPage from './newRequest';
 import RequestDetailView from './requestDetailView';
+import RequestStatusBadge from "../../components/RequestStatusBadge";
 
 const RequestsCardView: React.FC = () => {
   const [globalFilter, setGlobalFilter] = useState("");
@@ -84,7 +85,9 @@ const RequestsCardView: React.FC = () => {
       {
         accessorKey: "requestStatus",
         header: "Status",
-        cell: (info: any) => info.row.original.requestStatus || 'Unknown'
+        cell: (info: any) => (
+          <RequestStatusBadge status={info.row.original.requestStatus || 'Unknown'} />
+        )
       },
     ],
     []
@@ -165,9 +168,7 @@ const RequestsCardView: React.FC = () => {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span>{`REQ-${row.original.requestNo}`}</span>
                     <div className={styles.statusBadge}>
-                      <Badge shape="circular" appearance="filled">
-                        {row.original.requestStatus || "Unknown"}
-                      </Badge>
+                      <RequestStatusBadge status={row.original.requestStatus || "Unknown"} />
                     </div>
                   </div>
                   <h3>{row.original.requestTitle}</h3>
