@@ -220,6 +220,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             return;
         }
 
+        // const outletId = await requestService.getRequestorOutletId(requestedById);
         const newRequest: MediaRequest = {
             requestTitle,
             requestDetails,
@@ -232,11 +233,13 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             requestorContactId: requestedById,
             assignedUserId: assignedUserId !== '00000000-0000-0000-0000-000000000000' ? assignedUserId : null,
             fyiContactUserId: fyiContactUser.trim() && fyiContactUserId !== '00000000-0000-0000-0000-000000000000' ? fyiContactUserId : null,
-            requestorOutletId: null, // Will be set when outlet is implemented
             requestResolutionId: null, // Default value
             response: '',
             requestNo: 0 // This will be set by the API
         };
+        // if (outletId !== null && outletId !== undefined) {
+        //     (newRequest as any).requestorOutletId = outletId;
+        // }
 
         console.log("newRequest:", newRequest);
         setIsSubmitting(true);
@@ -244,13 +247,15 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             const response = await requestService.createRequest(newRequest);
             if (response) {
                 dispatchToast(
-                    <Toast>
+                    <Toast >
                         <ToastTitle>Request Created</ToastTitle>
                         <ToastBody>
                             Request #{response.requestNo}: <b>{response.requestTitle}</b> created successfully.
                         </ToastBody>
                     </Toast>,
-                    { intent: 'success' }
+                    { intent: 'success',
+                        timeout: 5000
+                     }
                 );
                 if (onClose) onClose();
             }
