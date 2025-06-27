@@ -62,15 +62,16 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
 
     useEffect(() => {
         // Call onDataChange whenever the input changes
-        //onAssociationDataChange({
-        //    contactId: 0,
-        //    outletId: outletId,
-        //    contactEmail: contactEmail,
-        //    noLongerWorksHere: doesNotWorkHere,
-        //    contactPhones: contactPhones,
-        //    lastRequestDate: undefined,
-        //    jobTitle: jobTitle,
-        //});
+        onAssociationDataChange({
+            contactId: undefined,
+            id: undefined, //done on server
+            outletId: outletId,
+            contactEmail: contactEmail,
+            noLongerWorksHere: doesNotWorkHere,
+            contactPhones: contactPhones,
+            lastRequestDate: undefined,
+            jobTitle: jobTitle,
+        });
     }, [outletId, contactEmail, contactPhones, doesNotWorkHere]);
 
     const styles = useStyles();

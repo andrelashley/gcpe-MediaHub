@@ -107,7 +107,6 @@ export const CreateContactDrawer = () => {
     // end of social media link tracking
     // for tracking social media link inputs
     const [outletInputs, setOutletInputs] = useState<number[]>([1]);
-
     const addOutletInput = () => {
         setOutletInputs([...outletInputs, outletInputs.length]);
     };
@@ -152,23 +151,29 @@ export const CreateContactDrawer = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
-        setShowValidation(true);
-        setError(null);
-        const errors: any = {};
-        if (!firstName.trim()) errors.firstName = 'A first name is required';
-        if (!lastName.trim()) errors.lastName = 'A last name is required';
-        if (!email.trim()) errors.email = 'An email address is required';
+
+        handleValidation();
+
         const contact: MediaContact = new MediaContact()
         contact.firstName = firstName;
         contact.lastName = lastName;
         contact.isPressGallery = isPressGallery;
         contact.email = email;
        
-        outletAssociations.map((association) => {
-            contact.outlets.push(association);
-        })
-        
-     //   console.log(JSON.stringify(contact));
+        outletInputs.forEach((_, index) => {
+            const outletAssociation: OutletAssociation = {
+                id: undefined,
+                contactId: undefined, // This can be set after the contact is created
+                outletId: outletAssociations[index]?.outletId,
+                contactEmail: outletAssociations[index]?.contactEmail,
+                contactPhones: outletAssociations[index]?.contactPhones,
+                noLongerWorksHere: outletAssociations[index]?.noLongerWorksHere,
+                lastRequestDate: undefined,
+                jobTitle: outletAssociations[index]?.jobTitle,
+            };
+            contact.outlets.push(outletAssociation);
+        });
+        console.log(JSON.stringify(contact));
         const response = await fetch('mediacontacts/CreateMediaContact',
             {
                 method: "POST",
@@ -181,6 +186,15 @@ export const CreateContactDrawer = () => {
         // if it was successful, close drawer after brief delay
         //  setIsOpen(false)
     };
+
+    const handleValidation = () => {
+        setShowValidation(true);
+        setError(null);
+        const errors: any = {};
+        if (!firstName.trim()) errors.firstName = 'A first name is required';
+        if (!lastName.trim()) errors.lastName = 'A last name is required';
+        if (!email.trim()) errors.email = 'An email address is required';
+    }
 
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
     const fetchOutlets = async () => {

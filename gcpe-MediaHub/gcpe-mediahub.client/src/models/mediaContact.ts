@@ -18,29 +18,6 @@ export class MediaContact {
     location: string | undefined;
     lastActive: Date | undefined;
     isPressGallery: boolean | undefined;
-
-    //constructor(firstName: string,
-    //    lastName: string,
-    //    email: string,
-    //    phone: string,
-    //    location: string,
-    //    lastActive: Date,
-    //    mediaRequests: MediaRequest[] = [],
-    //    jobTitle: string,
-    //    socialMediaXURL: string,
-    //    socialMediaInstagramURL: string
-    //) {
-    //    this.lastName = lastName;
-    //    this.firstName = firstName;
-    //    this.email = email;
-    //    this.phone = phone;
-    //    this.location = location;
-    //    this.lastActive = lastActive;
-    //    this.requests = mediaRequests;
-    //    this.jobTitle = jobTitle;
-    //    this.socialMediaInstagramURL = socialMediaInstagramURL;
-    //    this.socialMediaXURL = socialMediaXURL;
-    //}
 }
 
 export default MediaContact;
