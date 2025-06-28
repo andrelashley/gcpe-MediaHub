@@ -23,6 +23,7 @@ import MediaOutlet from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
 import PrimaryContactInfoInput from "./PrimaryContactInfoInput";
 import { SocialMediaCompany } from "../../models/SocialMediaCompany";
+import OrgPhoneNumber from "./OrgPhoneNumber";
 
 
 const useStyles = makeStyles({
@@ -157,18 +158,19 @@ export const CreateContactDrawer = () => {
 
 
     const getPersonalPhoneNumbers = () => {
-        let phoneNumbers: string[];
+        let pn: string[] = [];
         primaryContactInfoInputs.forEach((_, index) => {
             if (contactPhones && contactPhones.length > 0) {
                 const phoneNumber: string = contactPhones[index];
-                phoneNumbers.push(phoneNumber);
+                pn.push(phoneNumber);
             }
         });
 
-        return phoneNumbers;
+        return pn;
     };
 
     const handlePhoneNumberChange = (index: number, phoneNumber: string | undefined) => {
+        console.log('handlePhoneNumberChange');
         const updatedPhones = [...contactPhones];
         updatedPhones[index] = phoneNumber;
         setContactPhones(updatedPhones);
@@ -316,7 +318,7 @@ export const CreateContactDrawer = () => {
                             />
                         </Field>
                         {primaryContactInfoInputs.map((_, index) => (
-                            <PrimaryContactInfoInput
+                            <OrgPhoneNumber
                                 key={index}
                                 onRemove={() => removePrimaryContactInfoInput(index)}
                                 onPhoneNumberChange={(phoneNumber) => handlePhoneNumberChange(index, phoneNumber)}

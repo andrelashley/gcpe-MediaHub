@@ -48,6 +48,7 @@ const PrimaryContactInfoInput: React.FC<PrimaryContactInputProps> = ({ onRemove,
     const [phoneNumber, setPhoneNumber] = useState<string>();
 
     const styles = useStyles();
+
     const handlePhoneNumberChange = (value: string) => {
         const number = value ? value : undefined;
         setPhoneNumber(number);
@@ -63,7 +64,11 @@ const PrimaryContactInfoInput: React.FC<PrimaryContactInputProps> = ({ onRemove,
                 </Select>
             </div>
             <div className={styles.linkInput}>
-                <Input />
+                <Input
+                    onChange={(_, data) => {
+                        handlePhoneNumberChange(data.value);
+                    }}
+                />
             </div>
             <div className={styles.dismissButton }>
                 <Button
