@@ -59,6 +59,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
     }
     const removePhoneNumber = (index: number) => {
         setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
+        setContactPhones(contactPhones.filter((_, i) => i !== index));
     };
 
     const validate = () => {

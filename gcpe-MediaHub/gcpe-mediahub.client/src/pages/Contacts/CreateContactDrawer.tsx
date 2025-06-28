@@ -78,10 +78,14 @@ export const CreateContactDrawer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     //for primary contact info input tracking
     const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
+    const [contactPhones, setContactPhones] = useState<(string | undefined)[]>([]);
 
     const addPrimaryContactInfoInput = () => {
-        setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length]);
+        setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
+        setContactPhones([...contactPhones, undefined]); // Add new slot
+
     };
+
     const removePrimaryContactInfoInput = (index: number) => {
         setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
     };
@@ -152,6 +156,24 @@ export const CreateContactDrawer = () => {
     };
 
 
+    const getPersonalPhoneNumbers = () => {
+        let phoneNumbers: string[];
+        primaryContactInfoInputs.forEach((_, index) => {
+            if (contactPhones && contactPhones.length > 0) {
+                const phoneNumber: string = contactPhones[index];
+                phoneNumbers.push(phoneNumber);
+            }
+        });
+
+        return phoneNumbers;
+    };
+
+    const handlePhoneNumberChange = (index: number, phoneNumber: string | undefined) => {
+        const updatedPhones = [...contactPhones];
+        updatedPhones[index] = phoneNumber;
+        setContactPhones(updatedPhones);
+    };
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
@@ -162,6 +184,8 @@ export const CreateContactDrawer = () => {
         contact.lastName = lastName;
         contact.isPressGallery = isPressGallery;
         contact.email = email;
+
+        contact.contactPhones = getPersonalPhoneNumbers();
        
         outletInputs.forEach((_, index) => {
             const outletAssociation: OutletAssociation = {
@@ -295,7 +319,7 @@ export const CreateContactDrawer = () => {
                             <PrimaryContactInfoInput
                                 key={index}
                                 onRemove={() => removePrimaryContactInfoInput(index)}
-                              
+                                onPhoneNumberChange={(phoneNumber) => handlePhoneNumberChange(index, phoneNumber)}
                             />
                         ))}
                   
