@@ -3,14 +3,14 @@ import ContactPhone from './ContactPhone';
 import MediaOutlet from './mediaOutlet';
 import MediaRequest from './mediaRequest';
 import { OutletAssociation } from './OutletAssociation';
+import { SocialMediaLink } from './SocialMediaLink';
 
 export class MediaContact {
     id: number = 0;
     firstName: string | undefined;
     lastName: string | undefined;
     jobTitle: string | undefined;
-    socialMediaXURL: string | undefined; 
-    socialMediaInstagramURL: string | undefined;
+    socialMediaLinks: SocialMediaLink[] = [];
     email: string | undefined;
     contactPhones: string[] | undefined;
     outlets: OutletAssociation[] = [];

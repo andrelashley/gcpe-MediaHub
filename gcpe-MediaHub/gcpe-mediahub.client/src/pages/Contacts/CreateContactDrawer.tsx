@@ -24,6 +24,7 @@ import { OutletAssociation } from "../../models/OutletAssociation";
 import PrimaryContactInfoInput from "./PrimaryContactInfoInput";
 import { SocialMediaCompany } from "../../models/SocialMediaCompany";
 import OrgPhoneNumber from "./OrgPhoneNumber";
+import { SocialMediaLink } from "../../models/SocialMediaLink";
 
 
 const useStyles = makeStyles({
@@ -84,78 +85,11 @@ export const CreateContactDrawer = () => {
     const addPrimaryContactInfoInput = () => {
         setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
         setContactPhones([...contactPhones, undefined]); // Add new slot
-
     };
 
     const removePrimaryContactInfoInput = (index: number) => {
         setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
     };
-
-    const [error, setError] = React.useState<string | null>(null);
-    const [showValidation, setShowValidation] = React.useState(false);
-    const [formErrors, setFormErrors] = React.useState({
-        firstName: '',
-        lastName: '',
-        email: '', //TODO: more sophisticated. check for '@', etc.
-        atLeastOnePhoneNumber: '', // at least one personal phone number (not on Outlet association)
-        atLeastOneWorkplace: '',      
-    });
-
-    // for tracking social media link inputs
-    const [socialMediaInputs, setSocialMediaInputs] = useState<number[]>([1]);
-    const addSocialMediaInput = () => {
-        setSocialMediaInputs([...socialMediaInputs, socialMediaInputs.length]);
-    };
-    const removeSocialMediaInput = (index: number) => {
-        setSocialMediaInputs(socialMediaInputs.filter((_, i) => i !== index));
-    };
-    // end of social media link tracking
-    // for tracking social media link inputs
-    const [outletInputs, setOutletInputs] = useState<number[]>([1]);
-
-   /* const outletInputRefs = useRef<React.RefObject<MediaOutletInputRef>[]>([]);*/
-    const addOutletInput = () => {
-        setOutletInputs([...outletInputs, outletInputs.length]);
-     /*   outletInputRefs.current.push(React.createRef<MediaOutletInputRef>());*/
-    };
-    const removeOutletInput = (index: number) => {
-        setOutletInputs(outletInputs.filter((_, i) => i !== index));
-        setOutletAssociations(outletAssociations.filter((_, i) => i !== index)); 
-    };
-    // end of social media link tracking
-
-    const [socials, setSocials] = useState<SocialMediaCompany[]>([]);
-
-    const fetchSocialMediaCompanies = async () => {
-        const response = await fetch('https://localhost:7145/api/MediaContacts/GetSocialMedias');
-        const data = await response.json();
-        const companies: SocialMediaCompany[] = data as SocialMediaCompany[];
-        setSocials(companies);
-    };
-
-    const styles = useStyles();
-    // all Drawers need manual focus restoration attributes
-    // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
-    const restoreFocusTargetAttributes = useRestoreFocusTarget();
-    const restoreFocusSourceAttributes = useRestoreFocusSource();
-
-
-    // contact fields
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [isPressGallery, setIsPressGallery] = React.useState(false);
-    const [email, setEmail] = React.useState('');
-
-
-    const [outletAssociations, setOutletAssociations] = useState<OutletAssociation[]>([]);
-
-    const handleAssociationDataChange = (index: number, data: OutletAssociation) => {
-        const newAssociations = [...outletAssociations];
-        newAssociations[index] = data; // Update the specific index
-        setOutletAssociations(newAssociations);
-     //   console.log(JSON.stringify(outletAssociations));
-    };
-
 
     const getPersonalPhoneNumbers = () => {
         let pn: string[] = [];
@@ -174,6 +108,79 @@ export const CreateContactDrawer = () => {
         const updatedPhones = [...contactPhones];
         updatedPhones[index] = phoneNumber;
         setContactPhones(updatedPhones);
+    };
+
+
+    const [error, setError] = React.useState<string | null>(null);
+    const [showValidation, setShowValidation] = React.useState(false);
+    const [formErrors, setFormErrors] = React.useState({
+        firstName: '',
+        lastName: '',
+        email: '', //TODO: more sophisticated. check for '@', etc.
+        atLeastOnePhoneNumber: '', // at least one personal phone number (not on Outlet association)
+        atLeastOneWorkplace: '',      
+    });
+
+    // for tracking social media link inputs
+    const [socials, setSocials] = useState<SocialMediaCompany[]>([]);
+    const fetchSocialMediaCompanies = async () => {
+        const response = await fetch('https://localhost:7145/api/MediaContacts/GetSocialMedias');
+        const data = await response.json();
+        const companies: SocialMediaCompany[] = data as SocialMediaCompany[];
+        setSocials(companies);
+    };
+
+    const [socialMediaInputs, setSocialMediaInputs] = useState<number[]>([1]);
+    const [socialMedias, setSocialMedias] = useState<any[]>([]); //Todo: actual model, not 'any'
+    const addSocialMediaInput = () => {
+        setSocialMediaInputs([...socialMediaInputs, socialMediaInputs.length]);
+    };
+    const removeSocialMediaInput = (index: number) => {
+        setSocialMediaInputs(socialMediaInputs.filter((_, i) => i !== index));
+    };
+    const handleSocialMediaDataChange = (index: number, data: any) => {
+        const newSocialMedia = [...socialMedias];
+        newSocialMedia[index] = data; // Update the specific index
+        setSocialMedias(newSocialMedia);
+    };
+    // end of social media link tracking
+
+    // for tracking outlet inputs
+    const [outletInputs, setOutletInputs] = useState<number[]>([1]);
+    const [outletAssociations, setOutletAssociations] = useState<OutletAssociation[]>([]);
+
+   /* const outletInputRefs = useRef<React.RefObject<MediaOutletInputRef>[]>([]);*/
+    const addOutletInput = () => {
+        setOutletInputs([...outletInputs, outletInputs.length]);
+     /*   outletInputRefs.current.push(React.createRef<MediaOutletInputRef>());*/
+    };
+    const removeOutletInput = (index: number) => {
+        setOutletInputs(outletInputs.filter((_, i) => i !== index));
+        setOutletAssociations(outletAssociations.filter((_, i) => i !== index)); 
+    };
+    // end of outlet tracking
+
+   
+
+    const styles = useStyles();
+    // all Drawers need manual focus restoration attributes
+    // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
+    const restoreFocusTargetAttributes = useRestoreFocusTarget();
+    const restoreFocusSourceAttributes = useRestoreFocusSource();
+
+
+    // contact fields
+    const [firstName, setFirstName] = useState<string>('');
+    const [lastName, setLastName] = useState<string>('');
+    const [isPressGallery, setIsPressGallery] = React.useState(false);
+    const [email, setEmail] = React.useState('');
+
+
+
+    const handleAssociationDataChange = (index: number, data: OutletAssociation) => {
+        const newAssociations = [...outletAssociations];
+        newAssociations[index] = data; // Update the specific index
+        setOutletAssociations(newAssociations);
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
@@ -202,8 +209,25 @@ export const CreateContactDrawer = () => {
             };
             contact.outlets.push(outletAssociation);
         });
+        socialMediaInputs.forEach((_, index) => {
+            console.log('social...');
+            console.log(JSON.stringify(socialMedias[index]));
+            const socialMedia: SocialMediaLink = {
+                //set all these TBD IDs on server...
+                id: undefined,
+                mediaContactId: undefined,
+                mediaOutletId: undefined, // won't set this
+                mediaOutlet: undefined, // won't be set
+
+                socialProfileUrl: socialMedias[index]?.socialProfileUrl, 
+                socialMediaCompanyId: socialMedias[index]?.socialMediaCompanyId,
+                company: "",
+                mediaContact: undefined,
+            };
+            contact.socialMediaLinks.push(socialMedia);
+        });
         console.log(JSON.stringify(contact));
-        const response = await fetch('mediacontacts/CreateMediaContact',
+        const response = await fetch('https://localhost:7145/api/mediacontacts/PostContact',
             {
                 method: "POST",
                 body: JSON.stringify(contact)
@@ -223,18 +247,6 @@ export const CreateContactDrawer = () => {
         if (!firstName.trim()) errors.firstName = 'A first name is required';
         if (!lastName.trim()) errors.lastName = 'A last name is required';
         if (!email.trim()) errors.email = 'An email address is required';
-
-        // Validate each MediaOutletInput
-        //outletInputRefs.current.forEach((ref) => {
-        //    if (ref.current) {
-        //        const outletErrors = ref.current.validate();
-        //        if (outletErrors.length > 0) {
-        //            errors.outletAssociations = errors.outletAssociations || [];
-        //            errors.outletAssociations.push(...outletErrors);
-        //        }
-        //    }
-        //});
-    
     }
 
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
@@ -321,7 +333,7 @@ export const CreateContactDrawer = () => {
                             <OrgPhoneNumber
                                 key={index}
                                 onRemove={() => removePrimaryContactInfoInput(index)}
-                                onPhoneNumberChange={(phoneNumber) => handlePhoneNumberChange(index, phoneNumber)}
+                                onPhoneNumberChange={(index, phoneNumber) => handlePhoneNumberChange(index, phoneNumber)}
                             />
                         ))}
                   
@@ -339,7 +351,12 @@ export const CreateContactDrawer = () => {
                     <Field label="Online Presence" className={styles.maxWidth}>
                         <div >
                             {socialMediaInputs.map((_, index) => (
-                                <SocialMediaInput key={index} onRemove={() => removeSocialMediaInput(index)} socials={socials} />
+                                <SocialMediaInput
+                                    key={index}
+                                    onRemove={() => removeSocialMediaInput(index)}
+                                    socials={socials}
+                                    onSocialMediaDataChange={(data) => handleSocialMediaDataChange(index, data)}
+                                />
                             ))}
                         </div>
                     </Field>

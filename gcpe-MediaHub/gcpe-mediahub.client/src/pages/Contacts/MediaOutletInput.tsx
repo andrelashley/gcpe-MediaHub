@@ -157,7 +157,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                 {phoneNumbers.map((_, index) => (
                     <OrgPhoneNumber key={index}
                         onRemove={() => removePhoneNumber(index)}
-                        onPhoneNumberChange={(phoneNumber) => handlePhoneNumberChange(index, phoneNumber)}
+                        onPhoneNumberChange={(index, phoneNumber: string) => handlePhoneNumberChange(index, phoneNumber)}
                     />
                 ))}
               
