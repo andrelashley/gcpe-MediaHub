@@ -134,16 +134,16 @@ const Organizations = () => {
     const [isNewOrganizationDrawerOpen, setIsNewOrganizationDrawerOpen] = useState(false);
     const [outlets, setOutlets] = useState<Outlet[]>([]);
     
-    useEffect(() => {
-      const fetchOutlets = async() => {
-        const response = await fetch('https://localhost:7145/api/mediaOutlets');
-        const data = await response.json();
-        console.log(data);
-        setOutlets(data);
-      }
+    // useEffect(() => {
+    //   const fetchOutlets = async() => {
+    //     const response = await fetch('https://localhost:7145/api/mediaOutlets');
+    //     const data = await response.json();
+    //     console.log(data);
+    //     setOutlets(data);
+    //   }
 
-      fetchOutlets();
-    }, []);
+    //   fetchOutlets();
+    // }, []);
 
       const table = useReactTable({
         data,

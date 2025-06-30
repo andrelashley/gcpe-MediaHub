@@ -399,10 +399,6 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ onClose
         </>
       )}
 
-      
-      
-
-
        {selectedTab === "outlets" && (
       <>
         <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
@@ -551,8 +547,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ onClose
           </Field>
         </FieldRow>
       </div>
-        
-      
+            
         <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
 
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
