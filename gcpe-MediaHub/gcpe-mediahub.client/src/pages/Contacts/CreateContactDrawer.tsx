@@ -25,6 +25,7 @@ import PrimaryContactInfoInput from "./PrimaryContactInfoInput";
 import { SocialMediaCompany } from "../../models/SocialMediaCompany";
 import OrgPhoneNumber from "./OrgPhoneNumber";
 import { SocialMediaLink } from "../../models/SocialMediaLink";
+import { PhoneNumber } from "../../models/PhoneNumber";
 
 
 const useStyles = makeStyles({
@@ -80,7 +81,7 @@ export const CreateContactDrawer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     //for primary contact info input tracking
     const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
-    const [contactPhones, setContactPhones] = useState<(string | undefined)[]>([]);
+    const [contactPhones, setContactPhones] = useState<any[]>([]);
 
     const addPrimaryContactInfoInput = () => {
         setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
@@ -92,10 +93,10 @@ export const CreateContactDrawer = () => {
     };
 
     const getPersonalPhoneNumbers = () => {
-        let pn: string[] = [];
+        let pn: any[] = [];
         primaryContactInfoInputs.forEach((_, index) => {
             if (contactPhones && contactPhones.length > 0) {
-                const phoneNumber: string = contactPhones[index];
+                const phoneNumber: any = contactPhones[index];
                 pn.push(phoneNumber);
             }
         });
@@ -103,10 +104,10 @@ export const CreateContactDrawer = () => {
         return pn;
     };
 
-    const handlePhoneNumberChange = (index: number, phoneNumber: string | undefined) => {
+    const handlePhoneNumberChange = (index: number, data: any) => { //TODO: use PhoneNumber model. Not 'any'
         console.log('handlePhoneNumberChange');
         const updatedPhones = [...contactPhones];
-        updatedPhones[index] = phoneNumber;
+        updatedPhones[index] = data;
         setContactPhones(updatedPhones);
     };
 
@@ -210,8 +211,6 @@ export const CreateContactDrawer = () => {
             contact.outlets.push(outletAssociation);
         });
         socialMediaInputs.forEach((_, index) => {
-            console.log('social...');
-            console.log(JSON.stringify(socialMedias[index]));
             const socialMedia: SocialMediaLink = {
                 //set all these TBD IDs on server...
                 id: undefined,
@@ -333,7 +332,7 @@ export const CreateContactDrawer = () => {
                             <OrgPhoneNumber
                                 key={index}
                                 onRemove={() => removePrimaryContactInfoInput(index)}
-                                onPhoneNumberChange={(index, phoneNumber) => handlePhoneNumberChange(index, phoneNumber)}
+                                onPhoneNumberChange={(data: PhoneNumber) => handlePhoneNumberChange(index, data)}
                             />
                         ))}
                   

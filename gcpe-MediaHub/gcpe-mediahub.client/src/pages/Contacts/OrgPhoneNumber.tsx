@@ -5,7 +5,8 @@ import {
     makeStyles,
 } from "@fluentui/react-components";
 import { Dismiss12Regular } from "@fluentui/react-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PhoneNumber } from "../../models/PhoneNumber";
 
 const useStyles = makeStyles({
     socialMediaInput: {
@@ -38,20 +39,22 @@ const useStyles = makeStyles({
 
 interface OrgPhoneProps {
     onRemove: () => void;
-    onPhoneNumberChange: (index: number, phoneNumber: string | undefined) => void;
+    onPhoneNumberChange: (data: any) => void;
 }
 
 const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onPhoneNumberChange }) => {
     const [type, setType] = useState<string>('');
     const [phoneNumber, setPhoneNumber] = useState<string>();
 
+    useEffect(() => {
+        // Call onDataChange whenever the input changes
+        onPhoneNumberChange({
+            PhoneType: type,
+            PhoneLineNumber: phoneNumber,
+        });
+    }, [type, phoneNumber]);
     const styles = useStyles();
 
-    const handlePhoneNumberChange = (value: string) => {
-        const number = value ? value : undefined;
-        setPhoneNumber(number);
-        onPhoneNumberChange(number); // Call the callback with the new phone number
-    };
     return (
         <div className={styles.socialMediaInput}>
 
@@ -70,7 +73,7 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onPhoneNumberChange
             <div className={styles.linkInput}>
                 <Input
                     onChange={(_, data) => {
-                        handlePhoneNumberChange(data.value);
+                        setPhoneNumber(data.value);
                     } }
                 />
             </div>

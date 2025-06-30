@@ -49,7 +49,6 @@ const SocialMediaInput: React.FC<SocialMediaInputProps> = ({ onRemove, socials, 
         setCompanyId(e.target.value);
     };
     const handleUrlChange = (e) => {
-        console.log('url changed');
         setUrl(e.target.value);
     };
 

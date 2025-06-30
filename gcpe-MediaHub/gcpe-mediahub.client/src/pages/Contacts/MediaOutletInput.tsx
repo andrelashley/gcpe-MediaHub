@@ -11,6 +11,7 @@ import OrgPhoneNumber from "./OrgPhoneNumber";
 import { MediaOutlet } from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
 import { useEffect } from "react";
+import { PhoneNumber } from "../../models/PhoneNumber";
 
 const useStyles = makeStyles({
     addButton: {
@@ -43,7 +44,7 @@ interface MediaOutletInputProps {
 
 const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, showValidation }) => {
     const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
-    const [contactPhones, setContactPhones] = useState<(string | undefined)[]>([]);
+    const [contactPhones, setContactPhones] = useState<(any)[]>([]);
    
     const [outletId, setOutletId] = useState<number>();
     const [contactEmail, setContactEmail] = useState<string>();
@@ -61,7 +62,17 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
         setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
         setContactPhones(contactPhones.filter((_, i) => i !== index));
     };
+    const getContactPhones = () => {
+        let pn: string[] = [];
+        phoneNumbers.forEach((_, index) => {
+            if (contactPhones && contactPhones.length > 0) {
+                const phoneNumber: string = contactPhones[index];
+                pn.push(phoneNumber);
+            }
+        });
 
+        return pn;
+    }
     const validate = () => {
         const errors: string[] = [];
         if (!outletId) {
@@ -75,18 +86,6 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
         }
         // Add more validations as needed
         return errors;
-    }
-
-    const getContactPhones = () => {
-        let pn: string[] = [];
-        phoneNumbers.forEach((_, index) => {
-            if (contactPhones && contactPhones.length > 0) {
-                const phoneNumber: string = contactPhones[index];
-                pn.push(phoneNumber);
-            }
-        });
-
-        return pn;
     }
 
     useEffect(() => {
@@ -111,7 +110,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
         updatedPhones[index] = phoneNumber;
         setContactPhones(updatedPhones);
     };
-
+  
     return (
         <div id="outlets-section" className={styles.outletsSection}>
             <Field label="Media organization"
@@ -157,7 +156,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                 {phoneNumbers.map((_, index) => (
                     <OrgPhoneNumber key={index}
                         onRemove={() => removePhoneNumber(index)}
-                        onPhoneNumberChange={(index, phoneNumber: string) => handlePhoneNumberChange(index, phoneNumber)}
+                        onPhoneNumberChange={(data: PhoneNumber) => handlePhoneNumberChange(index, data)}
                     />
                 ))}
               
