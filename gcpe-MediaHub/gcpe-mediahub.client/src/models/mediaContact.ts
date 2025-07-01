@@ -1,23 +1,25 @@
 
-import ContactPhone from './ContactPhone';
+import { PhoneNumber } from '../api/generated-client';
 import MediaOutlet from './mediaOutlet';
 import MediaRequest from './mediaRequest';
 import { OutletAssociation } from './OutletAssociation';
 import { SocialMediaLink } from './SocialMediaLink';
 
 export class MediaContact {
-    id: number = 0;
+    id: number| undefined;
     firstName: string | undefined;
     lastName: string | undefined;
-    jobTitle: string | undefined;
-    socialMediaLinks: SocialMediaLink[] = [];
+    isPressGallery: boolean | undefined;
+    isActive: boolean = true;
     email: string | undefined;
-    contactPhones: string[] | undefined;
-    outlets: OutletAssociation[] = [];
+    jobTitle: string | undefined;
+    jobTitleId: number = 0;
+    mediaOutletContactRelationships: OutletAssociation[] = [];
+    socialMedias: SocialMediaLink[] = [];
+    phoneNumbers: PhoneNumber[] | undefined;
     requests: MediaRequest[] = [];
     location: string | undefined;
     lastActive: Date | undefined;
-    isPressGallery: boolean | undefined;
 }
 
 export default MediaContact;

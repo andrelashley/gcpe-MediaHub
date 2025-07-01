@@ -105,7 +105,6 @@ export const CreateContactDrawer = () => {
     };
 
     const handlePhoneNumberChange = (index: number, data: any) => { //TODO: use PhoneNumber model. Not 'any'
-        console.log('handlePhoneNumberChange');
         const updatedPhones = [...contactPhones];
         updatedPhones[index] = data;
         setContactPhones(updatedPhones);
@@ -194,8 +193,8 @@ export const CreateContactDrawer = () => {
         contact.lastName = lastName;
         contact.isPressGallery = isPressGallery;
         contact.email = email;
-
-        contact.contactPhones = getPersonalPhoneNumbers();
+        contact.jobTitleId = 0;
+        contact.phoneNumbers = getPersonalPhoneNumbers();
        
         outletInputs.forEach((_, index) => {
             const outletAssociation: OutletAssociation = {
@@ -208,7 +207,7 @@ export const CreateContactDrawer = () => {
                 lastRequestDate: undefined,
                 jobTitle: outletAssociations[index]?.jobTitle,
             };
-            contact.outlets.push(outletAssociation);
+            contact.mediaOutletContactRelationships.push(outletAssociation);
         });
         socialMediaInputs.forEach((_, index) => {
             const socialMedia: SocialMediaLink = {
@@ -223,12 +222,15 @@ export const CreateContactDrawer = () => {
                 company: "",
                 mediaContact: undefined,
             };
-            contact.socialMediaLinks.push(socialMedia);
+            contact.socialMedias.push(socialMedia);
         });
         console.log(JSON.stringify(contact));
-        const response = await fetch('https://localhost:7145/api/mediacontacts/PostContact',
+        const response = await fetch('https://localhost:7145/api/MediaContacts', 
             {
                 method: "POST",
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
                 body: JSON.stringify(contact)
             })
             .then((response) => {

@@ -64,7 +64,9 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onPhoneNumberChange
                         setType(data.value)
                     }}
                 >
-                    {/*need to map this bit from actual data, not hard coded */}
+                    {/*need to map this bit from actual data, not hard coded 
+                    or pass it as a prop, since we might not always want "call-in"    
+                    */}
                     <option value='primary'>Primary</option>
                     <option value='mobile'>Mobile</option>
                     <option value='callIn'>Call-In</option>
