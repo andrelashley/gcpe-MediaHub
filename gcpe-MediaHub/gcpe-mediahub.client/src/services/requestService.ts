@@ -82,33 +82,33 @@ export const requestService = {
             return convertMockData(mockData);
         }
         
-        const response = await axiosInstance.get<MediaRequest[]>('/api/MediaRequests');
+        const response = await axiosInstance.get<MediaRequest[]>('MediaRequests');
         return response.data;
     },
 
     async getRequestTypes(): Promise<RequestType[]> {
-        const response = await axiosInstance.get<RequestType[]>('/api/RequestTypes');
+        const response = await axiosInstance.get<RequestType[]>('RequestTypes');
         return response.data;
     },
 
     async getRequestStatuses(): Promise<RequestStatus[]> {
-        const response = await axiosInstance.get<RequestStatus[]>('/api/RequestStatuses');
+        const response = await axiosInstance.get<RequestStatus[]>('RequestStatuses');
         return response.data;
     },
 
     async getRequestResolutions(): Promise<RequestResolution[]> {
-        const response = await axiosInstance.get<RequestResolution[]>('/api/RequestResolutions');
+        const response = await axiosInstance.get<RequestResolution[]>('RequestResolutions');
         return response.data;
     },
 
 
     async createRequest(request: MediaRequest): Promise<MediaRequest> {
-        const response = await axiosInstance.post<MediaRequest>('/api/MediaRequests', request);
+        const response = await axiosInstance.post<MediaRequest>('MediaRequests', request);
         return response.data;
     },
 
     async getRequestDtos(): Promise<any[]> {
-        const response = await axiosInstance.get('/api/MediaRequests/dtos');
+        const response = await axiosInstance.get('MediaRequests/dtos');
         return response.data;
     },
 
@@ -119,12 +119,12 @@ export const requestService = {
             const dtos = convertMockData(mockData);
             return dtos.length > 0 ? dtos[0] : undefined;
         }
-        const response = await axiosInstance.get<MediaRequest>(`/api/MediaRequests/${id}`);
+        const response = await axiosInstance.get<MediaRequest>(`MediaRequests/${id}`);
         return response.data;
     },
 
     async getRequestorOutletId(contactId: string): Promise<string | null> {
-        const response = await axiosInstance.get(`/api/MediaContacts/${contactId}`);
+        const response = await axiosInstance.get(`MediaContacts/${contactId}`);
         const contact = response.data;
         return contact.mediaOutletContactRelationships?.[0]?.mediaOutletId ?? null;
     }
