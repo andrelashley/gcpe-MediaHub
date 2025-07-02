@@ -13,29 +13,29 @@ const useStyles = makeStyles({
   Approved: { backgroundColor: tokens.colorPaletteForestBackground2, color: tokens.colorNeutralForeground1 },
   Scheduled: { backgroundColor: tokens.colorPaletteTealBackground2, color: tokens.colorNeutralForeground1 },
   Completed: { backgroundColor: tokens.colorPaletteAnchorBackground2, color: tokens.colorNeutralForeground1 },
-  Default: { backgroundColor: tokens.colorNeutralBackground3, color: tokens.colorNeutralForeground1 },
+  Default: { backgroundColor: tokens.colorBrandBackgroundHover, color: tokens.colorNeutralForegroundOnBrand },
 });
 
 export const RequestStatusBadge: React.FC<RequestStatusBadgeProps> = ({ status, children }) => {
   const styles = useStyles();
   let className = styles.Default;
   switch (status) {
-    case 'New':
+    case 'New1':
       className = styles.New;
       break;
-    case 'Pending':
+    case 'Pending1':
       className = styles.Pending;
       break;
-    case 'Rejected':
+    case 'Rejected1':
       className = styles.Rejected;
       break;
-    case 'Approved':
+    case 'Approved1':
       className = styles.Approved;
       break;
-    case 'Scheduled':
+    case 'Scheduled1':
       className = styles.Scheduled;
       break;
-    case 'Completed':
+    case 'Completed1':
       className = styles.Completed;
       break;
     default:
