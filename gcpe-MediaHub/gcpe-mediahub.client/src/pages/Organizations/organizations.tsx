@@ -135,8 +135,9 @@ const Organizations = () => {
     const [outlets, setOutlets] = useState<Outlet[]>([]);
     
     useEffect(() => {
-      const fetchOutlets = async() => {
-        const response = await fetch('https://localhost:7145/api/mediaOutlets');
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const fetchOutlets = async () => {
+        const response = await fetch(`${apiUrl}mediaOutlets`);
         const data = await response.json();
         console.log(data);
         setOutlets(data);

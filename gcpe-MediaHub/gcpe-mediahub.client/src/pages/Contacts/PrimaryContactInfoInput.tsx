@@ -6,10 +6,12 @@ import {
     makeStyles
 } from "@fluentui/react-components";
 import { Dismiss12Regular } from "@fluentui/react-icons";
+import { useState } from "react";
 
 
 interface PrimaryContactInputProps {
     onRemove: () => void;
+    onPhoneNumberChange: (index: number, phoneNumber: string | undefined) => void;
 }
 
 const useStyles = makeStyles({
@@ -41,9 +43,17 @@ const useStyles = makeStyles({
     },
 });
 
-const PrimaryContactInfoInput: React.FC<PrimaryContactInputProps> = ({ onRemove }) => {
+const PrimaryContactInfoInput: React.FC<PrimaryContactInputProps> = ({ onRemove, onPhoneNumberChange }) => {
+    const [type, setType] = useState<string>('');
+    const [phoneNumber, setPhoneNumber] = useState<string>();
+
     const styles = useStyles();
 
+    const handlePhoneNumberChange = (value: string) => {
+        const number = value ? value : undefined;
+        setPhoneNumber(number);
+        onPhoneNumberChange(number); // Call the callback with the new phone number
+    };
     return  (
         <div className={styles.socialMediaInput}>
 
@@ -54,7 +64,11 @@ const PrimaryContactInfoInput: React.FC<PrimaryContactInputProps> = ({ onRemove 
                 </Select>
             </div>
             <div className={styles.linkInput}>
-                <Input />
+                <Input
+                    onChange={(_, data) => {
+                        handlePhoneNumberChange(data.value);
+                    }}
+                />
             </div>
             <div className={styles.dismissButton }>
                 <Button
