@@ -39,7 +39,8 @@ const MediaContacts = () => {
 
 
     const fetchContacts = async () => {
-        const response = await fetch('https://localhost:7145/api/mediacontacts');
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}mediacontacts`);
         //   const response = await fetch('../../data/mock-contacts.json');
         const data = await response.json();
         const contacts: MediaContact[] = data as MediaContact[];

@@ -124,7 +124,8 @@ export const CreateContactDrawer = () => {
     // for tracking social media link inputs
     const [socials, setSocials] = useState<SocialMediaCompany[]>([]);
     const fetchSocialMediaCompanies = async () => {
-        const response = await fetch('https://localhost:7145/api/MediaContacts/GetSocialMedias');
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}mediacontacts/GetSocialMedias`);
         const data = await response.json();
         const companies: SocialMediaCompany[] = data as SocialMediaCompany[];
         setSocials(companies);
@@ -225,7 +226,8 @@ export const CreateContactDrawer = () => {
             contact.socialMedias.push(socialMedia);
         });
         console.log(JSON.stringify(contact));
-        const response = await fetch('https://localhost:7145/api/MediaContacts', 
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}MediaContacts`, 
             {
                 method: "POST",
                 headers: {
@@ -252,7 +254,8 @@ export const CreateContactDrawer = () => {
 
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
     const fetchOutlets = async () => {
-        const response = await fetch('https://localhost:7145/api/mediaoutlets');
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}mediaoutlets`);
         const data = await response.json();
         console.log(JSON.stringify(data));
         const outlets: MediaOutlet[] = data as MediaOutlet[];
