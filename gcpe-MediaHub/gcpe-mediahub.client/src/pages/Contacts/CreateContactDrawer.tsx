@@ -81,7 +81,7 @@ export const CreateContactDrawer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     //for primary contact info input tracking
     const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
-    const [contactPhones, setContactPhones] = useState<any[]>([]);
+    const [contactPhones, setContactPhones] = useState<PhoneNumber[]>([]);
 
     const addPrimaryContactInfoInput = () => {
         setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
@@ -92,11 +92,14 @@ export const CreateContactDrawer = () => {
         setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
     };
 
+    // TODO: see if we can do away with this. Using proper type may make this redundant
     const getPersonalPhoneNumbers = () => {
-        let pn: any[] = [];
+        let pn: PhoneNumber[] = [];
         primaryContactInfoInputs.forEach((_, index) => {
             if (contactPhones && contactPhones.length > 0) {
-                const phoneNumber: any = contactPhones[index];
+                let phoneNumber: PhoneNumber = new PhoneNumber();
+                phoneNumber.PhoneType = contactPhones[index].PhoneType;
+                phoneNumber.PhoneLineNumber = contactPhones[index].PhoneLineNumber;
                 pn.push(phoneNumber);
             }
         });
@@ -145,7 +148,7 @@ export const CreateContactDrawer = () => {
         setSocialMedias(newSocialMedia);
     };
     // end of social media link tracking
-
+    const [website, setWebsite] = useState<string>('');
     // for tracking outlet inputs
     const [outletInputs, setOutletInputs] = useState<number[]>([1]);
     const [outletAssociations, setOutletAssociations] = useState<OutletAssociation[]>([]);
@@ -196,20 +199,22 @@ export const CreateContactDrawer = () => {
         contact.email = email;
         contact.jobTitleId = 0;
         contact.phoneNumbers = getPersonalPhoneNumbers();
-       
+        contact.personalWebsite = website;
         outletInputs.forEach((_, index) => {
             const outletAssociation: OutletAssociation = {
                 id: undefined,
                 contactId: undefined, // This can be set after the contact is created
+                lastRequestDate: undefined,
+                mediaContact: undefined,
                 outletId: outletAssociations[index]?.outletId,
+                outlet: undefined,
                 contactEmail: outletAssociations[index]?.contactEmail,
                 contactPhones: outletAssociations[index]?.contactPhones,
                 noLongerWorksHere: outletAssociations[index]?.noLongerWorksHere,
-                lastRequestDate: undefined,
-                jobTitle: outletAssociations[index]?.jobTitle,
             };
             contact.mediaOutletContactRelationships.push(outletAssociation);
         });
+
         socialMediaInputs.forEach((_, index) => {
             const socialMedia: SocialMediaLink = {
                 //set all these TBD IDs on server...
@@ -352,6 +357,17 @@ export const CreateContactDrawer = () => {
                             Contact info
                         </Button>
                     </p> <br />
+                    <label>Online presence</label>
+                    <Field label="Website" className={styles.maxWidth}>
+                        <div>
+                            <Input
+                                placeholder="https://"
+                                onChange={(_, data) => {
+                                    setWebsite(data.value);
+                                }}
+                            />
+                        </div>
+                    </Field>
                     <Field label="Online Presence" className={styles.maxWidth}>
                         <div >
                             {socialMediaInputs.map((_, index) => (
