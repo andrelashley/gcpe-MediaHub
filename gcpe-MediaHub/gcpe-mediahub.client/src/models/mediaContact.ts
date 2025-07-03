@@ -1,9 +1,9 @@
 
-import { PhoneNumber } from '../api/generated-client';
 import MediaOutlet from './mediaOutlet';
 import MediaRequest from './mediaRequest';
 import { OutletAssociation } from './OutletAssociation';
 import { SocialMediaLink } from './SocialMediaLink';
+import { PhoneNumber } from './PhoneNumber';
 
 export class MediaContact {
     id: number| undefined;
@@ -16,7 +16,8 @@ export class MediaContact {
     jobTitleId: number = 0;
     mediaOutletContactRelationships: OutletAssociation[] = [];
     socialMedias: SocialMediaLink[] = [];
-    phoneNumbers: PhoneNumber[] | undefined;
+    personalWebsite: string | undefined;
+    phoneNumbers: PhoneNumber[] = [];
     requests: MediaRequest[] = [];
     location: string | undefined;
     lastActive: Date | undefined;

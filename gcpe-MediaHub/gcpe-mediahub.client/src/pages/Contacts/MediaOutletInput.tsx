@@ -44,7 +44,7 @@ interface MediaOutletInputProps {
 
 const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, showValidation }) => {
     const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
-    const [contactPhones, setContactPhones] = useState<(any)[]>([]);
+    const [contactPhones, setContactPhones] = useState<(PhoneNumber)[]>([]);
    
     const [outletId, setOutletId] = useState<number>();
     const [contactEmail, setContactEmail] = useState<string>();
@@ -63,10 +63,10 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
         setContactPhones(contactPhones.filter((_, i) => i !== index));
     };
     const getContactPhones = () => {
-        let pn: string[] = [];
+        let pn: PhoneNumber[] = [];
         phoneNumbers.forEach((_, index) => {
             if (contactPhones && contactPhones.length > 0) {
-                const phoneNumber: string = contactPhones[index];
+                const phoneNumber: PhoneNumber = contactPhones[index];
                 pn.push(phoneNumber);
             }
         });
@@ -95,17 +95,19 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             id: undefined, //done on server
             outletId: outletId,
             contactEmail: contactEmail,
+            outletName: undefined,
             noLongerWorksHere: doesNotWorkHere,
             contactPhones: getContactPhones(),
             lastRequestDate: undefined,
-            jobTitle: jobTitle,
+            mediaContact: undefined,
+            mediaOutlet: undefined,
         });
     }, [outletId, contactEmail, contactPhones, doesNotWorkHere]);
 
     const styles = useStyles();
     // Expose the validate method to the parent component
 
-    const handlePhoneNumberChange = (index: number, phoneNumber: string | undefined) => {
+    const handlePhoneNumberChange = (index: number, phoneNumber: any | undefined) => {
         const updatedPhones = [...contactPhones];
         updatedPhones[index] = phoneNumber;
         setContactPhones(updatedPhones);
