@@ -3,7 +3,6 @@ import MediaOutlet from "./mediaOutlet";
 
 export class SocialMediaLink {
     id: string | undefined;
-    company: string | undefined;
     socialProfileUrl: string | undefined;
     socialMediaCompanyId: number | undefined;
     mediaOutletId: string | undefined;
