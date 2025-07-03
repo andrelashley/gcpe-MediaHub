@@ -5,10 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
 **requestTitle** | **string** |  | [optional] [default to undefined]
 **receivedOn** | **string** |  | [optional] [default to undefined]
 **deadline** | **string** |  | [optional] [default to undefined]
 **leadMinistry** | [**Ministry**](Ministry.md) |  | [optional] [default to undefined]
+**requestNo** | **number** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -16,10 +18,12 @@ Name | Type | Description | Notes
 import { MediaRequestDto } from './api';
 
 const instance: MediaRequestDto = {
+    id,
     requestTitle,
     receivedOn,
     deadline,
     leadMinistry,
+    requestNo,
 };
 ```
 

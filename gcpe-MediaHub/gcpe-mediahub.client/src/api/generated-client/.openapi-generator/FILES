@@ -34,6 +34,7 @@ docs/MediaType.md
 docs/MediaTypesApi.md
 docs/MinistriesApi.md
 docs/Ministry.md
+docs/PersonalPhoneNumber.md
 docs/PhoneNumber.md
 docs/PhoneNumbersApi.md
 docs/RequestDto.md
@@ -66,6 +67,7 @@ model/media-request-dto.ts
 model/media-request.ts
 model/media-type.ts
 model/ministry.ts
+model/personal-phone-number.ts
 model/phone-number.ts
 model/request-dto.ts
 model/request-resolution.ts

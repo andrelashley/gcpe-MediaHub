@@ -24,6 +24,9 @@ import type { MediaOutletContactRelationship } from './media-outlet-contact-rela
 import type { MediaRequest } from './media-request';
 // May contain unused imports in some cases
 // @ts-ignore
+import type { PersonalPhoneNumber } from './personal-phone-number';
+// May contain unused imports in some cases
+// @ts-ignore
 import type { SocialMedia } from './social-media';
 
 /**
@@ -104,6 +107,12 @@ export interface MediaContact {
      * @memberof MediaContact
      */
     'socialMedias'?: Array<SocialMedia> | null;
+    /**
+     * 
+     * @type {Array<PersonalPhoneNumber>}
+     * @memberof MediaContact
+     */
+    'phoneNumbers'?: Array<PersonalPhoneNumber> | null;
     /**
      * 
      * @type {string}
