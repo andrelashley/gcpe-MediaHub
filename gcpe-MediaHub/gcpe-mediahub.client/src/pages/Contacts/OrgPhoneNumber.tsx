@@ -5,7 +5,8 @@ import {
     makeStyles,
 } from "@fluentui/react-components";
 import { Dismiss12Regular } from "@fluentui/react-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PhoneNumber } from "../../models/PhoneNumber";
 
 const useStyles = makeStyles({
     socialMediaInput: {
@@ -38,14 +39,22 @@ const useStyles = makeStyles({
 
 interface OrgPhoneProps {
     onRemove: () => void;
-    onInput: (type: string, phoneNumber: number) => void;
+    onPhoneNumberChange: (data: any) => void;
 }
 
-const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onInput }) => {
+const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onPhoneNumberChange }) => {
     const [type, setType] = useState<string>('');
-    const [phoneNumber, setPhoneNumber] = useState<number>();
+    const [phoneNumber, setPhoneNumber] = useState<string>();
 
+    useEffect(() => {
+        // Call onDataChange whenever the input changes
+        onPhoneNumberChange({
+            PhoneType: type,
+            PhoneLineNumber: phoneNumber,
+        });
+    }, [type, phoneNumber]);
     const styles = useStyles();
+
     return (
         <div className={styles.socialMediaInput}>
 
@@ -55,7 +64,9 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onInput }) => {
                         setType(data.value)
                     }}
                 >
-                    {/*need to map this bit from actual data, not hard coded */}
+                    {/*need to map this bit from actual data, not hard coded 
+                    or pass it as a prop, since we might not always want "call-in"    
+                    */}
                     <option value='primary'>Primary</option>
                     <option value='mobile'>Mobile</option>
                     <option value='callIn'>Call-In</option>
@@ -64,8 +75,7 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onInput }) => {
             <div className={styles.linkInput}>
                 <Input
                     onChange={(_, data) => {
-                        setPhoneNumber(parseInt(data.value));
-                        onInput(type, phoneNumber);
+                        setPhoneNumber(data.value);
                     } }
                 />
             </div>
@@ -74,6 +84,7 @@ const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onInput }) => {
                     icon={<Dismiss12Regular />}
                     onClick={onRemove}
                     title="Remove phone number"
+                    disabled={true}
                 />
             </div>
         </div>

@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**apiMediaContactsGet**](#apimediacontactsget) | **GET** /api/MediaContacts | |
+|[**apiMediaContactsGetSocialMediasGet**](#apimediacontactsgetsocialmediasget) | **GET** /api/MediaContacts/GetSocialMedias | |
 |[**apiMediaContactsIdDelete**](#apimediacontactsiddelete) | **DELETE** /api/MediaContacts/{id} | |
 |[**apiMediaContactsIdGet**](#apimediacontactsidget) | **GET** /api/MediaContacts/{id} | |
 |[**apiMediaContactsIdPut**](#apimediacontactsidput) | **PUT** /api/MediaContacts/{id} | |
@@ -12,7 +13,7 @@ All URIs are relative to *http://localhost*
 |[**apiMediaContactsSearchFullNameGet**](#apimediacontactssearchfullnameget) | **GET** /api/MediaContacts/search/{fullName} | |
 
 # **apiMediaContactsGet**
-> Array<ContactDto> apiMediaContactsGet()
+> Array<MediaContactDto> apiMediaContactsGet()
 
 
 ### Example
@@ -35,7 +36,50 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**Array<ContactDto>**
+**Array<MediaContactDto>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiMediaContactsGetSocialMediasGet**
+> Array<SocialMediaCompanyDto> apiMediaContactsGetSocialMediasGet()
+
+
+### Example
+
+```typescript
+import {
+    MediaContactsApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new MediaContactsApi(configuration);
+
+const { status, data } = await apiInstance.apiMediaContactsGetSocialMediasGet();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**Array<SocialMediaCompanyDto>**
 
 ### Authorization
 
@@ -218,16 +262,16 @@ No authorization required
 import {
     MediaContactsApi,
     Configuration,
-    MediaContact
+    MediaContactDto
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new MediaContactsApi(configuration);
 
-let mediaContact: MediaContact; // (optional)
+let mediaContactDto: MediaContactDto; // (optional)
 
 const { status, data } = await apiInstance.apiMediaContactsPost(
-    mediaContact
+    mediaContactDto
 );
 ```
 
@@ -235,7 +279,7 @@ const { status, data } = await apiInstance.apiMediaContactsPost(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **mediaContact** | **MediaContact**|  | |
+| **mediaContactDto** | **MediaContactDto**|  | |
 
 
 ### Return type

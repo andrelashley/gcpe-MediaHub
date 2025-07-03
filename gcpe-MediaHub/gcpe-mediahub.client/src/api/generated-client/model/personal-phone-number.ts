@@ -15,37 +15,31 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { MediaRequest } from './media-request';
+import type { PhoneNumber } from './phone-number';
 
 /**
  * 
  * @export
- * @interface User
+ * @interface PersonalPhoneNumber
  */
-export interface User {
+export interface PersonalPhoneNumber {
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof PersonalPhoneNumber
      */
     'id'?: string;
     /**
      * 
      * @type {string}
-     * @memberof User
+     * @memberof PersonalPhoneNumber
      */
-    'idir'?: string | null;
+    'contactId': string;
     /**
      * 
-     * @type {string}
-     * @memberof User
+     * @type {PhoneNumber}
+     * @memberof PersonalPhoneNumber
      */
-    'fullName'?: string | null;
-    /**
-     * 
-     * @type {Array<MediaRequest>}
-     * @memberof User
-     */
-    'mediaRequests'?: Array<MediaRequest> | null;
+    'phoneNumber': PhoneNumber;
 }
 

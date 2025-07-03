@@ -23,55 +23,55 @@ import type { MediaRequestDto } from './media-request-dto';
 /**
  * 
  * @export
- * @interface ContactDto
+ * @interface MediaContactDto
  */
-export interface ContactDto {
+export interface MediaContactDto {
     /**
      * 
      * @type {string}
-     * @memberof ContactDto
+     * @memberof MediaContactDto
      */
     'id'?: string;
     /**
      * 
      * @type {string}
-     * @memberof ContactDto
+     * @memberof MediaContactDto
      */
     'firstName'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof ContactDto
+     * @memberof MediaContactDto
      */
     'lastName'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof ContactDto
+     * @memberof MediaContactDto
      */
     'email'?: string | null;
     /**
      * 
      * @type {boolean}
-     * @memberof ContactDto
+     * @memberof MediaContactDto
      */
     'isActive'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof ContactDto
+     * @memberof MediaContactDto
      */
     'jobTitle'?: string | null;
     /**
      * 
      * @type {Array<ContactOutletDto>}
-     * @memberof ContactDto
+     * @memberof MediaContactDto
      */
-    'outlets'?: Array<ContactOutletDto> | null;
+    'mediaOutletContactRelationships'?: Array<ContactOutletDto> | null;
     /**
      * 
      * @type {Array<MediaRequestDto>}
-     * @memberof ContactDto
+     * @memberof MediaContactDto
      */
     'requests'?: Array<MediaRequestDto> | null;
 }

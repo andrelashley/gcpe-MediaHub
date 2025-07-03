@@ -16,11 +16,15 @@ import {
 
 import { Dismiss24Regular, Add24Regular } from "@fluentui/react-icons";
 import SocialMediaInput from "./SocialMediaInput";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MediaOutletInput from "./MediaOutletInput";
 import MediaContact from "../../models/mediaContact";
-import MediaOutlet from "../../models/MediaOutlet";
+import MediaOutlet from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
+import { SocialMediaCompany } from "../../models/SocialMediaCompany";
+import OrgPhoneNumber from "./OrgPhoneNumber";
+import { SocialMediaLink } from "../../models/SocialMediaLink";
+import { PhoneNumber } from "../../models/PhoneNumber";
 
 
 const useStyles = makeStyles({
@@ -76,30 +80,90 @@ export const CreateContactDrawer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     //for primary contact info input tracking
     const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
+    const [contactPhones, setContactPhones] = useState<PhoneNumber[]>([]);
+
     const addPrimaryContactInfoInput = () => {
-        setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length]);
+        setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
+        setContactPhones([...contactPhones, undefined]); // Add new slot
     };
 
+    const removePrimaryContactInfoInput = (index: number) => {
+        setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
+    };
+
+    // TODO: see if we can do away with this. Using proper type may make this redundant
+    const getPersonalPhoneNumbers = () => {
+        let pn: PhoneNumber[] = [];
+        primaryContactInfoInputs.forEach((_, index) => {
+            if (contactPhones && contactPhones.length > 0) {
+                let phoneNumber: PhoneNumber = new PhoneNumber();
+                phoneNumber.PhoneType = contactPhones[index].PhoneType;
+                phoneNumber.PhoneLineNumber = contactPhones[index].PhoneLineNumber;
+                pn.push(phoneNumber);
+            }
+        });
+
+        return pn;
+    };
+
+    const handlePhoneNumberChange = (index: number, data: any) => { //TODO: use PhoneNumber model. Not 'any'
+        const updatedPhones = [...contactPhones];
+        updatedPhones[index] = data;
+        setContactPhones(updatedPhones);
+    };
+
+
+    const [error, setError] = React.useState<string | null>(null);
+    const [showValidation, setShowValidation] = React.useState(false);
+    const [formErrors, setFormErrors] = React.useState({
+        firstName: '',
+        lastName: '',
+        email: '', //TODO: more sophisticated. check for '@', etc.
+        atLeastOnePhoneNumber: '', // at least one personal phone number (not on Outlet association)
+        atLeastOneWorkplace: '',      
+    });
+
     // for tracking social media link inputs
+    const [socials, setSocials] = useState<SocialMediaCompany[]>([]);
+    const fetchSocialMediaCompanies = async () => {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}mediacontacts/GetSocialMedias`);
+        const data = await response.json();
+        const companies: SocialMediaCompany[] = data as SocialMediaCompany[];
+        setSocials(companies);
+    };
+
     const [socialMediaInputs, setSocialMediaInputs] = useState<number[]>([1]);
+    const [socialMedias, setSocialMedias] = useState<any[]>([]); //Todo: actual model, not 'any'
     const addSocialMediaInput = () => {
         setSocialMediaInputs([...socialMediaInputs, socialMediaInputs.length]);
     };
     const removeSocialMediaInput = (index: number) => {
         setSocialMediaInputs(socialMediaInputs.filter((_, i) => i !== index));
     };
+    const handleSocialMediaDataChange = (index: number, data: any) => {
+        const newSocialMedia = [...socialMedias];
+        newSocialMedia[index] = data; // Update the specific index
+        setSocialMedias(newSocialMedia);
+    };
     // end of social media link tracking
-    // for tracking social media link inputs
+    const [website, setWebsite] = useState<string>('');
+    // for tracking outlet inputs
     const [outletInputs, setOutletInputs] = useState<number[]>([1]);
+    const [outletAssociations, setOutletAssociations] = useState<OutletAssociation[]>([]);
 
+   /* const outletInputRefs = useRef<React.RefObject<MediaOutletInputRef>[]>([]);*/
     const addOutletInput = () => {
         setOutletInputs([...outletInputs, outletInputs.length]);
+     /*   outletInputRefs.current.push(React.createRef<MediaOutletInputRef>());*/
     };
     const removeOutletInput = (index: number) => {
         setOutletInputs(outletInputs.filter((_, i) => i !== index));
         setOutletAssociations(outletAssociations.filter((_, i) => i !== index)); 
     };
-    // end of social media link tracking
+    // end of outlet tracking
+
+   
 
     const styles = useStyles();
     // all Drawers need manual focus restoration attributes
@@ -113,33 +177,67 @@ export const CreateContactDrawer = () => {
     const [lastName, setLastName] = useState<string>('');
     const [isPressGallery, setIsPressGallery] = React.useState(false);
     const [email, setEmail] = React.useState('');
-    const [primaryPhone, setPrimaryPhone] = React.useState('');
-    const [mobilePhone, setMobilePhone] = React.useState('');
 
-    const [outletAssociations, setOutletAssociations] = useState<OutletAssociation[]>([]);
+
 
     const handleAssociationDataChange = (index: number, data: OutletAssociation) => {
         const newAssociations = [...outletAssociations];
         newAssociations[index] = data; // Update the specific index
         setOutletAssociations(newAssociations);
-        console.log(JSON.stringify(outletAssociations));
     };
-    const createContact = async() => {
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+        e.preventDefault();
+
+        handleValidation();
+
         const contact: MediaContact = new MediaContact()
         contact.firstName = firstName;
         contact.lastName = lastName;
         contact.isPressGallery = isPressGallery;
         contact.email = email;
-        contact.primaryPhone = primaryPhone;
-        contact.mobilePhone = mobilePhone;
-        outletAssociations.map((association) => {
-            contact.outletAssociations.push(association);
-        })
-        
+        contact.jobTitleId = 0;
+        contact.phoneNumbers = getPersonalPhoneNumbers();
+        contact.personalWebsite = website;
+        outletInputs.forEach((_, index) => {
+            const outletAssociation: OutletAssociation = {
+                id: undefined,
+                contactId: undefined, // This can be set after the contact is created
+                lastRequestDate: undefined,
+                mediaContact: undefined,
+                mediaOutlet: undefined,
+                outletName: undefined,
+                outletId: outletAssociations[index]?.outletId,
+                contactEmail: outletAssociations[index]?.contactEmail,
+                contactPhones: outletAssociations[index]?.contactPhones,
+                noLongerWorksHere: outletAssociations[index]?.noLongerWorksHere,
+            };
+            contact.mediaOutletContactRelationships.push(outletAssociation);
+        });
+
+        socialMediaInputs.forEach((_, index) => {
+            const socialMedia: SocialMediaLink = {
+                //set all these TBD IDs on server...
+                id: undefined,
+                mediaContactId: undefined,
+                mediaOutletId: undefined, // won't set this
+                mediaOutlet: undefined, // won't be set
+
+                socialProfileUrl: socialMedias[index]?.socialProfileUrl, 
+                socialMediaCompanyId: socialMedias[index]?.socialMediaCompanyId,
+                company: "",
+                mediaContact: undefined,
+            };
+            contact.socialMedias.push(socialMedia);
+        });
         console.log(JSON.stringify(contact));
-        const response = await fetch('mediacontacts/CreateMediaContact',
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}MediaContacts`, 
             {
                 method: "POST",
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
                 body: JSON.stringify(contact)
             })
             .then((response) => {
@@ -150,16 +248,28 @@ export const CreateContactDrawer = () => {
         //  setIsOpen(false)
     };
 
+    const handleValidation = () => {
+        setShowValidation(true);
+        setError(null);
+        const errors: any = {};
+        if (!firstName.trim()) errors.firstName = 'A first name is required';
+        if (!lastName.trim()) errors.lastName = 'A last name is required';
+        if (!email.trim()) errors.email = 'An email address is required';
+    }
+
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
     const fetchOutlets = async () => {
-        const response = await fetch('mediaoutlets');
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}mediaoutlets`);
         const data = await response.json();
+     //   console.log(JSON.stringify(data));
         const outlets: MediaOutlet[] = data as MediaOutlet[];
         setOutlets(outlets);
     };
 
     useEffect(() => {
         fetchOutlets();
+        fetchSocialMediaCompanies();
     }, []);
 
     return (
@@ -188,18 +298,23 @@ export const CreateContactDrawer = () => {
                 </DrawerHeader>
 
                 <DrawerBody>
-                    <Field label="First name" required>
+                    <Field label="First name"
+                        required
+                        validationMessage={showValidation ? "First name is required" : undefined}
+                        validationState={showValidation ? "error" : "none"}
+                    >
                         <Input
                             value={firstName}
                             onChange={(_, data) => {
                                 setFirstName(data.value);
-                                //if (data.value.trim()) {
-                                //    setShowValidation(false);
-                                //}
                             }}
                         />
                     </Field>
-                    <Field label="Last name" required>
+                    <Field label="Last name"
+                        required
+                        validationMessage={showValidation ? "Last name is required" : undefined}
+                        validationState={showValidation ? "error" : "none"}
+                    >
                         <Input
                             onChange={(_, data) => {
                                 setLastName(data.value);
@@ -211,7 +326,11 @@ export const CreateContactDrawer = () => {
                         label="Press gallery"
                         onChange={(_, data) => setIsPressGallery(!!data.checked)}
                     />
-                    <Field label="Primary Contact Info" required>
+                    <Field label="Primary Contact Info"
+                        required
+                        validationMessage={showValidation ? "An email address is required" : undefined}
+                        validationState={showValidation ? "error" : "none"}
+                    >
                         <Field label="Email" required>
                             <Input
                                 onChange={(_, data) => {
@@ -219,20 +338,14 @@ export const CreateContactDrawer = () => {
                                 }}
                             />
                         </Field>
-                        <Field label="Primary phone" required>
-                            <Input
-                                onChange={(_, data) => {
-                                    setPrimaryPhone(data.value);
-                                }}
+                        {primaryContactInfoInputs.map((_, index) => (
+                            <OrgPhoneNumber
+                                key={index}
+                                onRemove={() => removePrimaryContactInfoInput(index)}
+                                onPhoneNumberChange={(data: PhoneNumber) => handlePhoneNumberChange(index, data)}
                             />
-                        </Field>
-                        <Field label="Mobile phone">
-                            <Input
-                                onChange={(_, data) => {
-                                    setMobilePhone(data.value);
-                                }}
-                            />
-                        </Field>
+                        ))}
+                  
                     </Field>
                     <p>
                         <Button appearance="subtle"
@@ -244,10 +357,26 @@ export const CreateContactDrawer = () => {
                             Contact info
                         </Button>
                     </p> <br />
+                    <label>Online presence</label>
+                    <Field label="Website" className={styles.maxWidth}>
+                        <div>
+                            <Input
+                                placeholder="https://"
+                                onChange={(_, data) => {
+                                    setWebsite(data.value);
+                                }}
+                            />
+                        </div>
+                    </Field>
                     <Field label="Online Presence" className={styles.maxWidth}>
                         <div >
                             {socialMediaInputs.map((_, index) => (
-                                <SocialMediaInput key={index} onRemove={() => removeSocialMediaInput(index)} />
+                                <SocialMediaInput
+                                    key={index}
+                                    onRemove={() => removeSocialMediaInput(index)}
+                                    socials={socials}
+                                    onSocialMediaDataChange={(data) => handleSocialMediaDataChange(index, data)}
+                                />
                             ))}
                         </div>
                     </Field>
@@ -264,14 +393,14 @@ export const CreateContactDrawer = () => {
                     <Divider />
                     <label htmlFor="outlets-section">Workplaces</label>
 
-
                     {outletInputs.map((_, index) => (
                         <MediaOutletInput
                             key={index}
+                      //      ref={outletInputRefs.current[index]} // try as I might, I cannot get this to work
                             onRemove={() => removeOutletInput(index)}
                             outlets={outlets}
                             onAssociationDataChange={(data) => handleAssociationDataChange(index, data)}
-                            itemId={index}
+                            showValidation={showValidation }
                         />
                     ))}
 
@@ -290,7 +419,7 @@ export const CreateContactDrawer = () => {
                         <Button
                             aria-label="Create this contact"
                             appearance="primary"
-                            onClick={() => createContact()}
+                            onClick={(e) => handleSubmit(e)}
                         >
                             Save
                         </Button>

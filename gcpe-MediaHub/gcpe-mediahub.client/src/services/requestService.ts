@@ -1,4 +1,4 @@
-import { MediaRequest, RequestType, RequestStatus, RequestResolution } from '../api/generated-client/model';
+import { MediaRequest, RequestType, RequestStatus, RequestResolution, RequestDto } from '../api/generated-client/model';
 import axios from 'axios';
 
 async function loadMockData(): Promise<any[]> {
@@ -82,27 +82,60 @@ export const requestService = {
             return convertMockData(mockData);
         }
         
-        const response = await axiosInstance.get<MediaRequest[]>('/api/MediaRequests');
+        const response = await axiosInstance.get<MediaRequest[]>('MediaRequests');
         return response.data;
     },
 
     async getRequestTypes(): Promise<RequestType[]> {
-        const response = await axiosInstance.get<RequestType[]>('/api/RequestTypes');
+        const response = await axiosInstance.get<RequestType[]>('RequestTypes');
         return response.data;
     },
 
     async getRequestStatuses(): Promise<RequestStatus[]> {
-        const response = await axiosInstance.get<RequestStatus[]>('/api/RequestStatuses');
+        const response = await axiosInstance.get<RequestStatus[]>('RequestStatuses');
         return response.data;
     },
 
     async getRequestResolutions(): Promise<RequestResolution[]> {
-        const response = await axiosInstance.get<RequestResolution[]>('/api/RequestResolutions');
+        const response = await axiosInstance.get<RequestResolution[]>('RequestResolutions');
         return response.data;
     },
 
+
     async createRequest(request: MediaRequest): Promise<MediaRequest> {
-        const response = await axiosInstance.post<MediaRequest>('/api/MediaRequests', request);
+        const response = await axiosInstance.post<MediaRequest>('MediaRequests', request);
         return response.data;
+    },
+
+    async getRequestDtos(): Promise<any[]> {
+        const response = await axiosInstance.get('MediaRequests/dtos');
+        return response.data;
+    },
+
+    async getRequestById(id: string): Promise<MediaRequest> {
+        if (import.meta.env.VITE_MRM_API === '0') {
+            const mockData = await loadMockData();
+            // Return the first mock as a RequestDto, or undefined if not found
+            const dtos = convertMockData(mockData);
+            return dtos.length > 0 ? dtos[0] : undefined;
+        }
+        const response = await axiosInstance.get<MediaRequest>(`MediaRequests/${id}`);
+        return response.data;
+    },
+
+    async getRequestByRequestNo(requestNo: number): Promise<MediaRequest> {
+        if (import.meta.env.VITE_MRM_API === '0') {
+            const mockData = await loadMockData();
+            const dtos = convertMockData(mockData);
+            return dtos.find(r => r.requestNo === requestNo);
+        }
+        const response = await axiosInstance.get<MediaRequest>(`MediaRequests/byRequestNo/${requestNo}`);
+        return response.data;
+    },
+
+    async getRequestorOutletId(contactId: string): Promise<string | null> {
+        const response = await axiosInstance.get(`MediaContacts/${contactId}`);
+        const contact = response.data;
+        return contact.mediaOutletContactRelationships?.[0]?.mediaOutletId ?? null;
     }
 };

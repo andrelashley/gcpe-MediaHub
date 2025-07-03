@@ -1,20 +1,15 @@
 
 
-// import MediaContact from '../../models/MediaContact';
-import ContactsTable from './ContactsTable';
+import ContactsTable from './contactsTable';
 import { useState, useEffect } from 'react';
 import CreateContactButton from './CreateContactButton';
-//import { contactService } from '../../services/contactService';
 import MediaContact from '../../models/mediaContact';
 import {
     Title1,
     makeStyles,
 } from '@fluentui/react-components';
 import Layout from '../../components/Layout';
-//import { useQuery } from '@tanstack/react-query';
-//import { AuthenticationContext } from '../../App';
-//import React from 'react';
-// import MediaContact from '../../models/mediaContact';
+
 
 const useStyles = makeStyles({
     button: {
@@ -39,11 +34,12 @@ const MediaContacts = () => {
 
 
     const fetchContacts = async () => {
-        const response = await fetch('mediacontacts');
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}mediacontacts`);
         //   const response = await fetch('../../data/mock-contacts.json');
         const data = await response.json();
         const contacts: MediaContact[] = data as MediaContact[];
-        console.log(JSON.stringify(contacts[2]));
+        console.log(JSON.stringify(contacts));
         setContacts(contacts);
     };
 
@@ -53,7 +49,7 @@ const MediaContacts = () => {
 
     return (
         <div>
-            <Layout title={"Media Contacts"} selectedNavItem={"3"} headingButton={<CreateContactButton />} >Add commentMore actions
+            <Layout title={"Media Contacts"} selectedNavItem={"3"} headingButton={<CreateContactButton />} >
                 <ContactsTable items={contacts} />
             </Layout>
         </div>

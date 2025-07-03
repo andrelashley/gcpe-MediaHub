@@ -1,4 +1,4 @@
-# User
+# PersonalPhoneNumber
 
 
 ## Properties
@@ -6,20 +6,18 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  | [optional] [default to undefined]
-**idir** | **string** |  | [optional] [default to undefined]
-**fullName** | **string** |  | [optional] [default to undefined]
-**mediaRequests** | [**Array&lt;MediaRequest&gt;**](MediaRequest.md) |  | [optional] [default to undefined]
+**contactId** | **string** |  | [default to undefined]
+**phoneNumber** | [**PhoneNumber**](PhoneNumber.md) |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { User } from './api';
+import { PersonalPhoneNumber } from './api';
 
-const instance: User = {
+const instance: PersonalPhoneNumber = {
     id,
-    idir,
-    fullName,
-    mediaRequests,
+    contactId,
+    phoneNumber,
 };
 ```
 

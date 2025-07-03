@@ -1,4 +1,5 @@
 import React from 'react';
+import type { User } from '../../api/generated-client/model';
 import {
     Title1,
     Title2,
@@ -11,7 +12,7 @@ import {
     Button,
 } from '@fluentui/react-components';
 // Remove duplicate import of Fluent UI toast components
-import { useToastController, Toaster, Toast, ToastTitle, ToastBody } from '@fluentui/react-components';
+import { useToastController, Toaster, Toast, ToastTitle, ToastBody, ToastFooter, Link } from '@fluentui/react-components';
 import { ministryService } from '../../services/ministryService';
 import { userService } from '../../services/userService';
 import { requestService } from '../../services/requestService';
@@ -66,7 +67,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         assignedTo: false
     });
     const [mediaContacts, setMediaContacts] = React.useState<MediaContact[]>([]);
-    const [userIdirs, setUserIdirs] = React.useState<string[]>([]);
+    const [userIdirs, setUserIdirs] = React.useState<User[]>([]);
 
     // Refs
     const dateInputRef = React.useRef<HTMLInputElement>(null);
@@ -118,8 +119,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     React.useEffect(() => {
         const fetchUserIdirs = async () => {
             try {
-                const idirs = await userService.getUserIdirs();
-                setUserIdirs(idirs);
+                const users = await userService.getUsers();
+                setUserIdirs(users);
             } catch (error) {
                 console.error('Failed to fetch user IDIRs:', error);
             }
@@ -133,31 +134,11 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             clearTimeout(lookupTimeout.current);
         }
 
-        const updateUser = async (idir: string, setUserId: (id: string) => void, fieldName: string) => {
-            if (idir.trim()) {
-                try {
-                    console.log(`Calling getUserByIdir for ${fieldName}:`, idir.trim());
-                    const user = await userService.getUserByIdir(idir.trim());
-                    console.log(`Retrieved ${fieldName} user:`, user);
-                    if (user?.id) {
-                        setUserId(user.id);
-                    } else {
-                        setUserId('00000000-0000-0000-0000-000000000000');
-                    }
-                } catch (error) {
-                    console.error(`Failed to retrieve ${fieldName}:`, error);
-                    setUserId('00000000-0000-0000-0000-000000000000');
-                }
-            }
-        };
+        // No longer needed: updateUser function
 
         lookupTimeout.current = setTimeout(async () => {
-            if (assignedTo.trim()) {
-                await updateUser(assignedTo, setAssignedUserId, 'Assigned To');
-            }
-            if (fyiContactUser.trim()) {
-                await updateUser(fyiContactUser, setfyiContactUserId, 'FYI Contact');
-            }
+            setAssignedUserId(assignedTo.trim() || '00000000-0000-0000-0000-000000000000');
+            setfyiContactUserId(fyiContactUser.trim() || '00000000-0000-0000-0000-000000000000');
         }, 500); // 500ms debounce
 
         return () => {
@@ -239,6 +220,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             return;
         }
 
+        // const outletId = await requestService.getRequestorOutletId(requestedById);
         const newRequest: MediaRequest = {
             requestTitle,
             requestDetails,
@@ -251,11 +233,13 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             requestorContactId: requestedById,
             assignedUserId: assignedUserId !== '00000000-0000-0000-0000-000000000000' ? assignedUserId : null,
             fyiContactUserId: fyiContactUser.trim() && fyiContactUserId !== '00000000-0000-0000-0000-000000000000' ? fyiContactUserId : null,
-            requestorOutletId: null, // Will be set when outlet is implemented
             requestResolutionId: null, // Default value
             response: '',
             requestNo: 0 // This will be set by the API
         };
+        // if (outletId !== null && outletId !== undefined) {
+        //     (newRequest as any).requestorOutletId = outletId;
+        // }
 
         console.log("newRequest:", newRequest);
         setIsSubmitting(true);
@@ -263,13 +247,17 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             const response = await requestService.createRequest(newRequest);
             if (response) {
                 dispatchToast(
-                    <Toast>
+                    <Toast >
                         <ToastTitle>Request Created</ToastTitle>
                         <ToastBody>
                             Request #{response.requestNo}: <b>{response.requestTitle}</b> created successfully.
                         </ToastBody>
+                        <ToastFooter>
+                            <Link href={`/requests/${response.requestNo}`} style={{ marginRight: 16 }}>View</Link>
+                            <Link href="/requests/new">Add another</Link>
+                        </ToastFooter>
                     </Toast>,
-                    { intent: 'success' }
+                    { intent: 'success', timeout: 5000 }
                 );
                 if (onClose) onClose();
             }
@@ -491,15 +479,13 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                                 setLeadMinistry(newLeadMinistry);
                                 
                                 // Remove the new lead ministry from additional ministries if it's there
-                                setAdditionalMinistries(prev =>
-                                    prev.filter(id => id !== newLeadMinistry)
-                                );
+                                setAdditionalMinistries(prev => prev.filter(id => id !== newLeadMinistry));
                                 
                                 setShowValidation(false);
                             }
                         }}
                     >
-                        {ministries.map(ministry => (
+                        {(ministries || []).map(ministry => (
                             <Option key={ministry.id} value={ministry.id.toString()}>
                                 {ministry.name}
                             </Option>
@@ -523,8 +509,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         }}
                         onBlur={() => setTouchedFields(prev => ({ ...prev, assignedTo: true }))}
                     >
-                        {userIdirs.map(idir => (
-                            <Option key={idir} value={idir} text={idir}>{idir}</Option>
+                        {userIdirs.map(user => (
+                            <Option key={user.id} value={user.id} text={user.fullName}>{user.fullName}</Option>
                         ))}
                     </Dropdown>
                 </Field>
@@ -546,8 +532,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             setAdditionalMinistries(newAdditionalMinistries);
                         }}
                     >
-                        {ministries
-                            .filter(ministry => ministry.id !== leadMinistry) // Filter out the lead ministry
+                        {(ministries || [])
+                            .filter(ministry => ministry.id !== leadMinistry)
                             .map(ministry => (
                                 <Option key={ministry.id} value={ministry.id.toString()}>
                                     {ministry.name}
@@ -569,8 +555,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             }
                         }}
                     >
-                        {userIdirs.map(idir => (
-                            <Option key={idir} value={idir} text={idir}>{idir}</Option>
+                        {userIdirs.map(user => (
+                            <Option key={user.id} value={user.id} text={user.fullName}>{user.fullName}</Option>
                         ))}
                     </Dropdown>
                 </Field>

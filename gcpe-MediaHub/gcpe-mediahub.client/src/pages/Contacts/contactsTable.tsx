@@ -23,6 +23,9 @@ import {
 } from "@fluentui/react-components";
 import MediaContact from "../../models/mediaContact";
 import { MediaRequest } from "../../models/mediaRequest";
+import { PhoneNumber } from "../../models/PhoneNumber";
+import { MediaOutlet } from "../../models/mediaOutlet";
+import { OutletAssociation } from "../../models/OutletAssociation";
 
 const useStyles = makeStyles({
     searchElement: {
@@ -67,12 +70,12 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             header: 'Name',
             cell: item => item.getValue(),
         }),
-        columnHelper.accessor('outletAssociations', {
+        columnHelper.accessor('mediaOutletContactRelationships', {
             header: 'Media Outlets',
-            cell: item => 
-                (item.getValue() as any[]).map(outlet =>
-                    <Tag appearance="outline" shape="circular" key={outlet.id}>
-                        {outlet.outlet.name}
+            cell: item =>
+                (item.getValue() as OutletAssociation[]).map((outlet, index) =>
+                    <Tag appearance="outline" shape="circular" key={index}>
+                        {outlet.outletName}
                     </Tag>
                 )    
         }),
@@ -81,18 +84,27 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             cell: item => item.getValue(),
 
         }),
-        columnHelper.accessor('primaryPhone', {
+        columnHelper.accessor('phoneNumbers', {
             header: 'Phone',
-            cell: item => item.getValue(),
+            cell: item => {
+                const phones = item.getValue() as PhoneNumber[];
+                return phones ? phones.map((phone, index) => (
+                    { phone }
+                )) : null; // or return an empty array or a placeholder if preferred
+            }
         }),
         columnHelper.accessor('location', {
             header: 'Location',
-            cell: item => (
-                <Tag appearance="outline" shape="circular">
-                    {item.getValue()}
-                </Tag>
-            ),
-        }),
+            cell: item => {
+                const location = item.getValue();
+                return location ?
+                    <Tag appearance="outline" shape="circular">
+                        {location}
+                    </Tag >
+                    : null;
+                }
+            },
+        ),
         columnHelper.accessor('requests', {
             header: 'Media Requests',
             cell: item => (

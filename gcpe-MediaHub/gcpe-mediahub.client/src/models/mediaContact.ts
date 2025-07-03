@@ -1,46 +1,26 @@
 
-import MediaOutlet from './MediaOutlet';
+import MediaOutlet from './mediaOutlet';
 import MediaRequest from './mediaRequest';
 import { OutletAssociation } from './OutletAssociation';
+import { SocialMediaLink } from './SocialMediaLink';
+import { PhoneNumber } from './PhoneNumber';
 
 export class MediaContact {
-    id: number = 0;
+    id: number| undefined;
     firstName: string | undefined;
     lastName: string | undefined;
-    jobTitle: string | undefined;
-    socialMediaXURL: string | undefined; 
-    socialMediaInstagramURL: string | undefined;
+    isPressGallery: boolean | undefined;
+    isActive: boolean = true;
     email: string | undefined;
-    primaryPhone: string | undefined;
-    mobilePhone: string | undefined;
-    outletAssociations: OutletAssociation[] = [];
+    jobTitle: string | undefined;
+    jobTitleId: number = 0;
+    mediaOutletContactRelationships: OutletAssociation[] = [];
+    socialMedias: SocialMediaLink[] = [];
+    personalWebsite: string | undefined;
+    phoneNumbers: PhoneNumber[] = [];
     requests: MediaRequest[] = [];
     location: string | undefined;
     lastActive: Date | undefined;
-    isPressGallery: boolean | undefined;
-
-    //constructor(firstName: string,
-    //    lastName: string,
-    //    email: string,
-    //    phone: string,
-    //    location: string,
-    //    lastActive: Date,
-    //    mediaRequests: MediaRequest[] = [],
-    //    jobTitle: string,
-    //    socialMediaXURL: string,
-    //    socialMediaInstagramURL: string
-    //) {
-    //    this.lastName = lastName;
-    //    this.firstName = firstName;
-    //    this.email = email;
-    //    this.phone = phone;
-    //    this.location = location;
-    //    this.lastActive = lastActive;
-    //    this.requests = mediaRequests;
-    //    this.jobTitle = jobTitle;
-    //    this.socialMediaInstagramURL = socialMediaInstagramURL;
-    //    this.socialMediaXURL = socialMediaXURL;
-    //}
 }
 
 export default MediaContact;

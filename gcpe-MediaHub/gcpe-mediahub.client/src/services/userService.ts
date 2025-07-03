@@ -18,7 +18,7 @@ export const userService = {
      * Get all users
      */
     async getUsers(): Promise<User[]> {
-        const response = await axiosInstance.get<User[]>('/api/Users');
+        const response = await axiosInstance.get<User[]>('Users');
         return response.data;
     },
 
@@ -27,7 +27,7 @@ export const userService = {
      */
     async getUserByIdir(idir: string): Promise<User> {
         try {
-            const response = await axiosInstance.get<User>(`/api/Users/${encodeURIComponent(idir)}`);
+            const response = await axiosInstance.get<User>(`Users/${encodeURIComponent(idir)}`);
             return response.data;
         } catch (error) {
             console.error("Error in getUserByIdir:", error);
@@ -41,7 +41,7 @@ export const userService = {
     async getMediaContactByFullName(fullName: string): Promise<MediaContact> {
         try {
             const response = await axiosInstance.get<MediaContact>(
-                `/api/MediaContacts/search/${encodeURIComponent(fullName)}`
+                `MediaContacts/search/${encodeURIComponent(fullName)}`
             );
             return response.data;
         } catch (error) {
@@ -55,7 +55,7 @@ export const userService = {
      */
     async getMediaContacts(): Promise<MediaContact[]> {
         try {
-            const response = await axiosInstance.get<MediaContact[]>('/api/MediaContacts');
+            const response = await axiosInstance.get<MediaContact[]>('MediaContacts');
             return response.data;
         } catch (error) {
             console.error("Error in getMediaContacts:", error);
@@ -68,7 +68,7 @@ export const userService = {
      */
     async getUserIdirs(): Promise<string[]> {
         try {
-            const response = await axiosInstance.get<User[]>('/api/Users');
+            const response = await axiosInstance.get<User[]>('Users');
             // Use 'idir' as the IDIR field
             return response.data.map(user => user.idir).filter(Boolean);
         } catch (error) {

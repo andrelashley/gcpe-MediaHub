@@ -1,5 +1,5 @@
 import React from 'react';
-import PageHeading from './PageHeading';
+import PageHeading from './pageHeading';
 import { makeStyles } from '@fluentui/react-components';
 //import SideNavbar from './sideNavBar';
 import LeftNav from './LeftNav';

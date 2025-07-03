@@ -1,13 +1,16 @@
+import { MediaContact } from "./mediaContact";
+import { MediaOutlet } from "./mediaOutlet";
+import { PhoneNumber } from "./PhoneNumber";
 
 export class OutletAssociation {
-    id: number | undefined;
+    id: string | undefined;
     contactId: number | undefined;
+    mediaContact: MediaContact | undefined;
     outletId: number | undefined;
+    outletName: string | undefined;
+    mediaOutlet: MediaOutlet | undefined;
     contactEmail: string | undefined;
-    phonePrimary: number | undefined;
-    phoneMobile: number | undefined;
-    phoneCallIn: number | undefined;
+    contactPhones: PhoneNumber[] | undefined;
     noLongerWorksHere: boolean = false;
     lastRequestDate: Date | undefined;
-    jobTitle: string | undefined;
 }

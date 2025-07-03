@@ -5,6 +5,8 @@ import {
     makeStyles,
 } from "@fluentui/react-components";
 import { Dismiss12Regular } from "@fluentui/react-icons";
+import { SocialMediaCompany } from "../../models/SocialMediaCompany";
+import { useEffect, useState } from "react";
 
 const useStyles = makeStyles({
     socialMediaInput: {
@@ -36,9 +38,27 @@ const useStyles = makeStyles({
 
 interface SocialMediaInputProps {
     onRemove: () => void;
+    socials: SocialMediaCompany[];
+    onSocialMediaDataChange: (data: any) => void;
 }
 
-const SocialMediaInput: React.FC<SocialMediaInputProps> = ({ onRemove }) => {
+const SocialMediaInput: React.FC<SocialMediaInputProps> = ({ onRemove, socials, onSocialMediaDataChange }) => {
+    const [companyId, setCompanyId] = useState<number>();
+    const [url, setUrl] = useState<number>();
+    const handleCompanyChange = (e) => {
+        setCompanyId(e.target.value);
+    };
+    const handleUrlChange = (e) => {
+        setUrl(e.target.value);
+    };
+
+    useEffect(() => {
+        // Call onDataChange whenever the input changes
+        onSocialMediaDataChange({
+            socialMediaCompanyId: companyId,
+            socialProfileUrl: url,
+        });
+    }, [companyId, url]);
     const styles = useStyles();
 
     return (
@@ -46,14 +66,20 @@ const SocialMediaInput: React.FC<SocialMediaInputProps> = ({ onRemove }) => {
         <div className={styles.socialMediaInput}>
 
             <div className={styles.platformSelector}>
-                <Select>
+                <Select
+                    onChange={handleCompanyChange}
+                    >
                     <option></option>
-                    <option>Instagram</option>
-                    <option>Social Media Option 3</option>
+                    {socials.map((company) => (
+                        <option value={company.id} key={company.id}>{company.company}</option>
+                    ))}
                 </Select>
             </div>
             <div className={styles.linkInput}>
-                <Input placeholder="https://" />
+                <Input
+                    placeholder="https://"
+                    onChange={handleUrlChange}
+                />
             </div>
             <div className={styles.dismissButton}>
                 <Button

@@ -17,14 +17,14 @@ enum languages {
 
 export class MediaOutlet {
     id: Number = 0;
-    name: String;
+    outletName: String;
     email: String;
     phone: String;
     mediaType: mediaType[] = [];
     languages: languages[] = [];
 
     constructor(name: string, email: string, phone: string ) {
-        this.name = name;
+        this.outletName = name;
         this.email = email;
         this.phone = phone;
     }

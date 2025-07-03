@@ -50,7 +50,15 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <RequestsCardView />,
-            }
+            },
+            {
+                path: 'new',
+                element: <RequestsCardView />,
+            },
+            {
+                path: ':requestNo', // changed from :id to :requestNo
+                element: <RequestsCardView key="requestNo" />, // force remount for param change
+            },
         ],
     },
     {
@@ -86,7 +94,6 @@ function App() {
     const styles = useStyles();
     return (
         <>
-            <Toaster position='top-end' offset={{ vertical: 75 }}/>
             <FluentProvider theme={customTheme} className={styles.root} >
                 <QueryClientProvider client={queryClient}> {/* Wrap with QueryClientProvider */}
                     {/* Ensure RouterProvider is active. If authentication is not yet implemented,
@@ -101,6 +108,7 @@ function App() {
                     )}
                     */}
                 </QueryClientProvider>
+                <Toaster position='top-end' offset={{ vertical: 75 }} />
             </FluentProvider>
         </>
     );

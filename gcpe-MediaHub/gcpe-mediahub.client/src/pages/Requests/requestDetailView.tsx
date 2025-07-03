@@ -2,20 +2,37 @@ import React from 'react';
 import { Text, Divider, Badge, Avatar, Tag } from '@fluentui/react-components';
 import { Dismiss24Regular, CalendarEmptyRegular } from '@fluentui/react-icons';
 import { MediaRequest } from "../../api/generated-client/model";
+import { requestService } from "../../services/requestService";
+import { useQuery } from '@tanstack/react-query';
 import styles from './requestsCardView.module.css';
 
 interface RequestDetailViewProps {
-    request: MediaRequest;
+    requestNo: number;
     onClose: () => void;
 }
 
-const RequestDetailView: React.FC<RequestDetailViewProps> = ({ request, onClose }) => {
+const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClose }) => {
+    // Fetch request details using getRequestByRequestNo (React Query v5+ object form)
+    const { data: request, isLoading, error } = useQuery<MediaRequest>({
+        queryKey: ['requestDetail', requestNo],
+        queryFn: async () => await requestService.getRequestByRequestNo(requestNo),
+        enabled: !!requestNo,
+    });
+
+    // Debug logging for troubleshooting
+    React.useEffect(() => {
+        if (!isLoading) {
+            // Only log if not loading
+            console.log('RequestDetailView:', { requestNo, error, request });
+        }
+    }, [requestNo, error, request, isLoading]);
+
     // Helper to display assigned user idir
     const getAssignedUserDisplay = () => {
-        if (request.assignedUser) {
+        if (request?.assignedUser) {
             return request.assignedUser.idir || request.assignedUser.id || request.assignedUserId || 'Unassigned';
         }
-        if (request.assignedUserId) {
+        if (request?.assignedUserId) {
             return request.assignedUserId;
         }
         return 'Unassigned';
@@ -23,14 +40,17 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ request, onClose 
 
     // Helper to display FYI contact user idir
     const getFyiContactUserDisplay = () => {
-        if (request.fyiContactUser) {
+        if (request?.fyiContactUser) {
             return request.fyiContactUser.idir || request.fyiContactUser.id || request.fyiContactUserId || 'Unassigned';
         }
-        if (request.fyiContactUserId) {
+        if (request?.fyiContactUserId) {
             return request.fyiContactUserId;
         }
         return 'Unassigned';
     };
+
+    if (isLoading) return <div>Loading...</div>;
+    if (error || !request) return <div>Failed to load request details.</div>;
 
     return (
         <div className={styles.detailView} style={{ position: 'relative', top: 0 }}>
