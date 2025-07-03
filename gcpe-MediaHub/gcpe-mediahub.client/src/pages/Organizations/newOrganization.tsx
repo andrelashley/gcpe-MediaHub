@@ -1,70 +1,82 @@
 import {Title1, Title3, Field, Dropdown, Option, Input, Checkbox, Divider, Button} from '@fluentui/react-components';
 import {Dismiss24Regular, Add24Regular} from '@fluentui/react-icons';
-import {useToastController, Toaster, Toast, ToastTitle, ToastBody} from '@fluentui/react-components';
+import { useToastController, Toaster, Toast, ToastTitle, ToastBody } from '@fluentui/react-components';
 import styles from './newOrganization.module.css';
-import React from 'react';
-import {useState} from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 
 interface NewOrganizationPageProps {
     onClose?: () => void;
+    context: "network" | "outlet";
 }
 
-const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose }) => {
+type DropdownOption = { id: number; name: string };
+
+const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose, context }) => {
     const { dispatchToast } = useToastController();
 
     const [name, setName] = useState("");
-    const [orgType, setOrgType] = useState("");
-    const [mediaType, setMediaType] = useState<string[]>([]);
-    const [language, setLanguage] = useState("");
+    const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+    const [orgType, setOrgType] = useState(context ? capitalize(context) : "");
+    const [selectedMediaTypeNames, setSelectedMediaTypeNames] = useState<string[]>([]);
+    const [selectedLanguageNames, setSelectedLanguageNames] = useState<string[]>([]);
     const [isMajorMedia, setIsMajorMedia] = useState(false);
+    const [selectedNetworkName, setSelectedNetworkName] = useState('');
     const [email, setEmail] = useState("");
     const [website, setWebsite] = useState("");
     const [phoneNumbers, setPhoneNumbers] = useState([
-      { type: '', number: '' }
+      { typeName: '', number: '' } 
     ]);
     const [socialMediaLinks, setSocialMediaLinks] = useState([
-      { type: '', url: '' } // Start with one blank input
+      { typeName: '', url: '' }
     ]);
     const [hasNoPhysicalAddress, setHasNoPhysicalAddress] = useState(false);
     const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
     const [province, setProvince] = useState("");
-    const [country, setCountry] = useState("");
+    const [country, setCountry] = useState("Canada");
     const [postalCode, setPostalCode] = useState("");
+    const isNetwork = context === "network";
+
+       useEffect(() => {
+        const fetchDropdowns = async() => {
+          const response = await fetch('https://localhost:7145/api/mediaoutlets/dropdowns');
+          const data = await response.json();
+          setMediaTypeOptions(data.mediaTypes);
+          setLanguageTypeOptions(data.writtenLanguages);
+          setMediaOutlets(data.mediaOutlets);
+          setPhoneTypeOptions(data.phoneTypes);
+          setSocialMediaTypeOptions(data.socialMediaTypes);
+        }
+
+        fetchDropdowns();
+      }, []);
 
     const orgTypeOptions = [
       "Network",
       "Outlet",
     ];
 
-    const mediaTypeOptions = [
-      "Radio",
-      "TV",
-    ];
+    const [mediaTypeOptions, setMediaTypeOptions] = useState<{ id: number; name: string }[]>([]);
+    const [languageTypeOptions, setLanguageTypeOptions] = useState<{ id: number; name: string }[]>([]); 
+    const [mediaOutlets, setMediaOutlets] = useState<{ id: string; outletName: string }[]>([]);
+    const [phoneTypeOptions, setPhoneTypeOptions] = useState<{ id: number; name: string }[]>([]);
+    const [socialMediaTypeOptions, setSocialMediaTypeOptions] = useState<{ id: number; name: string }[]>([]);
 
-    const languageTypeOptions = [
-      "English",
-      "French",
-      "Spanish"
-    ];
-
-    const phoneTypeOptions = [
-      "News Desk",
-      "General",
-      "Fax",
-      "After hours",
-      "Other"
-    ];
-
-    const socialMediaTypeOptions = [
-      "LinkedIn",
-      "X",
-      "Facebook"
-    ];
 
     const provinceOptions = [
-      "BC",
-      "AB",
+      "AB", // Alberta
+      "BC", // British Columbia
+      "MB", // Manitoba
+      "NB", // New Brunswick
+      "NL", // Newfoundland and Labrador
+      "NS", // Nova Scotia
+      "NT", // Northwest Territories
+      "NU", // Nunavut
+      "ON", // Ontario
+      "PE", // Prince Edward Island
+      "QC", // Quebec
+      "SK", // Saskatchewan
+      "YT", // Yukon
     ];
 
     const countryOptions = [
@@ -73,23 +85,90 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose }) =>
 
 
 const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    console.log("Saving name:", name);
-    console.log("Saving org type:", orgType);
-    console.log("Saving media type:", mediaType.join(", "));
-    console.log("Major media selected:", isMajorMedia);
-    console.log("Language selected:", language);
-    console.log("Email selected:", email);
-    console.log("Phone Numbers selected:", phoneNumbers);
-    console.log("Website selected:", website);
-    console.log("Social Media links selected:", socialMediaLinks);
-    console.log("No physical address selected:", hasNoPhysicalAddress);
-    console.log("Street selected:", street);
-    console.log("City selected:", city);
-    console.log("Province selected:", province);
-    console.log("Country selected:", country);
-    console.log("Postal code selected:", postalCode);
+
+  if(!name) {
+    dispatchToast(
+      <Toast>
+        <ToastTitle>Something went wrong!</ToastTitle>
+        <ToastBody>
+          Name cannot be blank.
+        </ToastBody>
+      </Toast>,
+      { intent: 'error' }
+    );
+  }
+
+  const selectedLanguageIds = languageTypeOptions
+    .filter(lang => selectedLanguageNames.includes(lang.name))
+    .map(lang => lang.id);
+  
+  const selectedMediaTypeIds = mediaTypeOptions
+    .filter(type => selectedMediaTypeNames.includes(type.name))
+    .map(type => type.id);
+
+  const phoneNumberPayload = phoneNumbers.map(entry => {
+    const type = phoneTypeOptions.find(t => t.name === entry.typeName);
+      return {
+        typeId: type?.id ?? null, // or handle missing type
+        number: entry.number
+      };
+  });
+
+  const socialMediaPayload = socialMediaLinks.map(link => {
+    const match = socialMediaTypeOptions.find(opt => opt.name === link.typeName);
+      return {
+        typeId: match?.id ?? null,
+        url: link.url
+      };
+    });
+
+  const payload = {
+    outletName: name,
+    organizationType: orgType,
+    isMajorMedia,
+    parentOutletId: orgType === "Outlet"
+      ? mediaOutlets.find(outlet => outlet.outletName === selectedNetworkName)?.id ?? null
+      : null,
+    email,
+    website,
+    mediaTypeIds: selectedMediaTypeIds,
+    writtenLanguageIds: selectedLanguageIds,
+    phoneNumbers: phoneNumberPayload,
+    socialMediaLinks: socialMediaPayload,
+    address: hasNoPhysicalAddress
+      ? null
+      : {
+        street,
+        city,
+        province,
+        country,
+        postalCode,
+      },
+  };
+
+    fetch("https://localhost:7145/api/mediaoutlets", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Organization saved successfully:", data);
+      // maybe show a toast here too?
+    })
+    .catch((error) => {
+      console.error("Error saving organization:", error);
+      // toast or error UI
+    });
   };
 
   
@@ -111,11 +190,12 @@ const handleSave = (e: React.FormEvent) => {
               <Field label="Media organization type" required>
                   <Dropdown placeholder='Select a media organization type'
                     value={orgType}
-                    onOptionSelect={(_, data) => setOrgType(data.optionText || "")}>
-                    {orgTypeOptions.map((option) => (
-                    <Option key={option}>
-                      {option}
-                    </Option>
+                    onOptionSelect={(_, data) => setOrgType(data.optionText || "")}
+                    disabled={!!context}>
+                      {orgTypeOptions.map((option) => (
+                        <Option key={option}>
+                          {option}
+                      </Option>
                   ))}
                   </Dropdown>
               </Field>
@@ -123,23 +203,23 @@ const handleSave = (e: React.FormEvent) => {
               <Field label="Media type" required>
                 <Dropdown
                   multiselect
-                  selectedOptions={mediaType}
+                  selectedOptions={selectedMediaTypeNames}
                   onOptionSelect={(_, data) => {
-                    if (!data.optionValue) return;
+                    const name = data.optionText;
+                    if (!name) return;
 
-                    setMediaType((prev) =>
-                      prev.includes(data.optionValue)
-                        ? prev.filter((item) => item !== data.optionValue)
-                        : [...prev, data.optionValue]
-                    );
-                  }}
-                >
-                  {mediaTypeOptions.map((option) => (
-                    <Option key={option} value={option}>
-                      {option}
-                    </Option>
-                  ))}
-                </Dropdown>
+                    setSelectedMediaTypeNames(prev =>
+                      prev.includes(name)
+                        ? prev.filter(t => t !== name)
+                        : [...prev, name]
+                      );
+                    }}>
+                    {mediaTypeOptions.map(option => (
+                      <Option key={option.id} value={option.name} text={option.name}>
+                        {option.name}
+                      </Option>
+                    ))}
+                  </Dropdown>
               </Field>
 
               <Field label="Name" required>        
@@ -152,23 +232,46 @@ const handleSave = (e: React.FormEvent) => {
                 onChange={(_, data) => setIsMajorMedia(data.checked === true)}
               />
 
-              <Field label="Network">
-                <Dropdown>
-                </Dropdown>
-              </Field>
-
-              
-              <Field label="Language">
-                  <Dropdown
-                    value={language}
-                    onOptionSelect={(_, data) => setLanguage(data.optionText || "")}>
-                    {languageTypeOptions.map((option) => (
-                    <Option key={option}>
-                      {option}
+              {!isNetwork && (
+                <Field label="Network">
+                <Dropdown
+                  placeholder="Select a network"
+                  value={selectedNetworkName}
+                  onOptionSelect={(_, data) => {
+                    setSelectedNetworkName(data.optionText ?? '');
+                  }}
+                >
+                  {mediaOutlets.map((outlet) => (
+                    <Option key={outlet.id} text={outlet.outletName}>
+                      {outlet.outletName}
                     </Option>
                   ))}
-                  </Dropdown>
-              </Field>
+                </Dropdown>
+                </Field>
+              )}
+              
+              <Field label="Languages">
+              <Dropdown
+                multiselect
+                selectedOptions={selectedLanguageNames}
+                onOptionSelect={(_, data) => {
+                  const name = data.optionText;
+                  if (!name) return;
+
+                  setSelectedLanguageNames(prev =>
+                    prev.includes(name)
+                      ? prev.filter(l => l !== name)
+                      : [...prev, name]
+                  );
+                }}
+              >
+                {languageTypeOptions.map(option => (
+                  <Option key={option.id} value={option.name} text={option.name}>
+                    {option.name}
+                  </Option>
+                ))}
+              </Dropdown>
+            </Field>
 
               <Divider style={{ margin: '24px 0 16px 0' }} />
               <Title3>Contact Information</Title3>
@@ -178,54 +281,57 @@ const handleSave = (e: React.FormEvent) => {
               </Field>
 
               {phoneNumbers.map((entry, index) => (
-                <div
-                  key={index}
-                  style={{
-                    display: 'flex',
-                    gap: '0.75rem',
-                    flexWrap: 'nowrap',
-                    alignItems: 'center',
-                    marginBottom: '0.5rem',
+              <div
+                key={index}
+                style={{
+                  display: 'flex',
+                  gap: '0.75rem',
+                  flexWrap: 'nowrap',
+                  alignItems: 'center',
+                  marginBottom: '0.5rem',
+                }}
+              >
+                <Dropdown
+                  placeholder="Select"
+                  appearance="outline"
+                  style={{ flex: '0 0 120px', minWidth: 0 }}
+                  value={entry.typeName}
+                  onOptionSelect={(_, data) => {
+                    const updated = [...phoneNumbers];
+                    updated[index].typeName = data.optionText || '';
+                    setPhoneNumbers(updated);
                   }}
                 >
-                  <Dropdown
-                    placeholder="Select"
-                    appearance="outline"
-                    style={{ flex: '0 0 120px', minWidth: 0 }}
-                    value={entry.type}
-                    onOptionSelect={(_, data) => {
-                      const updated = [...phoneNumbers];
-                      updated[index].type = data.optionValue || '';
-                      setPhoneNumbers(updated);
-                    }}
-                  >
-                    {phoneTypeOptions.map((option) => (
-                      <Option key={option}>{option}</Option>
-                    ))}
-                  </Dropdown>
+                  {phoneTypeOptions.map(option => (
+                    <Option key={option.id} value={option.name} text={option.name}>
+                      {option.name}
+                    </Option>
+                  ))}
+                </Dropdown>
 
-                  <Input
-                    placeholder="+1"
-                    appearance="outline"
-                    value={entry.number}
-                    onChange={(_, data) => {
-                      const updated = [...phoneNumbers];
-                      updated[index].number = data.value;
-                      setPhoneNumbers(updated);
-                    }}
-                    style={{ flex: '1 1 auto', minWidth: 0 }}
-                  />
-                </div>
-              ))}
+                <Input
+                  placeholder="+1"
+                  appearance="outline"
+                  value={entry.number}
+                  onChange={(_, data) => {
+                    const updated = [...phoneNumbers];
+                    updated[index].number = data.value;
+                    setPhoneNumbers(updated);
+                  }}
+                  style={{ flex: '1 1 auto', minWidth: 0 }}
+                />
+              </div>
+            ))}
+
 
               <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Button
                   appearance="transparent"
                   icon={<Add24Regular />}
                   onClick={() =>
-                    setPhoneNumbers([...phoneNumbers, { type: '', number: '' }])
+                    setPhoneNumbers([...phoneNumbers, { typeName: '', number: '' }])
                   }>
-                  Phone number
+                    Phone number
                 </Button>
               </div>
 
@@ -251,16 +357,16 @@ const handleSave = (e: React.FormEvent) => {
                       placeholder="Select"
                       appearance="outline"
                       style={{ flex: '0 0 120px', minWidth: 0 }}
-                      value={entry.type}
+                      value={entry.typeName}
                       onOptionSelect={(_, data) => {
                         const updated = [...socialMediaLinks];
-                        updated[index].type = data.optionValue || '';
+                        updated[index].typeName = data.optionText || '';
                         setSocialMediaLinks(updated);
                       }}
                     >
-                      {socialMediaTypeOptions.map((option) => (
-                        <Option key={option} value={option}>
-                          {option}
+                      {socialMediaTypeOptions.map(option => (
+                        <Option key={option.id} value={option.name} text={option.name}>
+                          {option.name}
                         </Option>
                       ))}
                     </Dropdown>
@@ -285,7 +391,7 @@ const handleSave = (e: React.FormEvent) => {
                   appearance="transparent"
                   icon={<Add24Regular />}
                   onClick={() =>
-                    setSocialMediaLinks([...socialMediaLinks, { type: '', url: '' }])
+                    setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '' }])
                   }
                 >
                   Social Media

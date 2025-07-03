@@ -19,7 +19,7 @@ import MediaLayout from './components/MediaLayout'; // Import MediaLayout
 // Pages
 import Home from './pages/Home/homePage';
 import RequestsCardView from './pages/Requests/requestsCardView';
-import Contacts from './pages/Contacts/Contacts'; 
+import Contacts from './pages/Contacts/contacts'; 
 import OrganizationsLayout from './components/OrganizationsLayout';
 import Organizations from './pages/Organizations/organizations';
 
@@ -60,7 +60,7 @@ const router = createBrowserRouter([
 ]);
 const useStyles = makeStyles({
     root: {
-        fontFamily: "BCSans-Regular'",
+        fontFamily: "BCSans-Regular",
     },
 });
 export const AuthenticationContext = createContext('authentication');

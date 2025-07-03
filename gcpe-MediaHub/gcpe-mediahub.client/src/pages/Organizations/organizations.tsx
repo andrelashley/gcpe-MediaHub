@@ -1,5 +1,5 @@
-import { Button, TabList, Title1, Tab, Input, Tag, Drawer, DrawerBody } from '@fluentui/react-components';
-import { Search24Regular, Filter24Regular, Add24Regular } from '@fluentui/react-icons';
+import { Button, TabList, Title1, Tab, Input, Tag, Drawer, DrawerBody, Menu, MenuTrigger, MenuPopover, MenuList, MenuItem } from '@fluentui/react-components';
+import { Search24Regular, Filter24Regular, Add24Regular, Important24Filled } from '@fluentui/react-icons';
 
 import React, { useState, useMemo, useEffect } from 'react';
 
@@ -13,95 +13,41 @@ import {
 import styles from './organizations.module.css';
 import NewOrganizationPage from './newOrganization';
 import OrganizationDetailView from './organizationDetailView';
-import { Outlet } from '../../models/Outlet';
+import { Organization } from './types';
 
-type Organization = {
-  name: string
-  email: string
-  phone: string
-  mediaType: string
-  city: string
-}
 
-const defaultData: Organization[] = [
-  {
-    name: 'Castanet',
-    email: 'news@castanet.net',
-    phone: '604-605-2000',
-    mediaType: 'Online',
-    city: 'Vancouver',
-  },
-  {
-    name: 'Castlegar Source',
-    email: 'info@castlegarsource.com',
-    phone: '250-599-6962',
-    mediaType: 'Online',
-    city: 'Vancouver',
-  },
-  {
-    name: 'CBC',
-    email: 'news@cbc.ca',
-    phone: '416-384-5000',
-    mediaType: 'TV, Radio, +2',
-    city: 'Toronto',
-  },
-  {
-    name: 'CBC Kamloops',
-    email: 'cbcnewskamloops@cbc.ca',
-    phone: '236-605-2020',
-    mediaType: 'TV, Radio',
-    city: 'Kamloops',
-  },
-  {
-    name: 'CBC Kelowna',
-    email: 'cbcnewskelowna@cbc.ca',
-    phone: '672-555-5678',
-    mediaType: 'TV, Radio',
-    city: 'Kelowna',
-  },
-  {
-    name: 'CBC Toronto',
-    email: 'cbcnewstoronto@cbc.ca',
-    phone: '416-545-1234',
-    mediaType: 'TV, Radio, Online',
-    city: 'Toronto',
-  },
-  {
-    name: 'CBC Vancouver',
-    email: 'cbcnewsvancouver@cbc.ca',
-    phone: '778-545-1234',
-    mediaType: 'TV, Radio',
-    city: 'Vancouver',
-  },
-  {
-    name: 'CBS',
-    email: 'news@cbs.com',
-    phone: '+1-718-545-1234',
-    mediaType: 'TV, Radio, +2',
-    city: 'New York',
-  },
-  {
-    name: 'CFAX 1070',
-    email: 'cfax.news@bellmedia.ca',
-    phone: '236-605-2020',
-    mediaType: 'Radio',
-    city: 'Victoria',
-  },
-  {
-    name: 'CFB Esquimalt',
-    email: '',
-    phone: '250-555-5678',
-    mediaType: 'Radio',
-    city: 'Kelowna',
-  }
-];
 
 const columnHelper = createColumnHelper<Organization>()
 
 const columns = [
   columnHelper.accessor('name', {
-    header: () => 'Name',
-    cell: info => info.getValue(),
+  header: () => 'Name',
+  cell: info => {
+    const org = info.row.original;
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+        {org.name}
+        {org.isMajorMedia && (
+          <div
+            style={{
+              backgroundColor: '#1570EF',
+              borderRadius: '9999px',
+              width: '20px',
+              height: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'white',
+              fontSize: '14px',
+              flexShrink: 0,
+            }}
+          >
+            <span style={{ lineHeight: 1 }}>!</span>
+          </div>
+        )}
+      </div>
+    );
+  },
   }),
   columnHelper.accessor(row => row.email, {
     id: 'email',
@@ -112,12 +58,25 @@ const columns = [
     header: () => 'Phone',
     cell: info => info.renderValue(),
   }),
-  columnHelper.accessor('mediaType', {
+  columnHelper.accessor('mediaTypes', {
     header: () => <span>Media Type</span>,
     cell: info => {
-      return <Tag shape="circular" appearance="outline">{info.getValue()}</Tag>;
-    },
-  }),
+    const types = info.getValue();
+    const visible = types.slice(0, 2);
+    const extraCount = types.length - visible.length;
+
+    return (
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
+        {visible.map((type, i) => (
+          <Tag key={i} shape="circular" appearance="outline">{type}</Tag>
+        ))}
+        {extraCount > 0 && (
+          <Tag shape="circular" appearance="outline">+{extraCount}</Tag>
+        )}
+      </div>
+    );
+  },
+}),
   columnHelper.accessor('city', {
     header: 'City',
     cell: info => {
@@ -128,22 +87,37 @@ const columns = [
 
 
 const Organizations = () => {
-    const [data, _setData] = React.useState(() => [...defaultData]);
+    const [data, setData] = useState<Organization[]>([]);
     const [isOrgDetailDrawerOpen, setIsOrgDetailDrawerOpen] = useState(false);
     const [selectedOrganization, setSelectedOrganization] = useState<Organization | null>(null);
     const [isNewOrganizationDrawerOpen, setIsNewOrganizationDrawerOpen] = useState(false);
-    const [outlets, setOutlets] = useState<Outlet[]>([]);
+    const [newOrgContext, setNewOrgContext] = useState<"network" | "outlet" | null>(null);
     
-    // useEffect(() => {
-    //   const fetchOutlets = async() => {
-    //     const response = await fetch('https://localhost:7145/api/mediaOutlets');
-    //     const data = await response.json();
-    //     console.log(data);
-    //     setOutlets(data);
-    //   }
+    useEffect(() => {
+      const fetchOrganizations = async () => {
+        try {
+          const response = await fetch('https://localhost:7145/api/mediaOutlets');
+          const apiData = await response.json();
 
-    //   fetchOutlets();
-    // }, []);
+          const mapped = apiData.map((org: any) => ({
+            id: org.id,
+            name: org.name,
+            email: org.email,
+            phone: org.phoneNumber,
+            mediaTypes: org.mediaTypes,
+            city: org.city,
+            isMajorMedia: org.isMajorMedia,
+            parentId: org.parentId,
+          }));
+
+          setData(mapped);
+        } catch (err) {
+          console.error('Failed to load organizations:', err);
+        }
+      };
+
+      fetchOrganizations();
+  }, []);
 
       const table = useReactTable({
         data,
@@ -155,12 +129,30 @@ const Organizations = () => {
         <>
         <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
             <Title1>Media Organizations</Title1>
-            <Button
-                icon={<Add24Regular />}
-                appearance="primary"
-                onClick={() => setIsNewOrganizationDrawerOpen(true)}>
-                Organization
-            </Button>
+            <Menu>
+              <MenuTrigger disableButtonEnhancement>
+                <Button appearance="primary" icon={<Add24Regular />} iconPosition="before">
+                  Organization
+                </Button>
+              </MenuTrigger>
+              <MenuPopover>
+                <MenuList>
+                  <MenuItem onClick={() => {
+                      setNewOrgContext("outlet");
+                      setIsNewOrganizationDrawerOpen(true);
+                    }}>
+                    Outlet
+                  </MenuItem>
+                  <MenuItem onClick={() => {
+                      setNewOrgContext("network");
+                      setIsNewOrganizationDrawerOpen(true);
+                    }}>
+                    Network
+                  </MenuItem>
+                </MenuList>
+              </MenuPopover>
+            </Menu>
+
         </div>
 
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px'}}>
@@ -170,28 +162,30 @@ const Organizations = () => {
 
           <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
             <Input placeholder='Search'
+                   disabled
                    contentBefore={<Search24Regular />}
             />
             <Button 
-              appearance='outline' 
+              appearance='outline'
+              disabled
               icon={<Filter24Regular />}>Filter</Button>
           </div>
         
-
         <Drawer
-        type="overlay"
-        separator
-        position="end"
-        open={isOrgDetailDrawerOpen}
-        onOpenChange={(_, { open }) => setIsOrgDetailDrawerOpen(open)}
-        style={{ width: '650px' }}
-        >
+          type="overlay"
+          separator
+          position="end"
+          open={isOrgDetailDrawerOpen}
+          onOpenChange={(_, { open }) => setIsOrgDetailDrawerOpen(open)}
+          style={{ width: '650px' }}>
         {selectedOrganization && (
           <DrawerBody>
-            <OrganizationDetailView onClose={(): void => {
-              setIsOrgDetailDrawerOpen(false);   
-              setSelectedOrganization(null);    
-            }} />
+            <OrganizationDetailView 
+              org={selectedOrganization}
+              onClose={(): void => {
+                setIsOrgDetailDrawerOpen(false);   
+                setSelectedOrganization(null);    
+              }} />
           </DrawerBody>
         )}
         </Drawer>
@@ -205,7 +199,9 @@ const Organizations = () => {
           style={{ width: '650px' }}
           >
             <DrawerBody>
-              <NewOrganizationPage onClose={() => setIsNewOrganizationDrawerOpen(false)} />
+              <NewOrganizationPage 
+                onClose={() => setIsNewOrganizationDrawerOpen(false)} 
+                context={newOrgContext} />
             </DrawerBody>
         </Drawer>
 
