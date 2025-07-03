@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **outletName** | **string** |  | [optional] [default to undefined]
 **outletEmail** | **string** |  | [optional] [default to undefined]
 **contactEmails** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
-**contactPhones** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
+**contactPhones** | [**Array&lt;MediaContactPhoneDto&gt;**](MediaContactPhoneDto.md) |  | [optional] [default to undefined]
 **isMajorMedia** | **boolean** |  | [optional] [default to undefined]
 
 ## Example

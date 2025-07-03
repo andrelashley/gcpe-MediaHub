@@ -22,9 +22,9 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
-import type { ContactDto } from '../model';
-// @ts-ignore
 import type { MediaContact } from '../model';
+// @ts-ignore
+import type { MediaContactDto } from '../model';
 // @ts-ignore
 import type { SocialMediaCompanyDto } from '../model';
 /**
@@ -196,11 +196,11 @@ export const MediaContactsApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @param {MediaContact} [mediaContact] 
+         * @param {MediaContactDto} [mediaContactDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaContactsPost: async (mediaContact?: MediaContact, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiMediaContactsPost: async (mediaContactDto?: MediaContactDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/MediaContacts`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -220,7 +220,7 @@ export const MediaContactsApiAxiosParamCreator = function (configuration?: Confi
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(mediaContact, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(mediaContactDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -275,7 +275,7 @@ export const MediaContactsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiMediaContactsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ContactDto>>> {
+        async apiMediaContactsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MediaContactDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaContactsGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MediaContactsApi.apiMediaContactsGet']?.[localVarOperationServerIndex]?.url;
@@ -331,12 +331,12 @@ export const MediaContactsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {MediaContact} [mediaContact] 
+         * @param {MediaContactDto} [mediaContactDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiMediaContactsPost(mediaContact?: MediaContact, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaContact>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaContactsPost(mediaContact, options);
+        async apiMediaContactsPost(mediaContactDto?: MediaContactDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaContact>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaContactsPost(mediaContactDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MediaContactsApi.apiMediaContactsPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -368,7 +368,7 @@ export const MediaContactsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaContactsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<ContactDto>> {
+        apiMediaContactsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<MediaContactDto>> {
             return localVarFp.apiMediaContactsGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -413,7 +413,7 @@ export const MediaContactsApiFactory = function (configuration?: Configuration, 
          * @throws {RequiredError}
          */
         apiMediaContactsPost(requestParameters: MediaContactsApiApiMediaContactsPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<MediaContact> {
-            return localVarFp.apiMediaContactsPost(requestParameters.mediaContact, options).then((request) => request(axios, basePath));
+            return localVarFp.apiMediaContactsPost(requestParameters.mediaContactDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -484,10 +484,10 @@ export interface MediaContactsApiApiMediaContactsIdPutRequest {
 export interface MediaContactsApiApiMediaContactsPostRequest {
     /**
      * 
-     * @type {MediaContact}
+     * @type {MediaContactDto}
      * @memberof MediaContactsApiApiMediaContactsPost
      */
-    readonly mediaContact?: MediaContact
+    readonly mediaContactDto?: MediaContactDto
 }
 
 /**
@@ -572,7 +572,7 @@ export class MediaContactsApi extends BaseAPI {
      * @memberof MediaContactsApi
      */
     public apiMediaContactsPost(requestParameters: MediaContactsApiApiMediaContactsPostRequest = {}, options?: RawAxiosRequestConfig) {
-        return MediaContactsApiFp(this.configuration).apiMediaContactsPost(requestParameters.mediaContact, options).then((request) => request(this.axios, this.basePath));
+        return MediaContactsApiFp(this.configuration).apiMediaContactsPost(requestParameters.mediaContactDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

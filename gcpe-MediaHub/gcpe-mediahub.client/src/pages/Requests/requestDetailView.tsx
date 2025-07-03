@@ -7,25 +7,25 @@ import { useQuery } from '@tanstack/react-query';
 import styles from './requestsCardView.module.css';
 
 interface RequestDetailViewProps {
-    requestId: string;
+    requestNo: number;
     onClose: () => void;
 }
 
-const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestId, onClose }) => {
-    // Fetch request details using getRequestById (React Query v5+ object form)
+const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClose }) => {
+    // Fetch request details using getRequestByRequestNo (React Query v5+ object form)
     const { data: request, isLoading, error } = useQuery<MediaRequest>({
-        queryKey: ['requestDetail', requestId],
-        queryFn: async () => await requestService.getRequestById(requestId),
-        enabled: !!requestId,
+        queryKey: ['requestDetail', requestNo],
+        queryFn: async () => await requestService.getRequestByRequestNo(requestNo),
+        enabled: !!requestNo,
     });
 
     // Debug logging for troubleshooting
     React.useEffect(() => {
         if (!isLoading) {
             // Only log if not loading
-            console.log('RequestDetailView:', { requestId, error, request });
+            console.log('RequestDetailView:', { requestNo, error, request });
         }
-    }, [requestId, error, request, isLoading]);
+    }, [requestNo, error, request, isLoading]);
 
     // Helper to display assigned user idir
     const getAssignedUserDisplay = () => {

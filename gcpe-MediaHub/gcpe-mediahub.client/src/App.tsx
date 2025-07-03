@@ -50,7 +50,15 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <RequestsCardView />,
-            }
+            },
+            {
+                path: 'new',
+                element: <RequestsCardView />,
+            },
+            {
+                path: ':requestNo', // changed from :id to :requestNo
+                element: <RequestsCardView key="requestNo" />, // force remount for param change
+            },
         ],
     },
     {

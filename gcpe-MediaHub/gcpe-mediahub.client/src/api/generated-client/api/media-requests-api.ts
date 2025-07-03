@@ -33,6 +33,39 @@ export const MediaRequestsApiAxiosParamCreator = function (configuration?: Confi
     return {
         /**
          * 
+         * @param {number} requestNo 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaRequestsByRequestNoRequestNoGet: async (requestNo: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'requestNo' is not null or undefined
+            assertParamExists('apiMediaRequestsByRequestNoRequestNoGet', 'requestNo', requestNo)
+            const localVarPath = `/api/MediaRequests/byRequestNo/{requestNo}`
+                .replace(`{${"requestNo"}}`, encodeURIComponent(String(requestNo)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -237,6 +270,18 @@ export const MediaRequestsApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {number} requestNo 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiMediaRequestsByRequestNoRequestNoGet(requestNo: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaRequest>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaRequestsByRequestNoRequestNoGet(requestNo, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MediaRequestsApi.apiMediaRequestsByRequestNoRequestNoGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -318,6 +363,15 @@ export const MediaRequestsApiFactory = function (configuration?: Configuration, 
     return {
         /**
          * 
+         * @param {MediaRequestsApiApiMediaRequestsByRequestNoRequestNoGetRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaRequestsByRequestNoRequestNoGet(requestParameters: MediaRequestsApiApiMediaRequestsByRequestNoRequestNoGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<MediaRequest> {
+            return localVarFp.apiMediaRequestsByRequestNoRequestNoGet(requestParameters.requestNo, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -370,6 +424,20 @@ export const MediaRequestsApiFactory = function (configuration?: Configuration, 
         },
     };
 };
+
+/**
+ * Request parameters for apiMediaRequestsByRequestNoRequestNoGet operation in MediaRequestsApi.
+ * @export
+ * @interface MediaRequestsApiApiMediaRequestsByRequestNoRequestNoGetRequest
+ */
+export interface MediaRequestsApiApiMediaRequestsByRequestNoRequestNoGetRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof MediaRequestsApiApiMediaRequestsByRequestNoRequestNoGet
+     */
+    readonly requestNo: number
+}
 
 /**
  * Request parameters for apiMediaRequestsIdDelete operation in MediaRequestsApi.
@@ -441,6 +509,17 @@ export interface MediaRequestsApiApiMediaRequestsPostRequest {
  * @extends {BaseAPI}
  */
 export class MediaRequestsApi extends BaseAPI {
+    /**
+     * 
+     * @param {MediaRequestsApiApiMediaRequestsByRequestNoRequestNoGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MediaRequestsApi
+     */
+    public apiMediaRequestsByRequestNoRequestNoGet(requestParameters: MediaRequestsApiApiMediaRequestsByRequestNoRequestNoGetRequest, options?: RawAxiosRequestConfig) {
+        return MediaRequestsApiFp(this.configuration).apiMediaRequestsByRequestNoRequestNoGet(requestParameters.requestNo, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Input, Badge, Tag, Tab, TabList, Avatar, TagGroup, Button, Title1, Divider, Drawer } from "@fluentui/react-components";
-import { CalendarEmptyRegular, Filter24Regular, Search16Regular } from "@fluentui/react-icons";
+import { Input, Badge, Tag, Tab, TabList, Avatar, TagGroup, Button, Title1, Divider, Drawer, DrawerHeader, DrawerHeaderTitle, DrawerBody } from "@fluentui/react-components";
+import { CalendarEmptyRegular, Filter24Regular, Search16Regular, Dismiss24Regular } from "@fluentui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import { MediaRequest } from "../../api/generated-client/model";
@@ -10,12 +10,21 @@ import styles from "./requestsCardView.module.css";
 import NewRequestPage from './newRequest';
 import RequestDetailView from './requestDetailView';
 import RequestStatusBadge from "../../components/RequestStatusBadge";
+import { useLocation, useNavigate, matchPath } from 'react-router-dom';
 
 const RequestsCardView: React.FC = () => {
   const [globalFilter, setGlobalFilter] = useState("");
   const [selectedTab, setSelectedTab] = useState("all");
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [selectedRequestId, setSelectedRequestId] = useState<string | null>(null);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Detect if the new request drawer should be open
+  const isNewDrawerOpen = location.pathname.endsWith('/new');
+  // Detect if the detail drawer should be open and extract the requestNo
+  const detailMatch = matchPath('/requests/:requestNo', location.pathname);
+  const isDetailDrawerOpen = Boolean(detailMatch && detailMatch.params && detailMatch.params.requestNo);
+  const detailRequestNo = detailMatch?.params?.requestNo || null;
 
   const { data: requests = [], isLoading, error, refetch } = useQuery<RequestDto[], Error>({
     queryKey: ["requests"],
@@ -116,7 +125,6 @@ const RequestsCardView: React.FC = () => {
 
   // Handler for closing the new request drawer and refreshing the list
   const handleCloseNewRequest = () => {
-    setIsDrawerOpen(false);
     refetch();
   };
 
@@ -125,11 +133,19 @@ const RequestsCardView: React.FC = () => {
 
   return (
     <div className={styles.layoutWrapper}>
-      <div className={`${styles.mainContent} ${selectedRequestId ? styles.mainContentWithDetail : ''}`} style={{ display: 'flex', height: 'calc(100vh - 200px)' }}>
-        <div style={{ width: '100%', overflowY: 'auto', maxHeight: '100%', padding: '20px' }}>
+      <div className={styles.mainContent} style={{ display: 'flex', height: 'calc(100vh - 200px)' }}>
+        <div
+          style={{
+            width: !isNewDrawerOpen && isDetailDrawerOpen ? '50%' : '100%',
+            overflowY: 'auto',
+            maxHeight: '100%',
+            padding: '20px',
+            transition: 'width 0.3s',
+          }}
+        >
           <div className={styles.headerContainer}>
             <Title1>Media Requests</Title1>
-            <Button appearance="primary" onClick={() => setIsDrawerOpen(true)}>Create new</Button>
+            <Button appearance="primary" onClick={() => navigate('/requests/new')}>Create new</Button>
           </div>
 
           <div className={styles.controls}>
@@ -158,8 +174,8 @@ const RequestsCardView: React.FC = () => {
             {table.getRowModel().rows.map((row) => (
               <div
                 key={row.id}
-                className={`${styles.card} ${selectedRequestId === row.original.id ? styles.selectedCard : ''}`}
-                onClick={() => setSelectedRequestId(row.original.id)}
+                className={`${styles.card} ${detailRequestNo === String(row.original.requestNo) ? styles.selectedCard : ''}`}
+                onClick={() => navigate(`/requests/${row.original.requestNo}`)}
                 role="button"
                 tabIndex={0}
                 style={{ cursor: 'pointer' }}
@@ -220,27 +236,44 @@ const RequestsCardView: React.FC = () => {
           </div>
         </div>
 
-        {selectedRequestId && (
-          <div style={{ width: '100%', position: 'sticky', top: 0, height: '100%', overflow: 'hidden' }}>
-            <RequestDetailView
-              requestId={selectedRequestId}
-              onClose={() => setSelectedRequestId(null)}
-            />
-          </div>
+        {/* Detail Drawer (route-driven, inline) */}
+        {isDetailDrawerOpen && !isNewDrawerOpen && (
+          <Drawer
+            type="inline"
+            separator
+            position="end"
+            open={isDetailDrawerOpen}
+            onOpenChange={(_, { open }) => {
+              if (!open) navigate('/requests');
+            }}
+            style={{ width: '50%', minWidth: 0, transition: 'width 0.3s' }}
+          >
+            <div className={styles.drawerContent}>
+              <RequestDetailView
+                requestNo={detailRequestNo ? Number(detailRequestNo) : undefined}
+                onClose={() => navigate('/requests')}
+              />
+            </div>
+          </Drawer>
         )}
       </div>
 
+      {/* New Request Drawer (regular overlay, with header and close button) */}
       <Drawer
         type="overlay"
         separator
         position="end"
-        open={isDrawerOpen}
-        onOpenChange={(_, { open }) => setIsDrawerOpen(open)}
+        open={isNewDrawerOpen}
+        onOpenChange={(_, { open }) => {
+          if (!open) navigate('/requests');
+        }}
         style={{ width: '650px' }}
       >
-        <div className={styles.drawerContent}>
-          <NewRequestPage onClose={handleCloseNewRequest} />
-        </div>
+        <DrawerBody>
+          <NewRequestPage onClose={() => {
+            navigate('/requests');
+          }} />
+        </DrawerBody>
       </Drawer>
     </div>
   );
