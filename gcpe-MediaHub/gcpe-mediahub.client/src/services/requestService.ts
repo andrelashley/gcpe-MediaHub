@@ -123,6 +123,16 @@ export const requestService = {
         return response.data;
     },
 
+    async getRequestByRequestNo(requestNo: number): Promise<MediaRequest> {
+        if (import.meta.env.VITE_MRM_API === '0') {
+            const mockData = await loadMockData();
+            const dtos = convertMockData(mockData);
+            return dtos.find(r => r.requestNo === requestNo);
+        }
+        const response = await axiosInstance.get<MediaRequest>(`MediaRequests/byRequestNo/${requestNo}`);
+        return response.data;
+    },
+
     async getRequestorOutletId(contactId: string): Promise<string | null> {
         const response = await axiosInstance.get(`MediaContacts/${contactId}`);
         const contact = response.data;

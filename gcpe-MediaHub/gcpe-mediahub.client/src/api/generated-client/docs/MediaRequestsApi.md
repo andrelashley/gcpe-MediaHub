@@ -4,12 +4,63 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|[**apiMediaRequestsByRequestNoRequestNoGet**](#apimediarequestsbyrequestnorequestnoget) | **GET** /api/MediaRequests/byRequestNo/{requestNo} | |
 |[**apiMediaRequestsDtosGet**](#apimediarequestsdtosget) | **GET** /api/MediaRequests/dtos | |
 |[**apiMediaRequestsGet**](#apimediarequestsget) | **GET** /api/MediaRequests | |
 |[**apiMediaRequestsIdDelete**](#apimediarequestsiddelete) | **DELETE** /api/MediaRequests/{id} | |
 |[**apiMediaRequestsIdGet**](#apimediarequestsidget) | **GET** /api/MediaRequests/{id} | |
 |[**apiMediaRequestsIdPut**](#apimediarequestsidput) | **PUT** /api/MediaRequests/{id} | |
 |[**apiMediaRequestsPost**](#apimediarequestspost) | **POST** /api/MediaRequests | |
+
+# **apiMediaRequestsByRequestNoRequestNoGet**
+> MediaRequest apiMediaRequestsByRequestNoRequestNoGet()
+
+
+### Example
+
+```typescript
+import {
+    MediaRequestsApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new MediaRequestsApi(configuration);
+
+let requestNo: number; // (default to undefined)
+
+const { status, data } = await apiInstance.apiMediaRequestsByRequestNoRequestNoGet(
+    requestNo
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **requestNo** | [**number**] |  | defaults to undefined|
+
+
+### Return type
+
+**MediaRequest**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiMediaRequestsDtosGet**
 > Array<RequestDto> apiMediaRequestsDtosGet()

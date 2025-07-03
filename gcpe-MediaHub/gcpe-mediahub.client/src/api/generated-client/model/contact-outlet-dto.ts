@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { MediaContactPhoneDto } from './media-contact-phone-dto';
 
 /**
  * 
@@ -40,10 +43,10 @@ export interface ContactOutletDto {
     'contactEmails'?: Array<string> | null;
     /**
      * 
-     * @type {Array<string>}
+     * @type {Array<MediaContactPhoneDto>}
      * @memberof ContactOutletDto
      */
-    'contactPhones'?: Array<string> | null;
+    'contactPhones'?: Array<MediaContactPhoneDto> | null;
     /**
      * 
      * @type {boolean}
