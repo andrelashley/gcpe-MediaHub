@@ -27,26 +27,82 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
         }
     }, [requestNo, error, request, isLoading]);
 
-    // Helper to display assigned user idir
+    // Helper to display assigned user full name (never ID/idir if name is present)
     const getAssignedUserDisplay = () => {
         if (request?.assignedUser) {
-            return request.assignedUser.idir || request.assignedUser.id || request.assignedUserId || 'Unassigned';
+            if (request.assignedUser.fullName && request.assignedUser.fullName.trim()) {
+                return request.assignedUser.fullName;
+            }
+            if (request.assignedUser.idir && request.assignedUser.idir.trim()) {
+                return request.assignedUser.idir;
+            }
+            if (request.assignedUser.id && request.assignedUser.id.trim()) {
+                return request.assignedUser.id;
+            }
         }
         if (request?.assignedUserId) {
-            return request.assignedUserId;
+            return 'Unassigned'; // Only show 'Unassigned' if no assignedUser object
         }
         return 'Unassigned';
     };
 
-    // Helper to display FYI contact user idir
+    // Helper to get initials for Avatar (prefer fullName, then idir, then id)
+    const getAssignedUserInitials = () => {
+        if (request?.assignedUser) {
+            const name = request.assignedUser.fullName && request.assignedUser.fullName.trim()
+                ? request.assignedUser.fullName
+                : request.assignedUser.idir && request.assignedUser.idir.trim()
+                    ? request.assignedUser.idir
+                    : request.assignedUser.id && request.assignedUser.id.trim()
+                        ? request.assignedUser.id
+                        : '';
+            const parts = name.split(' ');
+            if (parts.length >= 2) {
+                return (parts[0][0] || '') + (parts[1][0] || '');
+            } else if (parts.length === 1 && parts[0].length > 0) {
+                return parts[0][0];
+            }
+        }
+        return '';
+    };
+
+    // Helper to display FYI contact user full name (never ID/idir if name is present)
     const getFyiContactUserDisplay = () => {
         if (request?.fyiContactUser) {
-            return request.fyiContactUser.idir || request.fyiContactUser.id || request.fyiContactUserId || 'Unassigned';
+            if (request.fyiContactUser.fullName && request.fyiContactUser.fullName.trim()) {
+                return request.fyiContactUser.fullName;
+            }
+            if (request.fyiContactUser.idir && request.fyiContactUser.idir.trim()) {
+                return request.fyiContactUser.idir;
+            }
+            if (request.fyiContactUser.id && request.fyiContactUser.id.trim()) {
+                return request.fyiContactUser.id;
+            }
         }
         if (request?.fyiContactUserId) {
-            return request.fyiContactUserId;
+            return 'Unassigned';
         }
         return 'Unassigned';
+    };
+
+    // Helper to get initials for FYI Contact Avatar
+    const getFyiContactUserInitials = () => {
+        if (request?.fyiContactUser) {
+            const name = request.fyiContactUser.fullName && request.fyiContactUser.fullName.trim()
+                ? request.fyiContactUser.fullName
+                : request.fyiContactUser.idir && request.fyiContactUser.idir.trim()
+                    ? request.fyiContactUser.idir
+                    : request.fyiContactUser.id && request.fyiContactUser.id.trim()
+                        ? request.fyiContactUser.id
+                        : '';
+            const parts = name.split(' ');
+            if (parts.length >= 2) {
+                return (parts[0][0] || '') + (parts[1][0] || '');
+            } else if (parts.length === 1 && parts[0].length > 0) {
+                return parts[0][0];
+            }
+        }
+        return '';
     };
 
     if (isLoading) return <div>Loading...</div>;
@@ -135,7 +191,11 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <Text weight="semibold" style={{ width: '210px' }}>Assigned To</Text>
                     <Tag shape="circular" media={
-                        <Avatar name={getAssignedUserDisplay()} size={24} />
+                        <Avatar 
+                            name={getAssignedUserDisplay()}
+                            size={24}
+                            initials={getAssignedUserInitials()}
+                        />
                     }>
                         {getAssignedUserDisplay()}
                     </Tag>
@@ -163,6 +223,7 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                                 <Avatar
                                     name={getFyiContactUserDisplay()}
                                     size={24}
+                                    initials={getFyiContactUserInitials()}
                                 />
                             }>
                                 {getFyiContactUserDisplay()}

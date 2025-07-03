@@ -34,6 +34,30 @@ export interface Address {
      * @type {string}
      * @memberof Address
      */
+    'street'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Address
+     */
+    'province'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Address
+     */
+    'country'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Address
+     */
+    'postalCode'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof Address
+     */
     'apartmentNumber'?: string | null;
     /**
      * 

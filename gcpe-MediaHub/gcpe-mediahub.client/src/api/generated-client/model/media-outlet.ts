@@ -18,6 +18,9 @@
 import type { Address } from './address';
 // May contain unused imports in some cases
 // @ts-ignore
+import type { MediaOutletPhoneNumber } from './media-outlet-phone-number';
+// May contain unused imports in some cases
+// @ts-ignore
 import type { MediaRequest } from './media-request';
 // May contain unused imports in some cases
 // @ts-ignore
@@ -70,6 +73,24 @@ export interface MediaOutlet {
     'website'?: string | null;
     /**
      * 
+     * @type {string}
+     * @memberof MediaOutlet
+     */
+    'parentOutletId'?: string | null;
+    /**
+     * 
+     * @type {MediaOutlet}
+     * @memberof MediaOutlet
+     */
+    'parentOutlet'?: MediaOutlet;
+    /**
+     * 
+     * @type {Array<MediaOutlet>}
+     * @memberof MediaOutlet
+     */
+    'childOutlets'?: Array<MediaOutlet> | null;
+    /**
+     * 
      * @type {PhoneNumber}
      * @memberof MediaOutlet
      */
@@ -98,6 +119,12 @@ export interface MediaOutlet {
      * @memberof MediaOutlet
      */
     'socialMedias'?: Array<SocialMedia> | null;
+    /**
+     * 
+     * @type {Array<MediaOutletPhoneNumber>}
+     * @memberof MediaOutlet
+     */
+    'mediaOutletPhoneNumbers'?: Array<MediaOutletPhoneNumber> | null;
     /**
      * 
      * @type {Array<MediaRequest>}

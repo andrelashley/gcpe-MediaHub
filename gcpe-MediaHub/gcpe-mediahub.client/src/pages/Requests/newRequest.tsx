@@ -348,7 +348,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         }}
                         onBlur={() => setTouchedFields(prev => ({ ...prev, requestedBy: true }))}
                     >
-                        {mediaContacts.map(contact => (
+                        {(Array.isArray(mediaContacts) ? mediaContacts : []).map(contact => (
                             <Option key={contact.id} value={contact.id.toString()} text={`${contact.firstName} ${contact.lastName}`}>{contact.firstName} {contact.lastName}</Option>
                         ))}
                         
