@@ -206,6 +206,7 @@ export const CreateContactDrawer = () => {
                 lastRequestDate: undefined,
                 mediaContact: undefined,
                 mediaOutlet: undefined,
+                outletName: undefined,
                 outletId: outletAssociations[index]?.outletId,
                 contactEmail: outletAssociations[index]?.contactEmail,
                 contactPhones: outletAssociations[index]?.contactPhones,

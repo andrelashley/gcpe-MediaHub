@@ -95,6 +95,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             id: undefined, //done on server
             outletId: outletId,
             contactEmail: contactEmail,
+            outletName: undefined,
             noLongerWorksHere: doesNotWorkHere,
             contactPhones: getContactPhones(),
             lastRequestDate: undefined,
