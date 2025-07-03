@@ -21,7 +21,6 @@ import MediaOutletInput from "./MediaOutletInput";
 import MediaContact from "../../models/mediaContact";
 import MediaOutlet from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
-import PrimaryContactInfoInput from "./PrimaryContactInfoInput";
 import { SocialMediaCompany } from "../../models/SocialMediaCompany";
 import OrgPhoneNumber from "./OrgPhoneNumber";
 import { SocialMediaLink } from "../../models/SocialMediaLink";
@@ -206,8 +205,8 @@ export const CreateContactDrawer = () => {
                 contactId: undefined, // This can be set after the contact is created
                 lastRequestDate: undefined,
                 mediaContact: undefined,
+                mediaOutlet: undefined,
                 outletId: outletAssociations[index]?.outletId,
-                outlet: undefined,
                 contactEmail: outletAssociations[index]?.contactEmail,
                 contactPhones: outletAssociations[index]?.contactPhones,
                 noLongerWorksHere: outletAssociations[index]?.noLongerWorksHere,
@@ -262,7 +261,7 @@ export const CreateContactDrawer = () => {
         const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(`${apiUrl}mediaoutlets`);
         const data = await response.json();
-        console.log(JSON.stringify(data));
+     //   console.log(JSON.stringify(data));
         const outlets: MediaOutlet[] = data as MediaOutlet[];
         setOutlets(outlets);
     };
