@@ -19,6 +19,9 @@ import type { ContactOutletDto } from './contact-outlet-dto';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { MediaRequestDto } from './media-request-dto';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { SocialMediaDto } from './social-media-dto';
 
 /**
  * 
@@ -64,6 +67,18 @@ export interface MediaContactDto {
     'jobTitle'?: string | null;
     /**
      * 
+     * @type {boolean}
+     * @memberof MediaContactDto
+     */
+    'isPressGallery'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof MediaContactDto
+     */
+    'personalWebsite'?: string | null;
+    /**
+     * 
      * @type {Array<ContactOutletDto>}
      * @memberof MediaContactDto
      */
@@ -74,5 +89,11 @@ export interface MediaContactDto {
      * @memberof MediaContactDto
      */
     'requests'?: Array<MediaRequestDto> | null;
+    /**
+     * 
+     * @type {Array<SocialMediaDto>}
+     * @memberof MediaContactDto
+     */
+    'socialMedias'?: Array<SocialMediaDto> | null;
 }
 
