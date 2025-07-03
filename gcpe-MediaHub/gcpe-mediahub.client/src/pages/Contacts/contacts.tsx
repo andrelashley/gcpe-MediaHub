@@ -1,20 +1,15 @@
 
 
-// import MediaContact from '../../models/MediaContact';
 import ContactsTable from './contactsTable';
 import { useState, useEffect } from 'react';
 import CreateContactButton from './CreateContactButton';
-//import { contactService } from '../../services/contactService';
 import MediaContact from '../../models/mediaContact';
 import {
     Title1,
     makeStyles,
 } from '@fluentui/react-components';
 import Layout from '../../components/Layout';
-//import { useQuery } from '@tanstack/react-query';
-//import { AuthenticationContext } from '../../App';
-//import React from 'react';
-// import MediaContact from '../../models/mediaContact';
+
 
 const useStyles = makeStyles({
     button: {

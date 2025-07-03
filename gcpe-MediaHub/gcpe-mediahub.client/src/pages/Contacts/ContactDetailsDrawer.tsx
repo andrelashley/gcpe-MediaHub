@@ -77,18 +77,15 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                     <p>{contact.location}</p>
                     <TagGroup>
                         <Tag>{contact.email}</Tag>
-                        {contact.socialMediaXURL &&
-                            <Tag>{contact.socialMediaXURL}</Tag>
-                        }
-                        {contact.socialMediaInstagramURL &&
-                            <Tag>{contact.socialMediaInstagramURL}</Tag>
-                        }
+                        {contact.socialMedias && contact.socialMedias.map((social, index) => (
+                            <Tag key={index}>{social.socialProfileUrl}</Tag> 
+                        ))}
                     </TagGroup>
                 </DrawerHeader>
 
                 <DrawerBody>
                     <ContactRelatedItemsList
-                        outlets={contact.outlets}
+                        outlets={contact.mediaOutletContactRelationships}
                         requests={contact.requests}
                     />
                  

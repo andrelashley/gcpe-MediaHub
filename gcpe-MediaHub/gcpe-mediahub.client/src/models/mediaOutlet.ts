@@ -24,7 +24,7 @@ export class MediaOutlet {
     languages: languages[] = [];
 
     constructor(name: string, email: string, phone: string ) {
-        this.name = name;
+        this.outletName = name;
         this.email = email;
         this.phone = phone;
     }
