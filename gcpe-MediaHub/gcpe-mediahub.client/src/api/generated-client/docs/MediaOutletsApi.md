@@ -4,14 +4,58 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|[**apiMediaOutletsDropdownsGet**](#apimediaoutletsdropdownsget) | **GET** /api/MediaOutlets/dropdowns | |
 |[**apiMediaOutletsGet**](#apimediaoutletsget) | **GET** /api/MediaOutlets | |
 |[**apiMediaOutletsIdDelete**](#apimediaoutletsiddelete) | **DELETE** /api/MediaOutlets/{id} | |
 |[**apiMediaOutletsIdGet**](#apimediaoutletsidget) | **GET** /api/MediaOutlets/{id} | |
 |[**apiMediaOutletsIdPut**](#apimediaoutletsidput) | **PUT** /api/MediaOutlets/{id} | |
 |[**apiMediaOutletsPost**](#apimediaoutletspost) | **POST** /api/MediaOutlets | |
 
+# **apiMediaOutletsDropdownsGet**
+> apiMediaOutletsDropdownsGet()
+
+
+### Example
+
+```typescript
+import {
+    MediaOutletsApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new MediaOutletsApi(configuration);
+
+const { status, data } = await apiInstance.apiMediaOutletsDropdownsGet();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **apiMediaOutletsGet**
-> Array<MediaOutlet> apiMediaOutletsGet()
+> Array<OrganizationListDto> apiMediaOutletsGet()
 
 
 ### Example
@@ -34,7 +78,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**Array<MediaOutlet>**
+**Array<OrganizationListDto>**
 
 ### Authorization
 
@@ -217,16 +261,16 @@ No authorization required
 import {
     MediaOutletsApi,
     Configuration,
-    MediaOutlet
+    CreateOrganizationDto
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new MediaOutletsApi(configuration);
 
-let mediaOutlet: MediaOutlet; // (optional)
+let createOrganizationDto: CreateOrganizationDto; // (optional)
 
 const { status, data } = await apiInstance.apiMediaOutletsPost(
-    mediaOutlet
+    createOrganizationDto
 );
 ```
 
@@ -234,7 +278,7 @@ const { status, data } = await apiInstance.apiMediaOutletsPost(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **mediaOutlet** | **MediaOutlet**|  | |
+| **createOrganizationDto** | **CreateOrganizationDto**|  | |
 
 
 ### Return type

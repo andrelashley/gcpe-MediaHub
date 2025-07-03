@@ -22,13 +22,46 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { CreateOrganizationDto } from '../model';
+// @ts-ignore
 import type { MediaOutlet } from '../model';
+// @ts-ignore
+import type { OrganizationListDto } from '../model';
 /**
  * MediaOutletsApi - axios parameter creator
  * @export
  */
 export const MediaOutletsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaOutletsDropdownsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/MediaOutlets/dropdowns`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -163,11 +196,11 @@ export const MediaOutletsApiAxiosParamCreator = function (configuration?: Config
         },
         /**
          * 
-         * @param {MediaOutlet} [mediaOutlet] 
+         * @param {CreateOrganizationDto} [createOrganizationDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaOutletsPost: async (mediaOutlet?: MediaOutlet, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiMediaOutletsPost: async (createOrganizationDto?: CreateOrganizationDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/MediaOutlets`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -187,7 +220,7 @@ export const MediaOutletsApiAxiosParamCreator = function (configuration?: Config
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(mediaOutlet, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(createOrganizationDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -209,7 +242,18 @@ export const MediaOutletsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiMediaOutletsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MediaOutlet>>> {
+        async apiMediaOutletsDropdownsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaOutletsDropdownsGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MediaOutletsApi.apiMediaOutletsDropdownsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiMediaOutletsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<OrganizationListDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaOutletsGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MediaOutletsApi.apiMediaOutletsGet']?.[localVarOperationServerIndex]?.url;
@@ -254,12 +298,12 @@ export const MediaOutletsApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {MediaOutlet} [mediaOutlet] 
+         * @param {CreateOrganizationDto} [createOrganizationDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiMediaOutletsPost(mediaOutlet?: MediaOutlet, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaOutlet>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaOutletsPost(mediaOutlet, options);
+        async apiMediaOutletsPost(createOrganizationDto?: CreateOrganizationDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<MediaOutlet>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaOutletsPost(createOrganizationDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['MediaOutletsApi.apiMediaOutletsPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -279,7 +323,15 @@ export const MediaOutletsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiMediaOutletsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<MediaOutlet>> {
+        apiMediaOutletsDropdownsGet(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiMediaOutletsDropdownsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaOutletsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<OrganizationListDto>> {
             return localVarFp.apiMediaOutletsGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -316,7 +368,7 @@ export const MediaOutletsApiFactory = function (configuration?: Configuration, b
          * @throws {RequiredError}
          */
         apiMediaOutletsPost(requestParameters: MediaOutletsApiApiMediaOutletsPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<MediaOutlet> {
-            return localVarFp.apiMediaOutletsPost(requestParameters.mediaOutlet, options).then((request) => request(axios, basePath));
+            return localVarFp.apiMediaOutletsPost(requestParameters.createOrganizationDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -378,10 +430,10 @@ export interface MediaOutletsApiApiMediaOutletsIdPutRequest {
 export interface MediaOutletsApiApiMediaOutletsPostRequest {
     /**
      * 
-     * @type {MediaOutlet}
+     * @type {CreateOrganizationDto}
      * @memberof MediaOutletsApiApiMediaOutletsPost
      */
-    readonly mediaOutlet?: MediaOutlet
+    readonly createOrganizationDto?: CreateOrganizationDto
 }
 
 /**
@@ -391,6 +443,16 @@ export interface MediaOutletsApiApiMediaOutletsPostRequest {
  * @extends {BaseAPI}
  */
 export class MediaOutletsApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MediaOutletsApi
+     */
+    public apiMediaOutletsDropdownsGet(options?: RawAxiosRequestConfig) {
+        return MediaOutletsApiFp(this.configuration).apiMediaOutletsDropdownsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.
@@ -442,7 +504,7 @@ export class MediaOutletsApi extends BaseAPI {
      * @memberof MediaOutletsApi
      */
     public apiMediaOutletsPost(requestParameters: MediaOutletsApiApiMediaOutletsPostRequest = {}, options?: RawAxiosRequestConfig) {
-        return MediaOutletsApiFp(this.configuration).apiMediaOutletsPost(requestParameters.mediaOutlet, options).then((request) => request(this.axios, this.basePath));
+        return MediaOutletsApiFp(this.configuration).apiMediaOutletsPost(requestParameters.createOrganizationDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

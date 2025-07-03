@@ -6,6 +6,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  | [optional] [default to undefined]
+**street** | **string** |  | [optional] [default to undefined]
+**province** | **string** |  | [optional] [default to undefined]
+**country** | **string** |  | [optional] [default to undefined]
+**postalCode** | **string** |  | [optional] [default to undefined]
 **apartmentNumber** | **string** |  | [optional] [default to undefined]
 **ruralRoute** | **string** |  | [optional] [default to undefined]
 **city** | **string** |  | [optional] [default to undefined]
@@ -21,6 +25,10 @@ import { Address } from './api';
 
 const instance: Address = {
     id,
+    street,
+    province,
+    country,
+    postalCode,
     apartmentNumber,
     ruralRoute,
     city,

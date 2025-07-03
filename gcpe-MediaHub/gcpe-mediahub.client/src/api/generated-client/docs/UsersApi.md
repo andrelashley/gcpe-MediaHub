@@ -4,8 +4,59 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|[**apiUsersByIdIdGet**](#apiusersbyididget) | **GET** /api/Users/byId/{id} | |
 |[**apiUsersGet**](#apiusersget) | **GET** /api/Users | |
 |[**apiUsersIdirGet**](#apiusersidirget) | **GET** /api/Users/{idir} | |
+
+# **apiUsersByIdIdGet**
+> User apiUsersByIdIdGet()
+
+
+### Example
+
+```typescript
+import {
+    UsersApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new UsersApi(configuration);
+
+let id: number; // (default to undefined)
+
+const { status, data } = await apiInstance.apiUsersByIdIdGet(
+    id
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**number**] |  | defaults to undefined|
+
+
+### Return type
+
+**User**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersGet**
 > Array<User> apiUsersGet()
