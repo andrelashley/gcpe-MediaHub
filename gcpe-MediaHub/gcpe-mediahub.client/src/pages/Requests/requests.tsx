@@ -10,84 +10,55 @@ import {
 import { Title1, Input, Button, TabList, Tab, Tag, Avatar, Link, Drawer } from '@fluentui/react-components';
 import { PressGalleryBadge } from '../../components/PressGalleryBadge';
 import { Search16Regular, Filter24Regular, Add24Regular } from '@fluentui/react-icons';
-import { MediaRequest } from '../../api/generated-client/model';
+import { MediaRequestDto } from '../../api/generated-client/model/media-request-dto';
 import { RequestStatus, Ministry } from './types';
 import { requestService } from '../../services/requestService';
 import RequestDetailView from './requestDetailView';
 import NewRequestPage from './newRequest';
 import styles from './requests.module.css';
 
-const columnHelper = createColumnHelper<MediaRequest>();
+const columnHelper = createColumnHelper<MediaRequestDto>();
 
 const columns = [
     columnHelper.accessor('requestTitle', {
         header: () => 'Request Title',
-        cell: info => info.getValue(),
+        cell: info => info.getValue() ?? '',
         size: 400,
         minSize: 300,
         maxSize: 600,
     }),
-    columnHelper.accessor('deadline', {
-        header: () => 'Deadline',
-        cell: info => new Date(info.getValue() || "1970-01-01").toLocaleDateString(),
+    columnHelper.accessor('receivedOn', {
+        header: () => 'Received On',
+        cell: info => info.getValue() ? new Date(info.getValue()!).toLocaleDateString() : '',
         size: 120,
     }),
-    columnHelper.accessor('requestStatus', {
-        header: () => 'Status',
-        cell: info => (
-            <Tag shape="circular" appearance="outline">
-                {info.getValue()?.name || info.row.original.requestStatusId || "Unknown"}
-            </Tag>
-        ),
-        size: 80,
-    }),
-    columnHelper.accessor('requestorContact', {
-        header: () => 'Requested By',
-        cell: info => {
-            const contact = info.getValue();
-            return (
-                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                    <span>{contact?.firstName} {contact?.lastName}</span>
-                </div>
-            );
-        },
-        size: 150,
+    columnHelper.accessor('deadline', {
+        header: () => 'Deadline',
+        cell: info => info.getValue() ? new Date(info.getValue()!).toLocaleDateString() : '',
+        size: 120,
     }),
     columnHelper.accessor('leadMinistry', {
         header: () => 'Lead Ministry',
         cell: info => (
             <Tag shape="circular" appearance="outline">
-                {info.getValue()?.acronym || 'Unknown'}
+                {info.getValue()?.acronym || info.getValue()?.name || 'Unknown'}
             </Tag>
         ),
         size: 100,
     }),
-    columnHelper.accessor('additionalMinistries', {
-        header: () => 'Additional Ministry',
-        cell: info => (
-            info.getValue()?.[0]?.acronym
-                ? <Tag shape="circular" appearance="outline">{info.getValue()[0].acronym}</Tag>
-                : null
-        ),
-        size: 100,
-    }),
-    columnHelper.accessor('requestorOutlet', {
-        header: () => 'Outlet',
-        cell: info => info.getValue()?.outletName || 'Unknown',
-        size: 120,
-    }),
+    // Add more columns as needed for other DTO fields
 ];
 
 const RequestsPage: React.FC = () => {
     // Removed unused navigate
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedTab, setSelectedTab] = useState<string>("all");
-    const [selectedRequest, setSelectedRequest] = useState<MediaRequest | null>(null);
+    const [selectedRequest, setSelectedRequest] = useState<MediaRequestDto | null>(null);
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-    const { data: requests = [], isLoading, error } = useQuery<MediaRequest[], Error>({
+    const { data: requests = [], isLoading, error } = useQuery<MediaRequestDto[], Error>({
         queryKey: ['requests'],
-        queryFn: requestService.getRequests,
+        queryFn: requestService.getRequestDtos, // Use the DTO endpoint for requests
     });
 
     const filteredRequests = useMemo(() => {
@@ -97,13 +68,11 @@ const RequestsPage: React.FC = () => {
         const query = searchQuery.toLowerCase();
         return requests.filter((request) => {
             const searchableFields = [
-                request.requestTitle,
-                `${request.requestorContact?.firstName ?? ""} ${request.requestorContact?.lastName ?? ""}`,
-                request.leadMinistry?.acronym ?? "",
-                request.additionalMinistries?.[0]?.acronym ?? "",
-                request.requestStatus?.name ?? request.requestStatusId ?? "",
-                request.requestorOutlet?.outletName ?? "",
-                new Date(request.deadline ?? "").toLocaleDateString()
+                request.requestTitle ?? '',
+                request.leadMinistry?.acronym ?? '',
+                request.leadMinistry?.name ?? '',
+                new Date(request.deadline ?? '').toLocaleDateString(),
+                new Date(request.receivedOn ?? '').toLocaleDateString(),
             ];
             return searchableFields.some(field =>
                 String(field).toLowerCase().includes(query)
@@ -172,7 +141,7 @@ const RequestsPage: React.FC = () => {
                 >
                     {selectedRequest && (
                         <RequestDetailView
-                            request={selectedRequest}
+                            requestId={selectedRequest?.id ?? ''}
                             onClose={() => {
                                 setIsDrawerOpen(false);
                                 setSelectedRequest(null);

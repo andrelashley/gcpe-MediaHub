@@ -28,6 +28,12 @@ export interface MediaRequestDto {
      * @type {string}
      * @memberof MediaRequestDto
      */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof MediaRequestDto
+     */
     'requestTitle'?: string | null;
     /**
      * 
@@ -47,5 +53,11 @@ export interface MediaRequestDto {
      * @memberof MediaRequestDto
      */
     'leadMinistry'?: Ministry;
+    /**
+     * 
+     * @type {number}
+     * @memberof MediaRequestDto
+     */
+    'requestNo'?: number;
 }
 
