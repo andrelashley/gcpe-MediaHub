@@ -11,8 +11,11 @@ Name | Type | Description | Notes
 **email** | **string** |  | [optional] [default to undefined]
 **isActive** | **boolean** |  | [optional] [default to undefined]
 **jobTitle** | **string** |  | [optional] [default to undefined]
+**isPressGallery** | **boolean** |  | [optional] [default to undefined]
+**personalWebsite** | **string** |  | [optional] [default to undefined]
 **mediaOutletContactRelationships** | [**Array&lt;ContactOutletDto&gt;**](ContactOutletDto.md) |  | [optional] [default to undefined]
 **requests** | [**Array&lt;MediaRequestDto&gt;**](MediaRequestDto.md) |  | [optional] [default to undefined]
+**socialMedias** | [**Array&lt;SocialMediaDto&gt;**](SocialMediaDto.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -26,8 +29,11 @@ const instance: MediaContactDto = {
     email,
     isActive,
     jobTitle,
+    isPressGallery,
+    personalWebsite,
     mediaOutletContactRelationships,
     requests,
+    socialMedias,
 };
 ```
 

@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **website** | **string** |  | [optional] [default to undefined]
 **mediaTypeIds** | **Array&lt;number&gt;** |  | [optional] [default to undefined]
 **writtenLanguageIds** | **Array&lt;number&gt;** |  | [optional] [default to undefined]
-**phoneNumbers** | [**Array&lt;PhoneNumberDto2&gt;**](PhoneNumberDto2.md) |  | [optional] [default to undefined]
+**phoneNumbers** | [**Array&lt;PhoneNumberDto&gt;**](PhoneNumberDto.md) |  | [optional] [default to undefined]
 **socialMediaLinks** | [**Array&lt;SocialMediaLinkDto&gt;**](SocialMediaLinkDto.md) |  | [optional] [default to undefined]
 **address** | [**AddressDto**](AddressDto.md) |  | [optional] [default to undefined]
 

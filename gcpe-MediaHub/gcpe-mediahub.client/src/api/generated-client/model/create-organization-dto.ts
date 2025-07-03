@@ -18,7 +18,7 @@
 import type { AddressDto } from './address-dto';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { PhoneNumberDto2 } from './phone-number-dto2';
+import type { PhoneNumberDto } from './phone-number-dto';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { SocialMediaLinkDto } from './social-media-link-dto';
@@ -79,10 +79,10 @@ export interface CreateOrganizationDto {
     'writtenLanguageIds'?: Array<number> | null;
     /**
      * 
-     * @type {Array<PhoneNumberDto2>}
+     * @type {Array<PhoneNumberDto>}
      * @memberof CreateOrganizationDto
      */
-    'phoneNumbers'?: Array<PhoneNumberDto2> | null;
+    'phoneNumbers'?: Array<PhoneNumberDto> | null;
     /**
      * 
      * @type {Array<SocialMediaLinkDto>}

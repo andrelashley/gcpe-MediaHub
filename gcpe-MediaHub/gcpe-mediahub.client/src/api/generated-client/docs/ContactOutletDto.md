@@ -6,6 +6,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **outletName** | **string** |  | [optional] [default to undefined]
+**outletId** | **string** |  | [optional] [default to undefined]
 **outletEmail** | **string** |  | [optional] [default to undefined]
 **contactEmails** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 **contactPhones** | [**Array&lt;MediaContactPhoneDto&gt;**](MediaContactPhoneDto.md) |  | [optional] [default to undefined]
@@ -18,6 +19,7 @@ import { ContactOutletDto } from './api';
 
 const instance: ContactOutletDto = {
     outletName,
+    outletId,
     outletEmail,
     contactEmails,
     contactPhones,

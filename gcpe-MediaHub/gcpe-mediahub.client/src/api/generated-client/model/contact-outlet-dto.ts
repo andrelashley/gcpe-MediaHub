@@ -34,6 +34,12 @@ export interface ContactOutletDto {
      * @type {string}
      * @memberof ContactOutletDto
      */
+    'outletId'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ContactOutletDto
+     */
     'outletEmail'?: string | null;
     /**
      * 
