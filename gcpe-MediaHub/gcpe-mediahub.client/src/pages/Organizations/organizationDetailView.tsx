@@ -30,12 +30,14 @@ import YouTubeIcon from '../../assets/icons/youtube.svg';
 import styles from './organizationDetailView.module.css';
 
 import FieldRow from "./fieldRow";
+import { Organization } from "./types";
 
 interface OrganizationDetailViewProps {
+    org: Organization
     onClose?: () => void;
 }
 
-const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ onClose }) => {
+const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, onClose }) => {
     const [selectedTab, setSelectedTab] = React.useState<"contacts" | "outlets">("contacts");
 
     return (
@@ -64,8 +66,31 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ onClose
               <Text weight="semibold" size={600}>
                 CBC
               </Text>
-              <Tag appearance="outline" style={{backgroundColor: "var(--colorBrandBackground2)", color: "var(--colorBrandForeground1)"}} shape="circular">Network</Tag>
-              <Tag appearance="filled"  style={{backgroundColor: "var(--colorBrandBackground)", color: "var(--colorNeutralForegroundOnBrand)"}} shape="circular" icon={<Important24Regular />}>Major</Tag>
+              {org.parentId == null && (
+              <Tag
+                appearance="outline"
+                style={{
+                  backgroundColor: "var(--colorBrandBackground2)",
+                  color: "var(--colorBrandForeground1)",
+                }}
+                shape="circular"
+              >
+                Network
+              </Tag>
+            )}
+              {org.isMajorMedia && (
+              <Tag
+                appearance="filled"
+                style={{
+                  backgroundColor: "var(--colorBrandBackground)",
+                  color: "var(--colorNeutralForegroundOnBrand)",
+                }}
+                shape="circular"
+                icon={<Important24Regular />}
+              >
+                Major
+              </Tag>
+            )}
             </div>
 
             {/* Right side: Menu */}
@@ -83,7 +108,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ onClose
         </div>
 
         <div style={{display: 'flex', flexDirection: 'column' }}>
-          <Text size={300}>TV, Radio, Online</Text>
+          <Text size={300}>{org.mediaTypes.join(', ')}</Text>
           <Text size={300}>250 Front Street West, Toronto</Text>
         </div>
 
@@ -191,8 +216,8 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ onClose
 
         {/* Right: Search + Add grouped */}
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <Input placeholder="Search" contentBefore={<Search24Regular />} />
-          <Button appearance="primary" icon={<Add24Regular />}>
+          <Input placeholder="Search" contentBefore={<Search24Regular />} disabled />
+          <Button appearance="primary" icon={<Add24Regular />} disabled>
             Add
           </Button>
         </div>
@@ -349,7 +374,6 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ onClose
         
       
         <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
-
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
             <Text size={400} weight="semibold">Barbara Smith</Text>
@@ -398,10 +422,6 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ onClose
         </div>
         </>
       )}
-
-      
-      
-
 
        {selectedTab === "outlets" && (
       <>
@@ -551,8 +571,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ onClose
           </Field>
         </FieldRow>
       </div>
-        
-      
+            
         <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
 
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
