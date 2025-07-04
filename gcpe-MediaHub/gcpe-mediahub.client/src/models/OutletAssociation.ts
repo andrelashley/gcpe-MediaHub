@@ -6,7 +6,7 @@ export class OutletAssociation {
     id: string | undefined;
     contactId: number | undefined;
     mediaContact: MediaContact | undefined;
-    outletId: number | undefined;
+    outletId: string | undefined;
     outletName: string | undefined;
     mediaOutlet: MediaOutlet | undefined;
     contactEmail: string | undefined;
