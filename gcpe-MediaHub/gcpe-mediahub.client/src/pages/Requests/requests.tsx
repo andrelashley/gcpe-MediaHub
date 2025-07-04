@@ -141,7 +141,7 @@ const RequestsPage: React.FC = () => {
                 >
                     {selectedRequest && (
                         <RequestDetailView
-                            requestId={selectedRequest?.id ?? ''}
+                            requestNo={selectedRequest?.requestNo ?? 0}
                             onClose={() => {
                                 setIsDrawerOpen(false);
                                 setSelectedRequest(null);
