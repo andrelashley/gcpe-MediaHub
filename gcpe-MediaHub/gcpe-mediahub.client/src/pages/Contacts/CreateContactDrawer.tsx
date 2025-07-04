@@ -222,10 +222,8 @@ export const CreateContactDrawer = () => {
                 mediaContactId: undefined,
                 mediaOutletId: undefined, // won't set this
                 mediaOutlet: undefined, // won't be set
-
                 socialProfileUrl: socialMedias[index]?.socialProfileUrl, 
                 socialMediaCompanyId: socialMedias[index]?.socialMediaCompanyId,
-                company: "",
                 mediaContact: undefined,
             };
             contact.socialMedias.push(socialMedia);
@@ -326,27 +324,27 @@ export const CreateContactDrawer = () => {
                         label="Press gallery"
                         onChange={(_, data) => setIsPressGallery(!!data.checked)}
                     />
-                    <Field label="Primary Contact Info"
-                        required
-                        validationMessage={showValidation ? "An email address is required" : undefined}
-                        validationState={showValidation ? "error" : "none"}
-                    >
-                        <Field label="Email" required>
-                            <Input
-                                onChange={(_, data) => {
-                                    setEmail(data.value);
-                                }}
-                            />
-                        </Field>
-                        {primaryContactInfoInputs.map((_, index) => (
-                            <OrgPhoneNumber
-                                key={index}
-                                onRemove={() => removePrimaryContactInfoInput(index)}
-                                onPhoneNumberChange={(data: PhoneNumber) => handlePhoneNumberChange(index, data)}
-                            />
-                        ))}
+                    {/*<Field label="Primary Contact Info"*/}
+                    {/*    required*/}
+                    {/*    validationMessage={showValidation ? "An email address is required" : undefined}*/}
+                    {/*    validationState={showValidation ? "error" : "none"}*/}
+                    {/*>*/}
+                    {/*    <Field label="Email" required>*/}
+                    {/*        <Input*/}
+                    {/*            onChange={(_, data) => {*/}
+                    {/*                setEmail(data.value);*/}
+                    {/*            }}*/}
+                    {/*        />*/}
+                    {/*    </Field>*/}
+                    {/*    {primaryContactInfoInputs.map((_, index) => (*/}
+                    {/*        <OrgPhoneNumber*/}
+                    {/*            key={index}*/}
+                    {/*            onRemove={() => removePrimaryContactInfoInput(index)}*/}
+                    {/*            onPhoneNumberChange={(data: PhoneNumber) => handlePhoneNumberChange(index, data)}*/}
+                    {/*        />*/}
+                    {/*    ))}*/}
                   
-                    </Field>
+                    {/*</Field>*/}
                     <p>
                         <Button appearance="subtle"
                             className={styles.addButton}
