@@ -260,7 +260,7 @@ export const CreateContactDrawer = () => {
         const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(`${apiUrl}mediaoutlets`);
         const data = await response.json();
-     //   console.log(JSON.stringify(data));
+        console.log(JSON.stringify(data));
         const outlets: MediaOutlet[] = data as MediaOutlet[];
         setOutlets(outlets);
     };

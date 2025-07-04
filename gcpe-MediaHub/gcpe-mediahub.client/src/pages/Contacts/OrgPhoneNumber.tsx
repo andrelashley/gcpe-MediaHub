@@ -43,7 +43,7 @@ interface OrgPhoneProps {
 }
 
 const OrgPhoneNumber: React.FC<OrgPhoneProps> = ({ onRemove, onPhoneNumberChange }) => {
-    const [type, setType] = useState<string>('');
+    const [type, setType] = useState<string>('primary');
     const [phoneNumber, setPhoneNumber] = useState<string>();
 
     useEffect(() => {

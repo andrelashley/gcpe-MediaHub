@@ -66,9 +66,9 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
     } 
 
     const columns = [
-        columnHelper.accessor('firstName', {
+        columnHelper.accessor(row => `${row.firstName} ${row.lastName}`, {
             header: 'Name',
-            cell: item => item.getValue(),
+            
         }),
         columnHelper.accessor('mediaOutletContactRelationships', {
             header: 'Media Outlets',

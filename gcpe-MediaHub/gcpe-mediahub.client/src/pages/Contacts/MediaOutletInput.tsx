@@ -46,7 +46,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
     const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
     const [contactPhones, setContactPhones] = useState<(PhoneNumber)[]>([]);
    
-    const [outletId, setOutletId] = useState<number>();
+    const [outletId, setOutletId] = useState<string>();
     const [contactEmail, setContactEmail] = useState<string>();
     const [jobTitle, setJobTitle] = useState<string>();
 
@@ -122,7 +122,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             >
                 <Select
                     onChange={(_, data) => {
-                        setOutletId(parseInt(data.value))
+                        setOutletId(data.value)
                     }}
                 >
                     <option/>
@@ -130,7 +130,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                         <option value={outlet.id.toString()}
                             key={outlet.id.toString()}
                         >
-                            {outlet.outletName}
+                            {outlet.name}
                         </option>
                     ))}
                 </Select>
