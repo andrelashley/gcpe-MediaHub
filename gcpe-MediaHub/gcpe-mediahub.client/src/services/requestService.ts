@@ -77,10 +77,6 @@ const axiosInstance = axios.create({
 
 export const requestService = {
     async getRequests(): Promise<MediaRequest[]> {
-        if (import.meta.env.VITE_MRM_API === '0') {
-            const mockData = await loadMockData();
-            return convertMockData(mockData);
-        }
         
         const response = await axiosInstance.get<MediaRequest[]>('MediaRequests');
         return response.data;
@@ -113,22 +109,13 @@ export const requestService = {
     },
 
     async getRequestById(id: string): Promise<MediaRequest> {
-        if (import.meta.env.VITE_MRM_API === '0') {
-            const mockData = await loadMockData();
-            // Return the first mock as a RequestDto, or undefined if not found
-            const dtos = convertMockData(mockData);
-            return dtos.length > 0 ? dtos[0] : undefined;
-        }
+
         const response = await axiosInstance.get<MediaRequest>(`MediaRequests/${id}`);
         return response.data;
     },
 
     async getRequestByRequestNo(requestNo: number): Promise<MediaRequest> {
-        if (import.meta.env.VITE_MRM_API === '0') {
-            const mockData = await loadMockData();
-            const dtos = convertMockData(mockData);
-            return dtos.find(r => r.requestNo === requestNo);
-        }
+        
         const response = await axiosInstance.get<MediaRequest>(`MediaRequests/byRequestNo/${requestNo}`);
         return response.data;
     },

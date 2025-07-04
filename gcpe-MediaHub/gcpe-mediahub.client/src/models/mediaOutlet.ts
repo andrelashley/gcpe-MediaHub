@@ -20,6 +20,7 @@ export class MediaOutlet {
     name: String;
     email: String;
     phone: String;
+    outletName: String;
     mediaType: mediaType[] = [];
     languages: languages[] = [];
 
