@@ -97,7 +97,7 @@ const Organizations = () => {
       const fetchOrganizations = async () => {
         try {
           const apiUrl = import.meta.env.VITE_API_URL;
-          const response = await fetch(`${apiUrl}mediaOutlets`);
+          const response = await fetch(`${apiUrl}/mediaOutlets`);
           const apiData = await response.json();
 
           const mapped = apiData.map((org: any) => ({
