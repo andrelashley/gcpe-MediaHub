@@ -39,8 +39,9 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose, cont
 
        useEffect(() => {
         const fetchDropdowns = async() => {
-          const apiUrl = import.meta.env.VITE_API_URL;
-          const response = await fetch(`${apiUrl}/mediaoutlets/dropdowns`);
+          const apiUrl = import.meta.env.VITE_API_URL || '/api/';
+          const normalizedApiUrl = apiUrl.endsWith('/') ? apiUrl : `${apiUrl}/`;
+          const response = await fetch(`${normalizedApiUrl}mediaoutlets/dropdowns`);
           const data = await response.json();
           setMediaTypeOptions(data.mediaTypes);
           setLanguageTypeOptions(data.writtenLanguages);
@@ -150,7 +151,8 @@ const handleSave = (e: React.FormEvent) => {
   };
 
     const apiUrl = import.meta.env.VITE_API_URL;
-    fetch(`${apiUrl}/mediaoutlets`, {
+    const normalizedApiUrl = apiUrl.endsWith('/') ? apiUrl : `${apiUrl}/`;
+    fetch(`${normalizedApiUrl}mediaoutlets`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

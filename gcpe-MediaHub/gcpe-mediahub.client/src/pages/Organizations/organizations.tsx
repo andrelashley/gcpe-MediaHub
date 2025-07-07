@@ -96,8 +96,10 @@ const Organizations = () => {
     useEffect(() => {
       const fetchOrganizations = async () => {
         try {
-          const apiUrl = import.meta.env.VITE_API_URL;
-          const response = await fetch(`${apiUrl}/mediaOutlets`);
+          const apiUrl = import.meta.env.VITE_API_URL || '/api/';
+          const normalizedApiUrl = apiUrl.endsWith('/') ? apiUrl : `${apiUrl}/`;
+
+          const response = await fetch(`${normalizedApiUrl}mediaOutlets`);
           const apiData = await response.json();
 
           const mapped = apiData.map((org: any) => ({
