@@ -12,9 +12,13 @@ import {
     Checkbox,
     makeStyles,
     Divider,
+    Title3,
+    Dropdown,
+    Option,
+    Card
 } from "@fluentui/react-components";
 
-import { Dismiss24Regular, Add24Regular } from "@fluentui/react-icons";
+import { Dismiss24Regular, Add24Regular, Add16Regular } from "@fluentui/react-icons";
 import SocialMediaInput from "./SocialMediaInput";
 import { useEffect, useRef, useState } from "react";
 import MediaOutletInput from "./MediaOutletInput";
@@ -22,7 +26,6 @@ import MediaContact from "../../models/mediaContact";
 import MediaOutlet from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
 import { SocialMediaCompany } from "../../models/SocialMediaCompany";
-import OrgPhoneNumber from "./OrgPhoneNumber";
 import { SocialMediaLink } from "../../models/SocialMediaLink";
 import { PhoneNumber } from "../../models/PhoneNumber";
 
@@ -81,6 +84,27 @@ export const CreateContactDrawer = () => {
     //for primary contact info input tracking
     const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
     const [contactPhones, setContactPhones] = useState<PhoneNumber[]>([]);
+
+    const [socialMediaLinks, setSocialMediaLinks] = useState([
+          { typeName: '', url: '' }
+    ]);
+
+    const [workplaces, setWorkplaces] = useState([
+        {
+            mediaOrg: '',
+            jobTitle: '',
+            email: '',
+            phoneType: '',
+            phoneNumber: ''
+        }
+    ]);
+
+    const addWorkplace = () => {
+    setWorkplaces(prev => [
+            ...prev,
+            { mediaOrg: '', jobTitle: '', email: '', phoneType: '', phoneNumber: '' }
+        ]);
+    };
 
     const addPrimaryContactInfoInput = () => {
         setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
@@ -324,110 +348,123 @@ export const CreateContactDrawer = () => {
                         label="Press gallery"
                         onChange={(_, data) => setIsPressGallery(!!data.checked)}
                     />
-                    {/*<Field label="Primary Contact Info"*/}
-                    {/*    required*/}
-                    {/*    validationMessage={showValidation ? "An email address is required" : undefined}*/}
-                    {/*    validationState={showValidation ? "error" : "none"}*/}
-                    {/*>*/}
-                    {/*    <Field label="Email" required>*/}
-                    {/*        <Input*/}
-                    {/*            onChange={(_, data) => {*/}
-                    {/*                setEmail(data.value);*/}
-                    {/*            }}*/}
-                    {/*        />*/}
-                    {/*    </Field>*/}
-                    {/*    {primaryContactInfoInputs.map((_, index) => (*/}
-                    {/*        <OrgPhoneNumber*/}
-                    {/*            key={index}*/}
-                    {/*            onRemove={() => removePrimaryContactInfoInput(index)}*/}
-                    {/*            onPhoneNumberChange={(data: PhoneNumber) => handlePhoneNumberChange(index, data)}*/}
-                    {/*        />*/}
-                    {/*    ))}*/}
-                  
-                    {/*</Field>*/}
-                    <p>
-                        <Button appearance="subtle"
-                            className={styles.addButton}
-                            icon={<Add24Regular />}
-                            title="Add a new primary contact info input"
-                            onClick={addPrimaryContactInfoInput}
-                        >
-                            Contact info
-                        </Button>
-                    </p> <br />
-                    <label>Online presence</label>
-                    <Field label="Website" className={styles.maxWidth}>
-                        <div>
-                            <Input
-                                placeholder="https://"
-                                onChange={(_, data) => {
-                                    setWebsite(data.value);
-                                }}
-                            />
-                        </div>
-                    </Field>
-                    <Field label="Online Presence" className={styles.maxWidth}>
-                        <div >
-                            {socialMediaInputs.map((_, index) => (
-                                <SocialMediaInput
-                                    key={index}
-                                    onRemove={() => removeSocialMediaInput(index)}
-                                    socials={socials}
-                                    onSocialMediaDataChange={(data) => handleSocialMediaDataChange(index, data)}
-                                />
-                            ))}
-                        </div>
-                    </Field>
-                    <p>
-                        <Button appearance="subtle"
-                            className={styles.addButton}
-                            icon={<Add24Regular />}
-                            title="Add a new social media input"
-                            onClick={addSocialMediaInput}
-                        >
-                            Social Media
-                        </Button>
-                    </p>
-                    <Divider />
-                    <label htmlFor="outlets-section">Workplaces</label>
 
-                    {outletInputs.map((_, index) => (
-                        <MediaOutletInput
-                            key={index}
-                      //      ref={outletInputRefs.current[index]} // try as I might, I cannot get this to work
-                            onRemove={() => removeOutletInput(index)}
-                            outlets={outlets}
-                            onAssociationDataChange={(data) => handleAssociationDataChange(index, data)}
-                            showValidation={showValidation }
+                    <Divider style={{ margin: '24px 0 16px 0' }} />
+
+                    <Title3>Workplace Information</Title3>
+                    
+                    {workplaces.map((workplace, index) => (
+                    <Card appearance="outline" style={{ padding: '1rem', backgroundColor: '#f9f9f9', borderRadius: '6px' }}>
+                        <Field label="Media organization" required>
+                            <Dropdown placeholder="Select" appearance="outline" />
+                        </Field>
+
+                        <Field label="Job title" required>
+                            <Dropdown placeholder="Select" appearance="outline" />
+                        </Field>
+
+                        <Field label="Email" required>
+                            <Input placeholder="someone@example.com" appearance="outline" />
+                        </Field>
+
+                        <Field label="Phone" required>
+
+
+                        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                        <Dropdown
+                            placeholder="Select"
+                            appearance="outline"
+                            style={{ flex: '0 0 30%', minWidth: 0, marginBottom: 0 }}
+                        >
+                        </Dropdown>
+
+                        <Input
+                            placeholder="+1"
+                            type="text"
+                            style={{ flex: '1 1 auto', minWidth: 0 }}
                         />
+                        </div>
+
+                        </Field>
+                    </Card>
                     ))}
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' }}>
+                            <Button appearance="transparent" icon={<Add16Regular />} iconPosition="before" onClick={addWorkplace}>
+                            Workplace
+                            </Button>
+                        </div>
 
+                    <Divider style={{ margin: '24px 0 16px 0' }} />
 
-                    <Button
-                        icon={<Add24Regular />}
-                        className={styles.addButton}
-                        title="Add a media outlet"
-                        appearance="subtle"
-                        onClick={addOutletInput}
-                    >
-                        Workplace
-                    </Button>
+                    <Title3>Online presence</Title3>
 
-                    <div className={styles.saveCancelButtons}>
-                        <Button
-                            aria-label="Create this contact"
-                            appearance="primary"
-                            onClick={(e) => handleSubmit(e)}
-                        >
-                            Save
-                        </Button>
-                        <Button
-                            aria-label="Cancel and close this dialog"
-                            onClick={() => setIsOpen(false)}
-                        >
-                            Cancel
-                        </Button>
-                    </div>
+                    <Field label="Website">        
+                        <Input placeholder="http://" />
+                    </Field>
+
+                    {socialMediaLinks.map((entry, index) => (
+                                    <Field key={index} label={index === 0 ? "Social Media" : ""}>
+                                      <div
+                                        style={{
+                                          display: 'flex',
+                                          gap: '0.75rem',
+                                          flexWrap: 'nowrap',
+                                          alignItems: 'center',
+                                          marginBottom: '0.5rem',
+                                        }}
+                                      >
+                                        <Dropdown
+                                          placeholder="Select"
+                                          appearance="outline"
+                                          style={{ flex: '0 0 120px', minWidth: 0, marginBottom: 0 }}
+                                          value={entry.typeName}
+                                          onOptionSelect={(_, data) => {
+                                            const updated = [...socialMediaLinks];
+                                            updated[index].typeName = data.optionText || '';
+                                            setSocialMediaLinks(updated);
+                                          }}
+                                        >
+                                          <Option>LinkedIn</Option>
+                                        </Dropdown>
+                    
+                                        <Input
+                                          placeholder="http://"
+                                          appearance="outline"
+                                          value={entry.url}
+                                          onChange={(_, data) => {
+                                            const updated = [...socialMediaLinks];
+                                            updated[index].url = data.value;
+                                            setSocialMediaLinks(updated);
+                                          }}
+                                          style={{ flex: '1 1 auto', minWidth: 0 }}
+                                        />
+                                      </div>
+                                    </Field>
+                                  ))}
+                    
+                                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button
+                                      appearance="transparent"
+                                      icon={<Add24Regular />}
+                                      onClick={() =>
+                                        setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '' }])
+                                      }
+                                    >
+                                      Social Media
+                                    </Button>
+                                  </div>
+
+                                 <div
+                                    style={{
+                                        display: 'flex',
+                                        gap: '0.75rem',
+                                        justifyContent: 'flex-start',
+                                        marginTop: '2rem',
+                                    }}>
+                                    <Button appearance="primary" type="submit">Save</Button>
+                                    <Button appearance="secondary">Cancel</Button>
+                                    </div>
+                    
                 </DrawerBody>
             </OverlayDrawer>
 
