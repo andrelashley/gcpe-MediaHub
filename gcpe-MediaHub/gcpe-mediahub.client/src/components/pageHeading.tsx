@@ -1,11 +1,11 @@
-import { makeStyles, } from "@fluentui/react-components";
+import { makeStyles, Title1, } from "@fluentui/react-components";
 import React from "react";
 
 const useStyles = makeStyles({
     header: {
         display: "flex",
         padding: "16px 0px",
-        flexDirection: "column",
+        flexDirection: "row",
         alignItems: "flex-start",
         gap: "Global.Size.120",
         alignself: "stretch",
@@ -24,7 +24,7 @@ const PageHeading: React.FC<HeadingProps> = ({ title, button }) => {
 
     return (
         <div className={styles.header}>
-            <h2>{title}</h2>
+            <Title1>{title}</Title1>
                 { button }
         </div>
     );
