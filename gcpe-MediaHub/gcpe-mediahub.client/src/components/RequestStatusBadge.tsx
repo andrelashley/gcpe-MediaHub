@@ -7,12 +7,10 @@ export interface RequestStatusBadgeProps {
 }
 
 const useStyles = makeStyles({
-  New: { backgroundColor: tokens.colorNeutralBackground5, color: tokens.colorNeutralForeground1 },
-  Pending: { backgroundColor: tokens.colorBrandBackground2, color: tokens.colorNeutralForeground1 },
-  Rejected: { backgroundColor: tokens.colorPaletteMarigoldBackground2, color: tokens.colorNeutralForeground1 },
+  InProgress: { backgroundColor: tokens.colorPaletteMarigoldBackground2, color: tokens.colorNeutralForeground1 },
+  PendingApproval: { backgroundColor: tokens.colorPaletteRedBackground2, color: tokens.colorNeutralForeground1 },
   Approved: { backgroundColor: tokens.colorPaletteForestBackground2, color: tokens.colorNeutralForeground1 },
-  Scheduled: { backgroundColor: tokens.colorPaletteTealBackground2, color: tokens.colorNeutralForeground1 },
-  Completed: { backgroundColor: tokens.colorPaletteAnchorBackground2, color: tokens.colorNeutralForeground1 },
+  Closed: { backgroundColor: tokens.colorPaletteAnchorBackground2, color: tokens.colorNeutralForeground1 },
   Default: { backgroundColor: tokens.colorBrandBackgroundHover, color: tokens.colorNeutralForegroundOnBrand },
 });
 
@@ -20,23 +18,18 @@ export const RequestStatusBadge: React.FC<RequestStatusBadgeProps> = ({ status, 
   const styles = useStyles();
   let className = styles.Default;
   switch (status) {
-    case 'New1':
-      className = styles.New;
+    case 'In Progress':
+      className = styles.InProgress;
       break;
-    case 'Pending1':
-      className = styles.Pending;
-      break;
-    case 'Rejected1':
-      className = styles.Rejected;
-      break;
-    case 'Approved1':
+    case 'Pending Approval':
+      className = styles.PendingApproval;
+      break;   
+    case 'Approved':
       className = styles.Approved;
       break;
-    case 'Scheduled1':
-      className = styles.Scheduled;
       break;
-    case 'Completed1':
-      className = styles.Completed;
+    case 'Closed':
+      className = styles.Closed;
       break;
     default:
       className = styles.Default;
