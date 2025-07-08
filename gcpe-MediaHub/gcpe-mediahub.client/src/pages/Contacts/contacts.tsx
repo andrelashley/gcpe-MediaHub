@@ -26,20 +26,14 @@ const useStyles = makeStyles({
 
 const MediaContacts = () => {
     const styles = useStyles();
-    //const { data: contacts = [] } = useQuery<any[], Error>({
-    //    queryKey: ["contacts"],
-    //    queryFn: contactService.getContacts,
-    //});
     const [contacts, setContacts] = useState<MediaContact[]>([]);
 
 
     const fetchContacts = async () => {
         const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(`${apiUrl}mediacontacts`);
-        //   const response = await fetch('../../data/mock-contacts.json');
         const data = await response.json();
         const contacts: MediaContact[] = data as MediaContact[];
-       // console.log(JSON.stringify(contacts));
         setContacts(contacts);
     };
 

@@ -86,7 +86,7 @@ export const CreateContactDrawer = () => {
     const [contactPhones, setContactPhones] = useState<PhoneNumber[]>([]);
 
     const [socialMediaLinks, setSocialMediaLinks] = useState([
-          { typeName: '', url: '' }
+        { typeName: '', url: '' }
     ]);
 
     const [workplaces, setWorkplaces] = useState([
@@ -100,7 +100,7 @@ export const CreateContactDrawer = () => {
     ]);
 
     const addWorkplace = () => {
-    setWorkplaces(prev => [
+        setWorkplaces(prev => [
             ...prev,
             { mediaOrg: '', jobTitle: '', email: '', phoneType: '', phoneNumber: '' }
         ]);
@@ -144,7 +144,7 @@ export const CreateContactDrawer = () => {
         lastName: '',
         email: '', //TODO: more sophisticated. check for '@', etc.
         atLeastOnePhoneNumber: '', // at least one personal phone number (not on Outlet association)
-        atLeastOneWorkplace: '',      
+        atLeastOneWorkplace: '',
     });
 
     // for tracking social media link inputs
@@ -176,18 +176,18 @@ export const CreateContactDrawer = () => {
     const [outletInputs, setOutletInputs] = useState<number[]>([1]);
     const [outletAssociations, setOutletAssociations] = useState<OutletAssociation[]>([]);
 
-   /* const outletInputRefs = useRef<React.RefObject<MediaOutletInputRef>[]>([]);*/
+    /* const outletInputRefs = useRef<React.RefObject<MediaOutletInputRef>[]>([]);*/
     const addOutletInput = () => {
         setOutletInputs([...outletInputs, outletInputs.length]);
-     /*   outletInputRefs.current.push(React.createRef<MediaOutletInputRef>());*/
+        /*   outletInputRefs.current.push(React.createRef<MediaOutletInputRef>());*/
     };
     const removeOutletInput = (index: number) => {
         setOutletInputs(outletInputs.filter((_, i) => i !== index));
-        setOutletAssociations(outletAssociations.filter((_, i) => i !== index)); 
+        setOutletAssociations(outletAssociations.filter((_, i) => i !== index));
     };
     // end of outlet tracking
 
-   
+
 
     const styles = useStyles();
     // all Drawers need manual focus restoration attributes
@@ -211,60 +211,63 @@ export const CreateContactDrawer = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+        console.log("submit");
         e.preventDefault();
 
         handleValidation();
+        if (!error) {
 
-        const contact: MediaContact = new MediaContact()
-        contact.firstName = firstName;
-        contact.lastName = lastName;
-        contact.isPressGallery = isPressGallery;
-        contact.email = email;
-        contact.jobTitleId = 0;
-        contact.phoneNumbers = getPersonalPhoneNumbers();
-        contact.personalWebsite = website;
-        outletInputs.forEach((_, index) => {
-            const outletAssociation: OutletAssociation = {
-                id: undefined,
-                contactId: undefined, // This can be set after the contact is created
-                lastRequestDate: undefined,
-                mediaContact: undefined,
-                mediaOutlet: undefined,
-                outletName: undefined,
-                outletId: outletAssociations[index]?.outletId,
-                contactEmail: outletAssociations[index]?.contactEmail,
-                contactPhones: outletAssociations[index]?.contactPhones,
-                noLongerWorksHere: outletAssociations[index]?.noLongerWorksHere,
-            };
-            contact.mediaOutletContactRelationships.push(outletAssociation);
-        });
-
-        socialMediaInputs.forEach((_, index) => {
-            const socialMedia: SocialMediaLink = {
-                //set all these TBD IDs on server...
-                id: undefined,
-                mediaContactId: undefined,
-                mediaOutletId: undefined, // won't set this
-                mediaOutlet: undefined, // won't be set
-                socialProfileUrl: socialMedias[index]?.socialProfileUrl, 
-                socialMediaCompanyId: socialMedias[index]?.socialMediaCompanyId,
-                mediaContact: undefined,
-            };
-            contact.socialMedias.push(socialMedia);
-        });
-        console.log(JSON.stringify(contact));
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiUrl}MediaContacts`, 
-            {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json', 
-                },
-                body: JSON.stringify(contact)
-            })
-            .then((response) => {
-                alert(JSON.stringify(response.text));
+            const contact: MediaContact = new MediaContact()
+            contact.firstName = firstName;
+            contact.lastName = lastName;
+            contact.isPressGallery = isPressGallery;
+            contact.email = email;
+            contact.jobTitleId = 0;
+            contact.phoneNumbers = getPersonalPhoneNumbers();
+            contact.personalWebsite = website;
+            outletInputs.forEach((_, index) => {
+                const outletAssociation: OutletAssociation = {
+                    id: undefined,
+                    contactId: undefined, // This can be set after the contact is created
+                    lastRequestDate: undefined,
+                    mediaContact: undefined,
+                    mediaOutlet: undefined,
+                    outletName: undefined,
+                    outletId: outletAssociations[index]?.outletId,
+                    contactEmail: outletAssociations[index]?.contactEmail,
+                    contactPhones: outletAssociations[index]?.contactPhones,
+                    noLongerWorksHere: outletAssociations[index]?.noLongerWorksHere,
+                };
+                contact.mediaOutletContactRelationships.push(outletAssociation);
             });
+
+            socialMediaInputs.forEach((_, index) => {
+                const socialMedia: SocialMediaLink = {
+                    //set all these TBD IDs on server...
+                    id: undefined,
+                    mediaContactId: undefined,
+                    mediaOutletId: undefined, // won't set this
+                    mediaOutlet: undefined, // won't be set
+                    socialProfileUrl: socialMedias[index]?.socialProfileUrl,
+                    socialMediaCompanyId: socialMedias[index]?.socialMediaCompanyId,
+                    mediaContact: undefined,
+                };
+                contact.socialMedias.push(socialMedia);
+            });
+            console.log(JSON.stringify(contact));
+            const apiUrl = import.meta.env.VITE_API_URL;
+            const response = await fetch(`${apiUrl}MediaContacts`,
+                {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(contact)
+                })
+                .then((response) => {
+                    alert(JSON.stringify(response.text));
+                });
+        }
         //give a little toast saying how the transaction went, 
         // if it was successful, close drawer after brief delay
         //  setIsOpen(false)
@@ -311,7 +314,11 @@ export const CreateContactDrawer = () => {
                                 appearance="subtle"
                                 aria-label="Close"
                                 icon={<Dismiss24Regular />}
-                                onClick={() => setIsOpen(false)}
+                                onClick={() => {
+                                    setError(null);
+                                    setShowValidation(false);
+                                    setIsOpen(false)
+                                }}
                             />
                         }
                     >
@@ -352,128 +359,147 @@ export const CreateContactDrawer = () => {
                     <Divider style={{ margin: '24px 0 16px 0' }} />
 
                     <Title3>Workplace Information</Title3>
-                    
+
                     {workplaces.map((workplace, index) => (
-                    <Card appearance="outline" style={{ padding: '1rem', backgroundColor: '#f9f9f9', borderRadius: '6px' }}>
-                        <Field label="Media organization" required>
-                            <Dropdown placeholder="Select" appearance="outline" />
-                        </Field>
-
-                        <Field label="Job title" required>
-                            <Dropdown placeholder="Select" appearance="outline" />
-                        </Field>
-
-                        <Field label="Email" required>
-                            <Input placeholder="someone@example.com" appearance="outline" />
-                        </Field>
-
-                        <Field label="Phone" required>
-
-
-                        <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                        <Dropdown
-                            placeholder="Select"
-                            appearance="outline"
-                            style={{ flex: '0 0 30%', minWidth: 0, marginBottom: 0 }}
+                        <Card appearance="outline"
+                            style={{ padding: '1rem', backgroundColor: '#f9f9f9', borderRadius: '6px' }}
+                            key={index}
                         >
-                        </Dropdown>
+                            <Field label="Media organization" required>
+                                <Dropdown placeholder="Select" appearance="outline" />
+                            </Field>
 
-                        <Input
-                            placeholder="+1"
-                            type="text"
-                            style={{ flex: '1 1 auto', minWidth: 0 }}
-                        />
-                        </div>
+                            <Field label="Job title" required>
+                                <Dropdown placeholder="Select" appearance="outline" />
+                            </Field>
 
-                        </Field>
-                    </Card>
+                            <Field label="Email" required>
+                                <Input placeholder="someone@example.com" appearance="outline" />
+                            </Field>
+
+                            <Field label="Phone" required>
+
+
+                                <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                                    <Dropdown
+                                        placeholder="Select"
+                                        appearance="outline"
+                                        style={{ flex: '0 0 30%', minWidth: 0, marginBottom: 0 }}
+                                    >
+                                    </Dropdown>
+
+                                    <Input
+                                        placeholder="+1"
+                                        type="text"
+                                        style={{ flex: '1 1 auto', minWidth: 0 }}
+                                    />
+                                </div>
+
+                            </Field>
+                        </Card>
                     ))}
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' }}>
-                            <Button appearance="transparent" icon={<Add16Regular />} iconPosition="before" onClick={addWorkplace}>
+                        <Button appearance="transparent" icon={<Add16Regular />} iconPosition="before" onClick={addWorkplace}>
                             Workplace
-                            </Button>
-                        </div>
+                        </Button>
+                    </div>
 
                     <Divider style={{ margin: '24px 0 16px 0' }} />
 
                     <Title3>Online presence</Title3>
 
-                    <Field label="Website">        
+                    <Field label="Website">
                         <Input placeholder="http://" />
                     </Field>
 
                     {socialMediaLinks.map((entry, index) => (
-                                    <Field key={index} label={index === 0 ? "Social Media" : ""}>
-                                      <div
-                                        style={{
-                                          display: 'flex',
-                                          gap: '0.75rem',
-                                          flexWrap: 'nowrap',
-                                          alignItems: 'center',
-                                          marginBottom: '0.5rem',
-                                        }}
-                                      >
-                                        <Dropdown
-                                          placeholder="Select"
-                                          appearance="outline"
-                                          style={{ flex: '0 0 120px', minWidth: 0, marginBottom: 0 }}
-                                          value={entry.typeName}
-                                          onOptionSelect={(_, data) => {
-                                            const updated = [...socialMediaLinks];
-                                            updated[index].typeName = data.optionText || '';
-                                            setSocialMediaLinks(updated);
-                                          }}
-                                        >
-                                          <Option>LinkedIn</Option>
-                                        </Dropdown>
-                    
-                                        <Input
-                                          placeholder="http://"
-                                          appearance="outline"
-                                          value={entry.url}
-                                          onChange={(_, data) => {
-                                            const updated = [...socialMediaLinks];
-                                            updated[index].url = data.value;
-                                            setSocialMediaLinks(updated);
-                                          }}
-                                          style={{ flex: '1 1 auto', minWidth: 0 }}
-                                        />
-                                      </div>
-                                    </Field>
-                                  ))}
-                    
-                                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    <Button
-                                      appearance="transparent"
-                                      icon={<Add24Regular />}
-                                      onClick={() =>
-                                        setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '' }])
-                                      }
-                                    >
-                                      Social Media
-                                    </Button>
-                                  </div>
+                        <Field key={index} label={index === 0 ? "Social Media" : ""}>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    gap: '0.75rem',
+                                    flexWrap: 'nowrap',
+                                    alignItems: 'center',
+                                    marginBottom: '0.5rem',
+                                }}
+                            >
+                                <Dropdown
+                                    placeholder="Select"
+                                    appearance="outline"
+                                    style={{ flex: '0 0 120px', minWidth: 0, marginBottom: 0 }}
+                                    value={entry.typeName}
+                                    onOptionSelect={(_, data) => {
+                                        const updated = [...socialMediaLinks];
+                                        updated[index].typeName = data.optionText || '';
+                                        setSocialMediaLinks(updated);
+                                    }}
+                                >
+                                    <Option>LinkedIn</Option>
+                                </Dropdown>
 
-                                 <div
-                                    style={{
-                                        display: 'flex',
-                                        gap: '0.75rem',
-                                        justifyContent: 'flex-start',
-                                        marginTop: '2rem',
-                                    }}>
-                                    <Button appearance="primary" type="submit">Save</Button>
-                                    <Button appearance="secondary">Cancel</Button>
-                                    </div>
-                    
+                                <Input
+                                    placeholder="http://"
+                                    appearance="outline"
+                                    value={entry.url}
+                                    onChange={(_, data) => {
+                                        const updated = [...socialMediaLinks];
+                                        updated[index].url = data.value;
+                                        setSocialMediaLinks(updated);
+                                    }}
+                                    style={{ flex: '1 1 auto', minWidth: 0 }}
+                                />
+                            </div>
+                        </Field>
+                    ))}
+
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <Button
+                            appearance="transparent"
+                            icon={<Add24Regular />}
+                            onClick={() =>
+                                setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '' }])
+                            }
+                        >
+                            Social Media
+                        </Button>
+                    </div>
+
+                    <div
+                        style={{
+                            display: 'flex',
+                            gap: '0.75rem',
+                            justifyContent: 'flex-start',
+                            marginTop: '2rem',
+                        }}>
+                        <Button
+                            aria-label="Create this contact"
+                            appearance="primary"
+                            onClick={(e) => handleSubmit(e)}
+                        >
+                            Save
+                        </Button>
+                        <Button
+                            aria-label="Cancel and close this dialog"
+                            onClick={() => setIsOpen(false)}
+                        >
+                            Cancel
+                        </Button>
+                    </div>
+
                 </DrawerBody>
             </OverlayDrawer>
 
             <Button
                 {...restoreFocusTargetAttributes}
+                icon={<Add24Regular />}
                 appearance="primary"
-                onClick={() => setIsOpen(true)}
+                onClick={() => {
+                    setError(null);
+                    setShowValidation(false);
+                    setIsOpen(true)
+                }}
             >
-                Create
+                Add contact
             </Button>
 
         </div>
