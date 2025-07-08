@@ -1,17 +1,30 @@
 import * as React from "react";
 import {
+    Avatar,
     DrawerBody,
     DrawerHeader,
     DrawerHeaderTitle,
     OverlayDrawer,
     Button,
     useRestoreFocusSource,
-
+    Text,
     TagGroup,
     makeStyles,
     Tag,
+    Divider,
+    Field,
+    Input,
+    TabList,
+    Tab,
+    Menu,
+    MenuPopover,
+    MenuItem,
+    MenuTrigger, 
+    MenuList,
 } from "@fluentui/react-components";
-import { Dismiss24Regular } from "@fluentui/react-icons";
+import { Dismiss24Regular, Important24Regular, Ribbon24Regular, Globe24Regular, Search24Regular, Add24Regular, MoreHorizontal24Regular, Important24Filled, Calendar16Regular } from "@fluentui/react-icons";
+import XIcon from '../../assets/icons/x.svg';
+import FieldRow from "../Organizations/fieldRow";
 
 //import OutletDetails from "./OutletDetails";
 import ContactRelatedItemsList from "./ContactRelatedItemsList";
@@ -43,6 +56,8 @@ interface ContactDetailsProps {
 }
 
 export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, isOpen, closeContactDetails }) => {
+    const [selectedTab, setSelectedTab] = React.useState<"workplaces" | "requests">("workplaces");
+
     console.log(JSON.stringify(contact));
     const styles = useStyles();
     // all Drawers need manual focus restoration attributes
@@ -71,26 +86,625 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                             />
                         }
                     >
-                        {contact.firstName} {contact.lastName}
+
+                    <div
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            marginBottom: "0.5rem",
+                            gap: "1rem",
+                        }}>
+                            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+                            <Text weight="semibold" size={600}>
+                                {contact.firstName} {contact.lastName}
+                            </Text>
+                            <Tag
+                                appearance="filled"
+                                style={{
+                                    backgroundColor: "black",
+                                    color: "white"
+                                }}
+                                shape="circular"
+                                icon={<Ribbon24Regular />}
+                                >
+                                Major
+                            </Tag>
+                            </div>
+                        </div>
+                        <div style={{display: 'flex', flexDirection: 'column' }}>
+                            <Text size={300}>Reporter</Text>
+                            <Text size={300}>Calgary, Vancouver</Text>
+                        </div>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: '8px' }}>
+                            <Button
+                                appearance="secondary"
+                                icon={<Globe24Regular />}
+                                iconPosition="before"
+                                style={{ padding: "4px 16px", fontWeight: 600 }}
+                            >
+                                www.aarontell.ca
+                            </Button>
+
+                            <Button
+                                appearance="secondary"
+                                icon={<Globe24Regular />}
+                                iconPosition="before"
+                                style={{ padding: "4px 16px", fontWeight: 600 }}
+                            >
+                                @AaronTell
+                            </Button>
+
+
+                            <Button
+                                appearance="secondary"
+                                icon={
+                                <img
+                                    src={XIcon}
+                                    alt="X"
+                                    style={{
+                                    width: 16,
+                                    height: 16,
+                                    objectFit: "contain",
+                                    filter: "grayscale(1) brightness(0)",
+                                    borderRadius: 4,
+                                    }}
+                                />
+                                }
+                                iconPosition="before"
+                                style={{ padding: "4px 16px", fontWeight: 600 }}
+                            >
+                                @AaronTell
+                            </Button>
+                        </div>
                     </DrawerHeaderTitle>
-                    <p>{contact.jobTitle}</p>
+                    {/* <p>{contact.jobTitle}</p>
                     <p>{contact.location}</p>
                     <TagGroup>
                         <Tag>{contact.email}</Tag>
                         {contact.socialMedias && contact.socialMedias.map((social, index) => (
                             <Tag key={index}>{social.socialProfileUrl}</Tag> 
                         ))}
-                    </TagGroup>
+                    </TagGroup> */}
+
+
+           
                 </DrawerHeader>
 
                 <DrawerBody>
-                    <ContactRelatedItemsList
+                    {/* <ContactRelatedItemsList
                         outlets={contact.mediaOutletContactRelationships}
                         requests={contact.requests}
-                    />
+                    /> */}
                  
-                </DrawerBody>
-            </OverlayDrawer>
+                 
+                <Divider style={{ margin: '24px 0 16px 0' }} />
+
+                <div style={{marginBottom: '0.5rem'}}>
+                    <Text size={300}>
+                        Primary Contact info
+                    </Text>
+                </div>
+
+                <FieldRow label="Email">
+                    <Field>
+                        <Input defaultValue="a.tell@global.ca" />
+                    </Field>
+                </FieldRow>
+
+                <FieldRow label="News desk">
+                    <Field>
+                        <Input defaultValue="493-555-5555" />
+                    </Field>
+                </FieldRow>
+
+                <Divider style={{ margin: '24px 0 16px 0' }} />
+
+                <div
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginBottom: "20px",
+                          gap: "1rem",
+                        }}
+                      >
+                        {/* Left: Tabs */}
+                        <TabList 
+                          selectedValue={selectedTab}
+                          onTabSelect={(_, data) => setSelectedTab(data.value as "workplaces" | "requests")}>
+                            <Tab value="workplaces">Workplaces</Tab>
+                            <Tab value="requests">Requests</Tab>
+                        </TabList>
+                
+                        {/* Right: Search + Add grouped */}
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                          <Input placeholder="Search" contentBefore={<Search24Regular />} disabled />
+                          <Button appearance="primary" icon={<Add24Regular />} disabled>
+                            Add
+                          </Button>
+                        </div>
+                      </div>
+
+                {selectedTab === "workplaces" && (
+                <>
+                    <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
+
+                    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'baseline',
+                            gap: '0.5rem',
+                            flexWrap: 'wrap'
+                            }}>
+                            <Text size={400} weight="semibold">Global News Calgary</Text>
+                            <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>
+                                Reporter
+                            </Text>
+                            <Tag
+                            appearance="filled"
+                            style={{
+                                backgroundColor: "var(--colorBrandBackground)",
+                                color: "var(--colorNeutralForegroundOnBrand)",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                paddingTop: "0.1rem", // slight nudge down
+                            }}
+                            shape="circular"
+                            icon={
+                                <Important24Filled
+                                style={{
+                                    fontSize: "14px", // shrink slightly
+                                    marginTop: "1px",
+                                }}
+                                />
+                            }
+                            >
+                            Major
+                            </Tag>
+                    </div>
+                    <div>
+                        {/* Right side: Menu */}
+                        <Menu>
+                        <MenuTrigger disableButtonEnhancement>
+                            <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
+                        </MenuTrigger>
+                        <MenuPopover>
+                            <MenuList>
+                            <MenuItem>Edit</MenuItem>
+                            <MenuItem>Delete</MenuItem>
+                            </MenuList>
+                        </MenuPopover>
+                        </Menu>
+                    </div>
+                </div>
+                <FieldRow label="Email">
+                    <Field>
+                        <Input defaultValue="jane.smith@cbc.ca" />
+                    </Field>
+                </FieldRow>
+
+                <FieldRow label="Mobile">
+                    <Field>
+                        <Input defaultValue="604-555-5555" />
+                    </Field>
+                </FieldRow>
+
+                <FieldRow label="After hours">
+                    <Field>
+                        <Input defaultValue="493-555-5555" />
+                    </Field>
+                </FieldRow>
+            </div>
+
+            <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
+
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'baseline',
+                        gap: '0.5rem',
+                        flexWrap: 'wrap'
+                        }}>
+                        <Text size={400} weight="semibold">Vancouver Sun</Text>
+                        <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>
+                            Reporter
+                        </Text>
+                        <Tag
+                            appearance="filled"
+                            style={{
+                                backgroundColor: "var(--colorBrandBackground)",
+                                color: "var(--colorNeutralForegroundOnBrand)",
+                                display: "inline-flex",
+                                alignItems: "center",
+                                paddingTop: "0.1rem", // slight nudge down
+                            }}
+                            shape="circular"
+                            icon={
+                                <Important24Filled
+                                style={{
+                                    fontSize: "14px", // shrink slightly
+                                    marginTop: "1px",
+                                }}
+                                />
+                            }
+                            >
+                            Major
+                        </Tag>
+                    </div>
+
+                    <div>
+                        {/* Right side: Menu */}
+                        <Menu>
+                        <MenuTrigger disableButtonEnhancement>
+                            <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
+                        </MenuTrigger>
+                        <MenuPopover>
+                            <MenuList>
+                            <MenuItem>Edit</MenuItem>
+                            <MenuItem>Delete</MenuItem>
+                            </MenuList>
+                        </MenuPopover>
+                        </Menu>
+                    </div>
+                </div>
+
+                <FieldRow label="Email">
+                <Field>
+                    <Input defaultValue="aaron.tell@vancouversun.com" />
+                </Field>
+                </FieldRow>
+
+                <FieldRow label="Mobile">
+                <Field>
+                    <Input defaultValue="604-555-5555" />
+                </Field>
+                </FieldRow>
+
+                <FieldRow label="After hours">
+                <Field>
+                    <Input defaultValue="604-555-5555" />
+                </Field>
+                </FieldRow>
+
+            </div>
+
+            <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
+
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                    <Text size={400} weight="semibold">Freelance</Text>
+                    <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Reporter</Text>
+                </div>
+
+                <div>
+                    {/* Right side: Menu */}
+                    <Menu>
+                    <MenuTrigger disableButtonEnhancement>
+                        <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
+                    </MenuTrigger>
+                    <MenuPopover>
+                        <MenuList>
+                        <MenuItem>Edit</MenuItem>
+                        <MenuItem>Delete</MenuItem>
+                        </MenuList>
+                    </MenuPopover>
+                    </Menu>
+                </div>
+                </div>
+
+                <FieldRow label="Email">
+                <Field>
+                    <Input defaultValue="aaron.tell45697@gmail.com" />
+                </Field>
+                </FieldRow>
+
+                <FieldRow label="Mobile">
+                <Field>
+                    <Input defaultValue="604-555-5555" />
+                </Field>
+                </FieldRow>
+
+                <FieldRow label="After hours">
+                <Field>
+                    <Input defaultValue="604-555-5555 ext. 555" />
+                </Field>
+                </FieldRow>
+            </div>
+        </>
+      )}
+
+        {selectedTab === "requests" && (
+        <>
+<div
+      style={{
+        border: "1px solid #ddd",
+        borderRadius: "6px",
+        padding: "1.25rem",
+        marginBottom: "1rem",
+        backgroundColor: "#fff",
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Text size={300} weight="semibold" style={{ color: "#444" }}>
+          REQ-00153
+        </Text>
+        <Tag
+  appearance="filled"
+  shape="rounded"
+  style={{
+    backgroundColor: "#d6a200",
+    color: "#fff",
+    fontSize: "14px",
+    padding: "4px 12px",
+    borderRadius: "9999px",
+  }}
+>
+  In Progress
+</Tag>
+      </div>
+
+      <Text
+        size={500}
+        weight="semibold"
+        style={{ display: "block", marginTop: "0.5rem" }}
+      >
+        Trade - China
+      </Text>
+
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          backgroundColor: "#f2f2f2",
+          borderRadius: "8px",
+          padding: "4px 8px",
+          marginTop: "0.5rem",
+        }}
+      >
+        <Calendar16Regular style={{ marginRight: 6 }} />
+        <Text size={300}>Tomorrow at 3:00PM</Text>
+      </div>
+
+      <Divider style={{ margin: '24px 0 16px 0' }} />
+
+      <div
+        style={{
+          display: "flex",
+          gap: "0.5rem",
+          marginTop: "0.75rem",
+          flexWrap: "wrap",
+          alignItems: "center",
+        }}
+      >
+        {["JEDI", "PREM", "MIN"].map((label) => (
+          <div
+            key={label}
+            style={{
+              padding: "4px 10px",
+              border: "1px solid #ccc",
+              borderRadius: "16px",
+              fontSize: "13px",
+              fontWeight: 500,
+              backgroundColor: "#fff",
+              color: "#333",
+            }}
+          >
+            {label}
+          </div>
+        ))}
+
+        <div style={{ marginLeft: "auto" }}>
+          <Avatar
+            initials="ST"
+            size={24}
+            color="neutral"
+            style={{
+              backgroundColor: "#e0e0e0",
+              color: "#444",
+              fontSize: "12px",
+              fontWeight: 600,
+            }}
+          />
+        </div>
+      </div>
+    </div> 
+
+    <div
+      style={{
+        border: "1px solid #ddd",
+        borderRadius: "6px",
+        padding: "1.25rem",
+        marginBottom: "1rem",
+        backgroundColor: "#fff",
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Text size={300} weight="semibold" style={{ color: "#444" }}>
+          REQ-00153
+        </Text>
+        <Tag
+            appearance="filled"
+            shape="rounded"
+            style={{
+                backgroundColor: "#d6a200",
+                color: "#fff",
+                fontSize: "14px",
+                padding: "4px 12px",
+                borderRadius: "9999px",
+        }}
+>
+  In Progress
+</Tag>
+      </div>
+
+      <Text
+        size={500}
+        weight="semibold"
+        style={{ display: "block", marginTop: "0.5rem" }}
+      >
+        Cowichan Valley Transit
+      </Text>
+
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          backgroundColor: "#f2f2f2",
+          borderRadius: "8px",
+          padding: "4px 8px",
+          marginTop: "0.5rem",
+        }}
+      >
+        <Calendar16Regular style={{ marginRight: 6 }} />
+        <Text size={300}>Tomorrow at 3:00PM</Text>
+      </div>
+
+      <Divider style={{ margin: '24px 0 16px 0' }} />
+
+      <div
+        style={{
+          display: "flex",
+          gap: "0.5rem",
+          marginTop: "0.75rem",
+          flexWrap: "wrap",
+          alignItems: "center",
+        }}
+      >
+        {["LBR", "TT", "INF"].map((label) => (
+          <div
+            key={label}
+            style={{
+              padding: "4px 10px",
+              border: "1px solid #ccc",
+              borderRadius: "16px",
+              fontSize: "13px",
+              fontWeight: 500,
+              backgroundColor: "#fff",
+              color: "#333",
+            }}
+          >
+            {label}
+          </div>
+        ))}
+
+        <div style={{ marginLeft: "auto" }}>
+          <Avatar
+            initials="ST"
+            size={24}
+            color="neutral"
+            style={{
+              backgroundColor: "#e0e0e0",
+              color: "#444",
+              fontSize: "12px",
+              fontWeight: 600,
+            }}
+          />
+        </div>
+      </div>
+    </div> 
+
+
+
+    <div
+      style={{
+        border: "1px solid #ddd",
+        borderRadius: "6px",
+        padding: "1.25rem",
+        marginBottom: "1rem",
+        backgroundColor: "#fff",
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Text size={300} weight="semibold" style={{ color: "#444" }}>
+          REQ-00153
+        </Text>
+        <Tag
+  appearance="filled"
+  shape="rounded"
+  style={{
+    backgroundColor: "#d6a200",
+    color: "#fff",
+    fontSize: "14px",
+    padding: "4px 12px",
+    borderRadius: "9999px",
+  }}
+>
+  In Progress
+</Tag>
+      </div>
+
+      <Text
+        size={500}
+        weight="semibold"
+        style={{ display: "block", marginTop: "0.5rem" }}
+      >
+        BC Wildfire Situation
+      </Text>
+
+      <div
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          backgroundColor: "#f2f2f2",
+          borderRadius: "8px",
+          padding: "4px 8px",
+          marginTop: "0.5rem",
+        }}
+      >
+        <Calendar16Regular style={{ marginRight: 6 }} />
+        <Text size={300}>Tomorrow at 4:00PM</Text>
+      </div>
+
+      <Divider style={{ margin: '24px 0 16px 0' }} />
+
+      <div
+        style={{
+          display: "flex",
+          gap: "0.5rem",
+          marginTop: "0.75rem",
+          flexWrap: "wrap",
+          alignItems: "center",
+        }}
+      >
+        {["BCWS", "TT", "INF"].map((label) => (
+          <div
+            key={label}
+            style={{
+              padding: "4px 10px",
+              border: "1px solid #ccc",
+              borderRadius: "16px",
+              fontSize: "13px",
+              fontWeight: 500,
+              backgroundColor: "#fff",
+              color: "#333",
+            }}
+          >
+            {label}
+          </div>
+        ))}
+
+        <div style={{ marginLeft: "auto" }}>
+          <Avatar
+            initials="ST"
+            size={24}
+            color="neutral"
+            style={{
+              backgroundColor: "#e0e0e0",
+              color: "#444",
+              fontSize: "12px",
+              fontWeight: 600,
+            }}
+          />
+        </div>
+      </div>
+    </div> 
+
+        </>
+    )}
+
+        </DrawerBody>
+    </OverlayDrawer>
         </div>
     );
 };
