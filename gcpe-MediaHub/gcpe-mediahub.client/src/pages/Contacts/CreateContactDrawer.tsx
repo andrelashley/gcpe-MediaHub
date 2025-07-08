@@ -470,10 +470,11 @@ export const CreateContactDrawer = () => {
 
             <Button
                 {...restoreFocusTargetAttributes}
+                icon={<Add24Regular />}
                 appearance="primary"
                 onClick={() => setIsOpen(true)}
             >
-                Create
+                Add contact
             </Button>
 
         </div>
