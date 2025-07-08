@@ -13,6 +13,7 @@ import {
 } from '@fluentui/react-components';
 // Remove duplicate import of Fluent UI toast components
 import { useToastController, Toaster, Toast, ToastTitle, ToastBody, ToastFooter, Link } from '@fluentui/react-components';
+import { useQueryClient } from '@tanstack/react-query';
 import { ministryService } from '../../services/ministryService';
 import { userService } from '../../services/userService';
 import { requestService } from '../../services/requestService';
@@ -26,6 +27,7 @@ interface NewRequestPageProps {
 
 const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     // State declarations
+    const queryClient = useQueryClient();
     const [statuses, setStatuses] = React.useState<RequestStatus[]>([]);
     const [selectedStatus, setSelectedStatus] = React.useState<number | null>(null);
     const [requestTypes, setRequestTypes] = React.useState<RequestType[]>([]);
@@ -259,6 +261,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </Toast>,
                     { intent: 'success', timeout: 5000 }
                 );
+                // Invalidate the requests query to refresh the list after toast
+                queryClient.invalidateQueries({ queryKey: ['requests'] });
                 if (onClose) onClose();
             }
         } catch (err: any) {
