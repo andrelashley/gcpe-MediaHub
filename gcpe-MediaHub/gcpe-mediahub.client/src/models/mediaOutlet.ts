@@ -16,11 +16,11 @@ enum languages {
 }
 
 export class MediaOutlet {
-    id: Number = 0;
-    name: String;
-    email: String;
-    phone: String;
-    outletName: String;
+    id: string;
+    name: string;
+    email: string;
+    phone: string;
+    outletName: string;
     mediaType: mediaType[] = [];
     languages: languages[] = [];
 

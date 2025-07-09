@@ -91,6 +91,9 @@ export const CreateContactDrawer = () => {
 
     const [workplaces, setWorkplaces] = useState([
         {
+            errors: {
+                email: '',
+            },
             mediaOrg: '',
             jobTitle: '',
             email: '',
@@ -102,18 +105,18 @@ export const CreateContactDrawer = () => {
     const addWorkplace = () => {
         setWorkplaces(prev => [
             ...prev,
-            { mediaOrg: '', jobTitle: '', email: '', phoneType: '', phoneNumber: '' }
+            { mediaOrg: '', jobTitle: '', email: '', phoneType: '', phoneNumber: '', errors: {email: ''} }
         ]);
     };
 
-    const addPrimaryContactInfoInput = () => {
-        setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
-        setContactPhones([...contactPhones, undefined]); // Add new slot
-    };
+    //const addPrimaryContactInfoInput = () => {
+    //    setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
+    //    setContactPhones([...contactPhones, undefined]); // Add new slot
+    //};
 
-    const removePrimaryContactInfoInput = (index: number) => {
-        setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
-    };
+    //const removePrimaryContactInfoInput = (index: number) => {
+    //    setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
+    //};
 
     // TODO: see if we can do away with this. Using proper type may make this redundant
     const getPersonalPhoneNumbers = () => {
@@ -145,6 +148,7 @@ export const CreateContactDrawer = () => {
         email: '', //TODO: more sophisticated. check for '@', etc.
         atLeastOnePhoneNumber: '', // at least one personal phone number (not on Outlet association)
         atLeastOneWorkplace: '',
+        workplaceEmail: '',
     });
 
     // for tracking social media link inputs
@@ -280,6 +284,15 @@ export const CreateContactDrawer = () => {
         if (!firstName.trim()) errors.firstName = 'A first name is required';
         if (!lastName.trim()) errors.lastName = 'A last name is required';
         if (!email.trim()) errors.email = 'An email address is required';
+
+        workplaces.forEach((_, index) => {
+            if (!workplaces[index].mediaOrg.trim()) errors.workplaceOrg = "An organization must be selected";
+            if (!workplaces[index].jobTitle.trim()) errors.workplaceJobTitle = "A job title must be selected";
+            if (!workplaces[index].email.trim()) errors.workplaceEmail = "An email address is required";
+
+        })
+        console.log(JSON.stringify(workplaces));
+        setFormErrors(errors);
     }
 
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
@@ -317,6 +330,17 @@ export const CreateContactDrawer = () => {
                                 onClick={() => {
                                     setError(null);
                                     setShowValidation(false);
+                                    setWorkplaces([{
+                                            errors: {
+                                                email: '',
+                                            },
+                                            mediaOrg: '',
+                                            jobTitle: '',
+                                            email: '',
+                                            phoneType: '',
+                                            phoneNumber: ''
+                                        }]);
+                                    
                                     setIsOpen(false)
                                 }}
                             />
@@ -329,8 +353,8 @@ export const CreateContactDrawer = () => {
                 <DrawerBody>
                     <Field label="First name"
                         required
-                        validationMessage={showValidation ? "First name is required" : undefined}
-                        validationState={showValidation ? "error" : "none"}
+                        validationMessage={showValidation && formErrors.firstName ? "First name is required" : undefined}
+                        validationState={showValidation && formErrors.firstName ? "error" : "none"}
                     >
                         <Input
                             value={firstName}
@@ -341,8 +365,8 @@ export const CreateContactDrawer = () => {
                     </Field>
                     <Field label="Last name"
                         required
-                        validationMessage={showValidation ? "Last name is required" : undefined}
-                        validationState={showValidation ? "error" : "none"}
+                        validationMessage={showValidation && formErrors.lastName ? "Last name is required" : undefined}
+                        validationState={showValidation && formErrors.lastName ? "error" : "none"}
                     >
                         <Input
                             onChange={(_, data) => {
@@ -365,15 +389,30 @@ export const CreateContactDrawer = () => {
                             style={{ padding: '1rem', backgroundColor: '#f9f9f9', borderRadius: '6px' }}
                             key={index}
                         >
-                            <Field label="Media organization" required>
+                            <Field label="Media organization" required
+                                validationMessage={showValidation ? "A workplace must be selected" : undefined}
+                                validationState={showValidation ? "error" : "none"}
+                            >
+                                <Dropdown placeholder="Select" appearance="outline">
+                                    {outlets.map((outlet, index) => (
+
+                                        <Option key={index} value={outlet.id} text={outlet.name}>
+                                            {outlet.name}
+                                        </Option>
+                                    ))}
+                                </Dropdown>
+                            </Field>
+
+                            <Field label="Job title" required
+                                validationMessage={showValidation ? "A job title must be selected" : undefined}
+                                validationState={showValidation ? "error" : "none"}
+                            >
                                 <Dropdown placeholder="Select" appearance="outline" />
                             </Field>
 
-                            <Field label="Job title" required>
-                                <Dropdown placeholder="Select" appearance="outline" />
-                            </Field>
-
-                            <Field label="Email" required>
+                            <Field label="Email" required
+                                validationMessage={showValidation && formErrors.workplaceEmail ? "An email address is required" : undefined}
+                                validationState={showValidation && formErrors.workplaceEmail ? "error" : "none"}>
                                 <Input placeholder="someone@example.com" appearance="outline" />
                             </Field>
 
@@ -480,7 +519,21 @@ export const CreateContactDrawer = () => {
                         </Button>
                         <Button
                             aria-label="Cancel and close this dialog"
-                            onClick={() => setIsOpen(false)}
+                            onClick={() => {
+                                setIsOpen(false)
+                                setWorkplaces([
+                                    {
+                                        errors: {
+                                            email: '',
+                                        },
+                                        mediaOrg: '',
+                                        jobTitle: '',
+                                        email: '',
+                                        phoneType: '',
+                                        phoneNumber: ''
+                                    }
+                                ]);
+                            }}
                         >
                             Cancel
                         </Button>
@@ -496,6 +549,7 @@ export const CreateContactDrawer = () => {
                 onClick={() => {
                     setError(null);
                     setShowValidation(false);
+                    setWorkplaces
                     setIsOpen(true)
                 }}
             >
