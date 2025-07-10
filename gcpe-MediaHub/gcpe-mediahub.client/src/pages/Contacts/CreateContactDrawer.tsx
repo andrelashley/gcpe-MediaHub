@@ -28,6 +28,7 @@ import { OutletAssociation } from "../../models/OutletAssociation";
 import { SocialMediaCompany } from "../../models/SocialMediaCompany";
 import { SocialMediaLink } from "../../models/SocialMediaLink";
 import { PhoneNumber } from "../../models/PhoneNumber";
+import { JobTitle } from "../../models/JobTitle";
 
 
 const useStyles = makeStyles({
@@ -309,8 +310,19 @@ export const CreateContactDrawer = () => {
         setOutlets(outlets);
     };
 
+    const [jobTitles, setJobTitles] = useState<JobTitle[]>([]);
+    const fetchJobTitles = async () => {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}mediaContacts/GetJobTitles`);
+        const data = await response.json();
+        console.log(JSON.stringify(data));
+        const jobs: JobTitle[] = data as JobTitle[];
+        setJobTitles(jobs);
+    };
+
     useEffect(() => {
         fetchOutlets();
+        fetchJobTitles();
         fetchSocialMediaCompanies();
     }, []);
 
@@ -396,77 +408,11 @@ export const CreateContactDrawer = () => {
                             onRemove={() => removeOutletInput(index)}
                             onAssociationDataChange={(outlet) => handleAssociationDataChange(index, outlet)}
                             outlets={outlets}
+                            jobTitles={jobTitles }
                             showValidation={showValidation}
                         />
                     ))}
-                        {/*{workplaces.map((workplace, index) => (*/}
-                        {/*    <Card appearance="outline"*/}
-                        {/*        style={{ padding: '1rem', backgroundColor: '#f9f9f9', borderRadius: '6px' }}*/}
-                        {/*        key={index}*/}
-                        {/*    >*/}
-                        {/*        <Field label="Media organization" required*/}
-                        {/*            validationMessage={showValidation ? "A workplace must be selected" : undefined}*/}
-                        {/*            validationState={showValidation ? "error" : "none"}*/}
-                        {/*        >*/}
-                        {/*            <Dropdown placeholder="Select" appearance="outline">*/}
-                        {/*                {outlets.map((outlet, index) => (*/}
-
-                        {/*                    <Option key={index} value={outlet.id} text={outlet.name}>*/}
-                        {/*                        {outlet.name}*/}
-                        {/*                    </Option>*/}
-                        {/*                ))}*/}
-                        {/*            </Dropdown>*/}
-                        {/*        </Field>*/}
-
-                        {/*        <Field label="Job title" required*/}
-                        {/*            validationMessage={showValidation ? "A job title must be selected" : undefined}*/}
-                        {/*            validationState={showValidation ? "error" : "none"}*/}
-                        {/*        >*/}
-                        {/*            <Dropdown placeholder="Select" appearance="outline">*/}
-                        {/*            TODO: these should come from an API call.*/}
-                        {/*                <Option value={'1'} text='Assignment Editor'>Assignment Editor</Option>*/}
-                        {/*                <Option value={'2'} text='Camera Person'>Camera Person</Option>*/}
-                        {/*                <Option value={'3'} text='Editor'>Editor</Option>*/}
-                        {/*                <Option value={'4'} text='Freelancer'>Freelancer</Option>*/}
-                        {/*                <Option value={'5'} text='Host'>Host</Option>*/}
-                        {/*                <Option value={'6'} text='News Director'>News Director</Option>*/}
-                        {/*                <Option value={'7'} text='Photographer'>Photographer</Option>*/}
-                        {/*                <Option value={'8'} text='Producer'>Producer</Option>*/}
-                        {/*                <Option value={'9'} text='Reporter'>Reporter</Option>*/}
-                        {/*                <Option value={'10'} text='Other'>Other</Option>*/}
-                        {/*            </Dropdown>*/}
-                        {/*        </Field>*/}
-
-                        {/*        <Field label="Email" required*/}
-                        {/*            validationMessage={showValidation && formErrors.workplaceEmail ? "An email address is required" : undefined}*/}
-                        {/*            validationState={showValidation && formErrors.workplaceEmail ? "error" : "none"}>*/}
-                        {/*            <Input placeholder="someone@example.com" appearance="outline" />*/}
-                        {/*        </Field>*/}
-
-                        {/*        <Field label="Phone" required>*/}
-
-
-                        {/*            <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem' }}>*/}
-                        {/*                <Dropdown*/}
-                        {/*                    placeholder="Select"*/}
-                        {/*                    appearance="outline"*/}
-                        {/*                    style={{ flex: '0 0 30%', minWidth: 0, marginBottom: 0 }}*/}
-                        {/*                >*/}
-                        {/*                    <Option value={'1'} text='Primary'>Primary</Option>*/}
-                        {/*                    <Option value={'2'} text='Mobile'>Mobile</Option>*/}
-                        {/*                    <Option value={'3'} text='Call-in'>Call-in</Option>*/}
-                        {/*                </Dropdown>*/}
-
-                        {/*                <Input*/}
-                        {/*                    placeholder="+1"*/}
-                        {/*                    type="text"*/}
-                        {/*                    style={{ flex: '1 1 auto', minWidth: 0 }}*/}
-                        {/*                />*/}
-                        {/*            </div>*/}
-
-                        {/*        </Field>*/}
-                        {/*    </Card>*/}
-                        {/*))}*/}
+                       
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' }}>
                         <Button appearance="transparent" icon={<Add16Regular />} iconPosition="before" onClick={addOutletInput}>
                             Workplace

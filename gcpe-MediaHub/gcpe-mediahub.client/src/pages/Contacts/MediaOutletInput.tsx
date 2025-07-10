@@ -14,6 +14,7 @@ import { MediaOutlet } from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
 import { useEffect } from "react";
 import { PhoneNumber } from "../../models/PhoneNumber";
+import { JobTitle } from "../../models/JobTitle";
 
 const useStyles = makeStyles({
     addButton: {
@@ -43,9 +44,10 @@ interface MediaOutletInputProps {
     outlets: MediaOutlet[];
     onAssociationDataChange: (data: OutletAssociation) => void; 
     showValidation: boolean;
+    jobTitles: JobTitle[];
 }
 
-const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, showValidation }) => {
+const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, showValidation, jobTitles }) => {
     //  const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
     const [phoneNumber, setPhoneNumber] = useState<string>();
     const [contactPhones, setContactPhones] = useState<(PhoneNumber)[]>([]);
@@ -144,16 +146,9 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                     onOptionSelect={(_, data) => setJobTitle(data.optionText || "")}
                 >
                     {/*need to map this bit from actual data, not hard coded */}
-                    <Option value={'1'} text='Assignment Editor'>Assignment Editor</Option>
-                                    <Option value={'2'} text='Camera Person'>Camera Person</Option>
-                                    <Option value={'3'} text='Editor'>Editor</Option>
-                                    <Option value={'4'} text='Freelancer'>Freelancer</Option>
-                                    <Option value={'5'} text='Host'>Host</Option>
-                                    <Option value={'6'} text='News Director'>News Director</Option>
-                                    <Option value={'7'} text='Photographer'>Photographer</Option>
-                                    <Option value={'8'} text='Producer'>Producer</Option>
-                                    <Option value={'9'} text='Reporter'>Reporter</Option>
-                                    <Option value={'10'} text='Other'>Other</Option>
+                    {jobTitles.map((jobTitle, index) => (
+                        <Option key={index} value={jobTitle.id.toString()} text={jobTitle.name}>{jobTitle.name}</Option>
+                    ))}
                 </Dropdown>
             </Field>
             <Field label="Email" required>
