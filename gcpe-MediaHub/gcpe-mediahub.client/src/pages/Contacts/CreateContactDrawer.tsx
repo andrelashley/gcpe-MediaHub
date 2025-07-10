@@ -82,11 +82,11 @@ const useStyles = makeStyles({
 export const CreateContactDrawer = () => {
     const [isOpen, setIsOpen] = React.useState(false);
     //for primary contact info input tracking
-    const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
-    const [contactPhones, setContactPhones] = useState<PhoneNumber[]>([]);
+    //const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
+    //const [contactPhones, setContactPhones] = useState<PhoneNumber[]>([]);
 
     const [socialMediaLinks, setSocialMediaLinks] = useState([
-        { typeName: '', url: '' }
+        { typeName: '', url: '', id: '' }
     ]);
 
     const [workplaces, setWorkplaces] = useState([
@@ -119,25 +119,25 @@ export const CreateContactDrawer = () => {
     //};
 
     // TODO: see if we can do away with this. Using proper type may make this redundant
-    const getPersonalPhoneNumbers = () => {
-        let pn: PhoneNumber[] = [];
-        primaryContactInfoInputs.forEach((_, index) => {
-            if (contactPhones && contactPhones.length > 0) {
-                let phoneNumber: PhoneNumber = new PhoneNumber();
-                phoneNumber.PhoneType = contactPhones[index].PhoneType;
-                phoneNumber.PhoneLineNumber = contactPhones[index].PhoneLineNumber;
-                pn.push(phoneNumber);
-            }
-        });
+    //const getPersonalPhoneNumbers = () => {
+    //    let pn: PhoneNumber[] = [];
+    //    primaryContactInfoInputs.forEach((_, index) => {
+    //        if (contactPhones && contactPhones.length > 0) {
+    //            let phoneNumber: PhoneNumber = new PhoneNumber();
+    //            phoneNumber.PhoneType = contactPhones[index].PhoneType;
+    //            phoneNumber.PhoneLineNumber = contactPhones[index].PhoneLineNumber;
+    //            pn.push(phoneNumber);
+    //        }
+    //    });
 
-        return pn;
-    };
+    //    return pn;
+    //};
 
-    const handlePhoneNumberChange = (index: number, data: any) => { //TODO: use PhoneNumber model. Not 'any'
-        const updatedPhones = [...contactPhones];
-        updatedPhones[index] = data;
-        setContactPhones(updatedPhones);
-    };
+    //const handlePhoneNumberChange = (index: number, data: any) => { //TODO: use PhoneNumber model. Not 'any'
+    //    const updatedPhones = [...contactPhones];
+    //    updatedPhones[index] = data;
+    //    setContactPhones(updatedPhones);
+    //};
 
 
     const [error, setError] = React.useState<string | null>(null);
@@ -227,9 +227,10 @@ export const CreateContactDrawer = () => {
             contact.isPressGallery = isPressGallery;
             contact.email = email;
             contact.jobTitleId = 0;
-            contact.phoneNumbers = getPersonalPhoneNumbers();
+         //   contact.phoneNumbers = getPersonalPhoneNumbers();
             contact.personalWebsite = website;
-            outletInputs.forEach((_, index) => {
+
+            outletAssociations.forEach((_, index) => {
                 const outletAssociation: OutletAssociation = {
                     id: undefined,
                     contactId: undefined, // This can be set after the contact is created
@@ -239,27 +240,29 @@ export const CreateContactDrawer = () => {
                     outletName: undefined,
                     outletId: outletAssociations[index]?.outletId,
                     contactEmail: outletAssociations[index]?.contactEmail,
-                    contactPhones: outletAssociations[index]?.contactPhones,
+                    phoneNumber: outletAssociations[index]?.phoneNumber,
+                    contactPhones: undefined, //outletAssociations[index]?.contactPhones,
                     noLongerWorksHere: outletAssociations[index]?.noLongerWorksHere,
                 };
                 contact.mediaOutletContactRelationships.push(outletAssociation);
             });
 
-            socialMediaInputs.forEach((_, index) => {
+            socialMediaLinks.forEach((link, index) => {
                 const socialMedia: SocialMediaLink = {
                     //set all these TBD IDs on server...
                     id: undefined,
                     mediaContactId: undefined,
                     mediaOutletId: undefined, // won't set this
                     mediaOutlet: undefined, // won't be set
-                    socialProfileUrl: socialMedias[index]?.socialProfileUrl,
-                    socialMediaCompanyId: socialMedias[index]?.socialMediaCompanyId,
+                    socialProfileUrl: link.url,//socialMedias[index]?.socialProfileUrl,
+                    socialMediaCompanyId: parseInt(link.id), //socialMedias[index]?.socialMediaCompanyId,
                     mediaContact: undefined,
                 };
                 contact.socialMedias.push(socialMedia);
             });
             console.log(JSON.stringify(contact));
             const apiUrl = import.meta.env.VITE_API_URL;
+
             const response = await fetch(`${apiUrl}MediaContacts`,
                 {
                     method: "POST",
@@ -291,7 +294,7 @@ export const CreateContactDrawer = () => {
             if (!workplaces[index].email.trim()) errors.workplaceEmail = "An email address is required";
 
         })
-        console.log(JSON.stringify(workplaces));
+/*        console.log(JSON.stringify(workplaces));*/
         setFormErrors(errors);
     }
 
@@ -330,16 +333,19 @@ export const CreateContactDrawer = () => {
                                 onClick={() => {
                                     setError(null);
                                     setShowValidation(false);
-                                    setWorkplaces([{
-                                            errors: {
-                                                email: '',
-                                            },
-                                            mediaOrg: '',
-                                            jobTitle: '',
-                                            email: '',
-                                            phoneType: '',
-                                            phoneNumber: ''
-                                        }]);
+                                    setOutletInputs([1]);
+
+
+                                    //setWorkplaces([{
+                                    //        errors: {
+                                    //            email: '',
+                                    //        },
+                                    //        mediaOrg: '',
+                                    //        jobTitle: '',
+                                    //        email: '',
+                                    //        phoneType: '',
+                                    //        phoneNumber: ''
+                                    //    }]);
                                     
                                     setIsOpen(false)
                                 }}
@@ -383,62 +389,85 @@ export const CreateContactDrawer = () => {
                     <Divider style={{ margin: '24px 0 16px 0' }} />
 
                     <Title3>Workplace Information</Title3>
-
-                    {workplaces.map((workplace, index) => (
-                        <Card appearance="outline"
-                            style={{ padding: '1rem', backgroundColor: '#f9f9f9', borderRadius: '6px' }}
-                            key={index}
-                        >
-                            <Field label="Media organization" required
-                                validationMessage={showValidation ? "A workplace must be selected" : undefined}
-                                validationState={showValidation ? "error" : "none"}
-                            >
-                                <Dropdown placeholder="Select" appearance="outline">
-                                    {outlets.map((outlet, index) => (
-
-                                        <Option key={index} value={outlet.id} text={outlet.name}>
-                                            {outlet.name}
-                                        </Option>
-                                    ))}
-                                </Dropdown>
-                            </Field>
-
-                            <Field label="Job title" required
-                                validationMessage={showValidation ? "A job title must be selected" : undefined}
-                                validationState={showValidation ? "error" : "none"}
-                            >
-                                <Dropdown placeholder="Select" appearance="outline" />
-                            </Field>
-
-                            <Field label="Email" required
-                                validationMessage={showValidation && formErrors.workplaceEmail ? "An email address is required" : undefined}
-                                validationState={showValidation && formErrors.workplaceEmail ? "error" : "none"}>
-                                <Input placeholder="someone@example.com" appearance="outline" />
-                            </Field>
-
-                            <Field label="Phone" required>
-
-
-                                <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                                    <Dropdown
-                                        placeholder="Select"
-                                        appearance="outline"
-                                        style={{ flex: '0 0 30%', minWidth: 0, marginBottom: 0 }}
-                                    >
-                                    </Dropdown>
-
-                                    <Input
-                                        placeholder="+1"
-                                        type="text"
-                                        style={{ flex: '1 1 auto', minWidth: 0 }}
-                                    />
-                                </div>
-
-                            </Field>
-                        </Card>
+                    {outletInputs.map((outlet, index) => (
+                        <MediaOutletInput
+                            key={index }
+                            onRemove={() => removeOutletInput(index)}
+                            onAssociationDataChange={(outlet) => handleAssociationDataChange(index, outlet)}
+                            outlets={outlets}
+                            showValidation={showValidation}
+                        />
                     ))}
+                        {/*{workplaces.map((workplace, index) => (*/}
+                        {/*    <Card appearance="outline"*/}
+                        {/*        style={{ padding: '1rem', backgroundColor: '#f9f9f9', borderRadius: '6px' }}*/}
+                        {/*        key={index}*/}
+                        {/*    >*/}
+                        {/*        <Field label="Media organization" required*/}
+                        {/*            validationMessage={showValidation ? "A workplace must be selected" : undefined}*/}
+                        {/*            validationState={showValidation ? "error" : "none"}*/}
+                        {/*        >*/}
+                        {/*            <Dropdown placeholder="Select" appearance="outline">*/}
+                        {/*                {outlets.map((outlet, index) => (*/}
+
+                        {/*                    <Option key={index} value={outlet.id} text={outlet.name}>*/}
+                        {/*                        {outlet.name}*/}
+                        {/*                    </Option>*/}
+                        {/*                ))}*/}
+                        {/*            </Dropdown>*/}
+                        {/*        </Field>*/}
+
+                        {/*        <Field label="Job title" required*/}
+                        {/*            validationMessage={showValidation ? "A job title must be selected" : undefined}*/}
+                        {/*            validationState={showValidation ? "error" : "none"}*/}
+                        {/*        >*/}
+                        {/*            <Dropdown placeholder="Select" appearance="outline">*/}
+                        {/*            TODO: these should come from an API call.*/}
+                        {/*                <Option value={'1'} text='Assignment Editor'>Assignment Editor</Option>*/}
+                        {/*                <Option value={'2'} text='Camera Person'>Camera Person</Option>*/}
+                        {/*                <Option value={'3'} text='Editor'>Editor</Option>*/}
+                        {/*                <Option value={'4'} text='Freelancer'>Freelancer</Option>*/}
+                        {/*                <Option value={'5'} text='Host'>Host</Option>*/}
+                        {/*                <Option value={'6'} text='News Director'>News Director</Option>*/}
+                        {/*                <Option value={'7'} text='Photographer'>Photographer</Option>*/}
+                        {/*                <Option value={'8'} text='Producer'>Producer</Option>*/}
+                        {/*                <Option value={'9'} text='Reporter'>Reporter</Option>*/}
+                        {/*                <Option value={'10'} text='Other'>Other</Option>*/}
+                        {/*            </Dropdown>*/}
+                        {/*        </Field>*/}
+
+                        {/*        <Field label="Email" required*/}
+                        {/*            validationMessage={showValidation && formErrors.workplaceEmail ? "An email address is required" : undefined}*/}
+                        {/*            validationState={showValidation && formErrors.workplaceEmail ? "error" : "none"}>*/}
+                        {/*            <Input placeholder="someone@example.com" appearance="outline" />*/}
+                        {/*        </Field>*/}
+
+                        {/*        <Field label="Phone" required>*/}
+
+
+                        {/*            <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem' }}>*/}
+                        {/*                <Dropdown*/}
+                        {/*                    placeholder="Select"*/}
+                        {/*                    appearance="outline"*/}
+                        {/*                    style={{ flex: '0 0 30%', minWidth: 0, marginBottom: 0 }}*/}
+                        {/*                >*/}
+                        {/*                    <Option value={'1'} text='Primary'>Primary</Option>*/}
+                        {/*                    <Option value={'2'} text='Mobile'>Mobile</Option>*/}
+                        {/*                    <Option value={'3'} text='Call-in'>Call-in</Option>*/}
+                        {/*                </Dropdown>*/}
+
+                        {/*                <Input*/}
+                        {/*                    placeholder="+1"*/}
+                        {/*                    type="text"*/}
+                        {/*                    style={{ flex: '1 1 auto', minWidth: 0 }}*/}
+                        {/*                />*/}
+                        {/*            </div>*/}
+
+                        {/*        </Field>*/}
+                        {/*    </Card>*/}
+                        {/*))}*/}
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' }}>
-                        <Button appearance="transparent" icon={<Add16Regular />} iconPosition="before" onClick={addWorkplace}>
+                        <Button appearance="transparent" icon={<Add16Regular />} iconPosition="before" onClick={addOutletInput}>
                             Workplace
                         </Button>
                     </div>
@@ -448,7 +477,9 @@ export const CreateContactDrawer = () => {
                     <Title3>Online presence</Title3>
 
                     <Field label="Website">
-                        <Input placeholder="http://" />
+                        <Input placeholder="http://"
+                            onChange={(_, data) => setWebsite(data.value)}
+                        />
                     </Field>
 
                     {socialMediaLinks.map((entry, index) => (
@@ -470,10 +501,19 @@ export const CreateContactDrawer = () => {
                                     onOptionSelect={(_, data) => {
                                         const updated = [...socialMediaLinks];
                                         updated[index].typeName = data.optionText || '';
+                                        updated[index].id = data.optionValue
                                         setSocialMediaLinks(updated);
                                     }}
                                 >
-                                    <Option>LinkedIn</Option>
+                                    {socials.map((social, index) => (
+                                        <Option key={index}
+                                            value={social.id.toString()}
+                                            text={social.company}
+                                        >
+                                            {social.company}
+                                        </Option>
+                                    ))}
+                                    {/*<Option>LinkedIn</Option>*/}
                                 </Dropdown>
 
                                 <Input
@@ -496,7 +536,7 @@ export const CreateContactDrawer = () => {
                             appearance="transparent"
                             icon={<Add24Regular />}
                             onClick={() =>
-                                setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '' }])
+                                setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '', id: ''}])
                             }
                         >
                             Social Media
@@ -521,6 +561,7 @@ export const CreateContactDrawer = () => {
                             aria-label="Cancel and close this dialog"
                             onClick={() => {
                                 setIsOpen(false)
+                                setOutletInputs([1]);
                                 setWorkplaces([
                                     {
                                         errors: {

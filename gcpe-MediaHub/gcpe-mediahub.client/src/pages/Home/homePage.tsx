@@ -10,11 +10,11 @@ const Home = () => {
 
     return (
         <>
-            {keycloak.authenticated && (
+
                 <Layout title={"Home Page"} selectedNavItem={'1'}>
-                        <div> This is the homepage</div>
+                        <div>Select a navigation option from the navigation pane to the left</div>
                 </Layout >   
-            )}
+   
         </>
     );
     

@@ -11,6 +11,7 @@ export class OutletAssociation {
     mediaOutlet: MediaOutlet | undefined;
     contactEmail: string | undefined;
     contactPhones: PhoneNumber[] | undefined;
+    phoneNumber: string | undefined;
     noLongerWorksHere: boolean = false;
     lastRequestDate: Date | undefined;
 }

@@ -1,9 +1,11 @@
 import {
     Button,
+    Dropdown,
     Field,
     Input,
     makeStyles,
     Select,
+    Option,
 } from "@fluentui/react-components";
 import { Add24Regular, Dismiss16Regular} from "@fluentui/react-icons";
 import React, { useState, forwardRef, useImperativeHandle } from "react";
@@ -18,6 +20,7 @@ const useStyles = makeStyles({
         float: "right",
     },
     outletsSection: {
+        backgroundColor: '#f9f9f9',
         border: "1px solid #ccc!important",
         borderRadius: "4px",
         padding: "8px",
@@ -43,7 +46,8 @@ interface MediaOutletInputProps {
 }
 
 const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, showValidation }) => {
-    const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
+    //  const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
+    const [phoneNumber, setPhoneNumber] = useState<string>();
     const [contactPhones, setContactPhones] = useState<(PhoneNumber)[]>([]);
    
     const [outletId, setOutletId] = useState<string>();
@@ -54,25 +58,25 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
 
     const association = new OutletAssociation;
 
-    const addPhoneNumber = () => {
-        setPhoneNumbers([...phoneNumbers, phoneNumbers.length + 1]); // Better index handling
-        setContactPhones([...contactPhones, undefined]); // Add new slot
-    }
-    const removePhoneNumber = (index: number) => {
-        setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
-        setContactPhones(contactPhones.filter((_, i) => i !== index));
-    };
-    const getContactPhones = () => {
-        let pn: PhoneNumber[] = [];
-        phoneNumbers.forEach((_, index) => {
-            if (contactPhones && contactPhones.length > 0) {
-                const phoneNumber: PhoneNumber = contactPhones[index];
-                pn.push(phoneNumber);
-            }
-        });
+    //const addPhoneNumber = () => {
+    //    setPhoneNumbers([...phoneNumbers, phoneNumbers.length + 1]); // Better index handling
+    //    setContactPhones([...contactPhones, undefined]); // Add new slot
+    //}
+    //const removePhoneNumber = (index: number) => {
+    //    setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
+    //    setContactPhones(contactPhones.filter((_, i) => i !== index));
+    //};
+    //const getContactPhones = () => {
+    //    let pn: PhoneNumber[] = [];
+    //    phoneNumbers.forEach((_, index) => {
+    //        if (contactPhones && contactPhones.length > 0) {
+    //            const phoneNumber: PhoneNumber = contactPhones[index];
+    //            pn.push(phoneNumber);
+    //        }
+    //    });
 
-        return pn;
-    }
+    //    return pn;
+    //}
     const validate = () => {
         const errors: string[] = [];
         if (!outletId) {
@@ -97,12 +101,13 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             contactEmail: contactEmail,
             outletName: undefined,
             noLongerWorksHere: doesNotWorkHere,
-            contactPhones: getContactPhones(),
+            phoneNumber: phoneNumber,
+            contactPhones: undefined,
             lastRequestDate: undefined,
             mediaContact: undefined,
             mediaOutlet: undefined,
         });
-    }, [outletId, contactEmail, contactPhones, doesNotWorkHere]);
+    }, [outletId, contactEmail, contactPhones, phoneNumber, doesNotWorkHere]);
 
     const styles = useStyles();
     // Expose the validate method to the parent component
@@ -136,15 +141,19 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                 </Select>
             </Field>
             <Field label="Job title" required>
-                <Select
-                    onChange={(_, data) => {
-                        setJobTitle(data.value)
-                    } }
-                >
+                <Dropdown placeholder="Select" appearance="outline">
                     {/*need to map this bit from actual data, not hard coded */}
-                    <option>Reporter</option>
-                    <option>Photographer</option>
-                </Select>
+                    <Option value={'1'} text='Assignment Editor'>Assignment Editor</Option>
+                                    <Option value={'2'} text='Camera Person'>Camera Person</Option>
+                                    <Option value={'3'} text='Editor'>Editor</Option>
+                                    <Option value={'4'} text='Freelancer'>Freelancer</Option>
+                                    <Option value={'5'} text='Host'>Host</Option>
+                                    <Option value={'6'} text='News Director'>News Director</Option>
+                                    <Option value={'7'} text='Photographer'>Photographer</Option>
+                                    <Option value={'8'} text='Producer'>Producer</Option>
+                                    <Option value={'9'} text='Reporter'>Reporter</Option>
+                                    <Option value={'10'} text='Other'>Other</Option>
+                </Dropdown>
             </Field>
             <Field label="Email" required>
                 <Input
@@ -155,30 +164,55 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             </Field>
 
             <Field label="Phone" required>
-                {phoneNumbers.map((_, index) => (
-                    <OrgPhoneNumber key={index}
-                        onRemove={() => removePhoneNumber(index)}
-                        onPhoneNumberChange={(data: PhoneNumber) => handlePhoneNumberChange(index, data)}
+
+
+                <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem' }}>
+                    <Dropdown
+                        placeholder="Select"
+                        appearance="outline"
+                        style={{ flex: '0 0 30%', minWidth: 0, marginBottom: 0 }}
+                    >
+                        <Option value={'1'} text='Primary'>Primary</Option>
+                        <Option value={'2'} text='Mobile'>Mobile</Option>
+                        <Option value={'3'} text='Call-in'>Call-in</Option>
+                    </Dropdown>
+
+                    <Input
+                        placeholder="+1"
+                        type="text"
+                        style={{ flex: '1 1 auto', minWidth: 0 }}
+                        onChange={(_, data) => {
+                            setPhoneNumber(data.value)
+                        }}
                     />
-                ))}
-              
-                <p>
-                <Button icon={<Add24Regular />}
-                    className={styles.addButton}
-                    title="Add another phone number"
-                    onClick={addPhoneNumber}
-                    appearance="subtle"
-                >
-                    Contact info
-                    </Button>
-                </p>
+                </div>
+
             </Field>
-            <Button
-                icon={<Dismiss16Regular />}
-                className={styles.addButton}
-                title="Remove this outlet"
-                onClick={onRemove}
-            />
+            {/*<Field label="Phone" required>*/}
+            {/*    {phoneNumbers.map((_, index) => (*/}
+            {/*        <OrgPhoneNumber key={index}*/}
+            {/*            onRemove={() => removePhoneNumber(index)}*/}
+            {/*            onPhoneNumberChange={(data: PhoneNumber) => handlePhoneNumberChange(index, data)}*/}
+            {/*        />*/}
+            {/*    ))}*/}
+              
+            {/*    */}{/*<p>*/}
+            {/*    */}{/*<Button icon={<Add24Regular />}*/}
+            {/*    */}{/*    className={styles.addButton}*/}
+            {/*    */}{/*    title="Add another phone number"*/}
+            {/*    */}{/*    onClick={addPhoneNumber}*/}
+            {/*    */}{/*    appearance="subtle"*/}
+            {/*    */}{/*>*/}
+            {/*    */}{/*    Contact info*/}
+            {/*    */}{/*    </Button>*/}
+            {/*    */}{/*</p>*/}
+            {/*</Field>*/}
+            {/*<Button*/}
+            {/*    icon={<Dismiss16Regular />}*/}
+            {/*    className={styles.addButton}*/}
+            {/*    title="Remove this outlet"*/}
+            {/*    onClick={onRemove}*/}
+            {/*/>*/}
         </div>
     );
 
