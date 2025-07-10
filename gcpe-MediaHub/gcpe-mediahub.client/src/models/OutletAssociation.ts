@@ -12,6 +12,7 @@ export class OutletAssociation {
     contactEmail: string | undefined;
     contactPhones: PhoneNumber[] | undefined;
     phoneNumber: string | undefined;
+    jobTitle: string | undefined;
     noLongerWorksHere: boolean = false;
     lastRequestDate: Date | undefined;
 }

@@ -2,9 +2,8 @@ import MediaContact from "./mediaContact";
 import MediaOutlet from "./mediaOutlet";
 
 export class SocialMediaLink {
-    id: string | undefined;
-    socialProfileUrl: string | undefined;
-    socialMediaCompanyId: number | undefined;
+    companyId: number | undefined;
+    url: string | undefined;
     mediaOutletId: string | undefined;
     mediaOutlet: MediaOutlet | undefined;
     mediaContactId: string | undefined;

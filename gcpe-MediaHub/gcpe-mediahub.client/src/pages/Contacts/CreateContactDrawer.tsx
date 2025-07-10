@@ -86,7 +86,7 @@ export const CreateContactDrawer = () => {
     //const [contactPhones, setContactPhones] = useState<PhoneNumber[]>([]);
 
     const [socialMediaLinks, setSocialMediaLinks] = useState([
-        { typeName: '', url: '', id: '' }
+        { typeName: '', url: '', companyId: '' }
     ]);
 
     const [workplaces, setWorkplaces] = useState([
@@ -241,6 +241,7 @@ export const CreateContactDrawer = () => {
                     outletId: outletAssociations[index]?.outletId,
                     contactEmail: outletAssociations[index]?.contactEmail,
                     phoneNumber: outletAssociations[index]?.phoneNumber,
+                    jobTitle: outletAssociations[index]?.jobTitle,
                     contactPhones: undefined, //outletAssociations[index]?.contactPhones,
                     noLongerWorksHere: outletAssociations[index]?.noLongerWorksHere,
                 };
@@ -250,12 +251,12 @@ export const CreateContactDrawer = () => {
             socialMediaLinks.forEach((link, index) => {
                 const socialMedia: SocialMediaLink = {
                     //set all these TBD IDs on server...
-                    id: undefined,
+                  //  id: undefined,
                     mediaContactId: undefined,
                     mediaOutletId: undefined, // won't set this
                     mediaOutlet: undefined, // won't be set
-                    socialProfileUrl: link.url,//socialMedias[index]?.socialProfileUrl,
-                    socialMediaCompanyId: parseInt(link.id), //socialMedias[index]?.socialMediaCompanyId,
+                    url: link.url,//socialMedias[index]?.socialProfileUrl,
+                    companyId: parseInt(link.companyId), //socialMedias[index]?.socialMediaCompanyId,
                     mediaContact: undefined,
                 };
                 contact.socialMedias.push(socialMedia);
@@ -501,7 +502,7 @@ export const CreateContactDrawer = () => {
                                     onOptionSelect={(_, data) => {
                                         const updated = [...socialMediaLinks];
                                         updated[index].typeName = data.optionText || '';
-                                        updated[index].id = data.optionValue
+                                        updated[index].companyId = data.optionValue
                                         setSocialMediaLinks(updated);
                                     }}
                                 >
@@ -536,7 +537,7 @@ export const CreateContactDrawer = () => {
                             appearance="transparent"
                             icon={<Add24Regular />}
                             onClick={() =>
-                                setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '', id: ''}])
+                                setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '', companyId: ''}])
                             }
                         >
                             Social Media

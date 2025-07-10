@@ -56,8 +56,6 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
 
     const [doesNotWorkHere, setDoesNotWorksHere] = useState<boolean>(false); 
 
-    const association = new OutletAssociation;
-
     //const addPhoneNumber = () => {
     //    setPhoneNumbers([...phoneNumbers, phoneNumbers.length + 1]); // Better index handling
     //    setContactPhones([...contactPhones, undefined]); // Add new slot
@@ -106,8 +104,9 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             lastRequestDate: undefined,
             mediaContact: undefined,
             mediaOutlet: undefined,
+            jobTitle: jobTitle,
         });
-    }, [outletId, contactEmail, contactPhones, phoneNumber, doesNotWorkHere]);
+    }, [outletId, contactEmail, contactPhones, phoneNumber, doesNotWorkHere, jobTitle]);
 
     const styles = useStyles();
     // Expose the validate method to the parent component
@@ -141,7 +140,9 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                 </Select>
             </Field>
             <Field label="Job title" required>
-                <Dropdown placeholder="Select" appearance="outline">
+                <Dropdown placeholder="Select" appearance="outline"
+                    onOptionSelect={(_, data) => setJobTitle(data.optionText || "")}
+                >
                     {/*need to map this bit from actual data, not hard coded */}
                     <Option value={'1'} text='Assignment Editor'>Assignment Editor</Option>
                                     <Option value={'2'} text='Camera Person'>Camera Person</Option>
