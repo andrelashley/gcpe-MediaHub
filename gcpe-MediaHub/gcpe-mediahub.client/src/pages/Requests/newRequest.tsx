@@ -223,6 +223,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         }
 
         // const outletId = await requestService.getRequestorOutletId(requestedById);
+        // Find the status with name 'In Progress' (case-insensitive)
+        const inProgressStatus = statuses.find(s => s.name?.toLowerCase() === 'in progress');
         const newRequest: MediaRequest = {
             requestTitle,
             requestDetails,
@@ -230,7 +232,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             receivedOn: receivedOnDate.toISOString(),
             leadMinistryId: leadMinistry,
             additionalMinistries: additionalMinistries.map(id => ({ id })),
-            requestStatusId: selectedStatus,
+            requestStatusId: inProgressStatus?.id ?? null,
             requestTypeId: selectedRequestType,
             requestorContactId: requestedById,
             assignedUserId: assignedUserId !== '00000000-0000-0000-0000-000000000000' ? assignedUserId : null,
@@ -293,6 +295,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 </div>
             </div>
             <div className={styles.form}>
+                {/*
                 <Field
                     label="Status"
                     required
@@ -317,6 +320,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         ))}
                     </Dropdown>
                 </Field>
+                */}
                 <Field
                     label="Request Title"
                     required

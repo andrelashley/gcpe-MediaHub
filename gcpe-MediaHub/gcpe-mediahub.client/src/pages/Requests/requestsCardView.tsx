@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Input, Badge, Tag, Tab, TabList, Avatar, TagGroup, Button, Title1, Divider, Drawer, DrawerHeader, DrawerHeaderTitle, DrawerBody } from "@fluentui/react-components";
-import { CalendarEmptyRegular, Filter24Regular, Search16Regular, Dismiss24Regular } from "@fluentui/react-icons";
+import { CalendarEmpty16Regular, Filter24Regular, Search16Regular, Dismiss24Regular, Add24Regular } from "@fluentui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
 import { MediaRequest } from "../../api/generated-client/model";
@@ -144,8 +144,8 @@ const RequestsCardView: React.FC = () => {
           }}
         >
           <div className={styles.headerContainer}>
-            <Title1>Media Requests</Title1>
-            <Button appearance="primary" onClick={() => navigate('/requests/new')}>Create new</Button>
+            <Title1>Media requests</Title1>
+            <Button appearance="primary" onClick={() => navigate('/requests/new')} icon={<Add24Regular />}>Add request</Button>
           </div>
 
           <div className={styles.controls}>
@@ -155,15 +155,17 @@ const RequestsCardView: React.FC = () => {
             <div className={styles.searchAndFilterContainer}>
               <Input
                 contentBefore={<Search16Regular />}
-                placeholder="Search requests"
+                placeholder="Search"
                 value={globalFilter}
                 onChange={(_, data) => setGlobalFilter(data.value || "")}
                 className={styles.searchInput}
+                disabled
               />
               <Button
                 icon={<Filter24Regular />}
                 appearance="outline"
                 className={styles.filterButton}
+                disabled
               >
                 Filter
               </Button>
@@ -189,31 +191,42 @@ const RequestsCardView: React.FC = () => {
                   </div>
                   <h3>{row.original.requestTitle}</h3>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Avatar 
-                      name={`${row.original.requestorContactFirstName} ${row.original.requestorContactLastName}`}
-                      size={24} 
-                    />
-                    <span>
+                    <Tag shape="circular" media={
+                      <Avatar
+                        name={`${row.original.requestorContactFirstName} ${row.original.requestorContactLastName}`}
+                        size={24}
+                      />
+                    }>
                       {row.original.requestorContactFirstName} {row.original.requestorContactLastName}
-                    </span>
+                    </Tag>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <CalendarEmptyRegular />
-                    <span>
-                      {row.original.deadline 
+                    <Tag appearance="filled">
+                      <span style={{ display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle' }}>
+                        <CalendarEmpty16Regular style={{ marginRight: 4, verticalAlign: 'middle' }} />
+                      </span>
+                      {row.original.deadline
                         ? new Date(row.original.deadline).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" })
                         : "No deadline"
                       }
-                    </span>
+                    </Tag>
                   </div>
                   <Divider />
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <TagGroup className={styles.ministryTags}>
                       {row.original.leadMinistryAbbr && (
-                        <Tag shape="circular" appearance="outline">{row.original.leadMinistryAbbr}</Tag>
+                        <Tag shape="circular" appearance="filled" size="small">
+                          <span style={{ display: 'inline-flex', alignItems: 'center', height: '100%' }}>
+                            {row.original.leadMinistryAbbr}
+                          </span>
+                        </Tag>
                       )}
                       {row.original.additionalMinistriesAbbr?.length > 0 && (
-                        <Tag shape="circular" appearance="outline">{row.original.additionalMinistriesAbbr[0]}</Tag>
+                        <Tag shape="circular" appearance="outline" size="small">
+                          <span style={{ display: 'inline-flex', alignItems: 'center', height: '100%' }}>
+                            {row.original.additionalMinistriesAbbr[0]}
+                          </span>
+                        </Tag>
                       )}
                     </TagGroup>
                     {row.original.assignedToFullName && (
