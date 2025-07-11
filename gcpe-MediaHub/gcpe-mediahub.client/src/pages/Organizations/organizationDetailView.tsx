@@ -68,6 +68,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
               </Text>
               {org.parentId == null && (
               <Tag
+                size="medium"
                 appearance="outline"
                 style={{
                   backgroundColor: "var(--colorBrandBackground2)",
@@ -80,6 +81,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
             )}
               {org.isMajorMedia && (
               <Tag
+                size="medium"
                 appearance="filled"
                 style={{
                   backgroundColor: "var(--colorBrandBackground)",
