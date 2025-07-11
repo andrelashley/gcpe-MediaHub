@@ -116,7 +116,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             cell: item => {
                 const dateValue = item.getValue();
                 if (!dateValue || typeof dateValue !== "string") {
-                    return "Invalid Date";
+                    return "";
                 }
                 try {
                     const parsedDate = new Date(dateValue);

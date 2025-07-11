@@ -11,6 +11,7 @@ import {
 import Layout from '../../components/Layout';
 
 
+
 const useStyles = makeStyles({
     button: {
         verticalAlign: "top",
@@ -21,6 +22,14 @@ const useStyles = makeStyles({
         justifyContent: "space-between",
         alignItems: "center",
         marginBottom: "20px",
+    },
+    container: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        minWidth: "600px",
+        position: "relative",
+        overflowX: "hidden",
     },
 });
 
@@ -42,10 +51,13 @@ const MediaContacts = () => {
     }, []);
 
     return (
-        <div>
-            <Layout title={"Media Contacts"} selectedNavItem={"3"} headingButton={<CreateContactButton />} >
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <Title1>Media Contacts</Title1>
+                <CreateContactButton />
+            </div>
                 <ContactsTable items={contacts} />
-            </Layout>
+
         </div>
     );
 }
