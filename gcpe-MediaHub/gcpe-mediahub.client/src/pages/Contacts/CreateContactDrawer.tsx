@@ -401,7 +401,7 @@ export const CreateContactDrawer = () => {
 
                     <Divider style={{ margin: '24px 0 16px 0' }} />
 
-                    <Title3>Workplace Information</Title3>
+                    <Title3>Workplace information</Title3>
                     {outletInputs.map((outlet, index) => (
                         <MediaOutletInput
                             key={index }
