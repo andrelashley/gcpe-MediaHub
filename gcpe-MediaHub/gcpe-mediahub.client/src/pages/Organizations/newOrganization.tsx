@@ -16,7 +16,7 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose, cont
 
     const [name, setName] = useState("");
     const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
-    const [orgType, setOrgType] = useState(context ? capitalize(context) : "");
+    const [orgType, setOrgType] = useState("");
     const [selectedMediaTypeNames, setSelectedMediaTypeNames] = useState<string[]>([]);
     const [selectedLanguageNames, setSelectedLanguageNames] = useState<string[]>([]);
     const [isMajorMedia, setIsMajorMedia] = useState(false);
@@ -35,7 +35,6 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose, cont
     const [province, setProvince] = useState("");
     const [country, setCountry] = useState("Canada");
     const [postalCode, setPostalCode] = useState("");
-    const isNetwork = context === "network";
 
        useEffect(() => {
         const fetchDropdowns = async() => {
@@ -53,6 +52,10 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose, cont
         fetchDropdowns();
       }, []);
 
+      useEffect(() => {
+        setOrgType(capitalize(context)); // context = "network" | "outlet"
+      }, [context]);
+
     const orgTypeOptions = [
       "Network",
       "Outlet",
@@ -63,7 +66,7 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose, cont
     const [mediaOutlets, setMediaOutlets] = useState<{ id: string; outletName: string }[]>([]);
     const [phoneTypeOptions, setPhoneTypeOptions] = useState<{ id: number; name: string }[]>([]);
     const [socialMediaTypeOptions, setSocialMediaTypeOptions] = useState<{ id: number; name: string }[]>([]);
-
+    const [isSubmitting, setIsSubmitting] = React.useState(false);
 
     const provinceOptions = [
       "AB", // Alberta
@@ -101,6 +104,8 @@ const handleSave = (e: React.FormEvent) => {
       { intent: 'error' }
     );
   }
+
+  setIsSubmitting(true);
 
   const selectedLanguageIds = languageTypeOptions
     .filter(lang => selectedLanguageNames.includes(lang.name))
@@ -163,7 +168,17 @@ const handleSave = (e: React.FormEvent) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json();
+
+       dispatchToast(
+        <Toast>
+          <ToastTitle>Organization Created</ToastTitle>
+          <ToastBody>
+            New organization created successfully.
+            </ToastBody>
+        </Toast>,
+         { intent: 'success', timeout: 5000 }
+          );
+        if (onClose) onClose();
     })
     .then((data) => {
       console.log("Organization saved successfully:", data);
@@ -172,6 +187,11 @@ const handleSave = (e: React.FormEvent) => {
     .catch((error) => {
       console.error("Error saving organization:", error);
       // toast or error UI
+      
+    })
+    .finally(() => {
+      setIsSubmitting(false);
+      if (onClose) onClose();
     });
   };
 
@@ -194,8 +214,7 @@ const handleSave = (e: React.FormEvent) => {
               <Field label="Media organization type" required>
                   <Dropdown placeholder='Select a media organization type'
                     value={orgType}
-                    onOptionSelect={(_, data) => setOrgType(data.optionText || "")}
-                    disabled={!!context}>
+                    onOptionSelect={(_, data) => setOrgType(data.optionText || "")}>
                       {orgTypeOptions.map((option) => (
                         <Option key={option}>
                           {option}
@@ -236,14 +255,14 @@ const handleSave = (e: React.FormEvent) => {
                 onChange={(_, data) => setIsMajorMedia(data.checked === true)}
               />
 
-              {!isNetwork && (
-                <Field label="Network">
+              {orgType === "Outlet" && (
+              <Field label="Network">
                 <Dropdown
                   placeholder="Select a network"
                   value={selectedNetworkName}
-                  onOptionSelect={(_, data) => {
-                    setSelectedNetworkName(data.optionText ?? '');
-                  }}
+                  onOptionSelect={(_, data) =>
+                    setSelectedNetworkName(data.optionText ?? "")
+                  }
                 >
                   {mediaOutlets.map((outlet) => (
                     <Option key={outlet.id} text={outlet.outletName}>
@@ -251,8 +270,8 @@ const handleSave = (e: React.FormEvent) => {
                     </Option>
                   ))}
                 </Dropdown>
-                </Field>
-              )}
+              </Field>
+            )}
               
               <Field label="Languages">
               <Dropdown
@@ -476,8 +495,17 @@ const handleSave = (e: React.FormEvent) => {
               justifyContent: 'flex-start',
               marginTop: '2rem',
           }}>
-            <Button appearance="primary" type="submit" onClick={handleSave}>Save</Button>
-            <Button appearance="secondary">Cancel</Button>
+            <Button 
+              appearance="primary" 
+              type="submit" 
+              onClick={handleSave} 
+              disabled={isSubmitting}>    
+                {isSubmitting ? 'Saving...' : 'Save'}              
+              </Button>
+            <Button appearance="secondary"
+                    onClick={onClose}>
+                      Cancel
+            </Button>
           </div>
 
             </div>

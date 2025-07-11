@@ -203,7 +203,9 @@ const Organizations = () => {
           >
             <DrawerBody>
               <NewOrganizationPage 
-                onClose={() => setIsNewOrganizationDrawerOpen(false)} 
+                onClose={() => {
+                  setIsNewOrganizationDrawerOpen(false);
+                }} 
                 context={newOrgContext} />
             </DrawerBody>
         </Drawer>
