@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, Divider, Badge, Avatar, Tag } from '@fluentui/react-components';
+import RequestStatusBadge from "../../components/RequestStatusBadge";
 import { Dismiss24Regular, CalendarEmptyRegular } from '@fluentui/react-icons';
 import { MediaRequest } from "../../api/generated-client/model";
 import { requestService } from "../../services/requestService";
@@ -129,9 +130,13 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
             </button>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', marginTop: '30px' }}>
                 <Text weight="semibold">REQ-{request.requestNo}</Text>
-                <Badge shape="circular" appearance="filled">
-                  {request.requestStatus?.name || request.requestStatusId || "Unknown"}
-                </Badge>
+                <RequestStatusBadge status={
+                  typeof request.requestStatus?.name === 'string' && request.requestStatus?.name
+                    ? request.requestStatus.name
+                    : typeof request.requestStatusId === 'string'
+                      ? request.requestStatusId
+                      : request.requestStatusId?.toString() || "Unknown"
+                } />
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
