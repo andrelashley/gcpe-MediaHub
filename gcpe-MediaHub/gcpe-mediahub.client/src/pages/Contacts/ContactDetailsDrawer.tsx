@@ -97,7 +97,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                         }}>
                             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
                             <Text weight="semibold" size={600}>
-                                {contact.firstName} {contact.lastName}
+                                Keith Baldrey {/* {contact.firstName} {contact.lastName} */}
                             </Text>
                             <Tag
                                 appearance="filled"
@@ -114,17 +114,17 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                         </div>
                         <div style={{display: 'flex', flexDirection: 'column' }}>
                             <Text size={300}>Reporter</Text>
-                            <Text size={300}>Calgary, Vancouver</Text>
+                            <Text size={300}>Victoria, British Columbia</Text>
                         </div>
                         <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: '8px' }}>
-                            <Button
+                            {/* <Button
                                 appearance="secondary"
                                 icon={<Globe24Regular />}
                                 iconPosition="before"
                                 style={{ padding: "4px 16px", fontWeight: 600 }}
                             >
-                                www.aarontell.ca
-                            </Button>
+                                keithbaldrey.ca
+                            </Button> */}
 
                             <Button
                                 appearance="secondary"
@@ -132,7 +132,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                                 iconPosition="before"
                                 style={{ padding: "4px 16px", fontWeight: 600 }}
                             >
-                                @AaronTell
+                                @KeithBaldrey
                             </Button>
 
 
@@ -154,7 +154,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                                 iconPosition="before"
                                 style={{ padding: "4px 16px", fontWeight: 600 }}
                             >
-                                @AaronTell
+                                @KeithBaldrey
                             </Button>
                         </div>
                     </DrawerHeaderTitle>
@@ -188,13 +188,13 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
 
                 <FieldRow label="Email">
                     <Field>
-                        <Input defaultValue="a.tell@global.ca" />
+                        <Input defaultValue="keith.baldrey@globalnews.ca" />
                     </Field>
                 </FieldRow>
 
-                <FieldRow label="News desk">
+                <FieldRow label="Primary">
                     <Field>
-                        <Input defaultValue="493-555-5555" />
+                        <Input defaultValue="250-387-1572" />
                     </Field>
                 </FieldRow>
 
@@ -239,7 +239,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                             }}>
                             <Text size={400} weight="semibold">Global News Calgary</Text>
                             <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>
-                                Reporter
+                                Commentator
                             </Text>
                             <Tag
                             appearance="filled"
@@ -279,21 +279,21 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                     </div>
                 </div>
                 <FieldRow label="Email">
-                    <Field>
-                        <Input defaultValue="jane.smith@cbc.ca" />
-                    </Field>
+                <Field>
+                    <Input defaultValue="keithbaldrey@globalnewscalgary.com" />
+                </Field>
                 </FieldRow>
 
-                <FieldRow label="Mobile">
-                    <Field>
-                        <Input defaultValue="604-555-5555" />
-                    </Field>
+                <FieldRow label="Primary">
+                <Field>
+                    <Input defaultValue="250-387-1572" />
+                </Field>
                 </FieldRow>
 
-                <FieldRow label="After hours">
-                    <Field>
-                        <Input defaultValue="493-555-5555" />
-                    </Field>
+                <FieldRow label="Cell">
+                <Field>
+                    <Input defaultValue="250-360-7658" />
+                </Field>
                 </FieldRow>
             </div>
 
@@ -351,19 +351,19 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
 
                 <FieldRow label="Email">
                 <Field>
-                    <Input defaultValue="aaron.tell@vancouversun.com" />
+                    <Input defaultValue="keithbaldrey@vancouversun.com" />
                 </Field>
                 </FieldRow>
 
-                <FieldRow label="Mobile">
+                <FieldRow label="Primary">
                 <Field>
-                    <Input defaultValue="604-555-5555" />
+                    <Input defaultValue="250-387-1572" />
                 </Field>
                 </FieldRow>
 
-                <FieldRow label="After hours">
+                <FieldRow label="Cell">
                 <Field>
-                    <Input defaultValue="604-555-5555" />
+                    <Input defaultValue="250-360-7658" />
                 </Field>
                 </FieldRow>
 
@@ -373,8 +373,8 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
 
                 <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                    <Text size={400} weight="semibold">Freelance</Text>
-                    <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Reporter</Text>
+                    <Text size={400} weight="semibold">CKNW</Text>
+                    <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Legislative Bureau Chief</Text>
                 </div>
 
                 <div>
@@ -395,19 +395,19 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
 
                 <FieldRow label="Email">
                 <Field>
-                    <Input defaultValue="aaron.tell45697@gmail.com" />
+                    <Input defaultValue="keithbaldrey@cknw.com" />
                 </Field>
                 </FieldRow>
 
-                <FieldRow label="Mobile">
+                <FieldRow label="Primary">
                 <Field>
-                    <Input defaultValue="604-555-5555" />
+                    <Input defaultValue="250-387-1572" />
                 </Field>
                 </FieldRow>
 
-                <FieldRow label="After hours">
+                <FieldRow label="Cell">
                 <Field>
-                    <Input defaultValue="604-555-5555 ext. 555" />
+                    <Input defaultValue="250-360-7658" />
                 </Field>
                 </FieldRow>
             </div>
