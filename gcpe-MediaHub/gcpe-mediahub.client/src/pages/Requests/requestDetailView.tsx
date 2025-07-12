@@ -153,8 +153,8 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                 <Subtitle2Stronger>{request.requestTitle}</Subtitle2Stronger>
             </div>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
                     <Caption1 style={{ width: '210px' }}>Requested By</Caption1>
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                         <Tag shape="circular" size="small" media={
@@ -168,7 +168,7 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
                     <Caption1 style={{ width: '210px' }}>Deadline</Caption1>
                     <Tag size="small" appearance="filled" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <CalendarEmptyRegular style={{ marginRight: 4 }} />
@@ -176,7 +176,7 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                     </Tag>
                 </div>
 
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
                     <Caption1 style={{ width: '210px' }}>Received On</Caption1>
                     <Tag size="small" appearance="filled" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <CalendarEmptyRegular style={{ marginRight: 4 }} />
@@ -184,14 +184,14 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                     </Tag>
                 </div>
 
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
                     <Caption1 style={{ width: '210px' }}>Request Type</Caption1>
                     {request.requestType?.name && (
                         <Tag shape="circular" appearance="outline" size="small" style={{ height: 24, display: 'flex', alignItems: 'center' }}>{request.requestType.name}</Tag>
                     )}
                 </div>
 
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
                     <Caption1 style={{ width: '210px' }}>Lead Ministry</Caption1>
                     {request.leadMinistry && (
                         <Tag shape="circular" appearance="outline" size="small" style={{ height: 24, display: 'flex', alignItems: 'center' }}>{request.leadMinistry.acronym || 'Unknown'}</Tag>
@@ -199,13 +199,13 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                 </div>
 
                 {/*
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
                     <Caption1 style={{ width: '210px' }}>Resolution</Caption1>
                     <Caption1>{request.requestResolution?.name || 'Pending'}</Caption1>
                 </div>
                 */}
 
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
                     <Caption1 style={{ width: '210px' }}>Assigned To</Caption1>
                     <Tag shape="circular" media={
                         <Avatar 
@@ -219,7 +219,7 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                 </div>
 
                 {/* Additional Ministries: always show label, blank if none */}
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
                     <Caption1 style={{ width: '210px' }}>Additional Ministries</Caption1>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {Array.isArray(request.additionalMinistries) && request.additionalMinistries.length > 0
@@ -232,8 +232,8 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                 </div>
 
                 {/* FYI Contact: always show label, blank if none */}
-                <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Caption1 style={{ width: '210px' }}>FYI Contact</Caption1>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '8px' }}>
+                    <Caption1 style={{ width: '210px' }}>FYI contact</Caption1>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {request.fyiContactUser ? (
                             <Tag shape="circular" size="small" media={
@@ -249,8 +249,8 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                     </div>
                 </div>
 
-                <div style={{ marginTop: '8px' }}>
-                    <Caption1>Request Details</Caption1>
+                <div style={{ marginTop: '8px', marginBottom: '8px' }}>
+                    <Caption1>Request details</Caption1>
                     <Body1 block style={{ whiteSpace: 'pre-wrap', marginTop: '8px' }}>{request.requestDetails}</Body1>
                 </div>
 
