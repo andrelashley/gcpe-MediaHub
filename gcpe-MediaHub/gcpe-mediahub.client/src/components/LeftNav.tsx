@@ -28,7 +28,7 @@ const navConfig = {
 const useStyles = makeStyles({
     navContainer: {
         width: '240px',
-        height: '100vh',
+     /*   height: '100vh',*/
         minHeight: '100%',
         flexShrink: 0,
         display: 'flex',
@@ -151,7 +151,7 @@ const LeftNav = () => {
                         </NavSubItemGroup>
                     </NavCategory>
                     <div className={styles.versionInfo}>
-                        Ver {APP_VERSION}
+                        Alpha {APP_VERSION}
                    </div>
 
                 </NavDrawerBody>
