@@ -2,7 +2,7 @@ import React from 'react';
 import type { User } from '../../api/generated-client/model';
 import {
     Title1,
-    Title2,
+    Body2,
     Dropdown,
     Option,
     Field,
@@ -10,6 +10,8 @@ import {
     Input,
     Textarea,
     Button,
+    Subtitle1,
+    Text,
 } from '@fluentui/react-components';
 // Remove duplicate import of Fluent UI toast components
 import { useToastController, Toaster, Toast, ToastTitle, ToastBody, ToastFooter, Link } from '@fluentui/react-components';
@@ -284,7 +286,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     return (
         <div className={styles.container}>
             <div className={styles.titleContainer}>
-                <h3>New Media Request</h3>
+                <Subtitle1>New media request</Subtitle1>
                 <div
                     className={styles.dismissIcon}
                     onClick={onClose}
@@ -297,6 +299,15 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             <div className={styles.form}>
                 {/*
                 <Field
+                    label={{
+                        children: (label) => (
+                            <span style={{
+                                fontSize: 'var(--fontSizeBase300)',
+                                lineHeight: 'var(--lineHeightBase300)',
+                                fontWeight: 'var(--fontWeightRegular)'
+                            }}>{label}</span>
+                        )
+                    }}
                     label="Status"
                     required
                     validationMessage={showValidation && !selectedStatus ? "Status is required" : undefined}
@@ -322,7 +333,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 </Field>
                 */}
                 <Field
-                    label="Request Title"
+                    label="Request title"
                     required
                     validationMessage={touchedFields.requestTitle && formErrors.requestTitle ? formErrors.requestTitle : undefined}
                     validationState={touchedFields.requestTitle && formErrors.requestTitle ? "error" : "none"}
@@ -340,7 +351,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     />
                 </Field>
                 <Field
-                    label="Requested By"
+                    label="Requested by"
                     required
                     validationMessage={touchedFields.requestedBy && formErrors.requestedBy ? formErrors.requestedBy : undefined}
                     validationState={touchedFields.requestedBy && formErrors.requestedBy ? "error" : "none"}
@@ -395,7 +406,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </div>
                 </Field>
                 <Field
-                    label="Received On"
+                    label="Received on"
                     required
                     validationMessage={touchedFields.receivedOn && formErrors.receivedOn ? formErrors.receivedOn : undefined}
                     validationState={touchedFields.receivedOn && formErrors.receivedOn ? "error" : "none"}
@@ -427,7 +438,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </div>
                 </Field>
                 <Field
-                    label="Request Type"
+                    label="Request type"
                     required
                     validationMessage={touchedFields.requestType && formErrors.requestType ? formErrors.requestType : undefined}
                     validationState={touchedFields.requestType && formErrors.requestType ? "error" : "none"}
@@ -451,7 +462,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </Dropdown>
                 </Field>
                 <Field
-                    label="Request Details"
+                    label="Request details"
                     required
                     validationMessage={touchedFields.requestDetails && formErrors.requestDetails ? formErrors.requestDetails : undefined}
                     validationState={touchedFields.requestDetails && formErrors.requestDetails ? "error" : "none"}
@@ -471,9 +482,9 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     />
                 </Field>
                 <Divider className={styles.dividerSection} />
-                <h3>Responsibility</h3>
+                <Body2 as="span" style={{ display: 'block' }}>Responsibility</Body2>
                 <Field
-                    label="Lead Ministry"
+                    label="Lead ministry"
                     required
                     validationMessage={touchedFields.leadMinistry && formErrors.leadMinistry ? formErrors.leadMinistry : undefined}
                     validationState={touchedFields.leadMinistry && formErrors.leadMinistry ? "error" : "none"}
@@ -501,7 +512,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </Dropdown>
                 </Field>
                 <Field
-                    label="Assigned To"
+                    label="Assigned to"
                     required
                     validationMessage={touchedFields.assignedTo && formErrors.assignedTo ? formErrors.assignedTo : undefined}
                     validationState={touchedFields.assignedTo && formErrors.assignedTo ? "error" : "none"}
@@ -523,8 +534,9 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </Dropdown>
                 </Field>
                 <Divider className={styles.dividerSection} />
+                <Body2 as="span" style={{ display: 'block' }}>Shared with</Body2>
                 <Field
-                    label="Additional Ministries"
+                    label="Additional ministries"
                 >
                     <Dropdown
                         placeholder="Select additional ministries"
@@ -551,7 +563,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </Dropdown>
                 </Field>     
                 <Field
-                    label="FYI Contacts"
+                    label="FYI contacts"
                 >
                     <Dropdown
                         placeholder="Select FYI Contact IDIR"

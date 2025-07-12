@@ -1,5 +1,21 @@
 import React, { useState } from "react";
-import { Input, Badge, Tag, Tab, TabList, Avatar, TagGroup, Button, Title1, Divider, Drawer, DrawerHeader, DrawerHeaderTitle, DrawerBody } from "@fluentui/react-components";
+import { Input, 
+  Badge, 
+  Tag, 
+  Tab, 
+  TabList, 
+  Avatar, 
+  TagGroup, 
+  Button, 
+  Title1, 
+  Divider, 
+  Drawer, 
+  DrawerHeader, 
+  DrawerHeaderTitle, 
+  DrawerBody, 
+  Body1Stronger, 
+  Caption1,
+  Body2 } from "@fluentui/react-components";
 import { CalendarEmpty16Regular, Filter24Regular, Search16Regular, Dismiss24Regular, Add24Regular } from "@fluentui/react-icons";
 import { useQuery } from "@tanstack/react-query";
 import { useReactTable, getCoreRowModel } from "@tanstack/react-table";
@@ -145,7 +161,7 @@ const RequestsCardView: React.FC = () => {
         >
           <div className={styles.headerContainer}>
             <Title1>Media requests</Title1>
-            <Button appearance="primary" onClick={() => navigate('/requests/new')} icon={<Add24Regular />}>Add request</Button>
+            <Button appearance="primary" onClick={() => navigate('/requests/new')} icon={<Add24Regular />}><Body2>Add request</Body2></Button>
           </div>
 
           <div className={styles.controls}>
@@ -184,14 +200,14 @@ const RequestsCardView: React.FC = () => {
               >
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span>{`REQ-${row.original.requestNo}`}</span>
+                    <Caption1>{`REQ-${row.original.requestNo}`}</Caption1>
                     <div className={styles.statusBadge}>
                       <RequestStatusBadge status={row.original.requestStatus || "Unknown"} />
                     </div>
                   </div>
-                  <h3>{row.original.requestTitle}</h3>
+                  <Body1Stronger>{row.original.requestTitle}</Body1Stronger>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Tag shape="circular" media={
+                    <Tag shape="circular" size="small" media={
                       <Avatar
                         name={`${row.original.requestorContactFirstName} ${row.original.requestorContactLastName}`}
                         size={24}
@@ -201,7 +217,7 @@ const RequestsCardView: React.FC = () => {
                     </Tag>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Tag appearance="filled">
+                    <Tag appearance="filled" size="small">
                       <span style={{ display: 'inline-flex', alignItems: 'center', verticalAlign: 'middle' }}>
                         <CalendarEmpty16Regular style={{ marginRight: 4, verticalAlign: 'middle' }} />
                       </span>
@@ -215,14 +231,14 @@ const RequestsCardView: React.FC = () => {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <TagGroup className={styles.ministryTags}>
                       {row.original.leadMinistryAbbr && (
-                        <Tag shape="circular" appearance="filled" size="small">
+                        <Tag shape="circular" appearance="filled" size="small" style={{ height: 24, display: 'flex', alignItems: 'center' }}>
                           <span style={{ display: 'inline-flex', alignItems: 'center', height: '100%' }}>
                             {row.original.leadMinistryAbbr}
                           </span>
                         </Tag>
                       )}
                       {row.original.additionalMinistriesAbbr?.length > 0 && (
-                        <Tag shape="circular" appearance="outline" size="small">
+                        <Tag shape="circular" appearance="outline" size="small" style={{ height: 24, display: 'flex', alignItems: 'center' }}>
                           <span style={{ display: 'inline-flex', alignItems: 'center', height: '100%' }}>
                             {row.original.additionalMinistriesAbbr[0]}
                           </span>

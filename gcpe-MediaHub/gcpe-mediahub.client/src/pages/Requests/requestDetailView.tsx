@@ -1,5 +1,15 @@
 import React from 'react';
-import { Text, Divider, Badge, Avatar, Tag } from '@fluentui/react-components';
+import { 
+    Text, 
+    Divider, 
+    Badge, 
+    Avatar, 
+    Tag, 
+    Caption1,
+    Caption2,
+    Subtitle2Stronger,
+    Body1
+} from '@fluentui/react-components';
 import RequestStatusBadge from "../../components/RequestStatusBadge";
 import { Dismiss24Regular, CalendarEmptyRegular } from '@fluentui/react-icons';
 import { MediaRequest } from "../../api/generated-client/model";
@@ -129,7 +139,7 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                 <Dismiss24Regular style={{ color: 'var(--colorNeutralForeground1)' }} />
             </button>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', marginTop: '30px' }}>
-                <Text weight="semibold">REQ-{request.requestNo}</Text>
+                <Caption1>REQ-{request.requestNo}</Caption1>
                 <RequestStatusBadge status={
                   typeof request.requestStatus?.name === 'string' && request.requestStatus?.name
                     ? request.requestStatus.name
@@ -140,14 +150,14 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
             </div>
             
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-                <h3>{request.requestTitle}</h3>
+                <Subtitle2Stronger>{request.requestTitle}</Subtitle2Stronger>
             </div>
             
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Text weight="semibold" style={{ width: '210px' }}>Requested By</Text>
+                    <Caption1 style={{ width: '210px' }}>Requested By</Caption1>
                     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                        <Tag shape="circular" media={
+                        <Tag shape="circular" size="small" media={
                             <Avatar
                                 name={`${request.requestorContact?.firstName} ${request.requestorContact?.lastName}`}
                                 size={24}
@@ -159,42 +169,44 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                 </div>
 
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Text weight="semibold" style={{ width: '210px' }}>Deadline</Text>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <CalendarEmptyRegular />
-                        <Text>{request.deadline ? new Date(request.deadline).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" }) : 'N/A'}</Text>
-                    </div>
+                    <Caption1 style={{ width: '210px' }}>Deadline</Caption1>
+                    <Tag size="small" appearance="filled" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <CalendarEmptyRegular style={{ marginRight: 4 }} />
+                        {request.deadline ? new Date(request.deadline).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" }) : 'N/A'}
+                    </Tag>
                 </div>
 
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Text weight="semibold" style={{ width: '210px' }}>Received On</Text>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <CalendarEmptyRegular />
-                        <Text>{request.receivedOn ? new Date(request.receivedOn).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" }) : 'N/A'}</Text>
-                    </div>
+                    <Caption1 style={{ width: '210px' }}>Received On</Caption1>
+                    <Tag size="small" appearance="filled" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <CalendarEmptyRegular style={{ marginRight: 4 }} />
+                        {request.receivedOn ? new Date(request.receivedOn).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" }) : 'N/A'}
+                    </Tag>
                 </div>
 
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Text weight="semibold" style={{ width: '210px' }}>Request Type</Text>
+                    <Caption1 style={{ width: '210px' }}>Request Type</Caption1>
                     {request.requestType?.name && (
-                        <Tag shape="circular" appearance="outline">{request.requestType.name}</Tag>
+                        <Tag shape="circular" appearance="outline" size="small" style={{ height: 24, display: 'flex', alignItems: 'center' }}>{request.requestType.name}</Tag>
                     )}
                 </div>
 
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Text weight="semibold" style={{ width: '210px' }}>Lead Ministry</Text>
+                    <Caption1 style={{ width: '210px' }}>Lead Ministry</Caption1>
                     {request.leadMinistry && (
-                        <Tag shape="circular" appearance="outline">{request.leadMinistry.acronym || 'Unknown'}</Tag>
+                        <Tag shape="circular" appearance="outline" size="small" style={{ height: 24, display: 'flex', alignItems: 'center' }}>{request.leadMinistry.acronym || 'Unknown'}</Tag>
                     )}
                 </div>
 
+                {/*
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Text weight="semibold" style={{ width: '210px' }}>Resolution</Text>
-                    <Text>{request.requestResolution?.name || 'Pending'}</Text>
+                    <Caption1 style={{ width: '210px' }}>Resolution</Caption1>
+                    <Caption1>{request.requestResolution?.name || 'Pending'}</Caption1>
                 </div>
+                */}
 
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Text weight="semibold" style={{ width: '210px' }}>Assigned To</Text>
+                    <Caption1 style={{ width: '210px' }}>Assigned To</Caption1>
                     <Tag shape="circular" media={
                         <Avatar 
                             name={getAssignedUserDisplay()}
@@ -208,11 +220,11 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
 
                 {/* Additional Ministries: always show label, blank if none */}
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Text weight="semibold" style={{ width: '210px' }}>Additional Ministries</Text>
+                    <Caption1 style={{ width: '210px' }}>Additional Ministries</Caption1>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {Array.isArray(request.additionalMinistries) && request.additionalMinistries.length > 0
                             ? request.additionalMinistries.map((ministry, index) => (
-                                <Tag key={index} shape="circular" appearance="outline">{ministry.acronym || 'Unknown'}</Tag>
+                                <Tag key={index} shape="circular" appearance="outline" size="small">{ministry.acronym || 'Unknown'}</Tag>
                               ))
                             : null
                         }
@@ -221,10 +233,10 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
 
                 {/* FYI Contact: always show label, blank if none */}
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                    <Text weight="semibold" style={{ width: '210px' }}>FYI Contact</Text>
+                    <Caption1 style={{ width: '210px' }}>FYI Contact</Caption1>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                         {request.fyiContactUser ? (
-                            <Tag shape="circular" media={
+                            <Tag shape="circular" size="small" media={
                                 <Avatar
                                     name={getFyiContactUserDisplay()}
                                     size={24}
@@ -238,14 +250,14 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                 </div>
 
                 <div style={{ marginTop: '8px' }}>
-                    <Text weight="semibold">Request Details</Text>
-                    <Text block style={{ whiteSpace: 'pre-wrap', marginTop: '8px' }}>{request.requestDetails}</Text>
+                    <Caption1>Request Details</Caption1>
+                    <Body1 block style={{ whiteSpace: 'pre-wrap', marginTop: '8px' }}>{request.requestDetails}</Body1>
                 </div>
 
                 {request.response && (
                     <div style={{ marginTop: '8px' }}>
-                        <Text weight="semibold">Response</Text>
-                        <Text block style={{ whiteSpace: 'pre-wrap', marginTop: '8px' }}>{request.response}</Text>
+                        <Caption1>Response</Caption1>
+                        <Body1 block style={{ whiteSpace: 'pre-wrap', marginTop: '8px' }}>{request.response}</Body1>
                     </div>
                 )}
             </div>
