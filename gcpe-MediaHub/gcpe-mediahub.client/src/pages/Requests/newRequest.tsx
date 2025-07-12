@@ -10,6 +10,7 @@ import {
     Input,
     Textarea,
     Button,
+    Subtitle1,
     Text,
 } from '@fluentui/react-components';
 // Remove duplicate import of Fluent UI toast components
@@ -285,7 +286,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     return (
         <div className={styles.container}>
             <div className={styles.titleContainer}>
-                <h3>New Media Request</h3>
+                <Subtitle1>New media request</Subtitle1>
                 <div
                     className={styles.dismissIcon}
                     onClick={onClose}
@@ -298,6 +299,15 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
             <div className={styles.form}>
                 {/*
                 <Field
+                    label={{
+                        children: (label) => (
+                            <span style={{
+                                fontSize: 'var(--fontSizeBase300)',
+                                lineHeight: 'var(--lineHeightBase300)',
+                                fontWeight: 'var(--fontWeightRegular)'
+                            }}>{label}</span>
+                        )
+                    }}
                     label="Status"
                     required
                     validationMessage={showValidation && !selectedStatus ? "Status is required" : undefined}
