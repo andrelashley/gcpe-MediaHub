@@ -231,14 +231,14 @@ const RequestsCardView: React.FC = () => {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <TagGroup className={styles.ministryTags}>
                       {row.original.leadMinistryAbbr && (
-                        <Tag shape="circular" appearance="filled" size="small">
+                        <Tag shape="circular" appearance="filled" size="small" style={{ height: 24, display: 'flex', alignItems: 'center' }}>
                           <span style={{ display: 'inline-flex', alignItems: 'center', height: '100%' }}>
                             {row.original.leadMinistryAbbr}
                           </span>
                         </Tag>
                       )}
                       {row.original.additionalMinistriesAbbr?.length > 0 && (
-                        <Tag shape="circular" appearance="outline" size="small">
+                        <Tag shape="circular" appearance="outline" size="small" style={{ height: 24, display: 'flex', alignItems: 'center' }}>
                           <span style={{ display: 'inline-flex', alignItems: 'center', height: '100%' }}>
                             {row.original.additionalMinistriesAbbr[0]}
                           </span>

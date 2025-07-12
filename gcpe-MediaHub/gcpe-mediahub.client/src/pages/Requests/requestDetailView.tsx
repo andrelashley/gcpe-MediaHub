@@ -187,14 +187,14 @@ const RequestDetailView: React.FC<RequestDetailViewProps> = ({ requestNo, onClos
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <Caption1 style={{ width: '210px' }}>Request Type</Caption1>
                     {request.requestType?.name && (
-                        <Tag shape="circular" appearance="outline" size="small">{request.requestType.name}</Tag>
+                        <Tag shape="circular" appearance="outline" size="small" style={{ height: 24, display: 'flex', alignItems: 'center' }}>{request.requestType.name}</Tag>
                     )}
                 </div>
 
                 <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                     <Caption1 style={{ width: '210px' }}>Lead Ministry</Caption1>
                     {request.leadMinistry && (
-                        <Tag shape="circular" appearance="outline" size="small">{request.leadMinistry.acronym || 'Unknown'}</Tag>
+                        <Tag shape="circular" appearance="outline" size="small" style={{ height: 24, display: 'flex', alignItems: 'center' }}>{request.leadMinistry.acronym || 'Unknown'}</Tag>
                     )}
                 </div>
 
