@@ -61,6 +61,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     const [deadlineTime, setDeadlineTime] = React.useState<Date | null>(null);
     const [timePickerValue, setTimePickerValue] = React.useState<string>('');
     const [receivedOn, setReceivedOn] = React.useState('');
+    const [receivedOnTime, setReceivedOnTime] = React.useState<Date | null>(null);
+    const [receivedOnTimePickerValue, setReceivedOnTimePickerValue] = React.useState<string>('');
     const [showValidation, setShowValidation] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
@@ -99,6 +101,11 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     React.useEffect(() => {
         setTimePickerValue(deadlineTime ? formatDateToTimeString(deadlineTime) : '');
     }, [deadlineTime]);
+
+    // Update receivedOnTimePickerValue when receivedOnTime changes
+    React.useEffect(() => {
+        setReceivedOnTimePickerValue(receivedOnTime ? formatDateToTimeString(receivedOnTime) : '');
+    }, [receivedOnTime]);
 
     // Effects
     React.useEffect(() => {
@@ -201,6 +208,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         if (!deadline.trim()) errors.deadline = 'Deadline is required';
         if (!deadlineTime) errors.deadline = 'Deadline time is required';
         if (!receivedOn.trim()) errors.receivedOn = 'Received date is required';
+        if (!receivedOnTime) errors.receivedOn = 'Received time is required';
         if (!selectedRequestType) errors.requestType = 'Request type is required';
         if (!requestDetails.trim()) errors.requestDetails = 'Request details are required';
         if (!leadMinistry) errors.leadMinistry = 'Lead ministry is required';
@@ -221,8 +229,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         }
 
         // Validate dates
-        if (!deadline.trim() || !deadlineTime || !receivedOn.trim()) {
-            setError("Deadline date, time, and Received On date are required");
+        if (!deadline.trim() || !deadlineTime || !receivedOn.trim() || !receivedOnTime) {
+            setError("Deadline date, time, and Received On date, time are required");
             return;
         }
 
@@ -239,7 +247,20 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 deadlineTime.getMinutes()
             );
         }
-        const receivedOnDate = receivedOn ? new Date(receivedOn) : null;
+        
+        // Combine date and time for received on
+        let receivedOnDate: Date | null = null;
+        if (receivedOn && receivedOnTime) {
+            // Create a new date with the received on date and time from TimePicker
+            const receivedOnDateTime = new Date(receivedOn);
+            receivedOnDate = new Date(
+                receivedOnDateTime.getFullYear(),
+                receivedOnDateTime.getMonth(),
+                receivedOnDateTime.getDate(),
+                receivedOnTime.getHours(),
+                receivedOnTime.getMinutes()
+            );
+        }
 
         if (!deadlineDate || !receivedOnDate) {
             setError("Deadline and Received On dates are required");
@@ -448,7 +469,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationMessage={touchedFields.receivedOn && formErrors.receivedOn ? formErrors.receivedOn : undefined}
                     validationState={touchedFields.receivedOn && formErrors.receivedOn ? "error" : "none"}
                 >
-                    <div style={{ position: 'relative', width: '100%' }}>
+                    <div className={useTimePickerStyles().root}>
                         <Input
                             type="text"
                             value={receivedOn}
@@ -470,6 +491,21 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             onChange={(e) => {
                                 setReceivedOn(e.target.value);
                                 setShowValidation(false);
+                            }}
+                        />
+                        <TimePicker
+                            placeholder="Select time"
+                            freeform
+                            dateAnchor={receivedOn ? new Date(receivedOn) : undefined}
+                            selectedTime={receivedOnTime}
+                            onTimeChange={(ev, data) => {
+                                setReceivedOnTime(data.selectedTime);
+                                setReceivedOnTimePickerValue(data.selectedTimeText ?? '');
+                                setShowValidation(false);
+                            }}
+                            value={receivedOnTimePickerValue}
+                            onInput={(ev: React.ChangeEvent<HTMLInputElement>) => {
+                                setReceivedOnTimePickerValue(ev.target.value);
                             }}
                         />
                     </div>
