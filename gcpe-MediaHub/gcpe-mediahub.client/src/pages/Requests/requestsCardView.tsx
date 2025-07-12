@@ -144,6 +144,17 @@ const RequestsCardView: React.FC = () => {
     refetch();
   };
 
+  const getAssignedUserInitials = (fullName?: string) => {
+    if (!fullName || !fullName.trim()) return '';
+    const parts = fullName.trim().split(' ');
+    if (parts.length >= 2) {
+      return (parts[0][0] || '') + (parts[1][0] || '');
+    } else if (parts.length === 1 && parts[0].length > 0) {
+      return parts[0][0];
+    }
+    return '';
+  };
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading requests: {error.message}</div>;
 
@@ -250,11 +261,7 @@ const RequestsCardView: React.FC = () => {
                         <Avatar
                           name={row.original.assignedToFullName}
                           size={24}
-                          initials={
-                            row.original.assignedToFullName
-                              ? row.original.assignedToFullName.slice(0, 2).toUpperCase()
-                              : ""
-                          }
+                          initials={getAssignedUserInitials(row.original.assignedToFullName)}
                         />
                       </div>
                     )}
