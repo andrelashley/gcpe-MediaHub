@@ -21,11 +21,26 @@ import { userService } from '../../services/userService';
 import { requestService } from '../../services/requestService';
 import { Ministry, MediaRequest, RequestStatus, RequestType, MediaContact } from '../../api/generated-client/model';
 import { CalendarEmpty24Regular, Dismiss24Regular } from '@fluentui/react-icons';
+import {
+  TimePicker,
+  TimePickerProps,
+  formatDateToTimeString,
+} from "@fluentui/react-timepicker-compat";
+import { makeStyles } from "@fluentui/react-components";
 import styles from './newRequest.module.css';
 
 interface NewRequestPageProps {
     onClose?: () => void;
 }
+
+const useTimePickerStyles = makeStyles({
+  root: {
+    display: "flex",
+    columnGap: "8px",
+    alignItems: "center",
+    maxWidth: "600px",
+  },
+});
 
 const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     // State declarations
@@ -43,6 +58,8 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     const [requestTitle, setRequestTitle] = React.useState('');
     const [requestedById, setRequestedById] = React.useState<string>('');
     const [deadline, setDeadline] = React.useState('');
+    const [deadlineTime, setDeadlineTime] = React.useState<Date | null>(null);
+    const [timePickerValue, setTimePickerValue] = React.useState<string>('');
     const [receivedOn, setReceivedOn] = React.useState('');
     const [showValidation, setShowValidation] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -52,23 +69,23 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     const [requestorContactId, setRequestorContactId] = React.useState<string>('00000000-0000-0000-0000-000000000000');
     const [formErrors, setFormErrors] = React.useState({
         requestTitle: '',
-        requestedBy: '',
+        requestDetails: '',
         deadline: '',
         receivedOn: '',
-        requestType: '',
-        requestDetails: '',
+        requestedBy: '',
         leadMinistry: '',
-        assignedTo: ''
+        assignedTo: '',
+        requestType: '',
     });
     const [touchedFields, setTouchedFields] = React.useState({
         requestTitle: false,
-        requestedBy: false,
+        requestDetails: false,
         deadline: false,
         receivedOn: false,
-        requestType: false,
-        requestDetails: false,
+        requestedBy: false,
         leadMinistry: false,
-        assignedTo: false
+        assignedTo: false,
+        requestType: false,
     });
     const [mediaContacts, setMediaContacts] = React.useState<MediaContact[]>([]);
     const [userIdirs, setUserIdirs] = React.useState<User[]>([]);
@@ -77,6 +94,11 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     const dateInputRef = React.useRef<HTMLInputElement>(null);
     const receivedOnInputRef = React.useRef<HTMLInputElement>(null);
     const lookupTimeout = React.useRef<NodeJS.Timeout>();
+
+    // Update timePickerValue when deadlineTime changes
+    React.useEffect(() => {
+        setTimePickerValue(deadlineTime ? formatDateToTimeString(deadlineTime) : '');
+    }, [deadlineTime]);
 
     // Effects
     React.useEffect(() => {
@@ -177,6 +199,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         if (!requestTitle.trim()) errors.requestTitle = 'Request title is required';
         if (!requestedById) errors.requestedBy = 'Requested by is required';
         if (!deadline.trim()) errors.deadline = 'Deadline is required';
+        if (!deadlineTime) errors.deadline = 'Deadline time is required';
         if (!receivedOn.trim()) errors.receivedOn = 'Received date is required';
         if (!selectedRequestType) errors.requestType = 'Request type is required';
         if (!requestDetails.trim()) errors.requestDetails = 'Request details are required';
@@ -198,25 +221,24 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         }
 
         // Validate dates
-        if (!deadline.trim() || !receivedOn.trim()) {
-            setError("Deadline and Received On dates are required");
+        if (!deadline.trim() || !deadlineTime || !receivedOn.trim()) {
+            setError("Deadline date, time, and Received On date are required");
             return;
         }
 
-        // Validate IDs
-        if (assignedUserId === '00000000-0000-0000-0000-000000000000') {
-            setError("Unable to find user with provided Assigned To IDIR");
-            return;
+        // Combine date and time for deadline
+        let deadlineDate: Date | null = null;
+        if (deadline && deadlineTime) {
+            // Create a new date with the deadline date and time from TimePicker
+            const deadlineDateTime = new Date(deadline);
+            deadlineDate = new Date(
+                deadlineDateTime.getFullYear(),
+                deadlineDateTime.getMonth(),
+                deadlineDateTime.getDate(),
+                deadlineTime.getHours(),
+                deadlineTime.getMinutes()
+            );
         }
-
-        if (fyiContactUser.trim() && fyiContactUserId === '00000000-0000-0000-0000-000000000000') {
-            setError("Unable to find user with provided FYI Contact IDIR");
-            return;
-        }
-        
-        // Map form state to the correct MediaRequest shape for your API
-        // Convert date strings to DateTimeOffset format
-        const deadlineDate = deadline ? new Date(deadline) : null;
         const receivedOnDate = receivedOn ? new Date(receivedOn) : null;
 
         if (!deadlineDate || !receivedOnDate) {
@@ -379,7 +401,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationMessage={touchedFields.deadline && formErrors.deadline ? formErrors.deadline : undefined}
                     validationState={touchedFields.deadline && formErrors.deadline ? "error" : "none"}
                 >
-                    <div style={{ position: 'relative', width: '100%' }}>
+                    <div className={useTimePickerStyles().root}>
                         <Input
                             type="text"
                             value={deadline}
@@ -401,6 +423,21 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             onChange={(e) => {
                                 setDeadline(e.target.value);
                                 setShowValidation(false);
+                            }}
+                        />
+                        <TimePicker
+                            placeholder="Select time"
+                            freeform
+                            dateAnchor={deadline ? new Date(deadline) : undefined}
+                            selectedTime={deadlineTime}
+                            onTimeChange={(ev, data) => {
+                                setDeadlineTime(data.selectedTime);
+                                setTimePickerValue(data.selectedTimeText ?? '');
+                                setShowValidation(false);
+                            }}
+                            value={timePickerValue}
+                            onInput={(ev: React.ChangeEvent<HTMLInputElement>) => {
+                                setTimePickerValue(ev.target.value);
                             }}
                         />
                     </div>
