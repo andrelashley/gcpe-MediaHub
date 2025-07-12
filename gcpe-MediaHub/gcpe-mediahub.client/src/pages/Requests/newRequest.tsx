@@ -40,6 +40,14 @@ const useTimePickerStyles = makeStyles({
     alignItems: "center",
     maxWidth: "600px",
   },
+  dateInput: {
+    flex: 1,
+    minWidth: "200px",
+  },
+  timePicker: {
+    flex: 1,
+    minWidth: "200px",
+  },
 });
 
 const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
@@ -427,7 +435,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             type="text"
                             value={deadline}
                             placeholder="Select a date"
-                            className={styles.dateInput}
+                            className={`${styles.dateInput} ${useTimePickerStyles().dateInput}`}
                             readOnly
                             contentAfter={
                                 <CalendarEmpty24Regular 
@@ -460,6 +468,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             onInput={(ev: React.ChangeEvent<HTMLInputElement>) => {
                                 setTimePickerValue(ev.target.value);
                             }}
+                            className={useTimePickerStyles().timePicker}
                         />
                     </div>
                 </Field>
@@ -474,7 +483,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             type="text"
                             value={receivedOn}
                             placeholder="Select a date"
-                            className={styles.dateInput}
+                            className={`${styles.dateInput} ${useTimePickerStyles().dateInput}`}
                             readOnly
                             contentAfter={
                                 <CalendarEmpty24Regular 
@@ -507,6 +516,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             onInput={(ev: React.ChangeEvent<HTMLInputElement>) => {
                                 setReceivedOnTimePickerValue(ev.target.value);
                             }}
+                            className={useTimePickerStyles().timePicker}
                         />
                     </div>
                 </Field>
