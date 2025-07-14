@@ -25,6 +25,7 @@
     margin-left: 10%;
     margin-right: 10%;
     display: inline-flex;
+    line-height: var(--Line-height-300, 20px);
 }
 
 .alphaInfoIcon {
