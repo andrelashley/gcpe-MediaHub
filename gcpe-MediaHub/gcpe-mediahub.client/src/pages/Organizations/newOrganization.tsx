@@ -1,4 +1,4 @@
-import {Title1, Title3, Field, Dropdown, Option, Input, Checkbox, Divider, Button} from '@fluentui/react-components';
+import {Title1, Field, Dropdown, Option, Input, Checkbox, Divider, Button} from '@fluentui/react-components';
 import {Dismiss24Regular, Add24Regular} from '@fluentui/react-icons';
 import { useToastController, Toaster, Toast, ToastTitle, ToastBody } from '@fluentui/react-components';
 import styles from './newOrganization.module.css';
@@ -198,8 +198,8 @@ const handleSave = (e: React.FormEvent) => {
   
     return(
         <div className={styles.container}>
-          <div className={styles.titleContainer}>
-              <Title1>New organization</Title1>
+            <div className={styles.titleContainer}>
+                <div>New organization</div>
               <div
                   className={styles.dismissIcon}
                   onClick={onClose}
@@ -250,7 +250,7 @@ const handleSave = (e: React.FormEvent) => {
               </Field>
 
               <Checkbox
-                label="Major Media"
+                label="Major media"
                 checked={isMajorMedia}
                 onChange={(_, data) => setIsMajorMedia(data.checked === true)}
               />
@@ -296,8 +296,8 @@ const handleSave = (e: React.FormEvent) => {
               </Dropdown>
             </Field>
 
-              <Divider style={{ margin: '24px 0 16px 0' }} />
-              <Title3>Contact Information</Title3>
+                    <Divider style={{ margin: '24px 0 16px 0' }} />
+                    <div className={styles.sectionHeader }>Contact information</div>
 
               <Field label="Email">        
                   <Input value={email} onChange={(_, data) => setEmail(data.value)} placeholder=""  />
@@ -359,7 +359,7 @@ const handleSave = (e: React.FormEvent) => {
               </div>
 
               <Divider style={{ margin: '24px 0 16px 0' }} />
-              <Title3>Online presence</Title3>
+                    <div className={styles.sectionHeader}>Online presence</div>
 
               <Field label="Website">        
                 <Input placeholder="http://" value={website} onChange={(_, data) => setWebsite(data.value)} />
@@ -422,10 +422,10 @@ const handleSave = (e: React.FormEvent) => {
               </div>
 
               <Divider style={{ margin: '24px 0 16px 0' }} />
-              <Title3>Address</Title3>
+                    <div className={styles.sectionHeader}>Address</div>
 
               <Checkbox
-                label="No Physical Address"
+                label="No physical address"
                 checked={hasNoPhysicalAddress}
                 onChange={(_, data) => setHasNoPhysicalAddress(data.checked === true)}/>
 

@@ -1,6 +1,6 @@
 ﻿
 
-import { FilterRegular } from "@fluentui/react-icons";
+import { Filter24Regular, FilterRegular, Search24Regular } from "@fluentui/react-icons";
 
 // import MediaContact from "../../models/MediaContact";
 import React, { useState } from "react";
@@ -20,6 +20,9 @@ import {
     Text,
     SearchBox,
     Button,
+    TabList,
+    Tab,
+    Input,
 } from "@fluentui/react-components";
 import MediaContact from "../../models/mediaContact";
 import { MediaRequest } from "../../models/mediaRequest";
@@ -36,6 +39,11 @@ const useStyles = makeStyles({
     },
     rightMargin: {
         marginRight: "10px",
+    },
+    tableHeader: {
+        backgroundColor: '#f4f4f4',
+        fontWeight: 'bold',
+        verticalAlign: 'middle',
     },
 });
 
@@ -159,21 +167,28 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
     return (
 
         <div style={{ width: '100%', overflowX: 'auto' }}>
-            <div className={styles.searchElement}>
-                <Text>All</Text>
-                <div className={styles.marginLeftAuto}>
-                    <SearchBox
-                        contentBefore={<Text size={400}>Search:</Text>}
-                        title={"this doesn't do anything yet."}
-                        className={styles.rightMargin}
-                    />
-                    <Button title={"this doesn't do anything yet."} icon={<FilterRegular />}>Filter</Button>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+            <TabList selectedValue="all">
+                <Tab value="all">All</Tab>
+            </TabList>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <Input placeholder='Search'
+                    disabled
+                    contentBefore={<Search24Regular />}
+                />
+                <Button
+                    appearance='outline'
+                    disabled
+                    icon={<Filter24Regular />}>Filter</Button>
                 </div>
             </div>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id}>
+                        <tr key={headerGroup.id}
+                            className={styles.tableHeader}
+                        >
                             {headerGroup.headers.map(header => (
                                 <th
                                     key={header.id}
@@ -228,36 +243,36 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             {currentContact &&
                 <ContactDetailsDrawer contact={currentContact} isOpen={contactDetailsOpen} closeContactDetails={closeContactDetails} />
             }
-            <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>
-                <button
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                >
-                    {'<'} Prev
-                </button>
-                {Array.from({ length: table.getPageCount() }, (_, index) => (
-                    <button
-                        key={index}
-                        onClick={() => table.setPageIndex(index)}
-                        style={{
-                            background: index === table.getState().pagination.pageIndex ? '#e0e0e0' : 'none',
-                            border: 'none',
-                            cursor: 'pointer',
-                            padding: '4px 8px',
-                        }}
-                    >
-                        {index + 1}
-                    </button>
-                ))}
-                <button
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-                >
-                    Next {'>'}
-                </button>
-            </div>
+            {/*<div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>*/}
+            {/*    <button*/}
+            {/*        onClick={() => table.previousPage()}*/}
+            {/*        disabled={!table.getCanPreviousPage()}*/}
+            {/*        style={{ background: 'none', border: 'none', cursor: 'pointer' }}*/}
+            {/*    >*/}
+            {/*        {'<'} Prev*/}
+            {/*    </button>*/}
+            {/*    {Array.from({ length: table.getPageCount() }, (_, index) => (*/}
+            {/*        <button*/}
+            {/*            key={index}*/}
+            {/*            onClick={() => table.setPageIndex(index)}*/}
+            {/*            style={{*/}
+            {/*                background: index === table.getState().pagination.pageIndex ? '#e0e0e0' : 'none',*/}
+            {/*                border: 'none',*/}
+            {/*                cursor: 'pointer',*/}
+            {/*                padding: '4px 8px',*/}
+            {/*            }}*/}
+            {/*        >*/}
+            {/*            {index + 1}*/}
+            {/*        </button>*/}
+            {/*    ))}*/}
+            {/*    <button*/}
+            {/*        onClick={() => table.nextPage()}*/}
+            {/*        disabled={!table.getCanNextPage()}*/}
+            {/*        style={{ background: 'none', border: 'none', cursor: 'pointer' }}*/}
+            {/*    >*/}
+            {/*        Next {'>'}*/}
+            {/*    </button>*/}
+            {/*</div>*/}
         </div>
     );
 }

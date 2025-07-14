@@ -337,7 +337,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     return (
         <div className={styles.container}>
             <div className={styles.titleContainer}>
-                <Subtitle1>New media request</Subtitle1>
+                <div>New media request</div>
                 <div
                     className={styles.dismissIcon}
                     onClick={onClose}

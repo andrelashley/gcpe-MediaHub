@@ -15,6 +15,7 @@ import Layout from '../../components/Layout';
 const useStyles = makeStyles({
     button: {
         verticalAlign: "top",
+        fontWeight: "inherit",
     },
 
     header: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles({
         minWidth: "600px",
         position: "relative",
         overflowX: "hidden",
+        fontWeight: "400",
     },
 });
 

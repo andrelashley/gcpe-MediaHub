@@ -94,8 +94,8 @@ const RequestsPage: React.FC = () => {
 
     const [isNewRequestDrawerOpen, setIsNewRequestDrawerOpen] = useState(false);
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading requests: {error.message}</div>;
+    //if (isLoading) return <div>Loading...</div>;
+    //if (error) return <div>Error loading requests: {error.message}</div>;
 
     return (
         <div className={styles.container}>

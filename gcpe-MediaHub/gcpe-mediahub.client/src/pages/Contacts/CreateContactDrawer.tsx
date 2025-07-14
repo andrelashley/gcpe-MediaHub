@@ -76,6 +76,10 @@ const useStyles = makeStyles({
             marginRight: "8px",
         },
     },
+    sectionHeader: {
+        fontSize: '16px',
+        fontWeight: '400',
+    },
 }
 );
 
@@ -365,7 +369,7 @@ export const CreateContactDrawer = () => {
                             />
                         }
                     >
-                        <div className={styles.title}>New Contact</div>
+                        <div className={styles.title}>New contact</div>
                     </DrawerHeaderTitle>
                 </DrawerHeader>
 
@@ -401,7 +405,7 @@ export const CreateContactDrawer = () => {
 
                     <Divider style={{ margin: '24px 0 16px 0' }} />
 
-                    <Title3>Workplace information</Title3>
+                    <Title3 className={styles.sectionHeader }>Workplace information</Title3>
                     {outletInputs.map((outlet, index) => (
                         <MediaOutletInput
                             key={index }
@@ -421,7 +425,7 @@ export const CreateContactDrawer = () => {
 
                     <Divider style={{ margin: '24px 0 16px 0' }} />
 
-                    <Title3>Online presence</Title3>
+                    <Title3 className={styles.sectionHeader}>Online presence</Title3>
 
                     <Field label="Website">
                         <Input placeholder="http://"
@@ -430,7 +434,7 @@ export const CreateContactDrawer = () => {
                     </Field>
 
                     {socialMediaLinks.map((entry, index) => (
-                        <Field key={index} label={index === 0 ? "Social Media" : ""}>
+                        <Field key={index} label={index === 0 ? "Social media" : ""}>
                             <div
                                 style={{
                                     display: 'flex',
@@ -486,7 +490,7 @@ export const CreateContactDrawer = () => {
                                 setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '', companyId: ''}])
                             }
                         >
-                            Social Media
+                            Social media
                         </Button>
                     </div>
 
