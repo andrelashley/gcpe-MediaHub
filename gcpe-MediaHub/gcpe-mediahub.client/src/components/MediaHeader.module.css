@@ -9,7 +9,7 @@
   box-sizing: border-box; /* Include padding in width/height */
 }
 
-.alphaDisclaimer {
+.alphaDisclaimerBackground {
     padding-left: 2%;
     min-width: 265px;
     background: var(--background-fill-support-info-emphasis, #013366);
@@ -20,6 +20,11 @@
 /*    width: 100%;*/
     align-items: center;
     font-weight: 400;
+}
+.alphaDisclaimer {
+    margin-left: 10%;
+    margin-right: 10%;
+    display: inline-flex;
 }
 
 .alphaInfoIcon {
@@ -37,12 +42,13 @@
     margin-top: 20px;
 }
 .alphaFeedbackButton {
-    display: flex;
-    padding: var(--Vertical-SNudge, 6px) var(--Horizontal-M, 12px);
-    justify-content: center;
-    align-items: center;
-    gap: var(--Horizontal-SNudge, 6px);
-    align-self: stretch;
+    font-family: var(--Font-family-Base, "BC Sans");
+    font-size: var(--Font-size-300, 14px) !important;
+    font-style: normal;
+    font-weight: 400 !important;
+    line-height: var(--Line-height-300, 20px) !important; /* 142.857% */
+    width: max-content;
+
 }
 .alphaInfoContent {
     max-width: 1224px;
