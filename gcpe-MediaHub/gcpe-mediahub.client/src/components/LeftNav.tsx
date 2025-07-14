@@ -27,7 +27,8 @@ const navConfig = {
 
 const useStyles = makeStyles({
     navContainer: {
-        width: '240px',
+        maxWidth: '280px',
+        minWidth: '200px',
      /*   height: '100vh',*/
         minHeight: '100%',
         flexShrink: 0,
