@@ -73,7 +73,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             
         }),
         columnHelper.accessor('mediaOutletContactRelationships', {
-            header: 'Media outlets',
+            header: 'Outlets',
             cell: item =>
                 (item.getValue() as OutletAssociation[]).map((outlet, index) =>
                     <Tag appearance="outline" shape="circular" key={index}>
@@ -108,7 +108,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             },
         ),
         columnHelper.accessor('requests', {
-            header: 'Media requests',
+            header: 'Requests',
             cell: item => (
                 getRequestTag(item.getValue())
             )
