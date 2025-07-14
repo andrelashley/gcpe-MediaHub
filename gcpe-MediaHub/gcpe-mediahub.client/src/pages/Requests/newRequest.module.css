@@ -13,6 +13,15 @@
     margin-top: 24px;
     margin-bottom: 16px;
     width: 100%;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.title {
+    font-size: var(--Font - size - 500, 20px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: var(--Line - height - 500, 28px);
 }
 
 .dismissIcon {

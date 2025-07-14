@@ -1,4 +1,4 @@
-import {Title1, Title3, Field, Dropdown, Option, Input, Checkbox, Divider, Button} from '@fluentui/react-components';
+import {Title1, Field, Dropdown, Option, Input, Checkbox, Divider, Button} from '@fluentui/react-components';
 import {Dismiss24Regular, Add24Regular} from '@fluentui/react-icons';
 import { useToastController, Toaster, Toast, ToastTitle, ToastBody } from '@fluentui/react-components';
 import styles from './newOrganization.module.css';
@@ -199,7 +199,7 @@ const handleSave = (e: React.FormEvent) => {
     return(
         <div className={styles.container}>
             <div className={styles.titleContainer}>
-                <Title1 className={styles.ttile}>New organization</Title1>
+                <div>New organization</div>
               <div
                   className={styles.dismissIcon}
                   onClick={onClose}
@@ -297,7 +297,7 @@ const handleSave = (e: React.FormEvent) => {
             </Field>
 
                     <Divider style={{ margin: '24px 0 16px 0' }} />
-                    <Title3 className={styles.sectionHeader }>Contact information</Title3>
+                    <div className={styles.sectionHeader }>Contact information</div>
 
               <Field label="Email">        
                   <Input value={email} onChange={(_, data) => setEmail(data.value)} placeholder=""  />
@@ -359,7 +359,7 @@ const handleSave = (e: React.FormEvent) => {
               </div>
 
               <Divider style={{ margin: '24px 0 16px 0' }} />
-                    <Title3 className={styles.sectionHeader}>Online presence</Title3>
+                    <div className={styles.sectionHeader}>Online presence</div>
 
               <Field label="Website">        
                 <Input placeholder="http://" value={website} onChange={(_, data) => setWebsite(data.value)} />
@@ -422,7 +422,7 @@ const handleSave = (e: React.FormEvent) => {
               </div>
 
               <Divider style={{ margin: '24px 0 16px 0' }} />
-                    <Title3 className={styles.sectionHeader}>Address</Title3>
+                    <div className={styles.sectionHeader}>Address</div>
 
               <Checkbox
                 label="No physical address"

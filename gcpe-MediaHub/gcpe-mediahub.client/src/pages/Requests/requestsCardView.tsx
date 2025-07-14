@@ -155,8 +155,8 @@ const RequestsCardView: React.FC = () => {
     return '';
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error loading requests: {error.message}</div>;
+  //if (isLoading) return <div>Loading...</div>;
+  //if (error) return <div>Error loading requests: {error.message}</div>;
 
   return (
     <div className={styles.layoutWrapper}>

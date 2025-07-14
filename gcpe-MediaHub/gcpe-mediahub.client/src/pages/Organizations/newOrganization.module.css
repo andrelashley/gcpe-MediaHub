@@ -18,13 +18,6 @@
     width: 100%;
 }
 
-.title {
-    font-size: var(--Font - size - 500, 20px);
-    font-style: normal;
-    font-weight: 400;
-    line-height: var(--Line - height - 500, 28px);
-}
-
 .dismissIcon {
     color: var(--colorNeutralForeground1);
     cursor: pointer;
