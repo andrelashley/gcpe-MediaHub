@@ -164,7 +164,7 @@ const RequestsCardView: React.FC = () => {
         <div
           style={{
             width: !isNewDrawerOpen && isDetailDrawerOpen ? '50%' : '100%',
-            overflowY: 'auto',
+            overflowY: 'hidden',
             maxHeight: '100%',
             padding: '20px',
             transition: 'width 0.3s',
@@ -198,7 +198,7 @@ const RequestsCardView: React.FC = () => {
             </div>
           </div>
 
-          <div className={styles.container}>
+          <div className={styles.container} style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 350px)' }}>
             {table.getRowModel().rows.map((row) => (
               <div
                 key={row.id}
