@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Badge, makeStyles, shorthands, tokens } from '@fluentui/react-components';
+import { Badge, makeStyles, shorthands, tokens, Caption2 } from '@fluentui/react-components';
 
 export interface RequestStatusBadgeProps {
   status: string;
@@ -36,7 +36,7 @@ export const RequestStatusBadge: React.FC<RequestStatusBadgeProps> = ({ status, 
   }
   return (
     <Badge shape="circular" appearance="filled" className={className}>
-      {children || status}
+      {children || <Caption2>{status}</Caption2>}
     </Badge>
   );
 };
