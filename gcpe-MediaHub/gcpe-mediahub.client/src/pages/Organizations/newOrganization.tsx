@@ -198,8 +198,8 @@ const handleSave = (e: React.FormEvent) => {
   
     return(
         <div className={styles.container}>
-          <div className={styles.titleContainer}>
-              <Title1>New organization</Title1>
+            <div className={styles.titleContainer}>
+                <Title1 className={styles.ttile}>New organization</Title1>
               <div
                   className={styles.dismissIcon}
                   onClick={onClose}
@@ -296,8 +296,8 @@ const handleSave = (e: React.FormEvent) => {
               </Dropdown>
             </Field>
 
-              <Divider style={{ margin: '24px 0 16px 0' }} />
-              <Title3>Contact information</Title3>
+                    <Divider style={{ margin: '24px 0 16px 0' }} />
+                    <Title3 className={styles.sectionHeader }>Contact information</Title3>
 
               <Field label="Email">        
                   <Input value={email} onChange={(_, data) => setEmail(data.value)} placeholder=""  />
@@ -359,7 +359,7 @@ const handleSave = (e: React.FormEvent) => {
               </div>
 
               <Divider style={{ margin: '24px 0 16px 0' }} />
-              <Title3>Online presence</Title3>
+                    <Title3 className={styles.sectionHeader}>Online presence</Title3>
 
               <Field label="Website">        
                 <Input placeholder="http://" value={website} onChange={(_, data) => setWebsite(data.value)} />
@@ -422,7 +422,7 @@ const handleSave = (e: React.FormEvent) => {
               </div>
 
               <Divider style={{ margin: '24px 0 16px 0' }} />
-              <Title3>Address</Title3>
+                    <Title3 className={styles.sectionHeader}>Address</Title3>
 
               <Checkbox
                 label="No physical address"
