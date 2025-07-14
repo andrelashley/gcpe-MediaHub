@@ -128,12 +128,12 @@ const LeftNav = () => {
                         value={navConfig.mediaRequests.value}
                         onClick={() => handleNavigation(navConfig.mediaRequests.path)}
                     >
-                        Media Requests
+                        Media requests
                     </NavItem>
 
                     <NavCategory value={navConfig.mediaContactsCategory.value}>
                         <NavCategoryItem>
-                            Media Contacts
+                            Media contacts
                         </NavCategoryItem>
                         <NavSubItemGroup>
                             <NavSubItem

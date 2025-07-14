@@ -55,7 +55,7 @@ const MediaContacts = () => {
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <Title1>Media Contacts</Title1>
+                <Title1>Media contacts</Title1>
                 <CreateContactButton />
             </div>
                 <ContactsTable items={contacts} />
