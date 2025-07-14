@@ -79,7 +79,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             
         }),
         columnHelper.accessor('mediaOutletContactRelationships', {
-            header: 'Media Outlets',
+            header: 'Media outlets',
             cell: item =>
                 (item.getValue() as OutletAssociation[]).map((outlet, index) =>
                     <Tag appearance="outline" shape="circular" key={index}>
@@ -114,13 +114,13 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
             },
         ),
         columnHelper.accessor('requests', {
-            header: 'Media Requests',
+            header: 'Media requests',
             cell: item => (
                 getRequestTag(item.getValue())
             )
         }),
         columnHelper.accessor('lastActive', {
-            header: 'Last Active',
+            header: 'Last active',
             cell: item => {
                 const dateValue = item.getValue();
                 if (!dateValue || typeof dateValue !== "string") {
@@ -128,9 +128,9 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                 }
                 try {
                     const parsedDate = new Date(dateValue);
-                    return isNaN(parsedDate.getTime()) ? "Invalid Date" : parsedDate.toLocaleDateString('en-US', dateOptions);
+                    return isNaN(parsedDate.getTime()) ? "Invalid date" : parsedDate.toLocaleDateString('en-US', dateOptions);
                 } catch (error) {
-                    return "Invalid Date";
+                    return "Invalid date";
                 }
             },
         }),

@@ -59,7 +59,7 @@ const columns = [
     cell: info => info.renderValue(),
   }),
   columnHelper.accessor('mediaTypes', {
-    header: () => <span>Media Type</span>,
+    header: () => <span>Media type</span>,
     cell: info => {
     const types = info.getValue();
     const visible = types.slice(0, 2);
