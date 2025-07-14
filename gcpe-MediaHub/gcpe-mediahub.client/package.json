@@ -8,9 +8,10 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "generate-api": "npx openapi-generator-cli generate -i http://localhost:5229/swagger/v1/swagger.json -g typescript-axios -o ./src/api/generated-client --additional-properties=\"supportsES6=true,useSingleRequestParameter=true,withSeparateModelsAndApi=true,modelPackage=model,apiPackage=api/\""
+    "generate-api": "npx openapi-generator-cli generate -i http://localhost:7145/swagger/v1/swagger.json -g typescript-axios -o ./src/api/generated-client --additional-properties=\"supportsES6=true,useSingleRequestParameter=true,withSeparateModelsAndApi=true,modelPackage=model,apiPackage=api/\""
   },
   "dependencies": {
+    "@fluentui/react-timepicker-compat": "^0.4.7",
     "@tanstack/react-query": "^5.75.7",
     "@tanstack/react-table": "^8.21.3",
     "keycloak-js": "^26.0.2",
@@ -23,6 +24,7 @@
     "@eslint/js": "^9.21.0",
     "@fluentui/react-components": "^9.62.0",
     "@fluentui/react-nav-preview": "^0.13.7",
+    "@openapitools/openapi-generator-cli": "^2.20.2",
     "@types/node": "^18.18.0",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
@@ -36,7 +38,6 @@
     "tailwindcss": "^3.0.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0",
-    "@openapitools/openapi-generator-cli": "^2.20.2"
+    "vite": "^6.2.0"
   }
 }
