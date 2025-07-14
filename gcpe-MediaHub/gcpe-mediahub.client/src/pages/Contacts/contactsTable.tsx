@@ -51,7 +51,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
     const [currentContact, setCurrentContact] = useState<MediaContact | undefined>();
 
     // Tanstack pagination stuff
-    const [sorting, setSorting] = React.useState<SortingState>([]);
+   // const [sorting, setSorting] = React.useState<SortingState>([]);
     const [pagination, setPagination] = React.useState<PaginationState>({
         pageIndex: 0,
         pageSize: 10,
@@ -139,10 +139,10 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
         data: items || [],
         columns,
         state: {
-            sorting,
+          //  sorting,
             pagination,
         },
-        onSortingChange: setSorting,
+     //   onSortingChange: setSorting,
         onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -190,16 +190,16 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                                         padding: '12px 16px',
                                         textAlign: 'left',
                                         borderBottom: '1px solid #e0e0e0',
-                                        cursor: header.column.getCanSort() ? 'pointer' : 'default',
+                                     //   cursor: header.column.getCanSort() ? 'pointer' : 'default',
                                     }}
-                                    onClick={header.column.getToggleSortingHandler()}
+                                 //   onClick={header.column.getToggleSortingHandler()}
                                 >
                                     {flexRender(header.column.columnDef.header, header.getContext())}
-                                    {header.column.getIsSorted() && (
-                                        <span>
-                                            {header.column.getIsSorted() === 'asc' ? ' ↑' : ' ↓'}
-                                        </span>
-                                    )}
+                                    {/*{header.column.getIsSorted() && (*/}
+                                    {/*    <span>*/}
+                                    {/*        {header.column.getIsSorted() === 'asc' ? ' ↑' : ' ↓'}*/}
+                                    {/*    </span>*/}
+                                    {/*)}*/}
                                 </th>
                             ))}
                         </tr>
