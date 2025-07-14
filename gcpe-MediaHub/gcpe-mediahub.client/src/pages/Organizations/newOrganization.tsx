@@ -250,7 +250,7 @@ const handleSave = (e: React.FormEvent) => {
               </Field>
 
               <Checkbox
-                label="Major Media"
+                label="Major media"
                 checked={isMajorMedia}
                 onChange={(_, data) => setIsMajorMedia(data.checked === true)}
               />
@@ -297,7 +297,7 @@ const handleSave = (e: React.FormEvent) => {
             </Field>
 
               <Divider style={{ margin: '24px 0 16px 0' }} />
-              <Title3>Contact Information</Title3>
+              <Title3>Contact information</Title3>
 
               <Field label="Email">        
                   <Input value={email} onChange={(_, data) => setEmail(data.value)} placeholder=""  />
@@ -425,7 +425,7 @@ const handleSave = (e: React.FormEvent) => {
               <Title3>Address</Title3>
 
               <Checkbox
-                label="No Physical Address"
+                label="No physical address"
                 checked={hasNoPhysicalAddress}
                 onChange={(_, data) => setHasNoPhysicalAddress(data.checked === true)}/>
 
