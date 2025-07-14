@@ -3,7 +3,7 @@ import { Button } from "@fluentui/react-components";
 import { Info24Regular, Dismiss24Regular } from "@fluentui/react-icons";
 import styles from './MediaHeader.module.css';
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+
 
 const AlphaInfo = () => {
     const [isVisible, setIsVisible] = useState(true);
@@ -13,8 +13,8 @@ const AlphaInfo = () => {
     };
 
     const handleFeedbackClick = () => {
-        const navigate = useNavigate();
-        navigate('https://teams.microsoft.com/l/channel/19%3A97e62e1a8b9947479036fba8727207f6%40thread.tacv2/Media%20Hub%202.0%20UX?groupId=58c5efde-591f-4653-823a-c26fd95123df&tenantId=6fdb5200-3d0d-4a8a-b036-d3685e359adc&ngc=true');
+        console.log("feedback button");
+        window.open('https://teams.microsoft.com/l/channel/19%3A97e62e1a8b9947479036fba8727207f6%40thread.tacv2/Media%20Hub%202.0%20UX?groupId=58c5efde-591f-4653-823a-c26fd95123df&tenantId=6fdb5200-3d0d-4a8a-b036-d3685e359adc&ngc=true');
     }
 
     if (!isVisible) {
@@ -22,6 +22,7 @@ const AlphaInfo = () => {
     }
 
     return (
+        <div className={styles.alphaDisclaimerBackground }>
         <div className={styles.alphaDisclaimer}>
 
                 <div className={styles.alphaInfoIcon}>
@@ -43,12 +44,14 @@ const AlphaInfo = () => {
 
                     {/*    />*/}
                     <Button className={styles.alphaFeedbackButton}
-                        onClick={handleFeedbackClick}
+
+                        onClick={() => handleFeedbackClick()}
                     >
                         Share feedback
                     </Button>
                 </div>
           
+            </div>
         </div>
     );
 }
