@@ -11,11 +11,12 @@ import {
   Field,
   Input,
   TabList,
-  Tab
+  Tab,
+  Badge // <-- Add Badge import
 } from "@fluentui/react-components";
 import {
   Dismiss24Regular,
-  Important24Regular,
+  Important16Regular,
   Globe24Regular,
   MoreHorizontal24Regular,
   Search24Regular,
@@ -67,32 +68,28 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
                 CBC
               </Text>
               {org.parentId == null && (
-              <Tag
-                size="medium"
-                appearance="outline"
-                style={{
-                  backgroundColor: "var(--colorBrandBackground2)",
-                  color: "var(--colorBrandForeground1)",
-                }}
-                shape="circular"
-              >
-                Network
-              </Tag>
-            )}
+                <Badge
+                  appearance="outline"
+                  color="brand"
+                  shape="circular"
+                  size="medium"
+                  style={{ fontWeight: 600, paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 4 }}
+                >
+                  Network
+                </Badge>
+              )}
               {org.isMajorMedia && (
-              <Tag
-                size="medium"
-                appearance="filled"
-                style={{
-                  backgroundColor: "var(--colorBrandBackground)",
-                  color: "var(--colorNeutralForegroundOnBrand)",
-                }}
-                shape="circular"
-                icon={<Important24Regular />}
-              >
-                Major
-              </Tag>
-            )}
+                <Badge
+                  appearance="filled"
+                  color="brand"
+                  shape="circular"
+                  size="medium"
+                  icon={<Important16Regular />}
+                  style={{ fontWeight: 600, paddingLeft: 8, paddingRight: 8, paddingTop: 4, paddingBottom: 4 }}
+                >
+                  Major
+                </Badge>
+              )}
             </div>
 
             {/* Right side: Menu */}
