@@ -1,5 +1,5 @@
 import { Button, TabList, Title1, Tab, Input, Tag, Drawer, DrawerBody, Menu, MenuTrigger, MenuPopover, MenuList, MenuItem } from '@fluentui/react-components';
-import { Search24Regular, Filter24Regular, Add24Regular, Important24Filled } from '@fluentui/react-icons';
+import { Search24Regular, Filter24Regular, Add24Regular, Important24Filled, ChevronDown16Regular } from '@fluentui/react-icons';
 
 import React, { useState, useMemo, useEffect } from 'react';
 
@@ -92,7 +92,10 @@ const Organizations = () => {
     const [selectedOrganization, setSelectedOrganization] = useState<Organization | null>(null);
     const [isNewOrganizationDrawerOpen, setIsNewOrganizationDrawerOpen] = useState(false);
     const [newOrgContext, setNewOrgContext] = useState<"network" | "outlet" | null>(null);
-    
+    // Add ref and state for button width
+    const [buttonWidth, setButtonWidth] = useState<number>(0);
+    const buttonRef = React.useRef<HTMLButtonElement>(null);
+
     useEffect(() => {
       const fetchOrganizations = async () => {
         try {
@@ -122,6 +125,13 @@ const Organizations = () => {
       fetchOrganizations();
   }, []);
 
+    // Effect to measure button width after render
+    useEffect(() => {
+      if (buttonRef.current) {
+        setButtonWidth(buttonRef.current.offsetWidth);
+      }
+    }, [data]);
+
       const table = useReactTable({
         data,
         columns,
@@ -134,11 +144,12 @@ const Organizations = () => {
             <Title1>Media organizations</Title1>
             <Menu>
               <MenuTrigger disableButtonEnhancement>
-                <Button appearance="primary" icon={<Add24Regular />} iconPosition="before">
-                  Organization
+                <Button ref={buttonRef} size="large" appearance="primary" icon={<Add24Regular />} iconPosition="before">
+                  Add organization
+                  <ChevronDown16Regular style={{ marginLeft: '8px' }} />
                 </Button>
               </MenuTrigger>
-              <MenuPopover>
+              <MenuPopover style={{ width: buttonWidth ? `${buttonWidth}px` : undefined }}>
                 <MenuList>
                   <MenuItem onClick={() => {
                       setNewOrgContext("outlet");

@@ -21,11 +21,34 @@ import { userService } from '../../services/userService';
 import { requestService } from '../../services/requestService';
 import { Ministry, MediaRequest, RequestStatus, RequestType, MediaContact } from '../../api/generated-client/model';
 import { CalendarEmpty24Regular, Dismiss24Regular } from '@fluentui/react-icons';
+import {
+  TimePicker,
+  TimePickerProps,
+  formatDateToTimeString,
+} from "@fluentui/react-timepicker-compat";
+import { makeStyles } from "@fluentui/react-components";
 import styles from './newRequest.module.css';
 
 interface NewRequestPageProps {
     onClose?: () => void;
 }
+
+const useTimePickerStyles = makeStyles({
+  root: {
+    display: "flex",
+    columnGap: "8px",
+    alignItems: "center",
+    maxWidth: "600px",
+  },
+  dateInput: {
+    flex: 1,
+    minWidth: "200px",
+  },
+  timePicker: {
+    flex: 1,
+    minWidth: "200px",
+  },
+});
 
 const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     // State declarations
@@ -43,7 +66,11 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     const [requestTitle, setRequestTitle] = React.useState('');
     const [requestedById, setRequestedById] = React.useState<string>('');
     const [deadline, setDeadline] = React.useState('');
+    const [deadlineTime, setDeadlineTime] = React.useState<Date | null>(null);
+    const [timePickerValue, setTimePickerValue] = React.useState<string>('');
     const [receivedOn, setReceivedOn] = React.useState('');
+    const [receivedOnTime, setReceivedOnTime] = React.useState<Date | null>(null);
+    const [receivedOnTimePickerValue, setReceivedOnTimePickerValue] = React.useState<string>('');
     const [showValidation, setShowValidation] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [error, setError] = React.useState<string | null>(null);
@@ -52,23 +79,23 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     const [requestorContactId, setRequestorContactId] = React.useState<string>('00000000-0000-0000-0000-000000000000');
     const [formErrors, setFormErrors] = React.useState({
         requestTitle: '',
-        requestedBy: '',
+        requestDetails: '',
         deadline: '',
         receivedOn: '',
-        requestType: '',
-        requestDetails: '',
+        requestedBy: '',
         leadMinistry: '',
-        assignedTo: ''
+        assignedTo: '',
+        requestType: '',
     });
     const [touchedFields, setTouchedFields] = React.useState({
         requestTitle: false,
-        requestedBy: false,
+        requestDetails: false,
         deadline: false,
         receivedOn: false,
-        requestType: false,
-        requestDetails: false,
+        requestedBy: false,
         leadMinistry: false,
-        assignedTo: false
+        assignedTo: false,
+        requestType: false,
     });
     const [mediaContacts, setMediaContacts] = React.useState<MediaContact[]>([]);
     const [userIdirs, setUserIdirs] = React.useState<User[]>([]);
@@ -77,6 +104,16 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     const dateInputRef = React.useRef<HTMLInputElement>(null);
     const receivedOnInputRef = React.useRef<HTMLInputElement>(null);
     const lookupTimeout = React.useRef<NodeJS.Timeout>();
+
+    // Update timePickerValue when deadlineTime changes
+    React.useEffect(() => {
+        setTimePickerValue(deadlineTime ? formatDateToTimeString(deadlineTime) : '');
+    }, [deadlineTime]);
+
+    // Update receivedOnTimePickerValue when receivedOnTime changes
+    React.useEffect(() => {
+        setReceivedOnTimePickerValue(receivedOnTime ? formatDateToTimeString(receivedOnTime) : '');
+    }, [receivedOnTime]);
 
     // Effects
     React.useEffect(() => {
@@ -157,7 +194,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         return selectedIds
             .map(id => ministries.find(m => m.id === id)?.name)
             .filter(Boolean)
-            .join(", ") || "Select additional ministries";
+            .join(", ") || "";
     };
 
     // Keep selected ministries display updated
@@ -177,7 +214,9 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         if (!requestTitle.trim()) errors.requestTitle = 'Request title is required';
         if (!requestedById) errors.requestedBy = 'Requested by is required';
         if (!deadline.trim()) errors.deadline = 'Deadline is required';
+        if (!deadlineTime) errors.deadline = 'Deadline time is required';
         if (!receivedOn.trim()) errors.receivedOn = 'Received date is required';
+        if (!receivedOnTime) errors.receivedOn = 'Received time is required';
         if (!selectedRequestType) errors.requestType = 'Request type is required';
         if (!requestDetails.trim()) errors.requestDetails = 'Request details are required';
         if (!leadMinistry) errors.leadMinistry = 'Lead ministry is required';
@@ -198,26 +237,38 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         }
 
         // Validate dates
-        if (!deadline.trim() || !receivedOn.trim()) {
-            setError("Deadline and Received On dates are required");
+        if (!deadline.trim() || !deadlineTime || !receivedOn.trim() || !receivedOnTime) {
+            setError("Deadline date, time, and Received On date, time are required");
             return;
         }
 
-        // Validate IDs
-        if (assignedUserId === '00000000-0000-0000-0000-000000000000') {
-            setError("Unable to find user with provided Assigned To IDIR");
-            return;
-        }
-
-        if (fyiContactUser.trim() && fyiContactUserId === '00000000-0000-0000-0000-000000000000') {
-            setError("Unable to find user with provided FYI Contact IDIR");
-            return;
+        // Combine date and time for deadline
+        let deadlineDate: Date | null = null;
+        if (deadline && deadlineTime) {
+            // Create a new date with the deadline date and time from TimePicker
+            const deadlineDateTime = new Date(deadline);
+            deadlineDate = new Date(
+                deadlineDateTime.getFullYear(),
+                deadlineDateTime.getMonth(),
+                deadlineDateTime.getDate(),
+                deadlineTime.getHours(),
+                deadlineTime.getMinutes()
+            );
         }
         
-        // Map form state to the correct MediaRequest shape for your API
-        // Convert date strings to DateTimeOffset format
-        const deadlineDate = deadline ? new Date(deadline) : null;
-        const receivedOnDate = receivedOn ? new Date(receivedOn) : null;
+        // Combine date and time for received on
+        let receivedOnDate: Date | null = null;
+        if (receivedOn && receivedOnTime) {
+            // Create a new date with the received on date and time from TimePicker
+            const receivedOnDateTime = new Date(receivedOn);
+            receivedOnDate = new Date(
+                receivedOnDateTime.getFullYear(),
+                receivedOnDateTime.getMonth(),
+                receivedOnDateTime.getDate(),
+                receivedOnTime.getHours(),
+                receivedOnTime.getMinutes()
+            );
+        }
 
         if (!deadlineDate || !receivedOnDate) {
             setError("Deadline and Received On dates are required");
@@ -314,7 +365,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={showValidation && !selectedStatus ? "error" : "none"}
                 >
                     <Dropdown
-                        placeholder="Select a status"
+                        placeholder=""
                         defaultSelectedOptions={selectedStatus ? [selectedStatus.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -339,7 +390,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.requestTitle && formErrors.requestTitle ? "error" : "none"}
                 >
                     <Input
-                        placeholder="Enter request title"
+                        placeholder=""
                         value={requestTitle}
                         onChange={(_, data) => {
                             setRequestTitle(data.value);
@@ -357,7 +408,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.requestedBy && formErrors.requestedBy ? "error" : "none"}
                 >
                     <Dropdown
-                        placeholder="Select a contact"
+                        placeholder=""
                         defaultSelectedOptions={requestedById ? [requestedById] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -379,12 +430,12 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationMessage={touchedFields.deadline && formErrors.deadline ? formErrors.deadline : undefined}
                     validationState={touchedFields.deadline && formErrors.deadline ? "error" : "none"}
                 >
-                    <div style={{ position: 'relative', width: '100%' }}>
+                    <div className={useTimePickerStyles().root}>
                         <Input
                             type="text"
                             value={deadline}
-                            placeholder="Select a date"
-                            className={styles.dateInput}
+                            placeholder=""
+                            className={`${styles.dateInput} ${useTimePickerStyles().dateInput}`}
                             readOnly
                             contentAfter={
                                 <CalendarEmpty24Regular 
@@ -403,6 +454,22 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                                 setShowValidation(false);
                             }}
                         />
+                        <TimePicker
+                            placeholder=""
+                            freeform
+                            dateAnchor={deadline ? new Date(deadline) : undefined}
+                            selectedTime={deadlineTime}
+                            onTimeChange={(ev, data) => {
+                                setDeadlineTime(data.selectedTime);
+                                setTimePickerValue(data.selectedTimeText ?? '');
+                                setShowValidation(false);
+                            }}
+                            value={timePickerValue}
+                            onInput={(ev: React.ChangeEvent<HTMLInputElement>) => {
+                                setTimePickerValue(ev.target.value);
+                            }}
+                            className={useTimePickerStyles().timePicker}
+                        />
                     </div>
                 </Field>
                 <Field
@@ -411,12 +478,12 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationMessage={touchedFields.receivedOn && formErrors.receivedOn ? formErrors.receivedOn : undefined}
                     validationState={touchedFields.receivedOn && formErrors.receivedOn ? "error" : "none"}
                 >
-                    <div style={{ position: 'relative', width: '100%' }}>
+                    <div className={useTimePickerStyles().root}>
                         <Input
                             type="text"
                             value={receivedOn}
-                            placeholder="Select a date"
-                            className={styles.dateInput}
+                            placeholder=""
+                            className={`${styles.dateInput} ${useTimePickerStyles().dateInput}`}
                             readOnly
                             contentAfter={
                                 <CalendarEmpty24Regular 
@@ -435,6 +502,22 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                                 setShowValidation(false);
                             }}
                         />
+                        <TimePicker
+                            placeholder=""
+                            freeform
+                            dateAnchor={receivedOn ? new Date(receivedOn) : undefined}
+                            selectedTime={receivedOnTime}
+                            onTimeChange={(ev, data) => {
+                                setReceivedOnTime(data.selectedTime);
+                                setReceivedOnTimePickerValue(data.selectedTimeText ?? '');
+                                setShowValidation(false);
+                            }}
+                            value={receivedOnTimePickerValue}
+                            onInput={(ev: React.ChangeEvent<HTMLInputElement>) => {
+                                setReceivedOnTimePickerValue(ev.target.value);
+                            }}
+                            className={useTimePickerStyles().timePicker}
+                        />
                     </div>
                 </Field>
                 <Field
@@ -444,7 +527,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.requestType && formErrors.requestType ? "error" : "none"}
                 >
                     <Dropdown
-                        placeholder="Select a request type"
+                        placeholder=""
                         defaultSelectedOptions={selectedRequestType ? [selectedRequestType.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -468,7 +551,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.requestDetails && formErrors.requestDetails ? "error" : "none"}
                 >
                     <Textarea
-                        placeholder="Enter request details"
+                        placeholder=""
                         value={requestDetails}
                         resize="vertical"
                         style={{ minHeight: '100px' }}
@@ -490,7 +573,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.leadMinistry && formErrors.leadMinistry ? "error" : "none"}
                 >
                     <Dropdown
-                        placeholder="Select lead ministry"
+                        placeholder=""
                         defaultSelectedOptions={leadMinistry ? [leadMinistry.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -518,7 +601,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.assignedTo && formErrors.assignedTo ? "error" : "none"}
                 >
                     <Dropdown
-                        placeholder="Select assignee IDIR"
+                        placeholder=""
                         defaultSelectedOptions={assignedTo ? [assignedTo] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -539,7 +622,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     label="Additional ministries"
                 >
                     <Dropdown
-                        placeholder="Select additional ministries"
+                        placeholder=""
                         defaultValue={ministriesDisplay}
                         value={ministriesDisplay}
                         selectedOptions={additionalMinistries.map(id => id.toString())}
@@ -566,7 +649,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     label="FYI contacts"
                 >
                     <Dropdown
-                        placeholder="Select FYI Contact IDIR"
+                        placeholder=""
                         defaultSelectedOptions={fyiContactUser ? [fyiContactUser] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -583,6 +666,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 <div className={styles.buttonContainer}>
                     <Button
                         appearance="primary"
+                        size="large"
                         onClick={(e) => handleSubmit(e)}
                         disabled={isSubmitting}
                     >
@@ -590,6 +674,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </Button>
                     <Button
                         appearance="secondary"
+                        size="large"
                         onClick={onClose}
                     >
                         Cancel
