@@ -34,12 +34,6 @@ const useStyles = makeStyles({
     searchElement: {
         display: "flex",
     },
-    marginLeftAuto: {
-        marginLeft: "auto",
-    },
-    rightMargin: {
-        marginRight: "10px",
-    },
     tableHeader: {
         backgroundColor: '#f4f4f4',
         fontWeight: 'bold',
