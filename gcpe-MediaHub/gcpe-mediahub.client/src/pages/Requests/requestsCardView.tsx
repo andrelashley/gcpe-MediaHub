@@ -172,7 +172,7 @@ const RequestsCardView: React.FC = () => {
         >
           <div className={styles.headerContainer}>
             <Title1>Media requests</Title1>
-            <Button appearance="primary" onClick={() => navigate('/requests/new')} icon={<Add24Regular />}><Body2>Add request</Body2></Button>
+            <Button appearance="primary" size="large" onClick={() => navigate('/requests/new')} icon={<Add24Regular />}><Body2>Add request</Body2></Button>
           </div>
 
           <div className={styles.controls}>
@@ -186,7 +186,6 @@ const RequestsCardView: React.FC = () => {
                 value={globalFilter}
                 onChange={(_, data) => setGlobalFilter(data.value || "")}
                 className={styles.searchInput}
-                disabled
               />
               <Button
                 icon={<Filter24Regular />}

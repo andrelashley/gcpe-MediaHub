@@ -48,7 +48,6 @@
     display: flex;
     justify-content: flex-start;
     gap: 8px;
-    margin-top: 24px;
 }
 
 .dateInput {

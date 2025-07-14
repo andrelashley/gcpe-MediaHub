@@ -666,6 +666,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                 <div className={styles.buttonContainer}>
                     <Button
                         appearance="primary"
+                        size="large"
                         onClick={(e) => handleSubmit(e)}
                         disabled={isSubmitting}
                     >
@@ -673,6 +674,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </Button>
                     <Button
                         appearance="secondary"
+                        size="large"
                         onClick={onClose}
                     >
                         Cancel
