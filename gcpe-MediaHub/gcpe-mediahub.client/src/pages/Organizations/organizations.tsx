@@ -131,7 +131,7 @@ const Organizations = () => {
     return (
         <>
         <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
-            <Title1>Media Organizations</Title1>
+            <Title1>Media organizations</Title1>
             <Menu>
               <MenuTrigger disableButtonEnhancement>
                 <Button appearance="primary" icon={<Add24Regular />} iconPosition="before">
