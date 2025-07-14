@@ -212,7 +212,7 @@ const handleSave = (e: React.FormEvent) => {
           <form className={styles.form} onSubmit={handleSave}>
             <div className={styles.form}>
               <Field label="Media organization type" required>
-                  <Dropdown placeholder='Select a media organization type'
+                  <Dropdown placeholder=''
                     value={orgType}
                     onOptionSelect={(_, data) => setOrgType(data.optionText || "")}>
                       {orgTypeOptions.map((option) => (
@@ -258,7 +258,7 @@ const handleSave = (e: React.FormEvent) => {
               {orgType === "Outlet" && (
               <Field label="Network">
                 <Dropdown
-                  placeholder="Select a network"
+                  placeholder=""
                   value={selectedNetworkName}
                   onOptionSelect={(_, data) =>
                     setSelectedNetworkName(data.optionText ?? "")
@@ -273,7 +273,7 @@ const handleSave = (e: React.FormEvent) => {
               </Field>
             )}
               
-              <Field label="Languages">
+              <Field label="Language">
               <Dropdown
                 multiselect
                 selectedOptions={selectedLanguageNames}
@@ -303,6 +303,8 @@ const handleSave = (e: React.FormEvent) => {
                   <Input value={email} onChange={(_, data) => setEmail(data.value)} placeholder=""  />
               </Field>
 
+              {/* Phone section label */}
+              <div style={{ fontWeight: 500, marginBottom: 4, marginTop: 12 }}>Phone</div>
               {phoneNumbers.map((entry, index) => (
               <div
                 key={index}
@@ -317,7 +319,7 @@ const handleSave = (e: React.FormEvent) => {
                 <Dropdown
                   placeholder="Select"
                   appearance="outline"
-                  style={{ flex: '0 0 120px', minWidth: 0 }}
+                  style={{ flex: '0 0 120px', minWidth: 160 }}
                   value={entry.typeName}
                   onOptionSelect={(_, data) => {
                     const updated = [...phoneNumbers];
@@ -354,7 +356,7 @@ const handleSave = (e: React.FormEvent) => {
                   onClick={() =>
                     setPhoneNumbers([...phoneNumbers, { typeName: '', number: '' }])
                   }>
-                    Phone number
+                    Phone
                 </Button>
               </div>
 
@@ -366,7 +368,7 @@ const handleSave = (e: React.FormEvent) => {
               </Field>
 
               {socialMediaLinks.map((entry, index) => (
-                <Field key={index} label={index === 0 ? "Social Media" : ""}>
+                <Field key={index} label={index === 0 ? "Social media" : ""}>
                   <div
                     style={{
                       display: 'flex',
@@ -417,7 +419,7 @@ const handleSave = (e: React.FormEvent) => {
                     setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '' }])
                   }
                 >
-                  Social Media
+                  Social media
                 </Button>
               </div>
 
@@ -498,11 +500,12 @@ const handleSave = (e: React.FormEvent) => {
             <Button 
               appearance="primary" 
               type="submit" 
+              size="large"
               onClick={handleSave} 
               disabled={isSubmitting}>    
                 {isSubmitting ? 'Saving...' : 'Save'}              
               </Button>
-            <Button appearance="secondary"
+            <Button appearance="secondary" size="large"
                     onClick={onClose}>
                       Cancel
             </Button>
