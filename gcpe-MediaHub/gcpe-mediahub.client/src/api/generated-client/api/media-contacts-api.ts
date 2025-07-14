@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { JobTitle } from '../model';
+// @ts-ignore
 import type { MediaContact } from '../model';
 // @ts-ignore
 import type { MediaContactDto } from '../model';
@@ -40,6 +42,35 @@ export const MediaContactsApiAxiosParamCreator = function (configuration?: Confi
          */
         apiMediaContactsGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/MediaContacts`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaContactsGetJobTitlesGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/MediaContacts/GetJobTitles`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -286,6 +317,17 @@ export const MediaContactsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async apiMediaContactsGetJobTitlesGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<JobTitle>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaContactsGetJobTitlesGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MediaContactsApi.apiMediaContactsGetJobTitlesGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async apiMediaContactsGetSocialMediasGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<SocialMediaCompanyDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaContactsGetSocialMediasGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -370,6 +412,14 @@ export const MediaContactsApiFactory = function (configuration?: Configuration, 
          */
         apiMediaContactsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<MediaContactDto>> {
             return localVarFp.apiMediaContactsGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaContactsGetJobTitlesGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<JobTitle>> {
+            return localVarFp.apiMediaContactsGetJobTitlesGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -519,6 +569,16 @@ export class MediaContactsApi extends BaseAPI {
      */
     public apiMediaContactsGet(options?: RawAxiosRequestConfig) {
         return MediaContactsApiFp(this.configuration).apiMediaContactsGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MediaContactsApi
+     */
+    public apiMediaContactsGetJobTitlesGet(options?: RawAxiosRequestConfig) {
+        return MediaContactsApiFp(this.configuration).apiMediaContactsGetJobTitlesGet(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

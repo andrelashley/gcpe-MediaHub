@@ -43,12 +43,6 @@ export interface ContactOutletDto {
     'outletEmail'?: string | null;
     /**
      * 
-     * @type {Array<string>}
-     * @memberof ContactOutletDto
-     */
-    'contactEmails'?: Array<string> | null;
-    /**
-     * 
      * @type {Array<MediaContactPhoneDto>}
      * @memberof ContactOutletDto
      */
@@ -59,5 +53,23 @@ export interface ContactOutletDto {
      * @memberof ContactOutletDto
      */
     'isMajorMedia'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof ContactOutletDto
+     */
+    'jobTitle'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ContactOutletDto
+     */
+    'phoneNumber'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof ContactOutletDto
+     */
+    'contactEmail'?: string | null;
 }
 
