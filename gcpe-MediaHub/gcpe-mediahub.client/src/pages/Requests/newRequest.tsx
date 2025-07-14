@@ -194,7 +194,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         return selectedIds
             .map(id => ministries.find(m => m.id === id)?.name)
             .filter(Boolean)
-            .join(", ") || "Select additional ministries";
+            .join(", ") || "";
     };
 
     // Keep selected ministries display updated
@@ -365,7 +365,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={showValidation && !selectedStatus ? "error" : "none"}
                 >
                     <Dropdown
-                        placeholder="Select a status"
+                        placeholder=""
                         defaultSelectedOptions={selectedStatus ? [selectedStatus.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -390,7 +390,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.requestTitle && formErrors.requestTitle ? "error" : "none"}
                 >
                     <Input
-                        placeholder="Enter request title"
+                        placeholder=""
                         value={requestTitle}
                         onChange={(_, data) => {
                             setRequestTitle(data.value);
@@ -408,7 +408,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.requestedBy && formErrors.requestedBy ? "error" : "none"}
                 >
                     <Dropdown
-                        placeholder="Select a contact"
+                        placeholder=""
                         defaultSelectedOptions={requestedById ? [requestedById] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -434,7 +434,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         <Input
                             type="text"
                             value={deadline}
-                            placeholder="Select a date"
+                            placeholder=""
                             className={`${styles.dateInput} ${useTimePickerStyles().dateInput}`}
                             readOnly
                             contentAfter={
@@ -455,7 +455,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             }}
                         />
                         <TimePicker
-                            placeholder="Select time"
+                            placeholder=""
                             freeform
                             dateAnchor={deadline ? new Date(deadline) : undefined}
                             selectedTime={deadlineTime}
@@ -482,7 +482,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         <Input
                             type="text"
                             value={receivedOn}
-                            placeholder="Select a date"
+                            placeholder=""
                             className={`${styles.dateInput} ${useTimePickerStyles().dateInput}`}
                             readOnly
                             contentAfter={
@@ -503,7 +503,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             }}
                         />
                         <TimePicker
-                            placeholder="Select time"
+                            placeholder=""
                             freeform
                             dateAnchor={receivedOn ? new Date(receivedOn) : undefined}
                             selectedTime={receivedOnTime}
@@ -527,7 +527,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.requestType && formErrors.requestType ? "error" : "none"}
                 >
                     <Dropdown
-                        placeholder="Select a request type"
+                        placeholder=""
                         defaultSelectedOptions={selectedRequestType ? [selectedRequestType.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -551,7 +551,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.requestDetails && formErrors.requestDetails ? "error" : "none"}
                 >
                     <Textarea
-                        placeholder="Enter request details"
+                        placeholder=""
                         value={requestDetails}
                         resize="vertical"
                         style={{ minHeight: '100px' }}
@@ -573,7 +573,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.leadMinistry && formErrors.leadMinistry ? "error" : "none"}
                 >
                     <Dropdown
-                        placeholder="Select lead ministry"
+                        placeholder=""
                         defaultSelectedOptions={leadMinistry ? [leadMinistry.toString()] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -601,7 +601,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationState={touchedFields.assignedTo && formErrors.assignedTo ? "error" : "none"}
                 >
                     <Dropdown
-                        placeholder="Select assignee IDIR"
+                        placeholder=""
                         defaultSelectedOptions={assignedTo ? [assignedTo] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
@@ -622,7 +622,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     label="Additional ministries"
                 >
                     <Dropdown
-                        placeholder="Select additional ministries"
+                        placeholder=""
                         defaultValue={ministriesDisplay}
                         value={ministriesDisplay}
                         selectedOptions={additionalMinistries.map(id => id.toString())}
@@ -649,7 +649,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     label="FYI contacts"
                 >
                     <Dropdown
-                        placeholder="Select FYI Contact IDIR"
+                        placeholder=""
                         defaultSelectedOptions={fyiContactUser ? [fyiContactUser] : []}
                         onOptionSelect={(_, data) => {
                             if (data.optionValue) {
