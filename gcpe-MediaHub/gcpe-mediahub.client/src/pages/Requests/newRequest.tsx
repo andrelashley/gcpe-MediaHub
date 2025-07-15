@@ -670,14 +670,14 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                         onClick={(e) => handleSubmit(e)}
                         disabled={isSubmitting}
                     >
-                        {isSubmitting ? 'Saving...' : 'Save'}
+                        <Body2>{isSubmitting ? 'Saving...' : 'Save'}</Body2>
                     </Button>
                     <Button
                         appearance="secondary"
                         size="large"
                         onClick={onClose}
                     >
-                        Cancel
+                        <Body2>Cancel</Body2>
                     </Button>        
                 </div>
             </div>
