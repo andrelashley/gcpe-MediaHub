@@ -551,7 +551,7 @@ export const CreateContactDrawer = () => {
                             appearance="primary"
                             onClick={(e) => handleSubmit(e)}
                         >
-                            Save
+                            <Body2>Save</Body2>
                         </Button>
                         <Button
                             aria-label="Cancel and close this dialog"
@@ -572,7 +572,7 @@ export const CreateContactDrawer = () => {
                                 ]);
                             }}
                         >
-                            Cancel
+                            <Body2>Cancel</Body2>
                         </Button>
                     </div>
 

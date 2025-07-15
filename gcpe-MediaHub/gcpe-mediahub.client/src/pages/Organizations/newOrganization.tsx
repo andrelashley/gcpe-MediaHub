@@ -1,4 +1,4 @@
-import {Title1, Field, Dropdown, Option, Input, Checkbox, Divider, Button} from '@fluentui/react-components';
+import {Title1, Field, Dropdown, Option, Input, Checkbox, Divider, Button, Body2} from '@fluentui/react-components';
 import {Dismiss24Regular, Add24Regular} from '@fluentui/react-icons';
 import { useToastController, Toaster, Toast, ToastTitle, ToastBody } from '@fluentui/react-components';
 import styles from './newOrganization.module.css';
@@ -503,11 +503,11 @@ const handleSave = (e: React.FormEvent) => {
               size="large"
               onClick={handleSave} 
               disabled={isSubmitting}>    
-                {isSubmitting ? 'Saving...' : 'Save'}              
+                <Body2>{isSubmitting ? 'Saving...' : 'Save'} </Body2>             
               </Button>
             <Button appearance="secondary" size="large"
                     onClick={onClose}>
-                      Cancel
+                     <Body2>Cancel</Body2> 
             </Button>
           </div>
 
