@@ -454,7 +454,7 @@ const handleSave = (e: React.FormEvent) => {
                   <div style={{ flex: '1 1 250px', minWidth: 0 }}>
                     <Field label="Province">
                       <Dropdown 
-                        placeholder="Select"
+                        placeholder=""
                         value={province}
                         onOptionSelect={(_, data) => setProvince(data.optionText || "")}>
                           {provinceOptions.map((option) => (
