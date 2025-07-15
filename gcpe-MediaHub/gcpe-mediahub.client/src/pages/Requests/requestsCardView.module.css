@@ -1,5 +1,5 @@
 .layoutWrapper {
-    padding: 0 0 24px 12px;
+   /* padding: 0 0 24px 12px;*/
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -27,7 +27,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 8px 0 12px 0;
+/*    margin: 8px 0 12px 0;*/
 }
 
 .controls {

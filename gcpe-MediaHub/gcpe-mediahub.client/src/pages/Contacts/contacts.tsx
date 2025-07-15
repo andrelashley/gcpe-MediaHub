@@ -8,7 +8,6 @@ import {
     Title1,
     makeStyles,
 } from '@fluentui/react-components';
-import Layout from '../../components/Layout';
 
 
 
@@ -32,6 +31,7 @@ const useStyles = makeStyles({
         position: "relative",
         overflowX: "hidden",
         fontWeight: "400",
+        padding: '24px Global.Size.280',
     },
 });
 
@@ -45,6 +45,7 @@ const MediaContacts = () => {
         const response = await fetch(`${apiUrl}mediacontacts`);
         const data = await response.json();
         const contacts: MediaContact[] = data as MediaContact[];
+        console.log(JSON.stringify(contacts));
         setContacts(contacts);
     };
 

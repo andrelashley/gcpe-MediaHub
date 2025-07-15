@@ -166,7 +166,7 @@ const RequestsCardView: React.FC = () => {
             width: !isNewDrawerOpen && isDetailDrawerOpen ? '50%' : '100%',
             overflowY: 'auto',
             maxHeight: '100%',
-            padding: '20px',
+        /*    padding: '20px',*/
             transition: 'width 0.3s',
           }}
         >
