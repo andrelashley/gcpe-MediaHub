@@ -142,7 +142,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                 </Select>
             </Field>
             <Field label="Job title" required>
-                <Dropdown placeholder="Select" appearance="outline"
+                <Dropdown placeholder="" appearance="outline"
                     onOptionSelect={(_, data) => setJobTitle(data.optionText || "")}
                 >
                     {/*need to map this bit from actual data, not hard coded */}

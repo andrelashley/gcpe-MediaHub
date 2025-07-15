@@ -490,7 +490,7 @@ export const CreateContactDrawer = () => {
                                 }}
                             >
                                 <Dropdown
-                                    placeholder="Select"
+                                    placeholder=""
                                     appearance="outline"
                                     style={{ flex: '0 0 120px', minWidth: 0, marginBottom: 0 }}
                                     value={entry.typeName}
