@@ -233,9 +233,9 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
-        handleValidation();
+        const hasErrors = handleValidation();
       
-        if (!error) {
+        if (!hasErrors) {
 
             const contact: MediaContact = new MediaContact()
             contact.firstName = firstName;
@@ -307,7 +307,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
         }
     };
 
-    const handleValidation = () => {
+    const handleValidation = (): boolean => {
         setShowValidation(true);
         setError(null);
         const errors: any = {};
@@ -323,6 +323,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
         })
 
         setFormErrors(errors);
+        return Object.keys(errors).length > 0;
     }
 
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
