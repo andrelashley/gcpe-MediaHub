@@ -23,7 +23,7 @@
 }
 
 .alphaDisclaimer {
-    padding: 0 var(--margin, 80px);
+    padding: 0 var(--margin, 65px);
     margin-right: 16px;
     width: 100%;
     display: flex;
