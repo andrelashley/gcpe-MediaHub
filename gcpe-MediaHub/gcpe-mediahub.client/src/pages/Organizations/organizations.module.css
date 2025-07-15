@@ -4,7 +4,7 @@
 }
 
 .container {
-    padding-bottom: 24px;
+    padding-bottom: 0px;
 }
 
 .header {
@@ -125,8 +125,16 @@
     background-color: #f4f4f4;
     font-weight: bold;
     vertical-align: middle;
+    position: sticky;
+    top: 0;
+    z-index: 2;
 }
 
 .organizationTable tr:hover {
     background-color: #f1f1f1;
+}
+
+.tableScrollContainer {
+  overflow-y: auto;
+  max-height: calc(100vh - 250px); /* tweak this to fit under your header */
 }
