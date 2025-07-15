@@ -11,6 +11,7 @@ import {
     TagGroup,
     makeStyles,
     Tag,
+    Badge,
     Divider,
     Field,
     Input,
@@ -22,7 +23,7 @@ import {
     MenuTrigger, 
     MenuList,
 } from "@fluentui/react-components";
-import { Dismiss24Regular, Important24Regular, Ribbon24Regular, Globe24Regular, Search24Regular, Add24Regular, MoreHorizontal24Regular, Important24Filled, Calendar16Regular } from "@fluentui/react-icons";
+import { Dismiss24Regular, Important24Regular, Important16Regular, CrownSubtract20Regular, Ribbon24Regular, Globe24Regular, Search24Regular, Add24Regular, MoreHorizontal24Regular, Important24Filled, Calendar16Regular } from "@fluentui/react-icons";
 import XIcon from '../../assets/icons/x.svg';
 import FieldRow from "../Organizations/fieldRow";
 
@@ -99,17 +100,15 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                             <Text weight="semibold" size={600}>
                                 Keith Baldrey {/* {contact.firstName} {contact.lastName} */}
                             </Text>
-                            <Tag
+                            <Badge
                                 appearance="filled"
-                                style={{
-                                    backgroundColor: "black",
-                                    color: "white"
-                                }}
+                                color="important"
                                 shape="circular"
-                                icon={<Ribbon24Regular />}
+                                icon={<CrownSubtract20Regular />}
+                                style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '4px' }}
                                 >
-                                Major
-                            </Tag>
+                                Press Gallery
+                            </Badge>
                             </div>
                         </div>
                         <div style={{display: 'flex', flexDirection: 'column' }}>
@@ -241,27 +240,16 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                             <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>
                                 Commentator
                             </Text>
-                            <Tag
-                            appearance="filled"
-                            style={{
-                                backgroundColor: "var(--colorBrandBackground)",
-                                color: "var(--colorNeutralForegroundOnBrand)",
-                                display: "inline-flex",
-                                alignItems: "center",
-                                paddingTop: "0.1rem", // slight nudge down
-                            }}
-                            shape="circular"
-                            icon={
-                                <Important24Filled
-                                style={{
-                                    fontSize: "14px", // shrink slightly
-                                    marginTop: "1px",
-                                }}
-                                />
-                            }
-                            >
-                            Major
-                            </Tag>
+                            
+                            <Badge
+                                appearance="filled"
+                                color="brand"
+                                shape="circular"
+                                icon={<Important16Regular />}
+                                style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '4px' }}
+                                >
+                                Major
+                            </Badge>
                     </div>
                     <div>
                         {/* Right side: Menu */}
@@ -310,27 +298,15 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                         <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>
                             Reporter
                         </Text>
-                        <Tag
-                            appearance="filled"
-                            style={{
-                                backgroundColor: "var(--colorBrandBackground)",
-                                color: "var(--colorNeutralForegroundOnBrand)",
-                                display: "inline-flex",
-                                alignItems: "center",
-                                paddingTop: "0.1rem", // slight nudge down
-                            }}
-                            shape="circular"
-                            icon={
-                                <Important24Filled
-                                style={{
-                                    fontSize: "14px", // shrink slightly
-                                    marginTop: "1px",
-                                }}
-                                />
-                            }
-                            >
-                            Major
-                        </Tag>
+                        <Badge
+                                appearance="filled"
+                                color="brand"
+                                shape="circular"
+                                icon={<Important16Regular />}
+                                style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '4px' }}
+                                >
+                                Major
+                            </Badge>
                     </div>
 
                     <div>
