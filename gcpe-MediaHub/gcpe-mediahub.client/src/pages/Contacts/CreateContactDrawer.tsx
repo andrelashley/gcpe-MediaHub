@@ -264,11 +264,13 @@ export const CreateContactDrawer = () => {
                     companyId: parseInt(link.companyId), //socialMedias[index]?.socialMediaCompanyId,
                     mediaContact: undefined,
                 };
-                contact.socialMedias.push(socialMedia);
+                if (socialMedia.url) {
+                    contact.socialMedias.push(socialMedia);
+                }
             });
             console.log(JSON.stringify(contact));
             const apiUrl = import.meta.env.VITE_API_URL;
-
+            const url = `${apiUrl}MediaContacts`;
             const response = await fetch(`${apiUrl}MediaContacts`,
                 {
                     method: "POST",
