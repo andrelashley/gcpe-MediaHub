@@ -11,7 +11,7 @@
 
 .alphaDisclaimerBackground {
     padding-left: 2%;
-    min-width: 265px;
+    width: 100%;
     background: var(--background-fill-support-info-emphasis, #013366);
     display: flex;
     color: ivory;
@@ -22,25 +22,27 @@
     font-weight: 400;
 }
 .alphaDisclaimer {
-    margin-left: 10%;
-    margin-right: 10%;
-    display: inline-flex;
+    padding: 0 var(--margin, 80px);
+    width: 100%;
+    padding-right: 16px;
+    display: flex;
+    align-items: center;
     line-height: var(--Line-height-300, 20px);
 }
 
 .alphaInfoIcon {
-    margin-top: 10px;
     padding-right: 10px;
-    align-self: start;
+    display: flex;
+    align-items: center;
 }
 .disclaimerText {
     font-weight: 100;
 }
 .alphaDisclaimerDismiss {
-    float: right;
     color: ivory;
     margin-left: 10%;
-    margin-top: 20px;
+    display: flex;
+    align-items: center;
 }
 .alphaFeedbackButton {
     font-family: var(--Font-family-Base, "BC Sans");
@@ -53,6 +55,7 @@
 }
 .alphaInfoContent {
     max-width: 1224px;
+    padding: 12px 16px 12px 16px;
 }
 .alphaReportLink {
     color: ivory;
