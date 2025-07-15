@@ -408,6 +408,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
         <Tag
   appearance="filled"
   shape="rounded"
+  size="small"
   style={{
     backgroundColor: "#d6a200",
     color: "#fff",
@@ -502,6 +503,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
         <Tag
             appearance="filled"
             shape="rounded"
+            size="small"
             style={{
                 backgroundColor: "#d6a200",
                 color: "#fff",
@@ -598,6 +600,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
         <Tag
   appearance="filled"
   shape="rounded"
+  size="small"
   style={{
     backgroundColor: "#d6a200",
     color: "#fff",
