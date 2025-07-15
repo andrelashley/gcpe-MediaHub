@@ -314,7 +314,49 @@ export const CreateContactDrawer = () => {
         setOutlets(outlets);
     };
 
-    const [jobTitles, setJobTitles] = useState<JobTitle[]>([]);
+    const [jobTitles, setJobTitles] = useState<JobTitle[]>([
+        {
+            "id": 31,
+            "name": "Assignment Editor",
+        },
+        {
+            "id": 32,
+            "name": "Camera Person",
+        },
+        {
+            "id": 33,
+            "name": "Editor",
+        },
+        {
+            "id": 34,
+            "name": "Freelancer",
+        },
+        {
+            "id": 35,
+            "name": "Host",
+        },
+        {
+            "id": 36,
+            "name": "News Director",
+        },
+        {
+            "id": 37,
+            "name": "Photographer",
+        },
+        {
+            "id": 38,
+            "name": "Producer",
+        },
+        {
+            "id": 39,
+            "name": "Reporter",
+        },
+        {
+            "id": 40,
+            "name": "Other",
+        }
+    ]
+);
     const fetchJobTitles = async () => {
         const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(`${apiUrl}mediaContacts/GetJobTitles`);
@@ -326,7 +368,7 @@ export const CreateContactDrawer = () => {
 
     useEffect(() => {
         fetchOutlets();
-        fetchJobTitles();
+   //     fetchJobTitles();
         fetchSocialMediaCompanies();
     }, []);
 
@@ -538,6 +580,7 @@ export const CreateContactDrawer = () => {
                 {...restoreFocusTargetAttributes}
                 icon={<Add24Regular />}
                 appearance="primary"
+                size="large"
                 onClick={() => {
                     setError(null);
                     setShowValidation(false);
