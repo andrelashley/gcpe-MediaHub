@@ -8,10 +8,12 @@ const useStyles = makeStyles({
     }
 });
 
+
+
 export const CreateContactButton = () => {
     const styles = useStyles();
     return (
-        <div className={styles.marginLeftAuto}>     
+        <div className={styles.marginLeftAuto}>
             <CreateContactDrawer />
         </div>
     );

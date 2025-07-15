@@ -16,7 +16,13 @@ import {
     Dropdown,
     Option,
     Card,
-    Body2
+    Body2,
+    Toaster,
+    useToastController,
+    Toast,
+    ToastTitle,
+    ToastBody,
+    ToastFooter,
 } from "@fluentui/react-components";
 
 import { Dismiss24Regular, Add24Regular, Add16Regular } from "@fluentui/react-icons";
@@ -30,6 +36,7 @@ import { SocialMediaCompany } from "../../models/SocialMediaCompany";
 import { SocialMediaLink } from "../../models/SocialMediaLink";
 import { PhoneNumber } from "../../models/PhoneNumber";
 import { JobTitle } from "../../models/JobTitle";
+import { useId } from "react";
 
 
 const useStyles = makeStyles({
@@ -221,10 +228,10 @@ export const CreateContactDrawer = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
-        console.log("submit");
         e.preventDefault();
 
         handleValidation();
+      
         if (!error) {
 
             const contact: MediaContact = new MediaContact()
@@ -269,9 +276,8 @@ export const CreateContactDrawer = () => {
                     contact.socialMedias.push(socialMedia);
                 }
             });
-            console.log(JSON.stringify(contact));
+      //      console.log(JSON.stringify(contact));
             const apiUrl = import.meta.env.VITE_API_URL;
-            const url = `${apiUrl}MediaContacts`;
             const response = await fetch(`${apiUrl}MediaContacts`,
                 {
                     method: "POST",
@@ -281,12 +287,21 @@ export const CreateContactDrawer = () => {
                     body: JSON.stringify(contact)
                 })
                 .then((response) => {
-                    alert(JSON.stringify(response.text));
+                    if (!response.ok) {
+                        // Handle server-side errors (e.g., 404, 500)
+                        notify('Something went wrong', `Server error: ${response.status}`);
+                    } else {
+                        notify('Contact added',
+                            'contact successfully added. At this point in alpha development, you must reload the page to see your new contact in the list.',
+                            'Sorry about that!');
+                        setTimeout(() => {
+                         
+                            // todo: clear form data
+                            setIsOpen(false);
+                        }, 3000); 
+                    }
                 });
         }
-        //give a little toast saying how the transaction went, 
-        // if it was successful, close drawer after brief delay
-        //  setIsOpen(false)
     };
 
     const handleValidation = () => {
@@ -295,15 +310,15 @@ export const CreateContactDrawer = () => {
         const errors: any = {};
         if (!firstName.trim()) errors.firstName = 'A first name is required';
         if (!lastName.trim()) errors.lastName = 'A last name is required';
-        if (!email.trim()) errors.email = 'An email address is required';
+    //   if (!email.trim()) errors.email = 'An email address is required';
 
         workplaces.forEach((_, index) => {
-            if (!workplaces[index].mediaOrg.trim()) errors.workplaceOrg = "An organization must be selected";
-            if (!workplaces[index].jobTitle.trim()) errors.workplaceJobTitle = "A job title must be selected";
-            if (!workplaces[index].email.trim()) errors.workplaceEmail = "An email address is required";
+        //    if (!workplaces[index].mediaOrg.trim()) errors.workplaceOrg = "An organization must be selected";
+        //   if (!workplaces[index].jobTitle.trim()) errors.workplaceJobTitle = "A job title must be selected";
+        //    if (!workplaces[index].email.trim()) errors.workplaceEmail = "An email address is required";
 
         })
-/*        console.log(JSON.stringify(workplaces));*/
+
         setFormErrors(errors);
     }
 
@@ -312,68 +327,42 @@ export const CreateContactDrawer = () => {
         const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(`${apiUrl}mediaoutlets`);
         const data = await response.json();
-        console.log(JSON.stringify(data));
         const outlets: MediaOutlet[] = data as MediaOutlet[];
         setOutlets(outlets);
     };
 
     const [jobTitles, setJobTitles] = useState<JobTitle[]>([
-        {
-            "id": 31,
-            "name": "Assignment Editor",
-        },
-        {
-            "id": 32,
-            "name": "Camera Person",
-        },
-        {
-            "id": 33,
-            "name": "Editor",
-        },
-        {
-            "id": 34,
-            "name": "Freelancer",
-        },
-        {
-            "id": 35,
-            "name": "Host",
-        },
-        {
-            "id": 36,
-            "name": "News Director",
-        },
-        {
-            "id": 37,
-            "name": "Photographer",
-        },
-        {
-            "id": 38,
-            "name": "Producer",
-        },
-        {
-            "id": 39,
-            "name": "Reporter",
-        },
-        {
-            "id": 40,
-            "name": "Other",
-        }
+       
     ]
 );
     const fetchJobTitles = async () => {
         const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(`${apiUrl}mediaContacts/GetJobTitles`);
         const data = await response.json();
-        console.log(JSON.stringify(data));
         const jobs: JobTitle[] = data as JobTitle[];
         setJobTitles(jobs);
     };
 
     useEffect(() => {
         fetchOutlets();
-   //     fetchJobTitles();
+        fetchJobTitles();
         fetchSocialMediaCompanies();
     }, []);
+
+    //notification toast stuff
+    const toasterId = useId();
+    const { dispatchToast } = useToastController(toasterId);
+    const notify = (title: string, message: string, footer?: string) =>
+        dispatchToast(
+            <Toast>
+                <ToastTitle>{title}</ToastTitle>
+                <ToastBody subtitle="the API responded.">{message}</ToastBody>
+                <ToastFooter>
+                    {footer}
+                </ToastFooter>
+            </Toast>,
+            { intent: "success" }
+        );
 
     return (
         <div>
@@ -558,18 +547,18 @@ export const CreateContactDrawer = () => {
                             onClick={() => {
                                 setIsOpen(false)
                                 setOutletInputs([1]);
-                                setWorkplaces([
-                                    {
-                                        errors: {
-                                            email: '',
-                                        },
-                                        mediaOrg: '',
-                                        jobTitle: '',
-                                        email: '',
-                                        phoneType: '',
-                                        phoneNumber: ''
-                                    }
-                                ]);
+                                //setWorkplaces([
+                                //    {
+                                //        errors: {
+                                //            email: '',
+                                //        },
+                                //        mediaOrg: '',
+                                //        jobTitle: '',
+                                //        email: '',
+                                //        phoneType: '',
+                                //        phoneNumber: ''
+                                //    }
+                                //]);
                             }}
                         >
                             <Body2>Cancel</Body2>
@@ -593,7 +582,7 @@ export const CreateContactDrawer = () => {
             >
                 <Body2>Add contact</Body2>
             </Button>
-
+            <Toaster toasterId={toasterId} />
         </div>
     );
 };

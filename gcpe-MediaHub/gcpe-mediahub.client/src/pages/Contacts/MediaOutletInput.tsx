@@ -123,8 +123,8 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
         <div id="outlets-section" className={styles.outletsSection}>
             <Field label="Media organization"
                 required
-                validationMessage={showValidation ? "Must select an organization" : undefined}
-                validationState={showValidation ? "error" : "none"}
+             //   validationMessage={showValidation ? "Must select an organization" : undefined}
+             //   validationState={showValidation ? "error" : "none"}
             >
                 <Select
                     onChange={(_, data) => {
