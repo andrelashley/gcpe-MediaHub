@@ -171,7 +171,7 @@ const Organizations = () => {
 
         </div>
 
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px'}}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
           <TabList selectedValue="all">
             <Tab value="all">All</Tab>
           </TabList>
