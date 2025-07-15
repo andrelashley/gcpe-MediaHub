@@ -105,26 +105,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
         { typeName: '', url: '', companyId: '' }
     ]);
 
-    const [workplaces, setWorkplaces] = useState([
-        {
-            errors: {
-                email: '',
-            },
-            mediaOrg: '',
-            jobTitle: '',
-            email: '',
-            phoneType: '',
-            phoneNumber: ''
-        }
-    ]);
-
-    const addWorkplace = () => {
-        setWorkplaces(prev => [
-            ...prev,
-            { mediaOrg: '', jobTitle: '', email: '', phoneType: '', phoneNumber: '', errors: {email: ''} }
-        ]);
-    };
-
+  
     //const addPrimaryContactInfoInput = () => {
     //    setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
     //    setContactPhones([...contactPhones, undefined]); // Add new slot
@@ -313,15 +294,6 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
         const errors: any = {};
         if (!firstName.trim()) errors.firstName = 'A first name is required';
         if (!lastName.trim()) errors.lastName = 'A last name is required';
-    //   if (!email.trim()) errors.email = 'An email address is required';
-
-        workplaces.forEach((_, index) => {
-        //    if (!workplaces[index].mediaOrg.trim()) errors.workplaceOrg = "An organization must be selected";
-        //   if (!workplaces[index].jobTitle.trim()) errors.workplaceJobTitle = "A job title must be selected";
-        //    if (!workplaces[index].email.trim()) errors.workplaceEmail = "An email address is required";
-
-        })
-
         setFormErrors(errors);
         return Object.keys(errors).length > 0;
     }
@@ -389,19 +361,6 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                                     setError(null);
                                     setShowValidation(false);
                                     setOutletInputs([1]);
-
-
-                                    //setWorkplaces([{
-                                    //        errors: {
-                                    //            email: '',
-                                    //        },
-                                    //        mediaOrg: '',
-                                    //        jobTitle: '',
-                                    //        email: '',
-                                    //        phoneType: '',
-                                    //        phoneNumber: ''
-                                    //    }]);
-                                    
                                     setIsOpen(false)
                                 }}
                             />
@@ -551,18 +510,6 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                             onClick={() => {
                                 setIsOpen(false)
                                 setOutletInputs([1]);
-                                //setWorkplaces([
-                                //    {
-                                //        errors: {
-                                //            email: '',
-                                //        },
-                                //        mediaOrg: '',
-                                //        jobTitle: '',
-                                //        email: '',
-                                //        phoneType: '',
-                                //        phoneNumber: ''
-                                //    }
-                                //]);
                             }}
                         >
                             <Body2>Cancel</Body2>
@@ -580,7 +527,6 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                 onClick={() => {
                     setError(null);
                     setShowValidation(false);
-                    setWorkplaces
                     setIsOpen(true)
                 }}
             >
