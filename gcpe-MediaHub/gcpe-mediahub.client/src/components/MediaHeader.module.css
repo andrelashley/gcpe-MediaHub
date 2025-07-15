@@ -21,10 +21,11 @@
     align-items: center;
     font-weight: 400;
 }
+
 .alphaDisclaimer {
-    padding: 0 var(--margin, 80px);
+    padding: 0 var(--margin, 65px);
+    margin-right: 16px;
     width: 100%;
-    padding-right: 16px;
     display: flex;
     align-items: center;
     line-height: var(--Line-height-300, 20px);
@@ -33,7 +34,9 @@
 .alphaInfoIcon {
     padding-right: 10px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    align-self: flex-start;
+    padding-top: 12px;
 }
 .disclaimerText {
     font-weight: 100;
