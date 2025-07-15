@@ -29,7 +29,7 @@ const AlphaInfo = () => {
                     <Info24Regular />
                 </div>
                 <div className={styles.alphaInfoContent}>
-                    <div style={{ paddingBottom: '8px' }}>
+                    <div style={{ paddingBottom: '4px' }}>
                         <Body1Stronger>Alpha release notice</Body1Stronger>
                     </div>
                     <div>
