@@ -140,7 +140,7 @@ const Organizations = () => {
 
     return (
         <>
-        <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
+        <div style={{display: 'flex', justifyContent: 'space-between', paddingBottom: '8px'}}>
             <Title1>Media organizations</Title1>
             <Menu>
               <MenuTrigger disableButtonEnhancement>
