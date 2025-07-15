@@ -222,8 +222,8 @@ const Organizations = () => {
         </Drawer>
 
         </div>
-
-        <table className={styles.organizationTable}>
+        <div className={styles.tableScrollContainer}>
+          <table className={styles.organizationTable}>
         <thead>
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
@@ -257,7 +257,8 @@ const Organizations = () => {
             </tr>
           ))}
         </tbody>
-      </table>
+          </table>
+        </div>
         </>
     );
 }
