@@ -152,7 +152,7 @@ const LeftNav = () => {
                         </NavSubItemGroup>
                     </NavCategory>
                     <div className={styles.versionInfo}>
-                        Alpha {APP_VERSION}
+                        Alpha {import.meta.env.VITE_APP_VERSION || '1.0.0'}
                    </div>
 
                 </NavDrawerBody>

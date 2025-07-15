@@ -139,7 +139,9 @@ const Organizations = () => {
       })
 
     return (
-        <>
+        <div className={styles.container}>
+        
+        {/* Header with title and button */}
         <div style={{display: 'flex', justifyContent: 'space-between', paddingBottom: '8px'}}>
             <Title1>Media organizations</Title1>
             <Menu>
@@ -169,7 +171,7 @@ const Organizations = () => {
 
         </div>
 
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px'}}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
           <TabList selectedValue="all">
             <Tab value="all">All</Tab>
           </TabList>
@@ -222,6 +224,7 @@ const Organizations = () => {
         </Drawer>
 
         </div>
+        
         <div className={styles.tableScrollContainer}>
           <table className={styles.organizationTable}>
         <thead>
@@ -257,9 +260,9 @@ const Organizations = () => {
             </tr>
           ))}
         </tbody>
-          </table>
-        </div>
-        </>
+      </table>
+    </div>
+    </div>
     );
 }
 

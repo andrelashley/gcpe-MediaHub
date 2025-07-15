@@ -160,7 +160,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
     }
     return (
 
-        <div style={{ width: '100%'}}>
+        <div style={{ width: '100%', paddingBottom: '24px'}}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
             <TabList selectedValue="all">
                 <Tab value="all">All</Tab>

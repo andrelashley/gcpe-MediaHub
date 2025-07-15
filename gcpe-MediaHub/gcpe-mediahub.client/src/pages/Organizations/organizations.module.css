@@ -3,6 +3,10 @@
     color: inherit;
 }
 
+.container {
+    padding-bottom: 0px;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -11,7 +15,6 @@
 }
 
 .controls {
-    margin-bottom: 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
