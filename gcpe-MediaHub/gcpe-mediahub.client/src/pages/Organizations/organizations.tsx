@@ -1,4 +1,4 @@
-import { Button, TabList, Title1, Tab, Input, Tag, Drawer, DrawerBody, Menu, MenuTrigger, MenuPopover, MenuList, MenuItem } from '@fluentui/react-components';
+import { Button, TabList, Title1, Tab, Input, Tag, Drawer, DrawerBody, Menu, MenuTrigger, MenuPopover, MenuList, MenuItem, Body2 } from '@fluentui/react-components';
 import { Search24Regular, Filter24Regular, Add24Regular, Important24Filled, ChevronDown16Regular } from '@fluentui/react-icons';
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -145,7 +145,7 @@ const Organizations = () => {
             <Menu>
               <MenuTrigger disableButtonEnhancement>
                 <Button ref={buttonRef} size="large" appearance="primary" icon={<Add24Regular />} iconPosition="before">
-                  Add organization
+                  <Body2>Add organization</Body2>
                   <ChevronDown16Regular style={{ marginLeft: '8px' }} />
                 </Button>
               </MenuTrigger>

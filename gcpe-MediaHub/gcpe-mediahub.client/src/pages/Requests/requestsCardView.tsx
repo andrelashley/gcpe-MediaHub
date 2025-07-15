@@ -13,7 +13,7 @@ import { Input,
   DrawerHeader, 
   DrawerHeaderTitle, 
   DrawerBody, 
-  Body1Stronger, 
+  Body1Stronger,
   Caption1,
   Body2 } from "@fluentui/react-components";
 import { CalendarEmpty16Regular, Filter24Regular, Search16Regular, Dismiss24Regular, Add24Regular } from "@fluentui/react-icons";

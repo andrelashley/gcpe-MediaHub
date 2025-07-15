@@ -15,7 +15,8 @@ import {
     Title3,
     Dropdown,
     Option,
-    Card
+    Card,
+    Body2
 } from "@fluentui/react-components";
 
 import { Dismiss24Regular, Add24Regular, Add16Regular } from "@fluentui/react-icons";
@@ -590,7 +591,7 @@ export const CreateContactDrawer = () => {
                     setIsOpen(true)
                 }}
             >
-                Add contact
+                <Body2>Add contact</Body2>
             </Button>
 
         </div>
