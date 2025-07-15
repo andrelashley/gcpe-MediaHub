@@ -91,8 +91,11 @@ const useStyles = makeStyles({
 }
 );
 
+interface CreateContactProps {
+    updateList: () => void,
+}
 
-export const CreateContactDrawer = () => {
+export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }) => {
     const [isOpen, setIsOpen] = React.useState(false);
     //for primary contact info input tracking
     //const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
@@ -293,10 +296,10 @@ export const CreateContactDrawer = () => {
                     } else {
                         notify('Contact added',
                             'contact successfully added. At this point in alpha development, you must reload the page to see your new contact in the list.',
-                            'Sorry about that!');
+                            );
                         setTimeout(() => {
-                         
-                            // todo: clear form data
+                            setFirstName(''); //not sure why this is needed
+                            updateList();
                             setIsOpen(false);
                         }, 3000); 
                     }
@@ -570,9 +573,9 @@ export const CreateContactDrawer = () => {
 
             <Button
                 {...restoreFocusTargetAttributes}
-                icon={<Add24Regular />}
-                appearance="primary"
                 size="large"
+                appearance="primary"
+                icon={<Add24Regular />}
                 onClick={() => {
                     setError(null);
                     setShowValidation(false);

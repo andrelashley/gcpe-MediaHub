@@ -53,13 +53,17 @@ const MediaContacts = () => {
         fetchContacts();
     }, []);
 
+    const updateContactList = () => {
+        fetchContacts();
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
                 <Title1>Media contacts</Title1>
-                <CreateContactButton/>
+                <CreateContactButton updateList={() => updateContactList()} />
             </div>
-                <ContactsTable items={contacts} />
+            <ContactsTable items={contacts}  />
 
         </div>
     );
