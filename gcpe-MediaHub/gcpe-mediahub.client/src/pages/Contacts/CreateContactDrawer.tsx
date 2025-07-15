@@ -570,9 +570,9 @@ export const CreateContactDrawer = () => {
 
             <Button
                 {...restoreFocusTargetAttributes}
-                icon={<Add24Regular />}
-                appearance="primary"
                 size="large"
+                appearance="primary"
+                icon={<Add24Regular />}
                 onClick={() => {
                     setError(null);
                     setShowValidation(false);
