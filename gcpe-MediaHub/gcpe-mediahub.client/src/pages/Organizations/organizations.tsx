@@ -139,7 +139,9 @@ const Organizations = () => {
       })
 
     return (
-        <>
+        <div className={styles.container}>
+        
+        {/* Header with title and button */}
         <div style={{display: 'flex', justifyContent: 'space-between', paddingBottom: '8px'}}>
             <Title1>Media organizations</Title1>
             <Menu>
@@ -258,7 +260,7 @@ const Organizations = () => {
           ))}
         </tbody>
       </table>
-        </>
+        </div>
     );
 }
 

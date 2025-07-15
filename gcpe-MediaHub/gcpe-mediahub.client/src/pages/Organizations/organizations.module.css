@@ -3,6 +3,10 @@
     color: inherit;
 }
 
+.container {
+    padding-bottom: 24px;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
