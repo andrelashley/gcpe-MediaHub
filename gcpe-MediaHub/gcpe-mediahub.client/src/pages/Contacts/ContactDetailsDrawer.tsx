@@ -278,7 +278,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                 </Field>
                 </FieldRow>
 
-                <FieldRow label="Cell">
+                <FieldRow label="Mobile">
                 <Field>
                     <Input defaultValue="250-360-7658" />
                 </Field>
@@ -337,7 +337,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                 </Field>
                 </FieldRow>
 
-                <FieldRow label="Cell">
+                <FieldRow label="Mobile">
                 <Field>
                     <Input defaultValue="250-360-7658" />
                 </Field>
@@ -381,7 +381,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                 </Field>
                 </FieldRow>
 
-                <FieldRow label="Cell">
+                <FieldRow label="Mobile">
                 <Field>
                     <Input defaultValue="250-360-7658" />
                 </Field>
