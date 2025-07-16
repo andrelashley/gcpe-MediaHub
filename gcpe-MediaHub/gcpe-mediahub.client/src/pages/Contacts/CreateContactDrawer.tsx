@@ -359,6 +359,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                 onOpenChange={(_, { open }) => setIsOpen(open)}
                 className={styles.drawer}
                 position="end"
+                modalType="alert"
             >
                 <DrawerHeader>
                     <DrawerHeaderTitle
