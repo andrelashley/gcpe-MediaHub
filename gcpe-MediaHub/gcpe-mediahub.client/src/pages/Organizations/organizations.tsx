@@ -7,6 +7,7 @@ import {
   createColumnHelper,
   flexRender,
   getCoreRowModel,
+  getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
 
@@ -136,6 +137,15 @@ const Organizations = () => {
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        initialState: {
+          sorting: [
+            {
+              id: 'name',
+              desc: false
+            }
+          ]
+        }
       })
 
     return (
