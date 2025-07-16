@@ -299,9 +299,16 @@ const RequestsCardView: React.FC = () => {
         separator
         position="end"
         open={isNewDrawerOpen}
-        onOpenChange={(_, { open }) => {
-          if (!open) navigate('/requests');
+        onOpenChange={(_, { open, type }) => {
+          // Only allow opening the drawer, prevent closing except via explicit close button
+          if (open) {
+            // Allow opening (though this is controlled by route)
+            return;
+          }
+          // Do not allow closing via backdrop click, escape key, etc.
+          // Closing should only happen via the NewRequestPage onClose callback
         }}
+        modalType="alert"
         style={{ width: '650px' }}
       >
         <DrawerBody>
