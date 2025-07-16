@@ -254,7 +254,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
           </Field>
         </FieldRow>
 
-        <FieldRow label="Mobile">
+        <FieldRow label="News Desk">
           <Field>
             <Input defaultValue="604-555-5555" />
           </Field>
@@ -303,7 +303,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
           </Field>
         </FieldRow>
 
-        <FieldRow label="Mobile">
+        <FieldRow label="News Desk">
           <Field>
             <Input defaultValue="604-555-5555" />
           </Field>
@@ -352,7 +352,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
           </Field>
         </FieldRow>
 
-        <FieldRow label="Mobile">
+        <FieldRow label="News Desk">
           <Field>
             <Input defaultValue="604-555-5555" />
           </Field>
@@ -401,7 +401,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
             </Field>
           </FieldRow>
 
-          <FieldRow label="Mobile">
+          <FieldRow label="News Desk">
             <Field>
               <Input defaultValue="604-555-5555" />
             </Field>
