@@ -118,7 +118,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
     iconPosition="before"
     style={{ padding: "4px 16px", fontWeight: 600 }}
   >
-    http://www.globaltvbc.com/
+    globaltvbc.com/
   </Button>
 
 <Button
