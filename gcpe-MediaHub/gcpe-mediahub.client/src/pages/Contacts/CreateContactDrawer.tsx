@@ -24,6 +24,7 @@ import {
     ToastBody,
     ToastFooter,
     ToastIntent,
+    Link,
 } from "@fluentui/react-components";
 
 import { Dismiss24Regular, Add24Regular, Add16Regular } from "@fluentui/react-icons";
@@ -207,6 +208,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
 
 
     const handleAssociationDataChange = (index: number, data: OutletAssociation) => {
+        console.log(data);
         const newAssociations = [...outletAssociations];
         newAssociations[index] = data; // Update the specific index
         setOutletAssociations(newAssociations);
@@ -229,14 +231,15 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
             contact.personalWebsite = website;
 
             outletAssociations.forEach((_, index) => {
+                console.log(`outlet id: ${outletAssociations[index].outletId}`);
                 const outletAssociation: OutletAssociation = {
                     id: undefined,
                     contactId: undefined, // This can be set after the contact is created
                     lastRequestDate: undefined,
                     mediaContact: undefined,
                     mediaOutlet: undefined,
-                    outletName: undefined,
-                    outletId: outletAssociations[index]?.outletId,
+                    outletName: outletAssociations[index]?.outletName,
+                    outletId: outletAssociations[index].outletId,
                     contactEmail: outletAssociations[index]?.contactEmail,
                     phoneNumber: outletAssociations[index]?.phoneNumber,
                     jobTitle: outletAssociations[index]?.jobTitle,
@@ -274,10 +277,11 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                 .then((response) => {
                     if (!response.ok) {
                         // Handle server-side errors (e.g., 404, 500)
-                        notify('Something went wrong', `Server error: ${response.status}`, '', 'failure');
+                        notify('Something went wrong', `Server error: ${response.status}`, '', 'error');
                     } else {
-                        notify('Contact added',
-                            'contact successfully added. At this point in alpha development, you must reload the page to see your new contact in the list.',
+                        const title: string = `${firstName} ${lastName}, ${outletAssociations.map((outlet, index) => { outlet.outletName })} created successfully.`
+                        notify(title,
+                            <div><Link disabled={true} title='not yet enabled in alpha'>View</Link> <Link disabled={true} title='not yet enabled in alpha'>Add another</Link></div>,
                             '',
                             'success'
                         );
@@ -324,16 +328,17 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
         fetchOutlets();
         fetchJobTitles();
         fetchSocialMediaCompanies();
+        
     }, []);
 
     //notification toast stuff
     const toasterId = useId();
     const { dispatchToast } = useToastController();
-    const notify = (title: string, message: string, footer?: string, intentType: string = 'success') =>
+    const notify = (title: string, message: any, footer?: string, intentType: any = 'success') =>
         dispatchToast(
             <Toast>
                 <ToastTitle>{title}</ToastTitle>
-                <ToastBody subtitle="the API responded.">{message}</ToastBody>
+               {/* <ToastBody subtitle="the API responded.">{message}</ToastBody>*/}
                 <ToastFooter>
                     {footer}
                 </ToastFooter>
