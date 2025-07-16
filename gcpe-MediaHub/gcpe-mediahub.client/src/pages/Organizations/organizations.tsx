@@ -114,7 +114,8 @@ const Organizations = () => {
             city: org.city,
             isMajorMedia: org.isMajorMedia,
             parentId: org.parentId,
-          }));
+          }))
+          .sort((a, b) => a.name.localeCompare(b.name)); // temp client-side sort
 
           setData(mapped);
         } catch (err) {
@@ -178,6 +179,7 @@ const Organizations = () => {
 
           <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
             <Input placeholder='Search'
+                   style={{width: '300px'}}
                    disabled
                    contentBefore={<Search24Regular />}
             />
@@ -192,7 +194,10 @@ const Organizations = () => {
           separator
           position="end"
           open={isOrgDetailDrawerOpen}
-          onOpenChange={(_, { open }) => setIsOrgDetailDrawerOpen(open)}
+          onOpenChange={(_, { open }) => {
+              if(open) setIsOrgDetailDrawerOpen(open)
+            }
+          }
           style={{ width: '650px' }}>
         {selectedOrganization && (
           <DrawerBody>
@@ -211,7 +216,10 @@ const Organizations = () => {
           separator
           position="end"
           open={isNewOrganizationDrawerOpen}
-          onOpenChange={(_, { open }) => setIsNewOrganizationDrawerOpen(open)}
+          onOpenChange={(_, { open }) => {
+              if(open) setIsNewOrganizationDrawerOpen(open);
+            }
+          }
           style={{ width: '650px' }}
           >
             <DrawerBody>

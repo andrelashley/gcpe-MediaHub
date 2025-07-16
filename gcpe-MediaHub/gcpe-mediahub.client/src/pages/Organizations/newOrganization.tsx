@@ -44,7 +44,12 @@ const NewOrganizationPage: React.FC<NewOrganizationPageProps> = ({ onClose, cont
           const data = await response.json();
           setMediaTypeOptions(data.mediaTypes);
           setLanguageTypeOptions(data.writtenLanguages);
-          setMediaOutlets(data.mediaOutlets);
+          // setMediaOutlets(data.mediaOutlets);
+          setMediaOutlets(
+            data.mediaOutlets.sort((a, b) =>
+              a.outletName.localeCompare(b.outletName)
+            )
+          ); // temp client-side sort
           setPhoneTypeOptions(data.phoneTypes);
           setSocialMediaTypeOptions(data.socialMediaTypes);
         }
