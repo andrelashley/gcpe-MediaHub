@@ -45,6 +45,7 @@ const MediaContacts = () => {
         const response = await fetch(`${apiUrl}mediacontacts`);
         const data = await response.json();
         const contacts: MediaContact[] = data as MediaContact[];
+        contacts.sort((a, b) => a.firstName.toLowerCase().localeCompare(b.firstName.toLowerCase()));
         console.log(JSON.stringify(contacts));
         setContacts(contacts);
     };
