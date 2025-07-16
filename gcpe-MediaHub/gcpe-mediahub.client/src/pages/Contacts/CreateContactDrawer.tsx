@@ -264,7 +264,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                     contact.socialMedias.push(socialMedia);
                 }
             });
-            //      console.log(JSON.stringify(contact));
+                  console.log(JSON.stringify(contact));
             const apiUrl = import.meta.env.VITE_API_URL;
             const response = await fetch(`${apiUrl}MediaContacts`,
                 {
@@ -279,7 +279,11 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                         // Handle server-side errors (e.g., 404, 500)
                         notify('Something went wrong', `Server error: ${response.status}`, '', 'error');
                     } else {
-                        const title: string = `${firstName} ${lastName}, ${outletAssociations.map((outlet, index) => { outlet.outletName })} created successfully.`
+                        let outletNames: string = '';
+                        outletAssociations.forEach((association) => { 
+                            outletNames += ` ${association.outletName},`;
+                        })
+                        const title: string = `${firstName} ${lastName}, ${outletNames} created successfully.`
                         notify(title,
                             <div><Link disabled={true} title='not yet enabled in alpha'>View</Link> <Link disabled={true} title='not yet enabled in alpha'>Add another</Link></div>,
                             '',

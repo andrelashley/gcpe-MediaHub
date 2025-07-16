@@ -53,6 +53,7 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
     const [contactPhones, setContactPhones] = useState<(PhoneNumber)[]>([]);
    
     const [outletId, setOutletId] = useState<string>();
+    const [outletName, setOutletName] = useState<string>();
     const [contactEmail, setContactEmail] = useState<string>();
     const [jobTitle, setJobTitle] = useState<string>();
 
@@ -99,7 +100,6 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             id: undefined, //done on server
             outletId: outletId,
             contactEmail: contactEmail,
-            outletName: undefined,
             noLongerWorksHere: doesNotWorkHere,
             phoneNumber: phoneNumber,
             contactPhones: undefined,
@@ -107,8 +107,9 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             mediaContact: undefined,
             mediaOutlet: undefined,
             jobTitle: jobTitle,
+            outletName: outletName
         });
-    }, [outletId, contactEmail, contactPhones, phoneNumber, doesNotWorkHere, jobTitle]);
+    }, [outletId, contactEmail, contactPhones, phoneNumber, doesNotWorkHere, jobTitle, outletName]);
 
     const styles = useStyles();
     // Expose the validate method to the parent component
@@ -126,20 +127,22 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
              //   validationMessage={showValidation ? "Must select an organization" : undefined}
              //   validationState={showValidation ? "error" : "none"}
             >
-                <Select
-                    onChange={(_, data) => {
-                        setOutletId(data.value)
+                <Dropdown
+                    onOptionSelect={(_, data) => {
+                        console.log(data.optionValue)
+                        setOutletId(data.optionValue)
+                        setOutletName(data.optionText)
                     }}
                 >
-                    <option/>
+                    <Option value={'0'} text=''></Option>
                     {outlets.map((outlet) => (
-                        <option value={outlet.id.toString()}
+                        <Option value={outlet.id.toString()}
                             key={outlet.id.toString()}
                         >
                             {outlet.name}
-                        </option>
+                        </Option>
                     ))}
-                </Select>
+                </Dropdown>
             </Field>
             <Field label="Job title" required>
                 <Dropdown placeholder="" appearance="outline"
