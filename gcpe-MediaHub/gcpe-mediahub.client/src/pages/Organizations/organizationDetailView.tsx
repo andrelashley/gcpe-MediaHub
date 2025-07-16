@@ -65,7 +65,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
             {/* Left side: Title + Tags */}
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
               <Text weight="semibold" size={600}>
-                CBC
+                Global TV | BC
               </Text>
               {org.parentId == null && (
                 <Badge
@@ -108,7 +108,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
 
         <div style={{display: 'flex', flexDirection: 'column' }}>
           <Text size={300}>{org.mediaTypes.join(', ')}</Text>
-          <Text size={300}>250 Front Street West, Toronto</Text>
+          <Text size={300}>7850 Enterprise Street</Text>
         </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: '8px' }}>
@@ -118,7 +118,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
     iconPosition="before"
     style={{ padding: "4px 16px", fontWeight: 600 }}
   >
-    www.cbc.ca
+    http://www.globaltvbc.com/
   </Button>
 
 <Button
@@ -149,7 +149,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
   iconPosition="before"
   style={{ padding: "4px 16px", fontWeight: 600 }}
 >
-  @CBCNews
+  @GlobalTV
 </Button>
 
 
@@ -171,7 +171,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
     iconPosition="before"
     style={{ padding: "4px 16px", fontWeight: 600 }}
   >
-    @CBC
+    @GlobalTV
   </Button>
 </div>
 
@@ -184,13 +184,19 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
 
       <FieldRow label="Email">
         <Field>
-          <Input defaultValue="cbc.network@cbc.ca" />
+          <Input defaultValue="tips@globaltvbc.com" />
         </Field>
       </FieldRow>
 
       <FieldRow label="News desk">
         <Field>
-          <Input defaultValue="604-555-5555 ext. 555" />
+          <Input defaultValue="604-422-6416" />
+        </Field>
+      </FieldRow>
+
+      <FieldRow label="After hours">
+        <Field>
+          <Input defaultValue="604-422-6494" />
         </Field>
       </FieldRow>
 
@@ -224,11 +230,11 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
 
       {selectedTab === "contacts" && (
       <>
-        <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
+      <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
 
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-            <Text size={400} weight="semibold">Barbara Smith</Text>
+            <Text size={400} weight="semibold">Richard Zussman</Text>
             <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Reporter</Text>
           </div>
 
@@ -250,25 +256,19 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
 
         <FieldRow label="Email">
           <Field>
-            <Input defaultValue="jane.smith@cbc.ca" />
+            <Input defaultValue="richard.zussman@globalnews.ca" />
           </Field>
         </FieldRow>
 
-        <FieldRow label="News Desk">
+        <FieldRow label="Mobile">
           <Field>
-            <Input defaultValue="604-555-5555" />
+            <Input defaultValue="250-216-7328" />
           </Field>
         </FieldRow>
 
         <FieldRow label="After hours">
           <Field>
-            <Input defaultValue="604-555-5555 ext. 555" />
-          </Field>
-        </FieldRow>
-
-        <FieldRow label="Fax">
-          <Field>
-            <Input defaultValue="604-555-5555 ext. 555" />
+            <Input defaultValue="778-333-0567" />
           </Field>
         </FieldRow>
       </div>
@@ -277,7 +277,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
 
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-            <Text size={400} weight="semibold">Barbara Smith</Text>
+            <Text size={400} weight="semibold">Keith Baldrey</Text>
             <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Reporter</Text>
           </div>
 
@@ -299,126 +299,23 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
 
         <FieldRow label="Email">
           <Field>
-            <Input defaultValue="jane.smith@cbc.ca" />
+            <Input defaultValue="keith.baldrey@globalnews.ca" />
           </Field>
         </FieldRow>
 
-        <FieldRow label="News Desk">
+        <FieldRow label="Mobile">
           <Field>
-            <Input defaultValue="604-555-5555" />
-          </Field>
-        </FieldRow>
-
-        <FieldRow label="After hours">
-          <Field>
-            <Input defaultValue="604-555-5555 ext. 555" />
-          </Field>
-        </FieldRow>
-
-        <FieldRow label="Fax">
-          <Field>
-            <Input defaultValue="604-555-5555 ext. 555" />
-          </Field>
-        </FieldRow>
-      </div>
-
-      <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
-
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-            <Text size={400} weight="semibold">Barbara Smith</Text>
-            <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Reporter</Text>
-          </div>
-
-          <div>
-            {/* Right side: Menu */}
-            <Menu>
-              <MenuTrigger disableButtonEnhancement>
-                <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
-              </MenuTrigger>
-              <MenuPopover>
-                <MenuList>
-                  <MenuItem>Edit</MenuItem>
-                  <MenuItem>Delete</MenuItem>
-                </MenuList>
-              </MenuPopover>
-            </Menu>
-          </div>
-        </div>
-
-        <FieldRow label="Email">
-          <Field>
-            <Input defaultValue="jane.smith@cbc.ca" />
-          </Field>
-        </FieldRow>
-
-        <FieldRow label="News Desk">
-          <Field>
-            <Input defaultValue="604-555-5555" />
+            <Input defaultValue="250-360-7658" />
           </Field>
         </FieldRow>
 
         <FieldRow label="After hours">
           <Field>
-            <Input defaultValue="604-555-5555 ext. 555" />
-          </Field>
-        </FieldRow>
-
-        <FieldRow label="Fax">
-          <Field>
-            <Input defaultValue="604-555-5555 ext. 555" />
+            <Input defaultValue="250-387-1572" />
           </Field>
         </FieldRow>
       </div>
         
-      
-        <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
-          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-            <Text size={400} weight="semibold">Barbara Smith</Text>
-            <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Reporter</Text>
-          </div>
-
-            <div>
-              {/* Right side: Menu */}
-              <Menu>
-                <MenuTrigger disableButtonEnhancement>
-                  <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
-                </MenuTrigger>
-                <MenuPopover>
-                  <MenuList>
-                    <MenuItem>Edit</MenuItem>
-                    <MenuItem>Delete</MenuItem>
-                  </MenuList>
-                </MenuPopover>
-              </Menu>
-            </div>
-          </div>
-
-          <FieldRow label="Email">
-            <Field>
-              <Input defaultValue="jane.smith@cbc.ca" />
-            </Field>
-          </FieldRow>
-
-          <FieldRow label="News Desk">
-            <Field>
-              <Input defaultValue="604-555-5555" />
-            </Field>
-          </FieldRow>
-
-          <FieldRow label="After hours">
-            <Field>
-              <Input defaultValue="604-555-5555 ext. 555" />
-            </Field>
-          </FieldRow>
-
-          <FieldRow label="Fax">
-            <Field>
-              <Input defaultValue="604-555-5555 ext. 555" />
-            </Field>
-          </FieldRow>
-        </div>
         </>
       )}
 
@@ -428,7 +325,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
 
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-            <Text size={400} weight="semibold">CBC British Columbia</Text>
+            <Text size={400} weight="semibold">Global TV</Text>
             <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Online</Text>
           </div>
 
@@ -477,7 +374,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
 
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-            <Text size={400} weight="semibold">CBC British Columbia</Text>
+            <Text size={400} weight="semibold">Global TV</Text>
             <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Online</Text>
           </div>
 
@@ -526,7 +423,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
 
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-            <Text size={400} weight="semibold">CBC British Columbia</Text>
+            <Text size={400} weight="semibold">Global TV</Text>
             <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Online</Text>
           </div>
 
@@ -575,7 +472,7 @@ const OrganizationDetailView: React.FC<OrganizationDetailViewProps> = ({ org, on
 
           <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-              <Text size={400} weight="semibold">CBC British Columbia</Text>
+              <Text size={400} weight="semibold">Global TV</Text>
               <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Online</Text>
             </div>
 
