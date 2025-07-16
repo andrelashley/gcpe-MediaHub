@@ -91,8 +91,11 @@ const useStyles = makeStyles({
 }
 );
 
+interface CreateContactProps {
+    updateList: () => void,
+}
 
-export const CreateContactDrawer = () => {
+export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }) => {
     const [isOpen, setIsOpen] = React.useState(false);
     //for primary contact info input tracking
     //const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
@@ -102,26 +105,7 @@ export const CreateContactDrawer = () => {
         { typeName: '', url: '', companyId: '' }
     ]);
 
-    const [workplaces, setWorkplaces] = useState([
-        {
-            errors: {
-                email: '',
-            },
-            mediaOrg: '',
-            jobTitle: '',
-            email: '',
-            phoneType: '',
-            phoneNumber: ''
-        }
-    ]);
-
-    const addWorkplace = () => {
-        setWorkplaces(prev => [
-            ...prev,
-            { mediaOrg: '', jobTitle: '', email: '', phoneType: '', phoneNumber: '', errors: {email: ''} }
-        ]);
-    };
-
+  
     //const addPrimaryContactInfoInput = () => {
     //    setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
     //    setContactPhones([...contactPhones, undefined]); // Add new slot
@@ -230,9 +214,9 @@ export const CreateContactDrawer = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault();
 
-        handleValidation();
+        const hasErrors = handleValidation();
       
-        if (!error) {
+        if (!hasErrors) {
 
             const contact: MediaContact = new MediaContact()
             contact.firstName = firstName;
@@ -272,7 +256,7 @@ export const CreateContactDrawer = () => {
                     companyId: parseInt(link.companyId), //socialMedias[index]?.socialMediaCompanyId,
                     mediaContact: undefined,
                 };
-                if (socialMedia.url) {
+                if (socialMedia.url && socialMedia.companyId) {
                     contact.socialMedias.push(socialMedia);
                 }
             });
@@ -293,10 +277,10 @@ export const CreateContactDrawer = () => {
                     } else {
                         notify('Contact added',
                             'contact successfully added. At this point in alpha development, you must reload the page to see your new contact in the list.',
-                            'Sorry about that!');
+                            );
                         setTimeout(() => {
-                         
-                            // todo: clear form data
+                            setFirstName(''); //not sure why this is needed
+                            updateList();
                             setIsOpen(false);
                         }, 3000); 
                     }
@@ -304,22 +288,14 @@ export const CreateContactDrawer = () => {
         }
     };
 
-    const handleValidation = () => {
+    const handleValidation = (): boolean => {
         setShowValidation(true);
         setError(null);
         const errors: any = {};
         if (!firstName.trim()) errors.firstName = 'A first name is required';
         if (!lastName.trim()) errors.lastName = 'A last name is required';
-    //   if (!email.trim()) errors.email = 'An email address is required';
-
-        workplaces.forEach((_, index) => {
-        //    if (!workplaces[index].mediaOrg.trim()) errors.workplaceOrg = "An organization must be selected";
-        //   if (!workplaces[index].jobTitle.trim()) errors.workplaceJobTitle = "A job title must be selected";
-        //    if (!workplaces[index].email.trim()) errors.workplaceEmail = "An email address is required";
-
-        })
-
         setFormErrors(errors);
+        return Object.keys(errors).length > 0;
     }
 
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
@@ -385,19 +361,6 @@ export const CreateContactDrawer = () => {
                                     setError(null);
                                     setShowValidation(false);
                                     setOutletInputs([1]);
-
-
-                                    //setWorkplaces([{
-                                    //        errors: {
-                                    //            email: '',
-                                    //        },
-                                    //        mediaOrg: '',
-                                    //        jobTitle: '',
-                                    //        email: '',
-                                    //        phoneType: '',
-                                    //        phoneNumber: ''
-                                    //    }]);
-                                    
                                     setIsOpen(false)
                                 }}
                             />
@@ -547,18 +510,6 @@ export const CreateContactDrawer = () => {
                             onClick={() => {
                                 setIsOpen(false)
                                 setOutletInputs([1]);
-                                //setWorkplaces([
-                                //    {
-                                //        errors: {
-                                //            email: '',
-                                //        },
-                                //        mediaOrg: '',
-                                //        jobTitle: '',
-                                //        email: '',
-                                //        phoneType: '',
-                                //        phoneNumber: ''
-                                //    }
-                                //]);
                             }}
                         >
                             <Body2>Cancel</Body2>
@@ -570,13 +521,12 @@ export const CreateContactDrawer = () => {
 
             <Button
                 {...restoreFocusTargetAttributes}
-                icon={<Add24Regular />}
-                appearance="primary"
                 size="large"
+                appearance="primary"
+                icon={<Add24Regular />}
                 onClick={() => {
                     setError(null);
                     setShowValidation(false);
-                    setWorkplaces
                     setIsOpen(true)
                 }}
             >

@@ -39,6 +39,10 @@ const useStyles = makeStyles({
         fontWeight: 'bold',
         verticalAlign: 'middle',
     },
+    tableScrollContainer: {
+        overflowY: 'auto',
+        maxHeight: 'calc(100vh - 250px)', /* tweak this to fit under your header */
+    },
 });
 
 interface TableProps {
@@ -177,6 +181,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                     icon={<Filter24Regular />}>Filter</Button>
                 </div>
             </div>
+            <div className={styles.tableScrollContainer}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                     {table.getHeaderGroups().map(headerGroup => (
@@ -233,7 +238,8 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                         </tr>
                     ))}
                 </tbody>
-            </table>
+                </table>
+            </div>
             {currentContact &&
                 <ContactDetailsDrawer contact={currentContact} isOpen={contactDetailsOpen} closeContactDetails={closeContactDetails} />
             }
