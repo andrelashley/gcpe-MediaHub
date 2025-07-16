@@ -23,6 +23,7 @@ import {
     ToastTitle,
     ToastBody,
     ToastFooter,
+    ToastIntent,
 } from "@fluentui/react-components";
 
 import { Dismiss24Regular, Add24Regular, Add16Regular } from "@fluentui/react-icons";
@@ -105,7 +106,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
         { typeName: '', url: '', companyId: '' }
     ]);
 
-  
+
     //const addPrimaryContactInfoInput = () => {
     //    setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
     //    setContactPhones([...contactPhones, undefined]); // Add new slot
@@ -215,7 +216,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
         e.preventDefault();
 
         const hasErrors = handleValidation();
-      
+
         if (!hasErrors) {
 
             const contact: MediaContact = new MediaContact()
@@ -224,7 +225,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
             contact.isPressGallery = isPressGallery;
             contact.email = email;
             contact.jobTitleId = 0;
-         //   contact.phoneNumbers = getPersonalPhoneNumbers();
+            //   contact.phoneNumbers = getPersonalPhoneNumbers();
             contact.personalWebsite = website;
 
             outletAssociations.forEach((_, index) => {
@@ -248,7 +249,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
             socialMediaLinks.forEach((link, index) => {
                 const socialMedia: SocialMediaLink = {
                     //set all these TBD IDs on server...
-                  //  id: undefined,
+                    //  id: undefined,
                     mediaContactId: undefined,
                     mediaOutletId: undefined, // won't set this
                     mediaOutlet: undefined, // won't be set
@@ -260,7 +261,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                     contact.socialMedias.push(socialMedia);
                 }
             });
-      //      console.log(JSON.stringify(contact));
+            //      console.log(JSON.stringify(contact));
             const apiUrl = import.meta.env.VITE_API_URL;
             const response = await fetch(`${apiUrl}MediaContacts`,
                 {
@@ -273,16 +274,16 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                 .then((response) => {
                     if (!response.ok) {
                         // Handle server-side errors (e.g., 404, 500)
-                        notify('Something went wrong', `Server error: ${response.status}`);
+                        notify('Something went wrong', `Server error: ${response.status}`, '', 'failure');
                     } else {
                         notify('Contact added',
                             'contact successfully added. At this point in alpha development, you must reload the page to see your new contact in the list.',
-                            );
-                        setTimeout(() => {
-                            setFirstName(''); //not sure why this is needed
-                            updateList();
-                            setIsOpen(false);
-                        }, 3000); 
+                            '',
+                            'success'
+                        );
+                        setFirstName(''); //not sure why this is needed
+                        updateList();
+                        setIsOpen(false);
                     }
                 });
         }
@@ -308,9 +309,9 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
     };
 
     const [jobTitles, setJobTitles] = useState<JobTitle[]>([
-       
+
     ]
-);
+    );
     const fetchJobTitles = async () => {
         const apiUrl = import.meta.env.VITE_API_URL;
         const response = await fetch(`${apiUrl}mediaContacts/GetJobTitles`);
@@ -327,8 +328,8 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
 
     //notification toast stuff
     const toasterId = useId();
-    const { dispatchToast } = useToastController(toasterId);
-    const notify = (title: string, message: string, footer?: string) =>
+    const { dispatchToast } = useToastController();
+    const notify = (title: string, message: string, footer?: string, intentType: string = 'success') =>
         dispatchToast(
             <Toast>
                 <ToastTitle>{title}</ToastTitle>
@@ -337,7 +338,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                     {footer}
                 </ToastFooter>
             </Toast>,
-            { intent: "success" }
+            { intent: intentType, timeout: 5000, position: 'top-end' }
         );
 
     return (
@@ -402,18 +403,18 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
 
                     <Divider style={{ margin: '24px 0 16px 0' }} />
 
-                    <Title3 className={styles.sectionHeader }>Workplace information</Title3>
+                    <Title3 className={styles.sectionHeader}>Workplace information</Title3>
                     {outletInputs.map((outlet, index) => (
                         <MediaOutletInput
-                            key={index }
+                            key={index}
                             onRemove={() => removeOutletInput(index)}
                             onAssociationDataChange={(outlet) => handleAssociationDataChange(index, outlet)}
                             outlets={outlets}
-                            jobTitles={jobTitles }
+                            jobTitles={jobTitles}
                             showValidation={showValidation}
                         />
                     ))}
-                       
+
                     <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' }}>
                         <Button appearance="transparent" icon={<Add16Regular />} iconPosition="before" onClick={addOutletInput}>
                             Workplace
@@ -484,7 +485,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                             appearance="transparent"
                             icon={<Add24Regular />}
                             onClick={() =>
-                                setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '', companyId: ''}])
+                                setSocialMediaLinks([...socialMediaLinks, { typeName: '', url: '', companyId: '' }])
                             }
                         >
                             Social media
