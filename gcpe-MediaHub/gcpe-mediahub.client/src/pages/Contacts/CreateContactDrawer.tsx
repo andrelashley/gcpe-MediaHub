@@ -256,7 +256,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
                     companyId: parseInt(link.companyId), //socialMedias[index]?.socialMediaCompanyId,
                     mediaContact: undefined,
                 };
-                if (socialMedia.url) {
+                if (socialMedia.url && socialMedia.companyId) {
                     contact.socialMedias.push(socialMedia);
                 }
             });
