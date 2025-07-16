@@ -170,9 +170,10 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                 <Tab value="all">All</Tab>
             </TabList>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px'}}>
                 <Input placeholder='Search'
                     disabled
+                    style={{ width: '300px' }}
                     contentBefore={<Search24Regular />}
                 />
                 <Button
