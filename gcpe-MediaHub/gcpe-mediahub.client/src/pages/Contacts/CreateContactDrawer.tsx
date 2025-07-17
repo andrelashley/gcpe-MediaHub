@@ -95,9 +95,10 @@ const useStyles = makeStyles({
 
 interface CreateContactProps {
     updateList: () => void,
+    socials: SocialMediaCompany[];
 }
 
-export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }) => {
+export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, socials }) => {
     const [isOpen, setIsOpen] = React.useState(false);
     //for primary contact info input tracking
     //const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
@@ -151,17 +152,10 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
     });
 
     // for tracking social media link inputs
-    const [socials, setSocials] = useState<SocialMediaCompany[]>([]);
-    const fetchSocialMediaCompanies = async () => {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiUrl}mediacontacts/GetSocialMedias`);
-        const data = await response.json();
-        const companies: SocialMediaCompany[] = data as SocialMediaCompany[];
-        setSocials(companies);
-    };
+    
 
     const [socialMediaInputs, setSocialMediaInputs] = useState<number[]>([1]);
-    const [socialMedias, setSocialMedias] = useState<any[]>([]); //Todo: actual model, not 'any'
+    const [socialMedias, setSocialMedias] = useState<SocialMediaCompany[]>([]); //Todo: actual model, not 'any'
     const addSocialMediaInput = () => {
         setSocialMediaInputs([...socialMediaInputs, socialMediaInputs.length]);
     };
@@ -331,7 +325,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList }
     useEffect(() => {
         fetchOutlets();
         fetchJobTitles();
-        fetchSocialMediaCompanies();
+        
         
     }, []);
 

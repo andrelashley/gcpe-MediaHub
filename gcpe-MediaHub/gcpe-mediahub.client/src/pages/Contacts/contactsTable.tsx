@@ -29,6 +29,7 @@ import { MediaRequest } from "../../models/mediaRequest";
 import { PhoneNumber } from "../../models/PhoneNumber";
 import { MediaOutlet } from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
+import { SocialMediaCompany } from "../../models/SocialMediaCompany";
 
 const useStyles = makeStyles({
     searchElement: {
@@ -52,9 +53,10 @@ const useStyles = makeStyles({
 interface TableProps {
 
     items: MediaContact[],
+    socialMediaCompanies: SocialMediaCompany[];
 }
 
-const ContactsTable: React.FC<TableProps> = ({ items }) => {
+const ContactsTable: React.FC<TableProps> = ({ items, socialMediaCompanies }) => {
     const [contactDetailsOpen, setContactDetailsOpen] = useState(false);
     const [currentContact, setCurrentContact] = useState<MediaContact | undefined>();
 
@@ -246,7 +248,11 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
                 </table>
             </div>
             {currentContact &&
-                <ContactDetailsDrawer contact={currentContact} isOpen={contactDetailsOpen} closeContactDetails={closeContactDetails} />
+                <ContactDetailsDrawer
+                contact={currentContact}
+                isOpen={contactDetailsOpen}
+                closeContactDetails={closeContactDetails}
+                socialMediaCompanies={socialMediaCompanies} />
             }
             {/*<div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px' }}>*/}
             {/*    <button*/}

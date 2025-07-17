@@ -8,6 +8,7 @@ import {
     Title1,
     makeStyles,
 } from '@fluentui/react-components';
+import { SocialMediaCompany } from '../../models/SocialMediaCompany';
 
 
 
@@ -49,9 +50,17 @@ const MediaContacts = () => {
         console.log(JSON.stringify(contacts));
         setContacts(contacts);
     };
-
+    const [socials, setSocials] = useState<SocialMediaCompany[]>([]);
+    const fetchSocialMediaCompanies = async () => {
+        const apiUrl = import.meta.env.VITE_API_URL;
+        const response = await fetch(`${apiUrl}mediacontacts/GetSocialMedias`);
+        const data = await response.json();
+        const companies: SocialMediaCompany[] = data as SocialMediaCompany[];
+        setSocials(companies);
+    };
     useEffect(() => {
         fetchContacts();
+        fetchSocialMediaCompanies();
     }, []);
 
     const updateContactList = () => {
@@ -62,9 +71,9 @@ const MediaContacts = () => {
         <div className={styles.container}>
             <div className={styles.header}>
                 <Title1>Media contacts</Title1>
-                <CreateContactButton updateList={() => updateContactList()} />
+                <CreateContactButton updateList={() => updateContactList()} socialMediaCompanies={socials } />
             </div>
-            <ContactsTable items={contacts}  />
+            <ContactsTable items={contacts} socialMediaCompanies={socials} />
 
         </div>
     );

@@ -25,11 +25,15 @@ import {
 } from "@fluentui/react-components";
 import { Dismiss24Regular, Important24Regular, Important16Regular, CrownSubtract20Regular, Ribbon24Regular, Globe24Regular, Search24Regular, Add24Regular, MoreHorizontal24Regular, Important24Filled, Calendar16Regular } from "@fluentui/react-icons";
 import XIcon from '../../assets/icons/x.svg';
+import FaceBookIcon from '../../assets/icons/facebook.svg'
+import LinkedInIcon from '../../assets/icons/linkedin.svg'
+import InstagramIcon from '../../assets/icons/instagram.svg'
 import FieldRow from "../Organizations/fieldRow";
 
 //import OutletDetails from "./OutletDetails";
 import ContactRelatedItemsList from "./ContactRelatedItemsList";
 import { MediaContact } from "../../models/mediaContact";
+import { SocialMediaCompany } from "../../models/SocialMediaCompany";
 
 
 const useStyles = makeStyles({
@@ -46,7 +50,11 @@ const useStyles = makeStyles({
 
     outletsSection: {
         border: "1px solid #ccc!important",
-    }
+    },
+    socialLinkButton: {
+        padding: '4px 16px',
+        fontWeight: '600',
+    },
 }
 );
 
@@ -54,17 +62,35 @@ interface ContactDetailsProps {
     contact: MediaContact;
     isOpen: boolean;
     closeContactDetails: any;
+    socialMediaCompanies: SocialMediaCompany[];
 }
 
-export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, isOpen, closeContactDetails }) => {
+export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, isOpen, closeContactDetails, socialMediaCompanies }) => {
     const [selectedTab, setSelectedTab] = React.useState<"workplaces" | "requests">("workplaces");
 
     console.log(JSON.stringify(contact));
+    console.log(JSON.stringify(socialMediaCompanies));
     const styles = useStyles();
     // all Drawers need manual focus restoration attributes
     // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
     const restoreFocusSourceAttributes = useRestoreFocusSource();
 
+    const getSocialMediaCompanyIcon = (companyId) => {
+        const company: SocialMediaCompany = socialMediaCompanies.find(company => company.id == companyId);
+        switch (company.company.toLowerCase()) {
+            default: case 'bluesky': case 'google+': case 'other':
+                return null;
+            case 'facebook':
+                return FaceBookIcon;
+            case 'instagram':
+                return InstagramIcon;
+            case 'linkedin':
+                return LinkedInIcon;
+            case 'x':
+                return XIcon;
+        }
+        
+    }
     return (
         /*we can probably break some of this out into separate components*/
         <div>
@@ -98,22 +124,24 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                         }}>
                             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
                             <Text weight="semibold" size={600}>
-                                Keith Baldrey {/* {contact.firstName} {contact.lastName} */}
-                            </Text>
-                            <Badge
-                                appearance="filled"
-                                color="important"
-                                shape="circular"
-                                icon={<CrownSubtract20Regular />}
-                                style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '4px' }}
-                                >
-                                Press Gallery
-                            </Badge>
+                                {contact.firstName} {contact.lastName}
+                                </Text>
+                                {contact.isPressGallery &&
+                                    <Badge
+                                        appearance="filled"
+                                        color="important"
+                                        shape="circular"
+                                        icon={<CrownSubtract20Regular />}
+                                        style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '4px' }}
+                                    >
+                                        Press Gallery
+                                    </Badge>
+                                }
                             </div>
                         </div>
-                        <div style={{display: 'flex', flexDirection: 'column' }}>
-                            <Text size={300}>Reporter</Text>
-                            <Text size={300}>Victoria, British Columbia</Text>
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <Text size={300}>{contact.jobTitle}</Text>
+                            <Text size={300}>{contact.location}</Text>
                         </div>
                         <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: '8px' }}>
                             {/* <Button
@@ -124,37 +152,43 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                             >
                                 keithbaldrey.ca
                             </Button> */}
+                            {contact.personalWebsite &&
+                                <Button
+                                    className={styles.socialLinkButton}
+                                    appearance="secondary"
+                                    icon={<Globe24Regular />}
+                                    iconPosition="before"
+                                    onClick={() => { window.open(contact.personalWebsite) }}
+                                >
+                                    {contact.personalWebsite}
+                                </Button>
 
-                            <Button
-                                appearance="secondary"
-                                icon={<Globe24Regular />}
-                                iconPosition="before"
-                                style={{ padding: "4px 16px", fontWeight: 600 }}
-                            >
-                                @KeithBaldrey
-                            </Button>
-
-
-                            <Button
-                                appearance="secondary"
-                                icon={
-                                <img
-                                    src={XIcon}
-                                    alt="X"
-                                    style={{
-                                    width: 16,
-                                    height: 16,
-                                    objectFit: "contain",
-                                    filter: "grayscale(1) brightness(0)",
-                                    borderRadius: 4,
-                                    }}
-                                />
-                                }
-                                iconPosition="before"
-                                style={{ padding: "4px 16px", fontWeight: 600 }}
-                            >
-                                @KeithBaldrey
-                            </Button>
+                            }
+                            {contact.socialMedias.map((social, index) => // maybe this should be a separate "if" for each possible social,
+                                // not yet sure how different name formats, etc. are.
+                                <Button
+                                    className={styles.socialLinkButton}
+                                    appearance="secondary"
+                                    onClick={() => { window.open(social.url) }}
+                                    icon={
+                                        <img
+                                            src={getSocialMediaCompanyIcon(social.companyId)}
+                                        alt="X"
+                                        style={{
+                                        width: 16,
+                                        height: 16,
+                                        objectFit: "contain",
+                                        filter: "grayscale(1) brightness(0)",
+                                        borderRadius: 4,
+                                        }}
+                                    />
+                                    }
+                                        
+                                    iconPosition="before"
+                                >
+                                    {social.url}
+                                </Button>
+                            )}
                         </div>
                     </DrawerHeaderTitle>
                     {/* <p>{contact.jobTitle}</p>
