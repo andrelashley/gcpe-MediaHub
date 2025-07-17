@@ -38,10 +38,14 @@ const useStyles = makeStyles({
         backgroundColor: '#f4f4f4',
         fontWeight: 'bold',
         verticalAlign: 'middle',
+        position: 'sticky',
+        top: '0',
+        zIndex: '1',
+        
     },
     tableScrollContainer: {
         overflowY: 'auto',
-        maxHeight: 'calc(100vh - 250px)', /* tweak this to fit under your header */
+        maxHeight: 'calc(100vh - 340px)', /* tweak this to fit under your header */
     },
 });
 
@@ -165,7 +169,7 @@ const ContactsTable: React.FC<TableProps> = ({ items }) => {
     return (
 
         <div style={{ width: '100%', paddingBottom: '24px'}}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
             <TabList selectedValue="all">
                 <Tab value="all">All</Tab>
             </TabList>

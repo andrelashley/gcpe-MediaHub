@@ -21,8 +21,8 @@ const useStyles = makeStyles({
     overflow: 'hidden',
   },
   mainContent: {
-    padding: '24px',
-    margin: '16px',
+    margin: '24px',
+
     backgroundColor: 'white',
     borderRadius: '8px',
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',

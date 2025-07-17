@@ -31,7 +31,7 @@ const useStyles = makeStyles({
         position: "relative",
         overflowX: "hidden",
         fontWeight: "400",
-        padding: '24px Global.Size.280',
+        margin: '24px Global.Size.280',
     },
 });
 
