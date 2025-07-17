@@ -13,7 +13,6 @@ const AlphaInfo = () => {
     };
 
     const handleFeedbackClick = () => {
-        console.log("feedback button");
         window.open('https://teams.microsoft.com/l/channel/19%3A97e62e1a8b9947479036fba8727207f6%40thread.tacv2/Media%20Hub%202.0%20UX?groupId=58c5efde-591f-4653-823a-c26fd95123df&tenantId=6fdb5200-3d0d-4a8a-b036-d3685e359adc&ngc=true');
     }
 
