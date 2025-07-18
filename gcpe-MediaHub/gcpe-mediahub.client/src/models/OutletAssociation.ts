@@ -15,4 +15,5 @@ export class OutletAssociation {
     jobTitle: string | undefined;
     noLongerWorksHere: boolean = false;
     lastRequestDate: Date | undefined;
+    isMajorMedia: boolean | undefined;
 }

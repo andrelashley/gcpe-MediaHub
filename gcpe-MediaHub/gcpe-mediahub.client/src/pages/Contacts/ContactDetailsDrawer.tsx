@@ -22,6 +22,9 @@ import {
     MenuItem,
     MenuTrigger, 
     MenuList,
+    SelectTabData,
+    SelectTabEvent,
+    TabValue,
 } from "@fluentui/react-components";
 import { Dismiss24Regular, Important24Regular, Important16Regular, CrownSubtract20Regular, Ribbon24Regular, Globe24Regular, Search24Regular, Add24Regular, MoreHorizontal24Regular, Important24Filled, Calendar16Regular } from "@fluentui/react-icons";
 import XIcon from '../../assets/icons/x.svg';
@@ -66,15 +69,17 @@ interface ContactDetailsProps {
 }
 
 export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, isOpen, closeContactDetails, socialMediaCompanies }) => {
-    const [selectedTab, setSelectedTab] = React.useState<"workplaces" | "requests">("workplaces");
+    const [selectedTab, setSelectedTab] = React.useState<TabValue>("workplaces");
 
     console.log(JSON.stringify(contact));
-    console.log(JSON.stringify(socialMediaCompanies));
     const styles = useStyles();
     // all Drawers need manual focus restoration attributes
     // unless (as in the case of some inline drawers, you do not want automatic focus restoration)
     const restoreFocusSourceAttributes = useRestoreFocusSource();
-
+    const onTabSelect = (event: SelectTabEvent, data: SelectTabData) => {
+        setSelectedTab(data.value);
+    }
+        { (_, data) => { setSelectedTab(data.value as "workplaces" | "requests"); console.log(data.value) } }
     const getSocialMediaCompanyIcon = (companyId) => {
         const company: SocialMediaCompany = socialMediaCompanies.find(company => company.id == companyId);
         switch (company.company.toLowerCase()) {
@@ -91,6 +96,84 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
         }
         
     }
+
+    const getSocialMediaCompanyName = (companyId) => {
+        const company: SocialMediaCompany = socialMediaCompanies.find(company => company.id == companyId);
+        if (company) {
+            return company.company;
+        } else {
+            return '';
+        }
+    }
+
+    const Workplaces = React.memo(() => (
+        <div role="tabpanel" aria-labelledby="Workplaces">
+            {contact.mediaOutletContactRelationships.map((outlet, index) => 
+                <div key={index} style={{ border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem', borderRadius: '4px', marginBottom: '1.25rem' }}>
+
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem' }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'baseline',
+                            gap: '0.5rem',
+                            flexWrap: 'wrap'
+                        }}>
+                            <Text size={400} weight="semibold">{outlet.outletName}</Text>
+                            <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>
+                                {outlet.jobTitle}
+                            </Text>
+
+                            {outlet.isMajorMedia &&
+                                <Badge
+                                    appearance="filled"
+                                    color="brand"
+                                    shape="circular"
+                                    icon={<Important16Regular />}
+                                    style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '4px' }}
+                                >
+                                    Major
+                                </Badge>
+                            }
+                        </div>
+                        <div>
+                             Right side: Menu 
+                            <Menu>
+                                <MenuTrigger disableButtonEnhancement>
+                                    <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
+                                </MenuTrigger>
+                                <MenuPopover>
+                                    <MenuList>
+                                        <MenuItem>Edit</MenuItem>
+                                        <MenuItem>Delete</MenuItem>
+                                    </MenuList>
+                                </MenuPopover>
+                            </Menu>
+                        </div>
+                    </div>
+                    <FieldRow label="Email">
+                        <Field>
+                            <Input defaultValue={outlet.contactEmail} />
+                        </Field>
+                    </FieldRow>
+
+                    <FieldRow label="Primary">
+                        <Field>
+                            <Input defaultValue={outlet.phoneNumber} />
+                        </Field>
+                    </FieldRow>
+
+                    <FieldRow label="Mobile">
+                        <Field>
+                            <Input defaultValue={'what are we going to do about this?' } />
+                        </Field>
+                    </FieldRow>
+                </div>
+            )}
+                   
+
+        </div>
+    ));
+
     return (
         /*we can probably break some of this out into separate components*/
         <div>
@@ -173,7 +256,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                                     icon={
                                         <img
                                             src={getSocialMediaCompanyIcon(social.companyId)}
-                                        alt="X"
+                                            alt={getSocialMediaCompanyName(social.companyId)}
                                         style={{
                                         width: 16,
                                         height: 16,
@@ -220,14 +303,14 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                 </div>
 
                 <FieldRow label="Email">
-                    <Field>
-                        <Input defaultValue="keith.baldrey@globalnews.ca" />
+                        <Field>
+                            <Input defaultValue={contact.email} />
                     </Field>
                 </FieldRow>
 
                 <FieldRow label="Primary">
-                    <Field>
-                        <Input defaultValue="250-387-1572" />
+                        <Field>
+                            <Input defaultValue={'TODO: resolve non-workplace phone numbers with team'} />
                     </Field>
                 </FieldRow>
 
@@ -243,13 +326,16 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                         }}
                       >
                         {/* Left: Tabs */}
-                        <TabList 
-                          selectedValue={selectedTab}
-                          onTabSelect={(_, data) => setSelectedTab(data.value as "workplaces" | "requests")}>
-                            <Tab value="workplaces">Workplaces</Tab>
+                        <TabList selectedValue={selectedTab} onTabSelect={onTabSelect}>
+                            <Tab id="Workplaces" value="workplaces">
+                                Workplaces
+                            </Tab>
                             <Tab value="requests">Requests</Tab>
                         </TabList>
-                
+                        <div >
+                            {selectedTab === "workplaces" && <Workplaces />}
+            
+                        </div>
                         {/* Right: Search + Add grouped */}
                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                           <Input placeholder="Search" contentBefore={<Search24Regular />} disabled />
@@ -259,170 +345,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                         </div>
                       </div>
 
-                {selectedTab === "workplaces" && (
-                <>
-                    <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
-
-                    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
-                        <div style={{
-                            display: 'flex',
-                            alignItems: 'baseline',
-                            gap: '0.5rem',
-                            flexWrap: 'wrap'
-                            }}>
-                            <Text size={400} weight="semibold">Global News Calgary</Text>
-                            <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>
-                                Commentator
-                            </Text>
-                            
-                            <Badge
-                                appearance="filled"
-                                color="brand"
-                                shape="circular"
-                                icon={<Important16Regular />}
-                                style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '4px' }}
-                                >
-                                Major
-                            </Badge>
-                    </div>
-                    <div>
-                        {/* Right side: Menu */}
-                        <Menu>
-                        <MenuTrigger disableButtonEnhancement>
-                            <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
-                        </MenuTrigger>
-                        <MenuPopover>
-                            <MenuList>
-                            <MenuItem>Edit</MenuItem>
-                            <MenuItem>Delete</MenuItem>
-                            </MenuList>
-                        </MenuPopover>
-                        </Menu>
-                    </div>
-                </div>
-                <FieldRow label="Email">
-                <Field>
-                    <Input defaultValue="keithbaldrey@globalnewscalgary.com" />
-                </Field>
-                </FieldRow>
-
-                <FieldRow label="Primary">
-                <Field>
-                    <Input defaultValue="250-387-1572" />
-                </Field>
-                </FieldRow>
-
-                <FieldRow label="Mobile">
-                <Field>
-                    <Input defaultValue="250-360-7658" />
-                </Field>
-                </FieldRow>
-            </div>
-
-            <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
-
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
-                    <div style={{
-                        display: 'flex',
-                        alignItems: 'baseline',
-                        gap: '0.5rem',
-                        flexWrap: 'wrap'
-                        }}>
-                        <Text size={400} weight="semibold">Vancouver Sun</Text>
-                        <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>
-                            Reporter
-                        </Text>
-                        <Badge
-                                appearance="filled"
-                                color="brand"
-                                shape="circular"
-                                icon={<Important16Regular />}
-                                style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '4px' }}
-                                >
-                                Major
-                            </Badge>
-                    </div>
-
-                    <div>
-                        {/* Right side: Menu */}
-                        <Menu>
-                        <MenuTrigger disableButtonEnhancement>
-                            <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
-                        </MenuTrigger>
-                        <MenuPopover>
-                            <MenuList>
-                            <MenuItem>Edit</MenuItem>
-                            <MenuItem>Delete</MenuItem>
-                            </MenuList>
-                        </MenuPopover>
-                        </Menu>
-                    </div>
-                </div>
-
-                <FieldRow label="Email">
-                <Field>
-                    <Input defaultValue="keithbaldrey@vancouversun.com" />
-                </Field>
-                </FieldRow>
-
-                <FieldRow label="Primary">
-                <Field>
-                    <Input defaultValue="250-387-1572" />
-                </Field>
-                </FieldRow>
-
-                <FieldRow label="Mobile">
-                <Field>
-                    <Input defaultValue="250-360-7658" />
-                </Field>
-                </FieldRow>
-
-            </div>
-
-            <div style={{border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem',  borderRadius: '4px', marginBottom: '1.25rem'}}>
-
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem'}}>
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-                    <Text size={400} weight="semibold">CKNW</Text>
-                    <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>Legislative Bureau Chief</Text>
-                </div>
-
-                <div>
-                    {/* Right side: Menu */}
-                    <Menu>
-                    <MenuTrigger disableButtonEnhancement>
-                        <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
-                    </MenuTrigger>
-                    <MenuPopover>
-                        <MenuList>
-                        <MenuItem>Edit</MenuItem>
-                        <MenuItem>Delete</MenuItem>
-                        </MenuList>
-                    </MenuPopover>
-                    </Menu>
-                </div>
-                </div>
-
-                <FieldRow label="Email">
-                <Field>
-                    <Input defaultValue="keithbaldrey@cknw.com" />
-                </Field>
-                </FieldRow>
-
-                <FieldRow label="Primary">
-                <Field>
-                    <Input defaultValue="250-387-1572" />
-                </Field>
-                </FieldRow>
-
-                <FieldRow label="Mobile">
-                <Field>
-                    <Input defaultValue="250-360-7658" />
-                </Field>
-                </FieldRow>
-            </div>
-        </>
-      )}
+              
 
         {selectedTab === "requests" && (
         <>
