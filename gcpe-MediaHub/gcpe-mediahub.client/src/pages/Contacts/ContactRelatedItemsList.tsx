@@ -1,16 +1,30 @@
 import * as React from "react";
-import { makeStyles, tokens, Tab, TabList, TagGroup, InteractionTag, InteractionTagPrimary } from "@fluentui/react-components";
-
-import type {
+import {
+    makeStyles,
+    tokens,
+    Tab,
+    TabList,
+    Badge,
+    Button,
+    Field,
+    Input,
+    Menu,
+    MenuItem,
+    MenuList,
+    MenuPopover,
     SelectTabData,
     SelectTabEvent,
     TabValue,
     TagGroupProps,
     TagValue,
+    Text,
+    MenuTrigger,
 } from "@fluentui/react-components";
-import OutletDetails from "./OutletDetails";
 
+import OutletDetails from "./OutletDetails";
+import { Dismiss24Regular, Important24Regular, Important16Regular,  MoreHorizontal24Regular,  } from "@fluentui/react-icons";
 import RequestDetails from "./RequestDetails";
+import FieldRow from "../Organizations/fieldRow";
 
 const useStyles = makeStyles({
     root: {
@@ -67,32 +81,67 @@ const ContactRelatedItemsList: React.FC<ContactItemsListProps> = ({ outlets, req
 
     const Workplaces = React.memo(() => (
         <div role="tabpanel" aria-labelledby="Workplaces">
-            <TagGroup
-                onTagSelect={onWorkPlaceTagSelect}
-                aria-label="Filter by All associations, or current or former associations"
-            >
-                <InteractionTag>
-                    <InteractionTagPrimary title='this has no functionality yet'>
-                        All
-                    </InteractionTagPrimary>
-                </InteractionTag>
-                <InteractionTag>
-                    <InteractionTagPrimary title='this has no functionality yet'>
-                        Current
-                    </InteractionTagPrimary>
-                </InteractionTag>
+            {outlets.map((outlet, index) =>
+                <div key={index} style={{ border: '1px solid #ccc', paddingLeft: '8px', paddingRight: '8px', paddingTop: '1rem', borderRadius: '4px', marginBottom: '1.25rem' }}>
 
-                <InteractionTag>
-                    <InteractionTagPrimary title='this has no functionality yet'>
-                        Former
-                    </InteractionTagPrimary>
-                </InteractionTag>
-            </TagGroup>
-            {outlets &&
-                outlets.map((outlet, index) => (
-                    <OutletDetails key={index} outlet={outlet} />
-                ))
-            }
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', paddingBottom: '0.5rem' }}>
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'baseline',
+                            gap: '0.5rem',
+                            flexWrap: 'wrap'
+                        }}>
+                            <Text size={400} weight="semibold">{outlet.outletName}</Text>
+                            <Text size={300} style={{ color: 'var(--colorNeutralForeground2)' }}>
+                                {outlet.jobTitle}
+                            </Text>
+
+                            {outlet.isMajorMedia &&
+                                <Badge
+                                    appearance="filled"
+                                    color="brand"
+                                    shape="circular"
+                                    icon={<Important16Regular />}
+                                    style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '4px' }}
+                                >
+                                    Major
+                                </Badge>
+                            }
+                        </div>
+                        <div>
+                            Right side: Menu
+                            <Menu>
+                                <MenuTrigger disableButtonEnhancement>
+                                    <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
+                                </MenuTrigger>
+                                <MenuPopover>
+                                    <MenuList>
+                                        <MenuItem>Edit</MenuItem>
+                                        <MenuItem>Delete</MenuItem>
+                                    </MenuList>
+                                </MenuPopover>
+                            </Menu>
+                        </div>
+                    </div>
+                    <FieldRow label="Email">
+                        <Field>
+                            <Input defaultValue={outlet.contactEmail} />
+                        </Field>
+                    </FieldRow>
+
+                    <FieldRow label="Primary">
+                        <Field>
+                            <Input defaultValue={outlet.phoneNumber} />
+                        </Field>
+                    </FieldRow>
+
+                    <FieldRow label="Mobile">
+                        <Field>
+                            <Input defaultValue={'what are we going to do about this?'} />
+                        </Field>
+                    </FieldRow>
+                </div>
+            )}
         </div>
     ));
 
