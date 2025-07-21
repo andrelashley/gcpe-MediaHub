@@ -192,11 +192,17 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
         </div>
     ));
 
+    //TODO: use this to get really cool formatting, like "Tomorrow at..."
+    const getDeadlineString = (deadline: Date) =>
+    {
+        return deadline.toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" });
+    }
+
     const Requests = React.memo(() => (
         <div role="tabpanel" aria-labelledby="Requests">
             {contact.requests.map((request, index) =>
                 <div
-                    key={index }
+                    key={request.id }
                     style={{
                         border: "1px solid #ddd",
                         borderRadius: "6px",
@@ -232,7 +238,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                         }}
                     >
                         <Calendar16Regular style={{ marginRight: 6 }} />
-                        <Text size={300}>Tomorrow at 3:00PM</Text>
+                        <Text size={300}>{getDeadlineString(request.deadline)}</Text>
                     </div>
 
                     <Divider style={{ margin: '24px 0 16px 0' }} />
@@ -246,9 +252,9 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                             alignItems: "center",
                         }}
                     >
-                        {["JEDI", "PREM", "MIN"].map((label) => (
+                        {request.additionalMinistries.map((ministry, index) => (
                             <div
-                                key={label}
+                                key={index}
                                 style={{
                                     padding: "4px 10px",
                                     border: "1px solid #ccc",
@@ -259,7 +265,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                                     color: "#333",
                                 }}
                             >
-                                {label}
+                                {ministry.acronym}
                             </div>
                         ))}
 
@@ -335,14 +341,6 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                             <Text size={300}>{contact.location}</Text>
                         </div>
                         <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem", marginTop: '8px' }}>
-                            {/* <Button
-                                appearance="secondary"
-                                icon={<Globe24Regular />}
-                                iconPosition="before"
-                                style={{ padding: "4px 16px", fontWeight: 600 }}
-                            >
-                                keithbaldrey.ca
-                            </Button> */}
                             {contact.personalWebsite &&
                                 <Button
                                     className={styles.socialLinkButton}
@@ -358,6 +356,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                             {contact.socialMedias.map((social, index) => // maybe this should be a separate "if" for each possible social,
                                 // not yet sure how different name formats, etc. are.
                                 <Button
+                                    key={index }
                                     className={styles.socialLinkButton}
                                     appearance="secondary"
                                     onClick={() => { window.open(social.url) }}

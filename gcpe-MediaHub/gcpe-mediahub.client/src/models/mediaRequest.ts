@@ -1,4 +1,5 @@
 import MediaContact from "./mediaContact";
+import Ministry from "./Ministry";
 
 enum status {
     requested,
@@ -15,6 +16,8 @@ export class MediaRequest {
     statusName: string | undefined;
     requestedBy: MediaContact;
     requestNo: number | undefined;
+    additionalMinistries: Ministry[] | undefined;
+    leadMinistry: Ministry | undefined;
 
     constructor(title: string, deadline: Date, requestedBy: MediaContact) {
         this.title = title;
