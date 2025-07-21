@@ -48,6 +48,7 @@ import FieldRow from "../Organizations/fieldRow";
 import ContactRelatedItemsList from "./ContactRelatedItemsList";
 import { MediaContact } from "../../models/mediaContact";
 import { SocialMediaCompany } from "../../models/SocialMediaCompany";
+import RequestStatusBadge from "../../components/RequestStatusBadge";
 
 
 const useStyles = makeStyles({
@@ -155,7 +156,7 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                             }
                         </div>
                         <div>
-                            Right side: Menu
+
                             <Menu>
                                 <MenuTrigger disableButtonEnhancement>
                                     <Button appearance="transparent" icon={<MoreHorizontal24Regular />} />
@@ -206,22 +207,10 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                 >
                     <div style={{ display: "flex", justifyContent: "space-between" }}>
                         <Text size={300} weight="semibold" style={{ color: "#444" }}>
-                            REQ-00153
+                            REQ-{request.requestNo}
                         </Text>
-                        <Tag
-                            appearance="filled"
-                            shape="rounded"
-                            size="small"
-                            style={{
-                                backgroundColor: "#d6a200",
-                                color: "#fff",
-                                fontSize: "14px",
-                                padding: "4px 12px",
-                                borderRadius: "9999px",
-                            }}
-                        >
-                            In Progress
-                        </Tag>
+                     
+                        <RequestStatusBadge status={request.statusName} />
                     </div>
 
                     <Text

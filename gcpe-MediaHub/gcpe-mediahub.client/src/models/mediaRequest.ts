@@ -11,8 +11,10 @@ export class MediaRequest {
     id: number = 0;
     title: string;
     deadline: Date;
-    status: status = status.draft;
+    statusId: string | undefined;
+    statusName: string | undefined;
     requestedBy: MediaContact;
+    requestNo: number | undefined;
 
     constructor(title: string, deadline: Date, requestedBy: MediaContact) {
         this.title = title;
