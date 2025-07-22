@@ -252,6 +252,20 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
                             alignItems: "center",
                         }}
                     >
+                        <div
+                            key={index}
+                            style={{
+                                padding: "4px 10px",
+                                border: "1px solid #ccc",
+                                borderRadius: "16px",
+                                fontSize: "13px",
+                                fontWeight: 500,
+                                backgroundColor: "#F5F5F5",
+                                color: "#333",
+                            }}
+                        >
+                            {request.leadMinistry.acronym}
+                        </div>
                         {request.additionalMinistries.map((ministry, index) => (
                             <div
                                 key={index}
