@@ -195,7 +195,23 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
     //TODO: use this to get really cool formatting, like "Tomorrow at..."
     const getDeadlineString = (deadline: Date) =>
     {
-        return deadline.toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" });
+        deadline = new Date(deadline);
+        const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+     
+        // is it today?
+        if (deadline.getFullYear === today.getFullYear &&
+            deadline.getDay === today.getDay &&
+            deadline.getMonth === today.getMonth) {
+            return `Today at ${deadline.toTimeString()}`
+        } else if (deadline.getFullYear === tomorrow.getFullYear &&
+            deadline.getDay === tomorrow.getDay &&
+            deadline.getMonth === today.getMonth) {
+            return `Tomorrow at ${deadline.toTimeString()}`;
+        } else {
+            return new Date(deadline).toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        }
     }
 
     const Requests = React.memo(() => (
