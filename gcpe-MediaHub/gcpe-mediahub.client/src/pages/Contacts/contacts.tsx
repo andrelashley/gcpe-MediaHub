@@ -9,6 +9,7 @@ import {
     makeStyles,
 } from '@fluentui/react-components';
 import { SocialMediaCompany } from '../../models/SocialMediaCompany';
+import { contactService } from '../../services/contactService';
 
 
 
@@ -42,20 +43,14 @@ const MediaContacts = () => {
 
 
     const fetchContacts = async () => {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiUrl}mediacontacts`);
-        const data = await response.json();
-        const contacts: MediaContact[] = data as MediaContact[];
+        const contacts: MediaContact[]  = await contactService.getContacts();
         contacts.sort((a, b) => a.firstName.toLowerCase().localeCompare(b.firstName.toLowerCase()));
         console.log(JSON.stringify(contacts));
         setContacts(contacts);
     };
     const [socials, setSocials] = useState<SocialMediaCompany[]>([]);
     const fetchSocialMediaCompanies = async () => {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiUrl}mediacontacts/GetSocialMedias`);
-        const data = await response.json();
-        const companies: SocialMediaCompany[] = data as SocialMediaCompany[];
+        const companies: SocialMediaCompany[] = await contactService.getSocialMedias();
         setSocials(companies);
     };
     useEffect(() => {
