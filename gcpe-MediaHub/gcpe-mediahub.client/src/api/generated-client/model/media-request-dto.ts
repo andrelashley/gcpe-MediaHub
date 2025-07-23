@@ -34,7 +34,7 @@ export interface MediaRequestDto {
      * @type {string}
      * @memberof MediaRequestDto
      */
-    'requestTitle'?: string | null;
+    'title'?: string | null;
     /**
      * 
      * @type {string}
@@ -58,6 +58,24 @@ export interface MediaRequestDto {
      * @type {number}
      * @memberof MediaRequestDto
      */
+    'statusId'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof MediaRequestDto
+     */
+    'statusName'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof MediaRequestDto
+     */
     'requestNo'?: number;
+    /**
+     * 
+     * @type {Array<Ministry>}
+     * @memberof MediaRequestDto
+     */
+    'additionalMinistries'?: Array<Ministry> | null;
 }
 

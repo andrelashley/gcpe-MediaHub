@@ -19,7 +19,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { ministryService } from '../../services/ministryService';
 import { userService } from '../../services/userService';
 import { requestService } from '../../services/requestService';
-import { Ministry, MediaRequest, RequestStatus, RequestType, MediaContact } from '../../api/generated-client/model';
+import { Ministry, MediaRequest, RequestStatus, RequestType, MediaContact, MediaContactSimpleDto } from '../../api/generated-client/model';
 import { CalendarEmpty24Regular, Dismiss24Regular } from '@fluentui/react-icons';
 import {
   TimePicker,
@@ -98,7 +98,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
         assignedTo: false,
         requestType: false,
     });
-    const [mediaContacts, setMediaContacts] = React.useState<MediaContact[]>([]);
+    const [mediaContacts, setMediaContacts] = React.useState<MediaContactSimpleDto[]>([]);
     const [userIdirs, setUserIdirs] = React.useState<User[]>([]);
 
     // Refs
@@ -148,7 +148,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     React.useEffect(() => {
         const fetchMediaContacts = async () => {
             try {
-                const contacts = await userService.getMediaContacts();
+                const contacts = await userService.getMediaContactsForDropdown();
                 console.log('Fetched media contacts:', contacts);
                 setMediaContacts(contacts);
             } catch (error) {

@@ -9,6 +9,7 @@ export * from './media-contact-email';
 export * from './media-contact-phone';
 export * from './media-contact-phone-dto';
 export * from './media-contact-phone-type';
+export * from './media-contact-simple-dto';
 export * from './media-outlet';
 export * from './media-outlet-contact-relationship';
 export * from './media-outlet-phone-number';

@@ -4,6 +4,7 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|[**apiMediaContactsForDropdownGet**](#apimediacontactsfordropdownget) | **GET** /api/MediaContacts/for-dropdown | |
 |[**apiMediaContactsGet**](#apimediacontactsget) | **GET** /api/MediaContacts | |
 |[**apiMediaContactsGetJobTitlesGet**](#apimediacontactsgetjobtitlesget) | **GET** /api/MediaContacts/GetJobTitles | |
 |[**apiMediaContactsGetSocialMediasGet**](#apimediacontactsgetsocialmediasget) | **GET** /api/MediaContacts/GetSocialMedias | |
@@ -12,6 +13,49 @@ All URIs are relative to *http://localhost*
 |[**apiMediaContactsIdPut**](#apimediacontactsidput) | **PUT** /api/MediaContacts/{id} | |
 |[**apiMediaContactsPost**](#apimediacontactspost) | **POST** /api/MediaContacts | |
 |[**apiMediaContactsSearchFullNameGet**](#apimediacontactssearchfullnameget) | **GET** /api/MediaContacts/search/{fullName} | |
+
+# **apiMediaContactsForDropdownGet**
+> Array<MediaContactSimpleDto> apiMediaContactsForDropdownGet()
+
+
+### Example
+
+```typescript
+import {
+    MediaContactsApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new MediaContactsApi(configuration);
+
+const { status, data } = await apiInstance.apiMediaContactsForDropdownGet();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**Array<MediaContactSimpleDto>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiMediaContactsGet**
 > Array<MediaContactDto> apiMediaContactsGet()

@@ -26,6 +26,7 @@ docs/MediaContactEmail.md
 docs/MediaContactPhone.md
 docs/MediaContactPhoneDto.md
 docs/MediaContactPhoneType.md
+docs/MediaContactSimpleDto.md
 docs/MediaContactsApi.md
 docs/MediaOutlet.md
 docs/MediaOutletContactRelationship.md
@@ -71,6 +72,7 @@ model/media-contact-email.ts
 model/media-contact-phone-dto.ts
 model/media-contact-phone-type.ts
 model/media-contact-phone.ts
+model/media-contact-simple-dto.ts
 model/media-contact.ts
 model/media-outlet-contact-relationship.ts
 model/media-outlet-phone-number.ts
