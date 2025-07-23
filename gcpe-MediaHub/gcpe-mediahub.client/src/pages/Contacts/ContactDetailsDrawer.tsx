@@ -199,12 +199,15 @@ export const ContactDetailsDrawer: React.FC<ContactDetailsProps> = ({ contact, i
         const today = new Date();
         const tomorrow = new Date();
         tomorrow.setDate(today.getDate() + 1);
-     
+        //console.log(`today: ${today.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`);
+        //console.log(`tommorrow: ${tomorrow.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`);
+        //console.log(`deadline: ${deadline.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`);
         // is it today?
         if (deadline.getFullYear === today.getFullYear &&
             deadline.getDay === today.getDay &&
             deadline.getMonth === today.getMonth) {
             return `Today at ${deadline.toTimeString()}`
+            //is it tomorrow
         } else if (deadline.getFullYear === tomorrow.getFullYear &&
             deadline.getDay === tomorrow.getDay &&
             deadline.getMonth === today.getMonth) {
