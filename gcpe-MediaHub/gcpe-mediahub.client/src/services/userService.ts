@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User, MediaContact } from '../api/generated-client';
+import { User, MediaContact, MediaContactSimpleDto, MediaContactsApi } from '../api/generated-client';
 
 // Create an axios instance with auth headers
 const axiosInstance = axios.create({
@@ -9,6 +9,9 @@ const axiosInstance = axios.create({
         'Content-Type': 'application/json'
     }
 });
+
+// Create API client instance
+const mediaContactsApi = new MediaContactsApi(undefined, import.meta.env.VITE_API_URL, axiosInstance);
 
 /**
  * Service for user-related operations
@@ -51,14 +54,14 @@ export const userService = {
     },
 
     /**
-     * Get all media contacts
+     * Get media contacts for dropdown usage (simplified data without circular references)
      */
-    async getMediaContacts(): Promise<MediaContact[]> {
+    async getMediaContactsForDropdown(): Promise<MediaContactSimpleDto[]> {
         try {
-            const response = await axiosInstance.get<MediaContact[]>('MediaContacts');
+            const response = await axiosInstance.get<MediaContactSimpleDto[]>('MediaContacts/for-dropdown');
             return response.data;
         } catch (error) {
-            console.error("Error in getMediaContacts:", error);
+            console.error("Error in getMediaContactsForDropdown:", error);
             throw error;
         }
     },

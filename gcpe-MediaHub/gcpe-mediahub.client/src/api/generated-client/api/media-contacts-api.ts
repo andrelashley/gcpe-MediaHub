@@ -28,6 +28,8 @@ import type { MediaContact } from '../model';
 // @ts-ignore
 import type { MediaContactDto } from '../model';
 // @ts-ignore
+import type { MediaContactSimpleDto } from '../model';
+// @ts-ignore
 import type { SocialMediaCompanyDto } from '../model';
 /**
  * MediaContactsApi - axios parameter creator
@@ -35,6 +37,35 @@ import type { SocialMediaCompanyDto } from '../model';
  */
 export const MediaContactsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaContactsForDropdownGet: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/MediaContacts/for-dropdown`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -306,6 +337,17 @@ export const MediaContactsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async apiMediaContactsForDropdownGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MediaContactSimpleDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaContactsForDropdownGet(options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['MediaContactsApi.apiMediaContactsForDropdownGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async apiMediaContactsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<MediaContactDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiMediaContactsGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -405,6 +447,14 @@ export const MediaContactsApiFp = function(configuration?: Configuration) {
 export const MediaContactsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     const localVarFp = MediaContactsApiFp(configuration)
     return {
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiMediaContactsForDropdownGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<MediaContactSimpleDto>> {
+            return localVarFp.apiMediaContactsForDropdownGet(options).then((request) => request(axios, basePath));
+        },
         /**
          * 
          * @param {*} [options] Override http request option.
@@ -561,6 +611,16 @@ export interface MediaContactsApiApiMediaContactsSearchFullNameGetRequest {
  * @extends {BaseAPI}
  */
 export class MediaContactsApi extends BaseAPI {
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof MediaContactsApi
+     */
+    public apiMediaContactsForDropdownGet(options?: RawAxiosRequestConfig) {
+        return MediaContactsApiFp(this.configuration).apiMediaContactsForDropdownGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {*} [options] Override http request option.
