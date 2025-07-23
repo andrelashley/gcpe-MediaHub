@@ -27,6 +27,7 @@ import {
   formatDateToTimeString,
 } from "@fluentui/react-timepicker-compat";
 import { makeStyles } from "@fluentui/react-components";
+import SubmitButton from '../../components/SubmitButton';
 import styles from './newRequest.module.css';
 
 interface NewRequestPageProps {
@@ -664,21 +665,21 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     </Dropdown>
                 </Field>
                 <div className={styles.buttonContainer}>
-                    <Button
-                        appearance="primary"
-                        size="large"
-                        onClick={(e) => handleSubmit(e)}
-                        disabled={isSubmitting}
-                    >
-                        <Body2>{isSubmitting ? 'Saving...' : 'Save'}</Body2>
-                    </Button>
-                    <Button
+                    <SubmitButton
+                        isSubmitting={isSubmitting}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleSubmit(e as React.FormEvent<HTMLFormElement>);
+                        }}
+                        defaultText="Save"
+                        submittingText="Saving..."
+                    />
+                    <SubmitButton
                         appearance="secondary"
-                        size="large"
                         onClick={onClose}
-                    >
-                        <Body2>Cancel</Body2>
-                    </Button>        
+                        defaultText="Cancel"
+                        isSubmitting={false}
+                    />        
                 </div>
             </div>
         </div>
