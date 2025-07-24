@@ -1,7 +1,6 @@
 import React from 'react';
 import type { User } from '../../api/generated-client/model';
 import {
-    Title1,
     Body2,
     Dropdown,
     Option,
@@ -9,9 +8,6 @@ import {
     Divider,
     Input,
     Textarea,
-    Button,
-    Subtitle1,
-    Text,
 } from '@fluentui/react-components';
 // Remove duplicate import of Fluent UI toast components
 import { useToastController, Toaster, Toast, ToastTitle, ToastBody, ToastFooter, Link } from '@fluentui/react-components';
@@ -23,33 +19,15 @@ import { Ministry, MediaRequest, RequestStatus, RequestType, MediaContact, Media
 import { CalendarEmpty24Regular, Dismiss24Regular } from '@fluentui/react-icons';
 import {
   TimePicker,
-  TimePickerProps,
   formatDateToTimeString,
 } from "@fluentui/react-timepicker-compat";
-import { makeStyles } from "@fluentui/react-components";
+
 import SubmitButton from '../../components/SubmitButton';
 import styles from './newRequest.module.css';
 
 interface NewRequestPageProps {
     onClose?: () => void;
 }
-
-const useTimePickerStyles = makeStyles({
-  root: {
-    display: "flex",
-    columnGap: "8px",
-    alignItems: "center",
-    maxWidth: "600px",
-  },
-  dateInput: {
-    flex: 1,
-    minWidth: "200px",
-  },
-  timePicker: {
-    flex: 1,
-    minWidth: "200px",
-  },
-});
 
 const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
     // State declarations
@@ -431,12 +409,12 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationMessage={touchedFields.deadline && formErrors.deadline ? formErrors.deadline : undefined}
                     validationState={touchedFields.deadline && formErrors.deadline ? "error" : "none"}
                 >
-                    <div className={useTimePickerStyles().root}>
+                    <div className={styles.timePickerRoot}>
                         <Input
                             type="text"
                             value={deadline}
                             placeholder=""
-                            className={`${styles.dateInput} ${useTimePickerStyles().dateInput}`}
+                            className={`${styles.dateInput} ${styles.timePickerDateInput}`}
                             readOnly
                             contentAfter={
                                 <CalendarEmpty24Regular 
@@ -469,7 +447,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             onInput={(ev: React.ChangeEvent<HTMLInputElement>) => {
                                 setTimePickerValue(ev.target.value);
                             }}
-                            className={useTimePickerStyles().timePicker}
+                            className={styles.timePickerTimePicker}
                         />
                     </div>
                 </Field>
@@ -479,12 +457,12 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                     validationMessage={touchedFields.receivedOn && formErrors.receivedOn ? formErrors.receivedOn : undefined}
                     validationState={touchedFields.receivedOn && formErrors.receivedOn ? "error" : "none"}
                 >
-                    <div className={useTimePickerStyles().root}>
+                    <div className={styles.timePickerRoot}>
                         <Input
                             type="text"
                             value={receivedOn}
                             placeholder=""
-                            className={`${styles.dateInput} ${useTimePickerStyles().dateInput}`}
+                            className={`${styles.dateInput} ${styles.timePickerDateInput}`}
                             readOnly
                             contentAfter={
                                 <CalendarEmpty24Regular 
@@ -517,7 +495,7 @@ const NewRequestPage = ({ onClose }: NewRequestPageProps): JSX.Element => {
                             onInput={(ev: React.ChangeEvent<HTMLInputElement>) => {
                                 setReceivedOnTimePickerValue(ev.target.value);
                             }}
-                            className={useTimePickerStyles().timePicker}
+                            className={styles.timePickerTimePicker}
                         />
                     </div>
                 </Field>

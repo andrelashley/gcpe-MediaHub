@@ -1,0 +1,98 @@
+.detailViewContainer {
+    position: relative;
+    top: 0;
+}
+
+.closeButton {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    padding: 0;
+    line-height: 0;
+}
+
+.closeIcon {
+    color: var(--colorNeutralForeground1);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    margin-top: 30px;
+}
+
+.titleContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.detailsContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.fieldRow {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.fieldLabel {
+    width: 210px;
+}
+
+.fieldValue {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.tagContainer {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.dateTag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dateIcon {
+    margin-right: 4px;
+}
+
+.tagWithHeight {
+    height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.requestDetailsSection {
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.requestDetailsText {
+    white-space: pre-wrap;
+    margin-top: 8px;
+}
+
+.responseSection {
+    margin-top: 8px;
+}
+
+.responseText {
+    white-space: pre-wrap;
+    margin-top: 8px;
+}

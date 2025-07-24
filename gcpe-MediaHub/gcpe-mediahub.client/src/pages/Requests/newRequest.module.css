@@ -95,3 +95,20 @@
 .dividerSection {
     margin: 16px 0 0 0;
 }
+
+.timePickerRoot {
+    display: flex;
+    column-gap: 8px;
+    align-items: center;
+    max-width: 600px;
+}
+
+.timePickerDateInput {
+    flex: 1;
+    min-width: 200px;
+}
+
+.timePickerTimePicker {
+    flex: 1;
+    min-width: 200px;
+}
