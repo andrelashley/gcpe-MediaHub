@@ -95,12 +95,14 @@ const useStyles = makeStyles({
 }
 );
 
+
 interface CreateContactProps {
     updateList: () => void,
     socials: SocialMediaCompany[];
+    startOpen: boolean;
 }
 
-export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, socials }) => {
+export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, socials, startOpen }) => {
     const [isOpen, setIsOpen] = React.useState(false);
     //for primary contact info input tracking
     //const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
@@ -110,7 +112,9 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
         { typeName: '', url: '', companyId: '' }
     ]);
 
-
+    useEffect(() => {
+        setIsOpen(startOpen);
+    },[startOpen]);
     //const addPrimaryContactInfoInput = () => {
     //    setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
     //    setContactPhones([...contactPhones, undefined]); // Add new slot

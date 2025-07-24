@@ -37,6 +37,9 @@ const useStyles = makeStyles({
     },
 });
 
+// Detect if the new request drawer should be open  *CREDIT TO ALESSIA FOR THIS*
+const isNewDrawerOpen = location.pathname.endsWith('/new');
+
 const MediaContacts = () => {
     const styles = useStyles();
     const [contacts, setContacts] = useState<MediaContact[]>([]);
@@ -58,6 +61,7 @@ const MediaContacts = () => {
         fetchSocialMediaCompanies();
     }, []);
 
+
     const updateContactList = () => {
         fetchContacts();
     }
@@ -66,7 +70,7 @@ const MediaContacts = () => {
         <div className={styles.container}>
             <div className={styles.header}>
                 <Title1>Media contacts</Title1>
-                <CreateContactButton updateList={() => updateContactList()} socialMediaCompanies={socials } />
+                <CreateContactButton updateList={() => updateContactList()} socialMediaCompanies={socials} startOpen={isNewDrawerOpen} />
             </div>
             <ContactsTable items={contacts} socialMediaCompanies={socials} />
         </div>

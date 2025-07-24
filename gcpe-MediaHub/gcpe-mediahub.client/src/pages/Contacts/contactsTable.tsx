@@ -60,9 +60,8 @@ interface TableProps {
 const ContactsTable: React.FC<TableProps> = ({ items, socialMediaCompanies}) => {
     const [contactDetailsOpen, setContactDetailsOpen] = useState(false);
     const [currentContact, setCurrentContact] = useState<MediaContact | undefined>();
-    // Detect if the new request drawer should be open  *CREDIT TO ALESSIA FOR THIS*
-    const isNewDrawerOpen = location.pathname.endsWith('/new');
-    // Detect if the detail drawer should be open and extract the contact ID
+
+    // Detect if the detail drawer should be open and extract the contact ID *CREDIT TO ALESSIA FOR THIS*
     const detailMatch = matchPath('/contacts/:id', location.pathname);
     
     
@@ -185,7 +184,9 @@ const ContactsTable: React.FC<TableProps> = ({ items, socialMediaCompanies}) => 
                 console.log(`no contact with id: ${detailContactId} was found`);
             }
         }
-    }, [detailContactId, items]); // dependencies
+    }, [detailContactId, items]);
+
+    
 
     return (
 

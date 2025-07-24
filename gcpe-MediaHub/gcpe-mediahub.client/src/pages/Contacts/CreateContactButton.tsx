@@ -12,14 +12,15 @@ const useStyles = makeStyles({
 interface CreateContactProps {
     updateList: () => void,
     socialMediaCompanies: SocialMediaCompany[],
+    startOpen: boolean,
 }
 
 
-export const CreateContactButton: React.FC<CreateContactProps> = ({ updateList, socialMediaCompanies }) => {
+export const CreateContactButton: React.FC<CreateContactProps> = ({ updateList, socialMediaCompanies, startOpen }) => {
     const styles = useStyles();
     return (
         <div className={styles.marginLeftAuto}>
-            <CreateContactDrawer updateList={() => updateList()} socials={socialMediaCompanies} />
+            <CreateContactDrawer updateList={() => updateList()} socials={socialMediaCompanies} startOpen={startOpen} />
         </div>
     );
 
