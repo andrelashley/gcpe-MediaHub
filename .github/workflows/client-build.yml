@@ -3,6 +3,9 @@ name: Client Build
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: lts/*
 
       - name: Install dependencies
         run: npm install
