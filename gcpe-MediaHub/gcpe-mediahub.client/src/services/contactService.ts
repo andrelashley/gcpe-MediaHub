@@ -3,8 +3,8 @@ import { apiClient } from '../api/apiClient';
 
 import axios from 'axios';
 import MediaContact from '../models/mediaContact';
-import { SocialMedia } from '../api/generated-client';
 import { SocialMediaCompany } from '../models/SocialMediaCompany';
+import { JobTitle } from '../models/JobTitle';
 // Type guard to validate the shape of mock data
 function isValidMediaContact(contact: any): contact is MediaContact {
     return (
@@ -35,6 +35,11 @@ export const contactService = {
 
     async createContact(contact: MediaContact): Promise<MediaContact> {
         const response = await axiosInstance.post<MediaContact>('MediaContacts', contact);
+        return response.data;
+    },
+
+    async getJobTitles(): Promise<JobTitle[]> {
+        const response = await axiosInstance.get<JobTitle[]>('mediaContacts/GetJobTitles');
         return response.data;
     },
 };

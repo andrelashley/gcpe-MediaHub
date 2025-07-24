@@ -40,6 +40,7 @@ import { PhoneNumber } from "../../models/PhoneNumber";
 import { JobTitle } from "../../models/JobTitle";
 import { useId } from "react";
 import { contactService } from "../../services/contactService";
+import { OutletService } from "../../services/OutletService";
 
 
 const useStyles = makeStyles({
@@ -293,10 +294,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
 
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
     const fetchOutlets = async () => {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiUrl}mediaoutlets`);
-        const data = await response.json();
-        const outlets: MediaOutlet[] = data as MediaOutlet[];
+        const outlets: MediaOutlet[] = await OutletService.getOutlets();
         setOutlets(outlets);
     };
 
@@ -305,11 +303,8 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
     ]
     );
     const fetchJobTitles = async () => {
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const response = await fetch(`${apiUrl}mediaContacts/GetJobTitles`);
-        const data = await response.json();
-        const jobs: JobTitle[] = data as JobTitle[];
-        setJobTitles(jobs);
+        const jobTitles: JobTitle[] = await contactService.getJobTitles();
+        setJobTitles(jobTitles);
     };
 
     useEffect(() => {
