@@ -34,7 +34,7 @@ export const contactService = {
     },
 
     async createContact(contact: MediaContact): Promise<MediaContact> {
-        const response = await axiosInstance.post<MediaContact>('MediaContact', contact);
+        const response = await axiosInstance.post<MediaContact>('MediaContacts', contact);
         return response.data;
     },
 };

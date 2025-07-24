@@ -69,7 +69,6 @@ const MediaContacts = () => {
                 <CreateContactButton updateList={() => updateContactList()} socialMediaCompanies={socials } />
             </div>
             <ContactsTable items={contacts} socialMediaCompanies={socials} />
-
         </div>
     );
 }

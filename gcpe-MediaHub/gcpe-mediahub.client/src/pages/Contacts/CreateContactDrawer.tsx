@@ -39,6 +39,7 @@ import { SocialMediaLink } from "../../models/SocialMediaLink";
 import { PhoneNumber } from "../../models/PhoneNumber";
 import { JobTitle } from "../../models/JobTitle";
 import { useId } from "react";
+import { contactService } from "../../services/contactService";
 
 
 const useStyles = makeStyles({
@@ -152,7 +153,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
     });
 
     // for tracking social media link inputs
-    
+
 
     const [socialMediaInputs, setSocialMediaInputs] = useState<number[]>([1]);
     const [socialMedias, setSocialMedias] = useState<SocialMediaCompany[]>([]); //Todo: actual model, not 'any'
@@ -202,7 +203,6 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
 
 
     const handleAssociationDataChange = (index: number, data: OutletAssociation) => {
-        console.log(data);
         const newAssociations = [...outletAssociations];
         newAssociations[index] = data; // Update the specific index
         setOutletAssociations(newAssociations);
@@ -239,6 +239,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
                     jobTitle: outletAssociations[index]?.jobTitle,
                     contactPhones: undefined, //outletAssociations[index]?.contactPhones,
                     noLongerWorksHere: outletAssociations[index]?.noLongerWorksHere,
+                    isMajorMedia: outletAssociations[index]?.isMajorMedia,
                 };
                 contact.mediaOutletContactRelationships.push(outletAssociation);
             });
@@ -258,35 +259,24 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
                     contact.socialMedias.push(socialMedia);
                 }
             });
-                  console.log(JSON.stringify(contact));
-            const apiUrl = import.meta.env.VITE_API_URL;
-            const response = await fetch(`${apiUrl}MediaContacts`,
-                {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(contact)
-                })
+            console.log(JSON.stringify(contact));
+            const response = await contactService.createContact(contact)
                 .then((response) => {
-                    if (!response.ok) {
-                        // Handle server-side errors (e.g., 404, 500)
-                        notify('Something went wrong', `Server error: ${response.status}`, '', 'error');
-                    } else {
-                        let outletNames: string = '';
-                        outletAssociations.forEach((association) => { 
-                            outletNames += ` ${association.outletName},`;
-                        })
-                        const title: string = `${firstName} ${lastName}, ${outletNames} created successfully.`
-                        notify(title,
-                            <div><Link disabled={true} title='not yet enabled in alpha'>View</Link> <Link disabled={true} title='not yet enabled in alpha'>Add another</Link></div>,
-                            '',
-                            'success'
-                        );
-                        setFirstName(''); //not sure why this is needed
-                        updateList();
-                        setIsOpen(false);
-                    }
+
+                    console.log(JSON.stringify(response));
+                    let outletNames: string = '';
+                    outletAssociations.forEach((association) => {
+                        outletNames += ` ${association.outletName},`;
+                    })
+                    const title: string = `${firstName} ${lastName}, ${outletNames} created successfully.`
+
+                    notifySuccess(title, response.id);
+                    setFirstName(''); //not sure why this is needed
+                    updateList();
+                    setIsOpen(false);
+                })
+                .catch((error) => {
+                    notifyFailure(error);
                 });
         }
     };
@@ -325,24 +315,39 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
     useEffect(() => {
         fetchOutlets();
         fetchJobTitles();
-        
-        
+
+
     }, []);
 
     //notification toast stuff
     const toasterId = useId();
     const { dispatchToast } = useToastController();
-    const notify = (title: string, message: any, footer?: string, intentType: any = 'success') =>
+    const notifySuccess = (title: string, id: string) => {
         dispatchToast(
             <Toast>
                 <ToastTitle>{title}</ToastTitle>
-               {/* <ToastBody subtitle="the API responded.">{message}</ToastBody>*/}
+                {/* <ToastBody subtitle="the API responded.">{message}</ToastBody>*/}
                 <ToastFooter>
-                    {footer}
+                    <Link href={`/contacts/${id}`} style={{ marginRight: 16 }}>View</Link>
+                    <Link href="/contacts/new">Add another</Link>
                 </ToastFooter>
             </Toast>,
-            { intent: intentType, timeout: 5000, position: 'top-end' }
+            { intent: 'success', timeout: 5000, position: 'top-end' }
         );
+    }
+
+    const notifyFailure = (response: any) => {
+        dispatchToast(
+            <Toast>
+                <ToastTitle>Something went wrong</ToastTitle>
+                <ToastBody subtitle="the API responded.">{response}</ToastBody>
+                <ToastFooter>
+
+                </ToastFooter>
+            </Toast>,
+            { intent: 'error', timeout: 5000, position: 'top-end' }
+        );
+    }
 
     return (
         <div>

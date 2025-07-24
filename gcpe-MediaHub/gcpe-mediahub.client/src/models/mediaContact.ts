@@ -6,7 +6,7 @@ import { SocialMediaLink } from './SocialMediaLink';
 import { PhoneNumber } from './PhoneNumber';
 
 export class MediaContact {
-    id: number| undefined;
+    id: string| undefined;
     firstName: string | undefined;
     lastName: string | undefined;
     isPressGallery: boolean | undefined;
