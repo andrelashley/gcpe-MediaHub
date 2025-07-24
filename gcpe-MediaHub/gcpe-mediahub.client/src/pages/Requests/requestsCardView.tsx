@@ -310,8 +310,9 @@ const RequestsCardView: React.FC = () => {
         }}
         modalType="alert"
         style={{ width: '650px' }}
+        className={styles.newRequestDrawer}
       >
-        <DrawerBody>
+        <DrawerBody className={styles.newRequestDrawerBody}>
           <NewRequestPage onClose={() => {
             navigate('/requests');
           }} />

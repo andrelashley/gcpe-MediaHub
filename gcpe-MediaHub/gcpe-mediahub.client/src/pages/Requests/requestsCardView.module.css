@@ -118,3 +118,35 @@
     padding: 20px 20px 20px 20px;
     width: 100%;
 }
+
+.newRequestDrawerBody {
+    overflow-x: hidden;
+    max-width: 100%;
+    width: 100%;
+}
+
+.newRequestDrawer {
+    overflow-x: hidden;
+    max-width: 650px;
+}
+
+/* Ensure all children of the new request drawer also prevent horizontal overflow */
+.newRequestDrawer * {
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Specifically target the drawer body and its content */
+.newRequestDrawer :global(.fui-DrawerBody) {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* Target any form elements that might be causing overflow */
+.newRequestDrawer input,
+.newRequestDrawer select,
+.newRequestDrawer textarea,
+.newRequestDrawer div {
+    max-width: 100%;
+    box-sizing: border-box;
+}
