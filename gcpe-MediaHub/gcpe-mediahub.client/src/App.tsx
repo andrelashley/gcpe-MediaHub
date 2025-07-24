@@ -22,6 +22,8 @@ import RequestsCardView from './pages/Requests/requestsCardView';
 import Contacts from './pages/Contacts/contacts'; 
 import OrganizationsLayout from './components/OrganizationsLayout';
 import Organizations from './pages/Organizations/organizations';
+import CreateContactDrawer from './pages/Contacts/CreateContactDrawer';
+import ContactDetailsDrawer from './pages/Contacts/ContactDetailsDrawer';
 
 const router = createBrowserRouter([
     {
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <Contacts />,
+            },
+            {
+                path: 'new',
+                element: <Contacts />,
+            },
+            {
+                path: ':id',
+                element: <Contacts key='id' />,
             },
         ]
     },

@@ -3,7 +3,7 @@
 import { Filter24Regular, FilterRegular, Search24Regular } from "@fluentui/react-icons";
 
 // import MediaContact from "../../models/MediaContact";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ContactDetailsDrawer from "./ContactDetailsDrawer";
 import {
     createColumnHelper,
@@ -30,6 +30,8 @@ import { PhoneNumber } from "../../models/PhoneNumber";
 import { MediaOutlet } from "../../models/mediaOutlet";
 import { OutletAssociation } from "../../models/OutletAssociation";
 import { SocialMediaCompany } from "../../models/SocialMediaCompany";
+import { contactService } from "../../services/contactService";
+import { matchPath, useParams } from "react-router-dom";
 
 const useStyles = makeStyles({
     searchElement: {
@@ -51,15 +53,20 @@ const useStyles = makeStyles({
 });
 
 interface TableProps {
-
     items: MediaContact[],
     socialMediaCompanies: SocialMediaCompany[];
 }
 
-const ContactsTable: React.FC<TableProps> = ({ items, socialMediaCompanies }) => {
+const ContactsTable: React.FC<TableProps> = ({ items, socialMediaCompanies}) => {
     const [contactDetailsOpen, setContactDetailsOpen] = useState(false);
     const [currentContact, setCurrentContact] = useState<MediaContact | undefined>();
-
+    // Detect if the new request drawer should be open  *CREDIT TO ALESSIA FOR THIS*
+    const isNewDrawerOpen = location.pathname.endsWith('/new');
+    // Detect if the detail drawer should be open and extract the contact ID
+    const detailMatch = matchPath('/contacts/:id', location.pathname);
+    
+    
+    const detailContactId = detailMatch?.params?.id || null;
     // Tanstack pagination stuff
    // const [sorting, setSorting] = React.useState<SortingState>([]);
     const [pagination, setPagination] = React.useState<PaginationState>({
@@ -168,6 +175,18 @@ const ContactsTable: React.FC<TableProps> = ({ items, socialMediaCompanies }) =>
         setContactDetailsOpen(true);
         setCurrentContact(contact);
     }
+
+    useEffect(() => {
+        if (detailContactId) {
+            const contact: MediaContact = items.find(c => c.id === detailContactId);
+            if (contact) {
+                openDetails(contact);
+            } else {
+                console.log(`no contact with id: ${detailContactId} was found`);
+            }
+        }
+    }, [detailContactId, items]); // dependencies
+
     return (
 
         <div style={{ width: '100%', paddingBottom: '24px'}}>

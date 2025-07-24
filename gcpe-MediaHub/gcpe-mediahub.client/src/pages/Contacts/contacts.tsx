@@ -45,7 +45,7 @@ const MediaContacts = () => {
     const fetchContacts = async () => {
         const contacts: MediaContact[]  = await contactService.getContacts();
         contacts.sort((a, b) => a.firstName.toLowerCase().localeCompare(b.firstName.toLowerCase()));
-        console.log(JSON.stringify(contacts));
+    //    console.log(JSON.stringify(contacts));
         setContacts(contacts);
     };
     const [socials, setSocials] = useState<SocialMediaCompany[]>([]);

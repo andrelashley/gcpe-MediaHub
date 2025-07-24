@@ -260,7 +260,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
                     contact.socialMedias.push(socialMedia);
                 }
             });
-            console.log(JSON.stringify(contact));
+          //  console.log(JSON.stringify(contact));
             const response = await contactService.createContact(contact)
                 .then((response) => {
 
@@ -298,10 +298,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
         setOutlets(outlets);
     };
 
-    const [jobTitles, setJobTitles] = useState<JobTitle[]>([
-
-    ]
-    );
+    const [jobTitles, setJobTitles] = useState<JobTitle[]>([]);
     const fetchJobTitles = async () => {
         const jobTitles: JobTitle[] = await contactService.getJobTitles();
         setJobTitles(jobTitles);
@@ -310,8 +307,6 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
     useEffect(() => {
         fetchOutlets();
         fetchJobTitles();
-
-
     }, []);
 
     //notification toast stuff
