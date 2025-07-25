@@ -1,5 +1,4 @@
 
-
 import ContactsTable from './contactsTable';
 import { useState, useEffect } from 'react';
 import CreateContactButton from './CreateContactButton';
@@ -10,8 +9,6 @@ import {
 } from '@fluentui/react-components';
 import { SocialMediaCompany } from '../../models/SocialMediaCompany';
 import { contactService } from '../../services/contactService';
-
-
 
 const useStyles = makeStyles({
     button: {
@@ -60,7 +57,6 @@ const MediaContacts = () => {
         fetchContacts();
         fetchSocialMediaCompanies();
     }, []);
-
 
     const updateContactList = () => {
         fetchContacts();

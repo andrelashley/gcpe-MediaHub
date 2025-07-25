@@ -107,7 +107,8 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
             mediaContact: undefined,
             mediaOutlet: undefined,
             jobTitle: jobTitle,
-            outletName: outletName
+            outletName: outletName,
+            isMajorMedia: undefined,
         });
     }, [outletId, contactEmail, contactPhones, phoneNumber, doesNotWorkHere, jobTitle, outletName]);
 
