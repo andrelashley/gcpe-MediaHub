@@ -5,40 +5,17 @@ import CreateContactButton from './CreateContactButton';
 import MediaContact from '../../models/mediaContact';
 import {
     Title1,
-    makeStyles,
 } from '@fluentui/react-components';
 import { SocialMediaCompany } from '../../models/SocialMediaCompany';
 import { contactService } from '../../services/contactService';
+import styles from './contacts.module.css';
 
-const useStyles = makeStyles({
-    button: {
-        verticalAlign: "top",
-        fontWeight: "inherit",
-    },
 
-    header: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingBottom: "8px",
-    },
-    container: {
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        minWidth: "600px",
-        position: "relative",
-        overflowX: "hidden",
-        fontWeight: "400",
-        margin: '24px Global.Size.280',
-    },
-});
 
 // Detect if the new request drawer should be open  *CREDIT TO ALESSIA FOR THIS*
 const isNewDrawerOpen = location.pathname.endsWith('/new');
 
 const MediaContacts = () => {
-    const styles = useStyles();
     const [contacts, setContacts] = useState<MediaContact[]>([]);
 
 

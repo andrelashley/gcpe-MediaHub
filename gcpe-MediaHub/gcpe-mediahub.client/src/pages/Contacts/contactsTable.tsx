@@ -32,25 +32,7 @@ import { OutletAssociation } from "../../models/OutletAssociation";
 import { SocialMediaCompany } from "../../models/SocialMediaCompany";
 import { contactService } from "../../services/contactService";
 import { matchPath, useParams } from "react-router-dom";
-
-const useStyles = makeStyles({
-    searchElement: {
-        display: "flex",
-    },
-    tableHeader: {
-        backgroundColor: '#f4f4f4',
-        fontWeight: 'bold',
-        verticalAlign: 'middle',
-        position: 'sticky',
-        top: '0',
-        zIndex: '1',
-        
-    },
-    tableScrollContainer: {
-        overflowY: 'auto',
-        maxHeight: 'calc(100vh - 340px)', /* tweak this to fit under your header */
-    },
-});
+import styles from './contacts.module.css';
 
 interface TableProps {
     items: MediaContact[],
@@ -167,7 +149,6 @@ const ContactsTable: React.FC<TableProps> = ({ items, socialMediaCompanies}) => 
     const closeContactDetails = () => {
         setContactDetailsOpen(false);
     }
-    const styles = useStyles();
 
     const openDetails = (contact: MediaContact) => {
       //  console.log(JSON.stringify(contact));
