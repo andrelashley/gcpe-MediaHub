@@ -45,9 +45,10 @@ interface MediaOutletInputProps {
     onAssociationDataChange: (data: OutletAssociation) => void; 
     showValidation: boolean;
     jobTitles: JobTitle[];
+    errorMessages: any;
 }
 
-const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, showValidation, jobTitles }) => {
+const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, onAssociationDataChange, showValidation, jobTitles, errorMessages }) => {
     //  const [phoneNumbers, setPhoneNumbers] = useState<number[]>([1])
     const [phoneNumber, setPhoneNumber] = useState<string>();
     const [contactPhones, setContactPhones] = useState<(PhoneNumber)[]>([]);
@@ -59,25 +60,6 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
 
     const [doesNotWorkHere, setDoesNotWorksHere] = useState<boolean>(false); 
 
-    //const addPhoneNumber = () => {
-    //    setPhoneNumbers([...phoneNumbers, phoneNumbers.length + 1]); // Better index handling
-    //    setContactPhones([...contactPhones, undefined]); // Add new slot
-    //}
-    //const removePhoneNumber = (index: number) => {
-    //    setPhoneNumbers(phoneNumbers.filter((_, i) => i !== index));
-    //    setContactPhones(contactPhones.filter((_, i) => i !== index));
-    //};
-    //const getContactPhones = () => {
-    //    let pn: PhoneNumber[] = [];
-    //    phoneNumbers.forEach((_, index) => {
-    //        if (contactPhones && contactPhones.length > 0) {
-    //            const phoneNumber: PhoneNumber = contactPhones[index];
-    //            pn.push(phoneNumber);
-    //        }
-    //    });
-
-    //    return pn;
-    //}
     const validate = () => {
         const errors: string[] = [];
         if (!outletId) {
@@ -125,12 +107,11 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
         <div id="outlets-section" className={styles.outletsSection}>
             <Field label="Media organization"
                 required
-             //   validationMessage={showValidation ? "Must select an organization" : undefined}
-             //   validationState={showValidation ? "error" : "none"}
+                validationMessage={showValidation && errorMessages && errorMessages.outlet ? errorMessages.outlet : undefined}
+                validationState={showValidation && errorMessages && errorMessages.outlet ? "error" : "none"}
             >
                 <Dropdown
                     onOptionSelect={(_, data) => {
-                        console.log(data.optionValue)
                         setOutletId(data.optionValue)
                         setOutletName(data.optionText)
                     }}
@@ -145,7 +126,11 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                     ))}
                 </Dropdown>
             </Field>
-            <Field label="Job title" required>
+            <Field label="Job title"
+                required
+                validationMessage={showValidation && errorMessages && errorMessages.jobTitle ? errorMessages.jobTitle : undefined}
+                validationState={showValidation && errorMessages && errorMessages.jobTitle ? "error" : "none"}
+            >
                 <Dropdown placeholder="" appearance="outline"
                     onOptionSelect={(_, data) => setJobTitle(data.optionText || "")}
                 >
@@ -155,7 +140,11 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                     ))}
                 </Dropdown>
             </Field>
-            <Field label="Email" required>
+            <Field label="Email"
+                required
+                validationMessage={showValidation && errorMessages && errorMessages.email ? errorMessages.email : undefined}
+                validationState={showValidation && errorMessages && errorMessages.email ? "error" : "none"}
+            >
                 <Input
                     onChange={(_, data) => {
                         setContactEmail(data.value)
@@ -163,9 +152,11 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                 />
             </Field>
 
-            <Field label="Phone" required>
-
-
+            <Field label="Phone"
+                required
+                validationMessage={showValidation && errorMessages && errorMessages.phone ? errorMessages.contactPhone : undefined}
+                validationState={showValidation && errorMessages && errorMessages.phone ? "error" : "none"}
+            >
                 <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '0.5rem' }}>
                     <Dropdown
                         placeholder="Select"
@@ -188,31 +179,6 @@ const MediaOutletInput: React.FC<MediaOutletInputProps> = ({ onRemove, outlets, 
                 </div>
 
             </Field>
-            {/*<Field label="Phone" required>*/}
-            {/*    {phoneNumbers.map((_, index) => (*/}
-            {/*        <OrgPhoneNumber key={index}*/}
-            {/*            onRemove={() => removePhoneNumber(index)}*/}
-            {/*            onPhoneNumberChange={(data: PhoneNumber) => handlePhoneNumberChange(index, data)}*/}
-            {/*        />*/}
-            {/*    ))}*/}
-              
-            {/*    */}{/*<p>*/}
-            {/*    */}{/*<Button icon={<Add24Regular />}*/}
-            {/*    */}{/*    className={styles.addButton}*/}
-            {/*    */}{/*    title="Add another phone number"*/}
-            {/*    */}{/*    onClick={addPhoneNumber}*/}
-            {/*    */}{/*    appearance="subtle"*/}
-            {/*    */}{/*>*/}
-            {/*    */}{/*    Contact info*/}
-            {/*    */}{/*    </Button>*/}
-            {/*    */}{/*</p>*/}
-            {/*</Field>*/}
-            {/*<Button*/}
-            {/*    icon={<Dismiss16Regular />}*/}
-            {/*    className={styles.addButton}*/}
-            {/*    title="Remove this outlet"*/}
-            {/*    onClick={onRemove}*/}
-            {/*/>*/}
         </div>
     );
 

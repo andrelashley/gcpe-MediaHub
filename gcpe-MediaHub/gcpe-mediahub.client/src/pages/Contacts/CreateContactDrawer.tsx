@@ -77,7 +77,6 @@ const useStyles = makeStyles({
         alignItems: "flex-start",
         gap: "Global.Size.80",
         alignSelf: "stretch",
-
     },
     maxWidth: {
         width: "100%",
@@ -95,7 +94,6 @@ const useStyles = makeStyles({
 }
 );
 
-
 interface CreateContactProps {
     updateList: () => void,
     socials: SocialMediaCompany[];
@@ -104,9 +102,6 @@ interface CreateContactProps {
 
 export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, socials, startOpen }) => {
     const [isOpen, setIsOpen] = React.useState(false);
-    //for primary contact info input tracking
-    //const [primaryContactInfoInputs, setPrimaryContactInfoInputs] = useState<number[]>([1]);
-    //const [contactPhones, setContactPhones] = useState<PhoneNumber[]>([]);
 
     const [socialMediaLinks, setSocialMediaLinks] = useState([
         { typeName: '', url: '', companyId: '' }
@@ -115,38 +110,9 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
     useEffect(() => {
         setIsOpen(startOpen);
     },[startOpen]);
-    //const addPrimaryContactInfoInput = () => {
-    //    setPrimaryContactInfoInputs([...primaryContactInfoInputs, primaryContactInfoInputs.length + 1]);
-    //    setContactPhones([...contactPhones, undefined]); // Add new slot
-    //};
-
-    //const removePrimaryContactInfoInput = (index: number) => {
-    //    setPrimaryContactInfoInputs(primaryContactInfoInputs.filter((_, i) => i !== index));
-    //};
-
-    // TODO: see if we can do away with this. Using proper type may make this redundant
-    //const getPersonalPhoneNumbers = () => {
-    //    let pn: PhoneNumber[] = [];
-    //    primaryContactInfoInputs.forEach((_, index) => {
-    //        if (contactPhones && contactPhones.length > 0) {
-    //            let phoneNumber: PhoneNumber = new PhoneNumber();
-    //            phoneNumber.PhoneType = contactPhones[index].PhoneType;
-    //            phoneNumber.PhoneLineNumber = contactPhones[index].PhoneLineNumber;
-    //            pn.push(phoneNumber);
-    //        }
-    //    });
-
-    //    return pn;
-    //};
-
-    //const handlePhoneNumberChange = (index: number, data: any) => { //TODO: use PhoneNumber model. Not 'any'
-    //    const updatedPhones = [...contactPhones];
-    //    updatedPhones[index] = data;
-    //    setContactPhones(updatedPhones);
-    //};
-
 
     const [error, setError] = React.useState<string | null>(null);
+    const [outletErrors, setOutletErrors] = useState<any[]>([]);
     const [showValidation, setShowValidation] = React.useState(false);
     const [formErrors, setFormErrors] = React.useState({
         firstName: '',
@@ -182,6 +148,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
     /* const outletInputRefs = useRef<React.RefObject<MediaOutletInputRef>[]>([]);*/
     const addOutletInput = () => {
         setOutletInputs([...outletInputs, outletInputs.length]);
+
         /*   outletInputRefs.current.push(React.createRef<MediaOutletInputRef>());*/
     };
     const removeOutletInput = (index: number) => {
@@ -217,9 +184,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
         e.preventDefault();
 
         const hasErrors = handleValidation();
-
         if (!hasErrors) {
-
             const contact: MediaContact = new MediaContact()
             contact.firstName = firstName;
             contact.lastName = lastName;
@@ -289,11 +254,27 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
     const handleValidation = (): boolean => {
         setShowValidation(true);
         setError(null);
+
+        const outletErrorsTemp: any[] = []
         const errors: any = {};
         if (!firstName.trim()) errors.firstName = 'A first name is required';
         if (!lastName.trim()) errors.lastName = 'A last name is required';
+
+        // Validate each outlet input
+        outletAssociations.forEach((outlet, index) => {
+            const currentOutletErrors: any = {};
+            if (!outlet.outletName) currentOutletErrors.outlet = 'An outlet must be selected';
+            if (!outlet.jobTitle) currentOutletErrors.jobTitle = 'A job title must be selected';
+            if (!outlet.contactEmail) currentOutletErrors.email = 'A contact email must be entered'; // ToDo: proper email validation
+            if (!outlet.phoneNumber) currentOutletErrors.phone = 'A phone number must be provided'; // ToDo: proper phone number validation
+
+            if (Object.keys(currentOutletErrors).length > 0) outletErrorsTemp[index] = currentOutletErrors; 
+        });
+
+        setOutletErrors(outletErrorsTemp);
+        console.log(JSON.stringify(outletErrors));
         setFormErrors(errors);
-        return Object.keys(errors).length > 0;
+        return Object.keys(errors).length > 0 || outletErrorsTemp.some(error => error !== '');
     }
 
     const [outlets, setOutlets] = useState<MediaOutlet[]>([]);
@@ -415,6 +396,7 @@ export const CreateContactDrawer: React.FC<CreateContactProps> = ({ updateList, 
                             outlets={outlets}
                             jobTitles={jobTitles}
                             showValidation={showValidation}
+                            errorMessages={outletErrors[index]}
                         />
                     ))}
 
