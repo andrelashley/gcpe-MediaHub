@@ -15,7 +15,6 @@ import {
     Title3,
     Dropdown,
     Option,
-    Card,
     Body2,
     Toaster,
     useToastController,
